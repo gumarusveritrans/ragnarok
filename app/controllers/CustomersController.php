@@ -18,4 +18,9 @@ class CustomersController extends BaseController {
 		return View::make('/customers/register');
 	}
 
+	public function transfer(){	
+		return View::make('/customers/transfer');
+	}
+
+
 }
