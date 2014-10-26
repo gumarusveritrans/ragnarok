@@ -218,7 +218,7 @@ $white:        #FFFFFF;
 /* Transfer Section */
 #transfer-box-wrapper {
   float:left;
-  width: 30%;
+  width: 27%;
   height : auto;
   border : 0px;
   margin: 20px;
@@ -232,15 +232,19 @@ $white:        #FFFFFF;
 }
 
 .transfer-box-info {
-  
+  background-color : $light-brown;
+  border : 0px;
+  height : auto;
+  width : 350px;
+  margin: 30px 60px;
+  float: right;
+  padding: 30px;
 }
 
-.transfer-box-info {
-  
-}
-
-.transfer-box-info {
-  
+.transfer-box-info h2{
+  text-align: center;
+  font-size: 24px;
+  color: $dark-brown;
 }
 
 /* Purchase Section */
@@ -344,4 +348,9 @@ $white:        #FFFFFF;
 .no-opacity       .wrapper-dropdown-4.active .dropdown,
 .no-pointerevents .wrapper-dropdown-4.active .dropdown {
     display: block;
+}
+
+.transfer-box-info p{
+  text-align: justify;
+  color: $dark-brown;
 }

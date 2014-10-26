@@ -45,6 +45,15 @@
       {{ Form::close() }}
 
     </div>
+    <div class="transfer-box-info">
+      <h2>How To Transfer</h2>
+      <p>
+        Input your destination account email.
+      </p>
+      <p>
+        Make sure the amount you input doesn't exceed your balance amount.
+      </p>
+    </div>
 
   </div>
 @stop
