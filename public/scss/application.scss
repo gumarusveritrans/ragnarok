@@ -53,6 +53,35 @@ header {
   width:56%;
 }
 
+.menu-wrapper ul{
+  list-style: none;
+  font-size: 18px;
+  padding-left: 0px;
+  display: inline-table;
+}
+
+.menu-wrapper ul ul{
+  display: none;
+}
+
+.menu-wrapper ul li:hover > ul {
+  
+}
+
+.menu-wrapper li{
+  display: inline;
+  padding: 0 12px;
+}
+
+.menu-wrapper a{
+  text-decoration: none;
+  color: $light-brown;
+}
+
+.menu-wrapper a:hover{
+  color: $orange;
+}
+
 #login-register-wrapper{
   height: 100%;
   width: 26%;
@@ -88,77 +117,10 @@ footer {
   margin-right: -0.25em;
 }
 
-.centered {
+.centered { //class for object(child)
   margin: auto;
-  display: inline;
-  vertical-align: middle;
-  list-style: none;
-  font-size: 18px;
-  padding-left: 0px;
-}
-
-.centered a{
-  text-decoration: none;
   display: inline-block;
-  color: $light-brown;
-  height: 41px;
-}
-
-.centered a:hover{
-  color: $orange;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  -ms-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
-}
-
-.centered li {
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-  padding: 0 12px;
-}
-
-.centered li ul li:hover {
-  background: $dark-brown;
-  transition: all 0.6s ease 0s;
-  -moz-transition: all 0.6s ease 0s;
-  -webkit-transition: all 0.6s ease 0s;
-}
-
-
-.centered li ul {
-  position: absolute;
-  top: 41px;
-  width: 125px;
-  display: none;
-  opacity: 0;
-  padding: 0;
-
-}
-
-.centered li ul li {
-  display: block;
-  padding: 0 12px;
-  line-height: 40px;
   vertical-align: middle;
-}
-
-.centered li ul li a {
-  color: $dark-brown;
-  height: 40px;
-}
-
-.centered li:hover ul {
-  display: block;
-  opacity: 1;
-  visibility: visible;
-  background: $light-brown;
-  transition: all 0.6s ease 0s;
-  -moz-transition: all 0.6s ease 0s;
-  -webkit-transition: all 0.6s ease 0s;
-
 }
 
 .right {

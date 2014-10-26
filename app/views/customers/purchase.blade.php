@@ -23,17 +23,18 @@
 		<div id="subbuttons-wrapper" style="overflow:visible">
 			<div class="table">
 				<div class="column">
-					<span style="font-size:18px; float:center">Select Merchant</span>
-				</div>
-				<div class="column">
-					<div id="dd" class="wrapper-dropdown-4" style="float:left">
+					<span style="font-size:18px; float:left; padding: 0 10px">Select Merchant</span>
+					<div id="dd" class="wrapper-dropdown" style="float:left">
 						<span>Select Merchant</span>
 						<ul class="dropdown">
-							<li id="el-1" name="el-1" value="donut"><label for="el-1">Lazada</label></li>
-							<li id="el-2" name="el-2" value="neighbour"><label for="el-2">Zalora</label></li>
+							<li id="el-1" name="el-1" value="lazada"><label for="el-1">Lazada</label></li>
+							<li id="el-2" name="el-2" value="zalora"><label for="el-2">Zalora</label></li>
 						</ul>
 					</div>
 				</div>
+				
+
+				
 				<div class="column">
 					<button class="button darkbrown profile" style="float:right">SHOPPING CART</button>
 				</div>
@@ -118,6 +119,16 @@
             </table>
 
         </div>
+
+        <div id="subbuttons-wrapper" style="overflow:visible;">
+        	<div class="table">
+        		<div class="column">
+					<button class="button darkbrown profile" style="float:right">PURCHASE</button>
+        		</div>
+        	</div>
+        	
+        </div>
+
 	</div>
 
 <!-- jQuery if needed -->
@@ -161,7 +172,7 @@
 
 				$(document).click(function() {
 					// all dropdowns
-					$('.wrapper-dropdown-4').removeClass('active');
+					$('.wrapper-dropdown').removeClass('active');
 				});
 
 			});

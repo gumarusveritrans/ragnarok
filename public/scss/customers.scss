@@ -63,6 +63,7 @@ $white:        #FFFFFF;
 }
 
 #subbuttons-wrapper {
+  clear: both;
   width: auto;
   min-height: 30px;
   padding: 0 50px;
@@ -71,8 +72,9 @@ $white:        #FFFFFF;
 
 /* Dashboard Section */
 .dashboard-table {
+  clear: both;
   float: left;
-  margin-top:20px;
+  margin: 20px 0;
   padding:0px;
   width:100%;
   -moz-border-radius-bottomleft:0px;
@@ -248,12 +250,12 @@ $white:        #FFFFFF;
 }
 
 /* Purchase Section */
-.wrapper-dropdown-4 {
+.wrapper-dropdown {
     /* Size and position */
     position: relative;
     width: 200px;
-    margin: 0 auto;
-    padding: 5px;
+    margin: 0 10px;
+    padding: 2px;
 
     /* Styles */
     background: #fff;
@@ -262,7 +264,7 @@ $white:        #FFFFFF;
     outline: none;
 }
 
-.wrapper-dropdown-4:after {
+.wrapper-dropdown:after {
     content: "";
     width: 0;
     height: 0;
@@ -275,7 +277,7 @@ $white:        #FFFFFF;
     border-color: $orange transparent;
 }
 
-.wrapper-dropdown-4 .dropdown {
+.wrapper-dropdown .dropdown {
     /* Size & position */
     position: absolute;
     top: 100%;
@@ -300,11 +302,11 @@ $white:        #FFFFFF;
     pointer-events: none;
 }
 
-.wrapper-dropdown-4 .dropdown li {
+.wrapper-dropdown .dropdown li {
     position: relative; /* Enable absolute positioning for checkboxes */
 }
 
-.wrapper-dropdown-4 .dropdown li label {
+.wrapper-dropdown .dropdown li label {
     display: block;
     padding: 5px; /* Same padding as the button */
     border-bottom: 1px dotted #1ccfcf;
@@ -315,38 +317,38 @@ $white:        #FFFFFF;
     transition: all 0.3s ease-out;
 }
 
-.wrapper-dropdown-4 .dropdown li:last-of-type label {
+.wrapper-dropdown .dropdown li:last-of-type label {
     border: none;
 }
 
 /* Hover state */
 
-.wrapper-dropdown-4 .dropdown li:hover label {
+.wrapper-dropdown .dropdown li:hover label {
     background: #f0f0f0;
 }
 
 /* Active state */
 
-.wrapper-dropdown-4.active:after {
+.wrapper-dropdown.active:after {
     border-width: 0 6px 6px 6px;
 }
 
-.wrapper-dropdown-4.active .dropdown {
+.wrapper-dropdown.active .dropdown {
     opacity: 1;
     pointer-events: auto;
 }
 
 /* No CSS3 support */
 
-.no-opacity       wrapper-dropdown-4 .dropdown,
-.no-pointerevents .wrapper-dropdown-4 .dropdown {
+.no-opacity       wrapper-dropdown .dropdown,
+.no-pointerevents .wrapper-dropdown .dropdown {
     display: none;
     opacity: 1; /* If opacity support but no pointer-events support */
     pointer-events: auto; /* If pointer-events support but no pointer-events support */
 }
 
-.no-opacity       .wrapper-dropdown-4.active .dropdown,
-.no-pointerevents .wrapper-dropdown-4.active .dropdown {
+.no-opacity       .wrapper-dropdown.active .dropdown,
+.no-pointerevents .wrapper-dropdown.active .dropdown {
     display: block;
 }
 

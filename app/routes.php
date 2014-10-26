@@ -12,6 +12,7 @@ Route::get('/customers/dashboard', 'CustomersController@dashboard');
 Route::get('/customers/profile', 'CustomersController@profile');
 Route::get('/customers/transaction', 'CustomersController@transaction');
 Route::get('/customers/transfer', 'CustomersController@transfer');
+Route::get('/customers/increase_limit', 'CustomersController@increase-limit');
 Route::get('/customers/topup', 'CustomersController@topup');
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/purchase', 'CustomersController@purchase');
