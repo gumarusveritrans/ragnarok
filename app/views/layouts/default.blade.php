@@ -7,9 +7,7 @@
     {{ HTML::style('css/connect_pages.css') }}
     {{ HTML::style('css/customers.css') }}
     {{ HTML::style('css/users.css') }}
-    {{ HTML::script('js/jquery-1.11.1.js') }}
     {{ HTML::script('js/jquery-1.11.1.min.js') }}
-
   </head>
   <body>
     <div id="body-wrapper">
@@ -18,11 +16,18 @@
         <div id="logo-wrapper" class="block">
           {{ HTML::image('images/logo.png', 'Connect Logo', array('class' => 'centered')) }}
         </div>
-        @if (Auth::check())
+        @if (true)
             <div id="customer" class="block menu-wrapper" >
               <ul class="centered">
                 <li>{{ link_to ("/customers/dashboard", 'DASHBOARD') }}</li>
-                <li>{{ link_to ("/customers/transaction", 'TRANSACTION') }}</li>
+                <li>
+                  <a href="">TRANSACTION</a>
+                  <ul>
+                    <li>{{ link_to ("/customers/topup", 'TOP-UP') }}</li>
+                    <li>{{ link_to ("/customers/transfer", 'TRANSFER') }}</li>
+                    <li>{{ link_to ("/customers/purchase", 'PURCHASE') }}</li>
+                  </ul>
+                </li>
                 <li>{{ link_to ("/customers/show", 'MY PROFILE') }}</li>
                 <li>{{ link_to ("/customers/destroy", 'LOG OUT') }}</li>
               </ul>

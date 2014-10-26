@@ -34,22 +34,6 @@ header {
 .menu-wrapper#customer {
   width: 56%;
 }
-.menu-wrapper ul {
-  list-style: none;
-  font-size: 18px;
-  padding-left: 0px;
-}
-.menu-wrapper li {
-  display: inline;
-  padding: 0 12px;
-}
-.menu-wrapper a {
-  text-decoration: none;
-  color: #c2b59b;
-}
-.menu-wrapper a:hover {
-  color: #fbaf41;
-}
 #login-register-wrapper {
   height: 100%;
   width: 26%;
@@ -82,8 +66,64 @@ footer {
 }
 .centered {
   margin: auto;
-  display: inline-block;
+  display: inline;
   vertical-align: middle;
+  list-style: none;
+  font-size: 18px;
+  padding-left: 0px;
+}
+.centered a {
+  text-decoration: none;
+  display: inline-block;
+  color: #c2b59b;
+  height: 41px;
+}
+.centered a:hover {
+  color: #fbaf41;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.centered li {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  padding: 0 12px;
+}
+.centered li ul li:hover {
+  background: #534741;
+  transition: all 0.6s ease 0s;
+  -moz-transition: all 0.6s ease 0s;
+  -webkit-transition: all 0.6s ease 0s;
+}
+.centered li ul {
+  position: absolute;
+  top: 41px;
+  width: 125px;
+  display: none;
+  opacity: 0;
+  padding: 0;
+}
+.centered li ul li {
+  display: block;
+  padding: 0 12px;
+  line-height: 40px;
+  vertical-align: middle;
+}
+.centered li ul li a {
+  color: #534741;
+  height: 40px;
+}
+.centered li:hover ul {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  background: #c2b59b;
+  transition: all 0.6s ease 0s;
+  -moz-transition: all 0.6s ease 0s;
+  -webkit-transition: all 0.6s ease 0s;
 }
 .right {
   text-align: right;

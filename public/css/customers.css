@@ -182,7 +182,7 @@
 }
 #transfer-box-wrapper {
   float: left;
-  width: 30%;
+  width: 27%;
   height : auto;
   border : 0px;
   margin: 20px;
@@ -191,5 +191,23 @@
 #transfer-form-wrapper {
   text-align: left;
   font-size: 18px;
+  color: #534741;
+}
+.transfer-box-info {
+  background-color : #c2b59b;
+  border : 0px;
+  height : auto;
+  width : 350px;
+  margin: 30px 60px;
+  float: right;
+  padding: 30px;
+}
+.transfer-box-info h2 {
+  text-align: center;
+  font-size: 24px;
+  color: #534741;
+}
+.transfer-box-info p {
+  text-align: justify;
   color: #534741;
 }
