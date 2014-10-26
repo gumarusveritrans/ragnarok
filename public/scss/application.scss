@@ -127,7 +127,7 @@ body {
   margin-right: -0.25em;
 }
 
-.centered {
+.centered { //class for object(child)
   margin: auto;
   display: inline-block;
   vertical-align: middle;
@@ -202,6 +202,14 @@ body {
 
 .right {
   text-align: right;
+}
+
+.vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 /* Button Style */

@@ -18,8 +18,20 @@ class CustomersController extends BaseController {
 		return View::make('/customers/register');
 	}
 
+	public function topup(){	
+		return View::make('/customers/topup');
+	}
+
 	public function transfer(){	
 		return View::make('/customers/transfer');
+	}
+
+	public function purchase(){	
+		return View::make('/customers/purchase');
+	}
+
+	public function increase_limit(){	
+		return View::make('/customers/increase-limit');
 	}
 
 

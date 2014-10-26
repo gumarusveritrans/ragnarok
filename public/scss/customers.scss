@@ -63,6 +63,7 @@ $white:        #FFFFFF;
 }
 
 #subbuttons-wrapper {
+  clear: both;
   width: auto;
   min-height: 30px;
   padding: 0 50px;
@@ -71,8 +72,9 @@ $white:        #FFFFFF;
 
 /* Dashboard Section */
 .dashboard-table {
+  clear: both;
   float: left;
-  margin-top:20px;
+  margin: 20px 0;
   padding:0px;
   width:100%;
   -moz-border-radius-bottomleft:0px;
@@ -246,7 +248,110 @@ $white:        #FFFFFF;
   font-size: 24px;
   color: $dark-brown;
 }
+
+/* Purchase Section */
+.wrapper-dropdown {
+    /* Size and position */
+    position: relative;
+    width: 200px;
+    margin: 0 10px;
+    padding: 2px;
+
+    /* Styles */
+    background: #fff;
+    border: 1px solid silver;
+    cursor: pointer;
+    outline: none;
+}
+
+.wrapper-dropdown:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -3px;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: $orange transparent;
+}
+
+.wrapper-dropdown .dropdown {
+    /* Size & position */
+    position: absolute;
+    top: 100%;
+    margin-top: 1px;
+    left: -1px;
+    right: -1px;
+    padding-left: 0;
+
+    /* Styles */
+    background: white;
+    border: inherit;
+    border-top: none;
+    list-style: none;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
   
+    /* Hiding */
+    opacity: 0;
+    pointer-events: none;
+}
+
+.wrapper-dropdown .dropdown li {
+    position: relative; /* Enable absolute positioning for checkboxes */
+}
+
+.wrapper-dropdown .dropdown li label {
+    display: block;
+    padding: 5px; /* Same padding as the button */
+    border-bottom: 1px dotted #1ccfcf;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+.wrapper-dropdown .dropdown li:last-of-type label {
+    border: none;
+}
+
+/* Hover state */
+
+.wrapper-dropdown .dropdown li:hover label {
+    background: #f0f0f0;
+}
+
+/* Active state */
+
+.wrapper-dropdown.active:after {
+    border-width: 0 6px 6px 6px;
+}
+
+.wrapper-dropdown.active .dropdown {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* No CSS3 support */
+
+.no-opacity       wrapper-dropdown .dropdown,
+.no-pointerevents .wrapper-dropdown .dropdown {
+    display: none;
+    opacity: 1; /* If opacity support but no pointer-events support */
+    pointer-events: auto; /* If pointer-events support but no pointer-events support */
+}
+
+.no-opacity       .wrapper-dropdown.active .dropdown,
+.no-pointerevents .wrapper-dropdown.active .dropdown {
+    display: block;
+}
+
 .transfer-box-info p{
   text-align: justify;
   color: $dark-brown;
