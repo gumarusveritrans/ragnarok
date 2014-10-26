@@ -193,3 +193,91 @@
   font-size: 18px;
   color: #534741;
 }
+.transfer-box-info {
+  /* Purchase Section */
+}
+.wrapper-dropdown-4 {
+  position: relative;
+  width: 200px;
+  margin: 0 auto;
+  /* Styles */
+  padding: 5px;
+  background: #fff;
+  border: 1px solid silver;
+  cursor: pointer;
+  outline: none;
+}
+.wrapper-dropdown-4:after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -3px;
+  border-width: 6px 6px 0 6px;
+  border-style: solid;
+  border-color: #fbaf41 transparent;
+}
+.wrapper-dropdown-4 .dropdown {
+  position: absolute;
+  top: 100%;
+  margin-top: 1px;
+  left: -1px;
+  right: -1px;
+  /* Styles */
+  padding-left: 0;
+  background: white;
+  border: inherit;
+  border-top: none;
+  list-style: none;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  /* Hiding */
+  transition: all 0.3s ease-out;
+  opacity: 0;
+  pointer-events: none;
+}
+.wrapper-dropdown-4 .dropdown li {
+  /* Enable absolute positioning for checkboxes */
+  position: relative;
+}
+.wrapper-dropdown-4 .dropdown li label {
+  display: block;
+  /* Same padding as the button */
+  padding: 5px;
+  border-bottom: 1px dotted #1ccfcf;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+.wrapper-dropdown-4 .dropdown li:last-of-type label {
+  border: none;
+  /* Hover state */
+}
+.wrapper-dropdown-4 .dropdown li:hover label {
+  background: #f0f0f0;
+  /* Active state */
+}
+.wrapper-dropdown-4.active:after {
+  border-width: 0 6px 6px 6px;
+}
+.wrapper-dropdown-4.active .dropdown {
+  opacity: 1;
+  pointer-events: auto;
+  /* No CSS3 support */
+}
+.no-opacity wrapper-dropdown-4 .dropdown, .no-pointerevents .wrapper-dropdown-4 .dropdown {
+  display: none;
+  /* If opacity support but no pointer-events support */
+  opacity: 1;
+  /* If pointer-events support but no pointer-events support */
+  pointer-events: auto;
+}
+.no-opacity .wrapper-dropdown-4.active .dropdown, .no-pointerevents .wrapper-dropdown-4.active .dropdown {
+  display: block;
+}
