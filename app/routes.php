@@ -14,3 +14,5 @@ Route::get('/customers/transaction', 'CustomersController@transaction');
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/topup', 'CustomersController@topup');
 Route::get('/customers/transfer', 'CustomersController@transfer');
+
+Route::get('/admin/login', 'AdminController@login');

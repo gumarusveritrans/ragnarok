@@ -14,12 +14,31 @@ $orange:      #FBAF41;
   padding: 30px 30px;
 }
 
+#login-form-admin.container {
+  height: auto;
+  width: 350px;
+  background: $light-brown;
+  color: $orange;
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 65px;
+  padding: 30px 30px;
+}
+
 #login-register-form.wrapper {
   height: auto;
   margin: 30px;
   text-align: left;
   font-size: 18px;
   color: $dark-brown;
+}
+
+#login-form-admin.wrapper {
+  height: auto;
+  margin: 30px;
+  text-align: left;
+  font-size: 18px;
+  color: $orange;
 }
 
 #login-register-form.bottom-wrapper {

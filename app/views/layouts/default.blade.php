@@ -12,13 +12,13 @@
   <body>
     <div id="body-wrapper">
 
-      <header>
+      <header class="header-customer">
         <div id="logo-wrapper" class="block">
           {{ HTML::image('images/logo.png', 'Connect Logo', array('class' => 'centered')) }}
         </div>
         @if (true)
             <div id="customer" class="block menu-wrapper" >
-              <ul class="centered">
+              <ul class="centered-header">
                 <li>{{ link_to ("/customers/dashboard", 'DASHBOARD') }}</li>
                 <li>
                   <a href="">TRANSACTION</a>
@@ -56,7 +56,7 @@
         @yield('content')
       </div>
 
-      <footer class="block">
+      <footer class="block footer-customer">
         <span class="centered">&copy; 2014 Connect. All Rights Reserved.</span>
       </footer>
 

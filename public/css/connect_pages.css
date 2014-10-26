@@ -9,12 +9,29 @@
   margin-bottom: 65px;
   padding: 30px 30px;
 }
+#login-form-admin.container {
+  height: auto;
+  width: 350px;
+  background: #c2b59b;
+  color: #fbaf41;
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 65px;
+  padding: 30px 30px;
+}
 #login-register-form.wrapper {
   height: auto;
   margin: 30px;
   text-align: left;
   font-size: 18px;
   color: #534741;
+}
+#login-form-admin.wrapper {
+  height: auto;
+  margin: 30px;
+  text-align: left;
+  font-size: 18px;
+  color: #fbaf41;
 }
 #login-register-form.bottom-wrapper {
   height: auto;
