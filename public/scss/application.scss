@@ -6,6 +6,7 @@ $light:       #999999;
 $blue:        #2DB6CF;
 $green:       #46b98a;
 $white:       #FFFFFF;
+$light-gray:  #F8F8FF;
 
 
 @font-face{
@@ -189,4 +190,9 @@ footer {
   &.profile {
     width: 165px;
   }
+}
+
+.button[disabled=disabled], .button:disabled{
+    background: none repeat scroll 0 0 $light-gray;
+    color: $dark;
 }

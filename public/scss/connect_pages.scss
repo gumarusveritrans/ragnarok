@@ -51,26 +51,36 @@ $orange:      #FBAF41;
   margin: 50px auto;
 }
 
-#notification.wrapper {
+#notification .wrapper {
   background: $light-brown;
   width: 500px;
   height: auto;
   padding: 20px;
+  font-size: 16px;
 }
 
 #notification h1 {
-  font-size: 24px;
+  font-size: 36px;
   color: $dark-brown;
   font-weight: normal;
   text-align: left;
 }
 
+#notification h2 {
+  font-size: 22px;
+  color: $dark-brown;
+  font-weight: normal;
+}
+
 #notification p {
-  font-size: 18px;
   color: $dark-brown;
   text-align: justify;
   margin: 0;
   padding: 0;
+}
+
+#notification a {
+  color: $dark-brown;
 }
 
 /* Title Horizontal Line Style */

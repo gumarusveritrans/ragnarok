@@ -154,3 +154,7 @@ footer {
 .button.profile {
   width: 165px;
 }
+.button[disabled=disabled], .button:disabled {
+  background: none repeat scroll 0 0 #f8f8ff;
+  color: #444;
+}

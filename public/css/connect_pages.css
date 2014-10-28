@@ -40,24 +40,32 @@
   padding: 25px;
   margin: 50px auto;
 }
-#notification.wrapper {
+#notification .wrapper {
   background: #c2b59b;
   width: 500px;
   height: auto;
   padding: 20px;
+  font-size: 16px;
 }
 #notification h1 {
-  font-size: 24px;
+  font-size: 36px;
   color: #534741;
   font-weight: normal;
   text-align: left;
 }
+#notification h2 {
+  font-size: 22px;
+  color: #534741;
+  font-weight: normal;
+}
 #notification p {
-  font-size: 18px;
   color: #534741;
   text-align: justify;
   margin: 0;
   padding: 0;
+}
+#notification a {
+  color: #534741;
   /* Title Horizontal Line Style */
 }
 .line-center {

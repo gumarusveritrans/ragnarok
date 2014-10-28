@@ -8,9 +8,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* Content Style */
 }
-
-/* Content Style */
 #subheader-wrapper {
   margin: 0;
   height: 80px;
@@ -52,9 +51,8 @@
   min-height: 30px;
   padding: 0 50px;
   overflow: hidden;
+  /* Dashboard Section */
 }
-
-/* Dashboard Section */
 .dashboard-table {
   clear: both;
   float: left;
@@ -135,11 +133,8 @@
 }
 .dashboard-table tr:first-child td:last-child {
   border-width: 0px 0px 1px 1px;
+  /* Profile Section */
 }
-
-/* Increase Limit Section */
-
-/* Profile Section */
 #profile-wrapper {
   float: left;
   margin-left: 50px;
@@ -185,23 +180,22 @@
 .profile-box-form p {
   text-align: justify;
   color: #534741;
+  /* Transaction Section (Top-Up and Transfer) */
 }
-
-/* Transfer Section */
-#transfer-box-wrapper {
+#transaction-box-wrapper {
   float: left;
-  width: 27%;
+  width: 25%;
   height : auto;
   border : 0px;
-  margin: 20px;
+  margin-left: 50px;
   padding: 30px 30px;
 }
-#transfer-form-wrapper {
+#transaction-form-wrapper {
   text-align: left;
   font-size: 18px;
   color: #534741;
 }
-.transfer-box-info {
+.transaction-box-info {
   background-color : #c2b59b;
   border : 0px;
   height : auto;
@@ -210,13 +204,58 @@
   float: right;
   padding: 30px;
 }
-.transfer-box-info h2 {
+.transaction-box-info h2 {
   text-align: center;
   font-size: 24px;
+  margin-top: 0;
   color: #534741;
 }
-
-/* Purchase Section */
+.transaction-box-info p {
+  text-align: justify;
+  color: #534741;
+  /* Increase Limit Section */
+}
+#increase-limit-form.container {
+  height: auto;
+  width: 350px;
+  background: #c2b59b;
+  color: #534741;
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 65px;
+  padding: 30px 30px;
+}
+#increase-limit-form .eula-box {
+  width: auto;
+  height: 200px;
+  overflow: auto;
+  background: #fff;
+}
+#increase-limit-form .wrapper {
+  height: auto;
+  margin: 30px;
+  text-align: left;
+  font-size: 18px;
+  color: #534741;
+}
+#increase-limit-form .bottom-wrapper {
+  height: auto;
+  margin-top: 20px;
+  padding: 7px;
+}
+#increase-limit-form h1 {
+  font-size: 30px;
+  font-weight: normal;
+}
+#increase-limit-form h2 {
+  font-size: 17px;
+  font-weight: normal;
+}
+#increase-limit-form p {
+  font-size: 15px;
+  text-align: justify;
+  /* Purchase Section */
+}
 .wrapper-dropdown {
   position: relative;
   width: 200px;
@@ -301,8 +340,4 @@
 }
 .no-opacity .wrapper-dropdown.active .dropdown, .no-pointerevents .wrapper-dropdown.active .dropdown {
   display: block;
-}
-.transfer-box-info p {
-  text-align: justify;
-  color: #534741;
 }

@@ -217,23 +217,23 @@ $white:        #FFFFFF;
   color: $dark-brown;
 }
 
-/* Transfer Section */
-#transfer-box-wrapper {
+/* Transaction Section (Top-Up and Transfer) */
+#transaction-box-wrapper {
   float:left;
-  width: 27%;
+  width: 25%;
   height : auto;
   border : 0px;
-  margin: 20px;
+  margin-left: 50px;
   padding: 30px 30px;
 }
 
-#transfer-form-wrapper {
+#transaction-form-wrapper {
   text-align: left;
   font-size: 18px;
   color: $dark-brown;
 }
 
-.transfer-box-info {
+.transaction-box-info {
   background-color : $light-brown;
   border : 0px;
   height : auto;
@@ -243,10 +243,64 @@ $white:        #FFFFFF;
   padding: 30px;
 }
 
-.transfer-box-info h2{
+.transaction-box-info h2{
   text-align: center;
   font-size: 24px;
+  margin-top: 0;
   color: $dark-brown;
+}
+
+.transaction-box-info p{
+  text-align: justify;
+  color: $dark-brown;
+}
+
+/* Increase Limit Section */
+#increase-limit-form.container {
+  height: auto;
+  width: 350px;
+  background: #c2b59b;
+  color: #534741;
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 65px;
+  padding: 30px 30px;
+}
+
+#increase-limit-form .eula-box {
+  width: auto;
+  height: 200px;
+  overflow: auto;
+  background: $white;
+}
+
+#increase-limit-form .wrapper {
+  height: auto;
+  margin: 30px;
+  text-align: left;
+  font-size: 18px;
+  color: #534741;
+}
+
+#increase-limit-form .bottom-wrapper {
+  height: auto;
+  margin-top: 20px;
+  padding: 7px;
+}
+
+#increase-limit-form h1 {
+  font-size: 30px;
+  font-weight: normal;
+}
+
+#increase-limit-form h2 {
+  font-size: 17px;
+  font-weight: normal;
+}
+
+#increase-limit-form p {
+  font-size: 15px;
+  text-align: justify;
 }
 
 /* Purchase Section */
@@ -352,7 +406,3 @@ $white:        #FFFFFF;
     display: block;
 }
 
-.transfer-box-info p{
-  text-align: justify;
-  color: $dark-brown;
-}
