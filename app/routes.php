@@ -19,3 +19,5 @@ Route::get('/customers/topup-success', 'CustomersController@topup_success');
 Route::get('/customers/topup', 'CustomersController@topup');
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/purchase', 'CustomersController@purchase');
+Route::get('/admin/login', 'AdminController@login');
+
