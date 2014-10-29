@@ -104,10 +104,12 @@ $white:        #FFFFFF;
 
 .dashboard-table tr:nth-child(odd){
   background-color:$lighter-brown;
+  min-height: 20px;
 }
 
 .dashboard-table tr:nth-child(even){
   background-color:$white;
+  min-height: 20px;
 }
 
 .dashboard-table td{
@@ -120,6 +122,7 @@ $white:        #FFFFFF;
   font-family:Arial;
   font-weight:normal;
   color:#000000;
+
 }
 
 .dashboard-table tr:last-child td{

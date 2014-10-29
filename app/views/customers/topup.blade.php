@@ -48,7 +48,7 @@
         Confirm top-up to proceed the transaction with Permata VA Account.
       </p>
       <div class="block">
-          <button class="button darkbrown profile">INCREASE LIMIT</button>
+          <button href="{{ route('normindex') }}" class="button darkbrown profile">INCREASE LIMIT</button>
       </div>
     </div>
 

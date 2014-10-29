@@ -127,12 +127,12 @@
 
     $( "#close-account-button" ).click(function() {
       $( "#change-password-box" ).hide();
-      $( "#close-account-box" ).show("fast");
+      $( "#close-account-box" ).fadeIn();
     });
 
     $( "#change-password-button" ).click(function() {
       $( "#close-account-box" ).hide();
-      $( "#change-password-box" ).show("fast");
+      $( "#change-password-box" ).fadeIn();
     });
     
   </script>

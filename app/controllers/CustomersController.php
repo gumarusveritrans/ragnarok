@@ -38,6 +38,10 @@ class CustomersController extends BaseController {
 		return View::make('/customers/increase-limit-success');
 	}
 
+	public function change_password_success(){	
+		return View::make('/customers/change-password-success');
+	}
+
 	public function topup_success(){	
 		return View::make('/customers/topup-success');
 	}

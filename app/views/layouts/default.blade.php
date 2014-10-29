@@ -28,7 +28,7 @@
                     <li>{{ link_to ("/customers/purchase", 'PURCHASE') }}</li>
                   </ul>
                 </li>
-                <li>{{ link_to ("/customers/show", 'MY PROFILE') }}</li>
+                <li>{{ link_to ("/customers/profile", 'MY PROFILE') }}</li>
                 <li>{{ link_to ("/customers/destroy", 'LOG OUT') }}</li>
               </ul>
             </div>

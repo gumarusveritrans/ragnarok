@@ -20,101 +20,259 @@
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
-            <button href="" class="button orange dashboard">Top-Up Transaction</button>
-            <button href="" class="button lightbrown dashboard">Transfer Transaction</button>
-            <button href="" class="button lightbrown dashboard">Purchase Transaction</button>
+            <button id="topup-transaction-button" class="button orange dashboard">Top-Up Transaction</button>
+            <button id="transfer-transaction-button" class="button lightbrown dashboard">Transfer Transaction</button>
+            <button id="purchase-transaction-button" class="button lightbrown dashboard">Purchase Transaction</button>
         </div>
 
-        <div class="dashboard-table">
+        <div id="topup-transaction-table" class="dashboard-table">
             <table align="center">
                 <tr>
                     <td>
-                        Transaction Type
-                    </td>
-                    <td >
-                        Date & Time
+                        Top Up ID
                     </td>
                     <td>
-                        Bank
+                        Date & Time
                     </td>
                     <td>
                         Amount
                     </td>
                     <td>
-                        Description
+                        Status
                     </td>
                 </tr>
                 <tr>
-                    <td >
-                        Row 1
+                    <td>
+                        TUID001
                     </td>
                     <td>
-                        Row 1
+                        16/10/2014 18:10:14
                     </td>
                     <td>
-                        Row 1
+                        Rp 150.000,00
                     </td>
                     <td>
-                        Row 1
-                    </td>
-                    <td>
-                        Row 1
+                        Success
                     </td>
                 </tr>
                 <tr>
-                    <td >
-                        Row 2
+                    <td>
+                        TUID001
                     </td>
                     <td>
-                        Row 2
+                        17/10/2014 18:10:14
                     </td>
                     <td>
-                        Row 2
+                        Rp 200.000,00
                     </td>
                     <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
+                        Pending
                     </td>
                 </tr>
                 <tr>
-                    <td >
-                        Row 3
+                    <td>
+                        
                     </td>
                     <td>
-                        Row 3
+                        
                     </td>
                     <td>
-                        Row 3
+                        
                     </td>
                     <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
+                        
                     </td>
                 </tr>
                 <tr>
-                    <td >
-                        Row 4
+                    <td>
+                        
                     </td>
                     <td>
-                        Row 4
+                        
                     </td>
                     <td>
-                        Row 4
+                        
                     </td>
                     <td>
-                        Row 4
-                    </td>
-                    <td>
-                        Row 4
+                        
                     </td>
                 </tr>
             </table>
+        </div>
 
+        <div id="transfer-transaction-table" class="dashboard-table" style="display:none">
+            <table align="center">
+                <tr>
+                    <td>
+                        Transfer ID
+                    </td>
+                    <td >
+                        Date & Time
+                    </td>
+                    <td>
+                        Amount
+                    </td>
+                    <td>
+                        Destination Account
+                    </td>
+                </tr>
+                <tr>
+                    <td >
+                        TID001
+                    </td>
+                    <td>
+                        18/10/2014 18:10:14
+                    </td>
+                    <td>
+                        Rp 10.000,00
+                    </td>
+                    <td>
+                        william.gumarus
+                    </td>
+                </tr>
+                <tr>
+                    <td >
+                        Row 2
+                    </td>
+                    <td>
+                        19/10/2014 18:10:14
+                    </td>
+                    <td>
+                        Rp 50.000,00
+                    </td>
+                    <td>
+                        daniel
+                    </td>
+                </tr>
+                <tr>
+                    <td >
+                       
+                    </td>
+                    <td>
+                       
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td >
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="purchase-transaction-table" class="dashboard-table" style="display:none">
+            <table align="center">
+                <tr>
+                    <td>
+                        Purchase ID
+                    </td>
+                    <td >
+                        Date & Time
+                    </td>
+                    <td>
+                        Gross Amount
+                    </td>
+                    <td>
+                        Merchant Name
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        PID001
+                    </td>
+                    <td>
+                        20/10/2014 18:10:14
+                    </td>
+                    <td>
+                        Rp 150.000,00
+                    </td>
+                    <td>
+                        Lazada
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        PID002
+                    </td>
+                    <td>
+                        21/10/2014 18:10:14
+                    </td>
+                    <td>
+                        Rp 100.000,00
+                    </td>
+                    <td>
+                        Zalora
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                      
+                    </td>
+                    <td>
+                       
+                    </td>
+                    <td>
+                      
+                    </td>
+                    <td>
+                       
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                     
+                    </td>
+                    <td>
+                     
+                    </td>
+                    <td>
+                     
+                    </td>
+                    <td>
+                    
+                    </td>
+                </tr>
+            </table>
         </div>
 
     </div>
+
+
+    <script type="text/javascript">
+
+        $( "#topup-transaction-button" ).click(function() {
+          $( "#topup-transaction-table" ).fadeIn();
+          $( "#transfer-transaction-table" ).hide();
+          $( "#purchase-transaction-table" ).hide();
+        });
+
+        $( "#transfer-transaction-button" ).click(function() {
+          $( "#topup-transaction-table" ).hide();
+          $( "#transfer-transaction-table" ).fadeIn();
+          $( "#purchase-transaction-table" ).hide();
+        });
+
+        $( "#purchase-transaction-button" ).click(function() {
+          $( "#topup-transaction-table" ).hide();
+          $( "#transfer-transaction-table" ).hide();
+          $( "#purchase-transaction-table" ).fadeIn();
+        });
+
+
+    </script>
 @stop
