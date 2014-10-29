@@ -2,7 +2,7 @@
 
 @section('content')
   <div id="subheader-wrapper">
-    <span class="subtitle">TRANSFER</span>
+    <span class="subtitle customer">TRANSFER</span>
     <div class="balance">
       Balance<br/>
           <span class="currency">
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <hr id="horizontal-line" noshade size=1 width=95% />
+  <hr id="horizontal-line-dashboard" noshade size=1 width=95% />
 
   <div id="subcontent-wrapper">
 
