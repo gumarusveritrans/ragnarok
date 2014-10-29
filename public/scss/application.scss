@@ -10,6 +10,7 @@ $white:        #FFFFFF;
 $dark-blue:    #262261;
 $light-blue:   #BDCAD2;
 $cyan:         #3ABEEF;
+$light-gray:   #F8F8FF;
 
 @font-face{
    font-family: "Century Gothic";
@@ -310,4 +311,9 @@ footer.footer-admin {
   &.profile {
     width: 165px;
   }
+}
+
+.button[disabled=disabled], .button:disabled {
+    background: none repeat scroll 0 0 $light-gray;
+    color: $dark;
 }

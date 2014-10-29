@@ -34,5 +34,16 @@ class CustomersController extends BaseController {
 		return View::make('/customers/increase-limit');
 	}
 
+	public function increase_limit_success(){	
+		return View::make('/customers/increase-limit-success');
+	}
+
+	public function topup_success(){	
+		return View::make('/customers/topup-success');
+	}
+
+	public function transfer_success(){	
+		return View::make('/customers/transfer-success');
+	}
 
 }

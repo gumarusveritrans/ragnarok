@@ -26,19 +26,13 @@
       {{ Form::open() }}
 
         <div id="transaction-form-wrapper">
-
           <div>
-            {{ Form::label('transfer_recipient', 'Transfer to Account (Email)') }}
-            {{ Form::text('transfer_recipient', '', array('class' => 'form-control')) }}
-          </div>
-
-          <div>
-            {{ Form::label('transfer_amount', 'Transfer Amount') }}
-            {{ Form::text('transfer_amount', '', array('class' => 'form-control')) }}
+            {{ Form::label('topup_amount', 'Top-Up Amount') }}
+            {{ Form::text('topup_amount', '', array('class' => 'form-control')) }}
           </div>
           <br/>
           <div class="block">
-            {{ Form::submit('Confirm Transfer', array('class' => 'button darkbrown close-account')) }}
+            {{ Form::submit('Confirm Top-Up', array('class' => 'button darkbrown close-account')) }}
           </div>
         </div>
 
@@ -46,13 +40,16 @@
 
     </div>
     <div class="transaction-box-info">
-      <h2>How To Transfer</h2>
+      <h2>How to Top-Up</h2>
       <p>
-        Input your destination account email.
+        Make sure the amount you input doesn't exceed the limit amount.
       </p>
       <p>
-        Make sure the amount you input doesn't exceed your balance amount.
+        Confirm top-up to proceed the transaction with Permata VA Account.
       </p>
+      <div class="block">
+          <button class="button darkbrown profile">INCREASE LIMIT</button>
+      </div>
     </div>
 
   </div>
