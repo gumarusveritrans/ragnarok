@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="subheader-wrapper">
-        <span class="subtitle">DASHBOARD</span>
+        <span class="subtitle customer">DASHBOARD</span>
         <div class="balance">
         	Balance<br/>
         	<span class="currency">
@@ -16,7 +16,7 @@
         	@endif
         </div>
     </div>
-    <hr id="horizontal-line-dashboard" noshade size=1 width=95% />
+    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="#534741" />
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
@@ -25,22 +25,24 @@
             <button id="purchase-transaction-button" class="button lightbrown dashboard">Purchase Transaction</button>
         </div>
 
-        <div id="topup-transaction-table" class="dashboard-table">
+        <div id="topup-transaction-table" class="all-table customer">
             <table align="center">
-                <tr>
-                    <td>
-                        Top Up ID
-                    </td>
-                    <td>
-                        Date & Time
-                    </td>
-                    <td>
-                        Amount
-                    </td>
-                    <td>
-                        Status
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>
+                            Top Up ID
+                        </th>
+                        <th>
+                            Date & Time
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                </thead>
                 <tr>
                     <td>
                         TUID001
@@ -69,53 +71,27 @@
                         Pending
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
             </table>
         </div>
 
-        <div id="transfer-transaction-table" class="dashboard-table" style="display:none">
+        <div id="transfer-transaction-table" class="all-table customer" style="display:none">
             <table align="center">
-                <tr>
-                    <td>
-                        Transfer ID
-                    </td>
-                    <td >
-                        Date & Time
-                    </td>
-                    <td>
-                        Amount
-                    </td>
-                    <td>
-                        Destination Account
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>
+                            Transfer ID
+                        </th>
+                        <th >
+                            Date & Time
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                        <th>
+                            Destination Account
+                        </th>
+                    </tr>
+                </thead>
                 <tr>
                     <td >
                         TID001
@@ -144,53 +120,27 @@
                         daniel
                     </td>
                 </tr>
-                <tr>
-                    <td >
-                       
-                    </td>
-                    <td>
-                       
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
             </table>
         </div>
 
-        <div id="purchase-transaction-table" class="dashboard-table" style="display:none">
+        <div id="purchase-transaction-table" class="all-table customer" style="display:none">
             <table align="center">
-                <tr>
-                    <td>
-                        Purchase ID
-                    </td>
-                    <td >
-                        Date & Time
-                    </td>
-                    <td>
-                        Gross Amount
-                    </td>
-                    <td>
-                        Merchant Name
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>
+                            Purchase ID
+                        </th>
+                        <th >
+                            Date & Time
+                        </th>
+                        <th>
+                            Gross Amount
+                        </th>
+                        <th>
+                            Merchant Name
+                        </th>
+                    </tr>
+                </thead>
                 <tr>
                     <td>
                         PID001
@@ -217,34 +167,6 @@
                     </td>
                     <td>
                         Zalora
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                      
-                    </td>
-                    <td>
-                       
-                    </td>
-                    <td>
-                      
-                    </td>
-                    <td>
-                       
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                     
-                    </td>
-                    <td>
-                     
-                    </td>
-                    <td>
-                     
-                    </td>
-                    <td>
-                    
                     </td>
                 </tr>
             </table>

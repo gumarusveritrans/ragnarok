@@ -5,7 +5,6 @@
     <title>Ragnarok</title>
     {{ HTML::style('css/application.css') }}
     {{ HTML::style('css/connect_pages.css') }}
-    {{ HTML::style('css/customers.css') }}
     {{ HTML::style('css/users.css') }}
     {{ HTML::script('js/jquery-1.11.1.min.js') }}
   </head>
@@ -32,9 +31,9 @@
                 <li>{{ link_to ("/customers/destroy", 'LOG OUT') }}</li>
               </ul>
             </div>
-              <div id="welcome-customer" class="block">
-                <font color="#C2B59B">Welcome, </font>
-              </div>
+            <div id="welcome-wrapper" class="customer block">
+              <font color="#C2B59B">Welcome,</font> User1234
+            </div>
         @else
             <div id="home" class="block menu-wrapper">
               <ul class="centered">
@@ -56,7 +55,7 @@
         @yield('content')
       </div>
 
-      <footer class="block footer-customer">
+      <footer class="footer-customer block">
         <span class="centered">&copy; 2014 Connect. All Rights Reserved.</span>
       </footer>
 

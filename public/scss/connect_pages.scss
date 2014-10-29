@@ -1,47 +1,48 @@
-$dark-brown:  #534741;
-$light-brown: #C2B59B;
-$orange:      #FBAF41;
+$dark-brown:   #534741;
+$light-brown:  #C2B59B;
+$lighter-brown:#CEB1A6;
+$orange:       #FBAF41;
+$dark:         #444444;
+$light:        #999999;
+$blue:         #2DB6CF;
+$green:        #46b98a;
+$white:        #FFFFFF;
+$dark-blue:    #262261;
+$light-blue:   #BDCAD2;
+$cyan:         #3ABEEF;
 
 /* Login and Register Form */
-#login-register-form.container {
+#login-register-form {
+  height: auto;
+}
+
+.form-container{
   height: auto;
   width: 350px;
-  background: $light-brown;
-  color: $dark-brown;
   text-align: center;
   margin-top: 25px;
   margin-bottom: 65px;
   padding: 30px 30px;
 }
 
-#login-form-admin.container {
-  height: auto;
-  width: 350px;
+.form-container.customer {
   background: $light-brown;
-  color: $orange;
-  text-align: center;
-  margin-top: 25px;
-  margin-bottom: 65px;
-  padding: 30px 30px;
-}
-
-#login-register-form.wrapper {
-  height: auto;
-  margin: 30px;
-  text-align: left;
-  font-size: 18px;
   color: $dark-brown;
 }
 
-#login-form-admin.wrapper {
+.form-container.admin {
+  background: $light-blue;
+  color: $dark-blue;
+}
+
+.form-wrapper {
   height: auto;
   margin: 30px;
   text-align: left;
   font-size: 18px;
-  color: $orange;
 }
 
-#login-register-form.bottom-wrapper {
+.form-bottom-wrapper {
   height: auto;
   margin-top: 20px;
   padding: 7px;
@@ -105,7 +106,16 @@ $orange:      #FBAF41;
 /* Title Horizontal Line Style */
 .line-center{
   padding:0 10px;
+  display:inline-block;
+}
+
+.line-center.customer{
   background: $light-brown;
+}
+
+.line-center.admin{
+  padding:0 10px;
+  background: $light-blue;
   display:inline-block;
 }
 
@@ -123,8 +133,15 @@ $orange:      #FBAF41;
   top:50%;
   left:0;
   right:0;
-  border-top:solid 2px $dark-brown;
   z-index:-1;
+}
+
+.customer.line-title:after{
+  border-top:solid 2px $dark-brown;
+}
+
+.admin.line-title:after{
+  border-top:solid 2px $dark-blue;
 }
 
 /* Table Style */
@@ -160,29 +177,33 @@ $orange:      #FBAF41;
   -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+
 .form-control:focus {
   border-color: $orange;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px $orange;
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px $orange;
 }
+
 .form-control::-moz-placeholder {
   color: #777;
   opacity: 1;
 }
+
 .form-control:-ms-input-placeholder {
   color: #777;
 }
+
 .form-control::-webkit-input-placeholder {
   color: #777;
 }
-.form-control[disabled],
-.form-control[readonly],
-fieldset[disabled] .form-control {
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
   cursor: not-allowed;
   background-color: #eee;
   opacity: 1;
 }
+
 textarea.form-control {
   height: auto;
 }

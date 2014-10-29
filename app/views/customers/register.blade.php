@@ -1,13 +1,13 @@
 @extends('layouts.default')
 
 @section('content')
-	<div id="login-register-form" class="container centered">
+	<div id="login-register-form" class="customer form-container centered">
 	  
-		<h1 class="line-title"><span class="line-center">REGISTRATION</span></h1>
+		<h1 class="line-title"><span class="line-center customer">REGISTRATION</span></h1>
 	  
 		{{ Form::open() }}
 	    
-	    	<div id="login-register-form" class="wrapper">
+	    	<div id="login-register-form" class="form-wrapper">
 		    	<div>
 			    	{{ Form::label('username', 'Username') }}<br />
 			    	{{ Form::text('username', '', array('class' => 'form-control')) }}
