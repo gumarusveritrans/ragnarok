@@ -26,3 +26,7 @@ Route::get('/admin/dashboard', 'AdminController@dashboard');
 Route::get('/admin/notification', 'AdminController@notification');
 Route::get('/admin/manage-user', 'AdminController@manage_user');
 
+Route::get('upload', function() {
+  return View::make('customers.increase-limit');
+});
+Route::post('apply/upload', 'CustomersController@upload');

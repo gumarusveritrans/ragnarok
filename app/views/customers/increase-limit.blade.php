@@ -36,26 +36,51 @@
 
 				    	<div>
 					    	{{ Form::label('gender', 'Gender') }}<br />
-					    	{{ Form::text('gender', '', array('class' => 'form-control')) }}
+					    	{{ Form::radio('gender', 'Male') }}
+					    	{{ Form::label('gender', 'Male') }}
+					    	{{ Form::radio('gender', 'Female') }}
+					    	{{ Form::label('gender', 'Female') }}
 				    	</div>
 
 				    	<div>
 				      		{{ Form::label('birth_place', 'Birth Place') }}<br />
-				        	{{ Form::password('birth_place', array('class' => 'form-control')) }}
+				        	{{ Form::text('birth_place', '', array('class' => 'form-control')) }}
 				    	</div>
 
 				    	<div>
-				    		{{ Form::label('password_confirmation', 'Password Confirmation') }}<br />
-				        	{{ Form::password('password_confirmation', array('class' => 'form-control')) }}
+				      		{{ Form::label('birth_date', 'Birth Date') }}<br />
+				        	{{ Form::selectRange('number', 1, 31) }}
+				        	{{ Form::selectMonth('month') }}
+				        	{{ Form::selectYear('year', 1900, 2014) }}
 				    	</div>
+
+				    	<div>
+				      		{{ Form::label('address', 'Address') }}<br />
+				        	{{ Form::text('address', '', array('class' => 'form-control')) }}
+				    	</div>
+
+				    	<div>
+				      		{{ Form::label('province', 'Province') }}<br />
+				        	{{ Form::text('province', '', array('class' => 'form-control')) }}
+				    	</div>
+
+				    	<div>
+				      		{{ Form::label('city', 'City') }}<br />
+				        	{{ Form::text('city', '', array('class' => 'form-control')) }}
+				    	</div>
+
+				    	<div>
+				      		{{ Form::label('postal_code', 'Postal Code') }}<br />
+				        	{{ Form::text('postal_code', '', array('class' => 'form-control')) }}
+				    	</div>
+
 					</div>
 
 				    <div>
-				    	{{ Form::submit('Sign up', array('class' => 'button darkbrown')) }}
+				    	{{ Form::submit('NEXT', array('class' => 'button darkbrown')) }}
 				    </div>
 
 			    {{ Form::close() }}
-				<button id="button-2" class="button darkbrown">NEXT</button>
 			</div>
 		</div>
 
@@ -87,7 +112,7 @@
 		      $( "#user-information" ).fadeIn();
 		    });
 
-		    $( "#button-2" ).click(function() {
+		    $( "form" ).submit(function(event) {
 		      $( "#user-agreements" ).hide();
 		      $( "#user-information" ).hide();
 		      $( "#upload-id-card" ).fadeIn();
