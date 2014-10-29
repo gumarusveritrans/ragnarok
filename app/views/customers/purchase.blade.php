@@ -2,7 +2,7 @@
 
 @section('content')
 	<div id="subheader-wrapper">
-	<span class="subtitle">PURCHASE PRODUCTS</span>
+	<span class="subtitle customer">PURCHASE PRODUCTS</span>
 	<div class="balance">
 	  Balance<br/>
 	      <span class="currency">
@@ -17,7 +17,7 @@
 	</div>
 	</div>
 
-	<hr id="horizontal-line" noshade size=1 width=95% />
+	<hr id="horizontal-line-dashboard" noshade size=1 width=95% />
 
 	<div id="subcontent-wrapper">
 		<div id="subbuttons-wrapper" style="overflow:visible">
@@ -32,9 +32,6 @@
 						</ul>
 					</div>
 				</div>
-				
-
-				
 				<div class="column">
 					<button class="button darkbrown profile" style="float:right">SHOPPING CART</button>
 				</div>
@@ -42,7 +39,7 @@
 
 		</div>
 
-        <div class="all-table admin">
+        <div class="all-table customer">
             <table align="center">
                 <thead>
                     <tr>
@@ -146,52 +143,51 @@
 
 	</div>
 
-<!-- jQuery if needed -->
 <script type="text/javascript">
 			
-			function DropDown(el) {
-			    this.dd = el;
-			    this.placeholder = this.dd.children('span');
-			    this.opts = this.dd.find('ul.dropdown > li');
-			    this.val = '';
-			    this.index = -1;
-			    this.initEvents();
-			}
-			DropDown.prototype = {
-				initEvents : function() {
-					var obj = this;
+	function DropDown(el) {
+	    this.dd = el;
+	    this.placeholder = this.dd.children('span');
+	    this.opts = this.dd.find('ul.dropdown > li');
+	    this.val = '';
+	    this.index = -1;
+	    this.initEvents();
+	}
+	DropDown.prototype = {
+		initEvents : function() {
+			var obj = this;
 
-					obj.dd.on('click', function(event){
-						$(this).toggleClass('active');
-						event.stopPropagation();
-					});
-
-					obj.opts.on('click',function(){
-				            var opt = $(this);
-				            obj.val = opt.text();
-				            obj.index = opt.index();
-				            obj.placeholder.text(obj.val);
-				        });
-			    },
-			    getValue : function() {
-			        return this.val;
-			    },
-			    getIndex : function() {
-			        return this.index;
-			    }
-			}
-
-			$(function() {
-
-				var dd = new DropDown( $('#dd') );
-
-				$(document).click(function() {
-					// all dropdowns
-					$('.wrapper-dropdown').removeClass('active');
-				});
-
+			obj.dd.on('click', function(event){
+				$(this).toggleClass('active');
+				event.stopPropagation();
 			});
 
-		</script>
+			obj.opts.on('click',function(){
+		            var opt = $(this);
+		            obj.val = opt.text();
+		            obj.index = opt.index();
+		            obj.placeholder.text(obj.val);
+		        });
+	    },
+	    getValue : function() {
+	        return this.val;
+	    },
+	    getIndex : function() {
+	        return this.index;
+	    }
+	}
+
+	$(function() {
+
+		var dd = new DropDown( $('#dd') );
+
+		$(document).click(function() {
+			// all dropdowns
+			$('.wrapper-dropdown').removeClass('active');
+		});
+
+	});
+
+</script>
 
 @stop

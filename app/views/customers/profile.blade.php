@@ -21,8 +21,8 @@
 
   <div id="subcontent-wrapper">
     <div id="subbuttons-wrapper" class="right">
-      <button id="close-account-button" class="button orange profile">close account</button>
-      <button id="change-password-button" class="button lightbrown profile">change password</button>
+      <a href="#close-account"><button id="close-account-button" class="button lightbrown profile">close account</button></a>
+      <a href="#change-password"><button id="change-password-button" class="button lightbrown profile">change password</button></a>
     </div>
     <div id="profile-wrapper">
       <div class="profile-header">
@@ -128,12 +128,21 @@
     $( "#close-account-button" ).click(function() {
       $( "#change-password-box" ).hide();
       $( "#close-account-box" ).fadeIn();
+      $('.lightbrown').removeClass('lightbrown');
+      $('.orange').removeClass('orange');
+      $("#change-password-button").addClass('lightbrown');
+      $(this).addClass('orange');
     });
 
     $( "#change-password-button" ).click(function() {
       $( "#close-account-box" ).hide();
       $( "#change-password-box" ).fadeIn();
+      $('.lightbrown').removeClass('lightbrown');
+      $('.orange').removeClass('orange');
+      $("#close-account-button").addClass('lightbrown');
+      $(this).addClass('orange');
     });
     
   </script>
+
 @stop

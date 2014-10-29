@@ -20,7 +20,7 @@
               <ul class="centered-header">
                 <li>{{ link_to ("/customers/dashboard", 'DASHBOARD') }}</li>
                 <li>
-                  <a href="">TRANSACTION</a>
+                  <a href="#">TRANSACTION</a>
                   <ul>
                     <li>{{ link_to ("/customers/topup", 'TOP-UP') }}</li>
                     <li>{{ link_to ("/customers/transfer", 'TRANSFER') }}</li>
@@ -36,7 +36,7 @@
             </div>
         @else
             <div id="home" class="block menu-wrapper">
-              <ul class="centered">
+              <ul class="centered-header">
                 <li>{{ link_to ("/", 'HOME') }}</li>
                 <li>{{ link_to ("/about", 'ABOUT') }}</li>
                 <li>{{ link_to ("/pricing", 'PRICING') }}</li>
@@ -45,8 +45,8 @@
               </ul>
             </div>
             <div id="login-register-wrapper" class="block">
-              <button href="" class="button orange centered">LOGIN</button>
-              <button href="" class="button darkbrown centered">REGISTER</button>
+              <button class="button orange centered">LOGIN</button>
+              <button class="button darkbrown centered">REGISTER</button>
             </div>
         @endif
       </header>
@@ -62,3 +62,19 @@
     </div>
   </body>
 </html>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+      var full_path = location.href.split("#")[0];
+      $(".centered-header a").each(function(){
+          var $this = $(this);
+          if($this.prop("href") == full_path){
+              $this.addClass("active");
+              $this.parent().parent().siblings().addClass("active");
+          }
+      });
+
+  });
+
+</script>

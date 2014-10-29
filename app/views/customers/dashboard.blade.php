@@ -20,12 +20,12 @@
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
-            <button id="topup-transaction-button" class="button orange dashboard">Top-Up Transaction</button>
-            <button id="transfer-transaction-button" class="button lightbrown dashboard">Transfer Transaction</button>
-            <button id="purchase-transaction-button" class="button lightbrown dashboard">Purchase Transaction</button>
+            <a href="#top-up"><button id="topup-transaction-button" class="button lightbrown dashboard">Top-Up Transaction</button></a>
+            <a href="#transfer"><button id="transfer-transaction-button" class="button lightbrown dashboard">Transfer Transaction</button></a>
+            <a href="#purchase"><button id="purchase-transaction-button" class="button lightbrown dashboard">Purchase Transaction</button></a>
         </div>
 
-        <div id="topup-transaction-table" class="all-table customer">
+        <div id="topup-transaction-table" class="all-table customer" style="display:none">
             <table align="center">
                 <thead>
                     <tr>
@@ -177,22 +177,37 @@
 
     <script type="text/javascript">
 
-        $( "#topup-transaction-button" ).click(function() {
-          $( "#topup-transaction-table" ).fadeIn();
-          $( "#transfer-transaction-table" ).hide();
-          $( "#purchase-transaction-table" ).hide();
+        $("#topup-transaction-button").click(function() {
+          $("#transfer-transaction-table").hide();
+          $("#purchase-transaction-table").hide();
+          $("#topup-transaction-table").fadeIn();
+          $('.lightbrown').removeClass('lightbrown');
+          $('.orange').removeClass('orange');
+          $("#transfer-transaction-button").addClass('lightbrown');
+          $("#purchase-transaction-button").addClass('lightbrown');
+          $(this).addClass('orange');
         });
 
-        $( "#transfer-transaction-button" ).click(function() {
-          $( "#topup-transaction-table" ).hide();
-          $( "#transfer-transaction-table" ).fadeIn();
-          $( "#purchase-transaction-table" ).hide();
+        $("#transfer-transaction-button").click(function() {
+          $("#topup-transaction-table").hide();
+          $("#purchase-transaction-table").hide();
+          $("#transfer-transaction-table").fadeIn();
+          $('.lightbrown').removeClass('lightbrown');
+          $('.orange').removeClass('orange');
+          $("#topup-transaction-button").addClass('lightbrown');
+          $("#purchase-transaction-button").addClass('lightbrown');
+          $(this).addClass('orange');
         });
 
-        $( "#purchase-transaction-button" ).click(function() {
-          $( "#topup-transaction-table" ).hide();
-          $( "#transfer-transaction-table" ).hide();
-          $( "#purchase-transaction-table" ).fadeIn();
+        $("#purchase-transaction-button").click(function() {
+          $("#topup-transaction-table").hide();
+          $("#transfer-transaction-table").hide();
+          $("#purchase-transaction-table").fadeIn();
+          $('.lightbrown').removeClass('lightbrown');
+          $('.orange').removeClass('orange');
+          $("#topup-transaction-button").addClass('lightbrown');
+          $("#transfer-transaction-button").addClass('lightbrown');
+          $(this).addClass('orange');
         });
 
 

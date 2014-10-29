@@ -128,6 +128,10 @@ header.header-admin {
   color: $cyan;
 }
 
+.menu-wrapper#customer a.active, .menu-wrapper#home a.active {
+  color: $orange;
+}
+
 /* Content Style */
 #content {
   width: 100%;
