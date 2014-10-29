@@ -42,40 +42,49 @@
 
 		</div>
 
-
-
-		<div class="dashboard-table">
+        <div class="all-table admin">
             <table align="center">
+                <thead>
+                    <tr>
+                        <th>
+                            Transaction Type
+                        </th>
+                        <th>
+                            Date & Time
+                        </th>
+                        <th>
+                            Bank
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+                </thead>
                 <tr>
-                    <td>
-                        Product Name
-                    </td>
                     <td >
-                        Price
+                        Row 1
                     </td>
                     <td>
-                        Description
+                        Row 1
                     </td>
                     <td>
-                        
+                        Row 1
+                    </td>
+                    <td>
+                        Row 1
+                    </td>
+                    <td>
+                        Row 1
                     </td>
                 </tr>
                 <tr>
-                    <td >
-                        Row 1
+                    <td>
+                        Row 2
                     </td>
                     <td>
-                        Row 1
-                    </td>
-                    <td>
-                        Row 1
-                    </td>
-                    <td>
-                        Row 1
-                    </td>
-                </tr>
-                <tr>
-                    <td >
                         Row 2
                     </td>
                     <td>
@@ -101,9 +110,15 @@
                     <td>
                         Row 3
                     </td>
+                    <td>
+                        Row 3
+                    </td>
                 </tr>
                 <tr>
                     <td >
+                        Row 4
+                    </td>
+                    <td>
                         Row 4
                     </td>
                     <td>

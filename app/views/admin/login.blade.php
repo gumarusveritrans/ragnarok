@@ -1,13 +1,13 @@
 @extends('layouts.default-admin')
 
 @section('content-admin')
-	<div id="login-form-admin" class="container centered">
+	<div id="login-register-form" class="admin form-container centered">
 
-		<h1 class="line-title"><span class="line-center">ADMIN LOGIN</span></h1>
+		<h1 class="line-title admin"><span class="line-center admin">ADMIN LOGIN</span></h1>
 
 		{{ Form::open() }}
 
-	      <div id="login-form-admin" class="wrapper">
+	      <div id="login-register-form" class="form-wrapper">
 	        {{ Form::label('email', 'Email Address') }}
 	        {{ Form::text('email', '', array('class' => 'form-control')) }}
 
@@ -15,10 +15,10 @@
 	        {{ Form::password('password', array('class' => 'form-control')) }}
 	      </div>
 
-	      <div id="login-form-admin" class="wrapper">
+	      <div id="login-register-form" class="form-wrapper">
 	        <div class="table">
 	          <div class="column">
-	          	{{ Form::submit('LOGIN', array('class' => 'button darkbrown')) }}
+	          	{{ Form::submit('LOGIN', array('class' => 'button darkblue')) }}
 	          </div>
 	        </div>
 	      </div>

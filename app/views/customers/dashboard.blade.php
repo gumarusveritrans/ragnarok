@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="subheader-wrapper">
-        <span class="subtitle">DASHBOARD</span>
+        <span class="subtitle customer">DASHBOARD</span>
         <div class="balance">
         	Balance<br/>
         	<span class="currency">
@@ -16,7 +16,7 @@
         	@endif
         </div>
     </div>
-    <hr id="horizontal-line-dashboard" noshade size=1 width=95% />
+    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="#534741" />
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
@@ -25,44 +25,46 @@
             <button href="" class="button lightbrown dashboard">Purchase Transaction</button>
         </div>
 
-        <div class="dashboard-table">
+        <div class="all-table customer">
             <table align="center">
+                <thead>
+                    <tr>
+                        <th>
+                            Transaction Type
+                        </th>
+                        <th>
+                            Date & Time
+                        </th>
+                        <th>
+                            Bank
+                        </th>
+                        <th>
+                            Amount
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+                </thead>
                 <tr>
-                    <td>
-                        Transaction Type
-                    </td>
                     <td >
-                        Date & Time
+                        Row 1
                     </td>
                     <td>
-                        Bank
+                        Row 1
                     </td>
                     <td>
-                        Amount
+                        Row 1
                     </td>
                     <td>
-                        Description
+                        Row 1
+                    </td>
+                    <td>
+                        Row 1
                     </td>
                 </tr>
                 <tr>
-                    <td >
-                        Row 1
-                    </td>
                     <td>
-                        Row 1
-                    </td>
-                    <td>
-                        Row 1
-                    </td>
-                    <td>
-                        Row 1
-                    </td>
-                    <td>
-                        Row 1
-                    </td>
-                </tr>
-                <tr>
-                    <td >
                         Row 2
                     </td>
                     <td>

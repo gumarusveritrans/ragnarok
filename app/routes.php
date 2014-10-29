@@ -18,3 +18,6 @@ Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/purchase', 'CustomersController@purchase');
 
 Route::get('/admin/login', 'AdminController@login');
+Route::get('/admin/dashboard', 'AdminController@dashboard');
+Route::get('/admin/notification', 'AdminController@notification');
+Route::get('/admin/manage-user', 'AdminController@manage_user');
