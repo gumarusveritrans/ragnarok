@@ -99,6 +99,7 @@
 	</div>
 
     <div id="pop-up-buy-product" class="pop-up-customer" style="display: none">
+        <span id="close-buy-product" class="button-close">&#10006;</span>
         <h1>BUY PRODUCT</h1>
         <br/>
         <div class="table">
@@ -132,6 +133,7 @@
 
 
     <div id="pop-up-shopping-cart" class="pop-up-customer" style="display: none">
+        <span id="close-shopping-cart" class="button-close">&#10006;</span>
         <h1>SHOPPING CART</h1>
         <br/>
         <table>
@@ -240,6 +242,14 @@
 
         $("#shopping-cart-button").click(function(){
             $("#pop-up-shopping-cart").fadeIn();
+        });
+
+        $( "#close-buy-product" ).click(function() {
+            $("#pop-up-buy-product").fadeOut("fast");
+        });
+
+        $( "#close-shopping-cart" ).click(function() {
+            $("#pop-up-shopping-cart").fadeOut("fast");
         });
 
 	});

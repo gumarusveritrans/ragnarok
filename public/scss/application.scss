@@ -379,6 +379,7 @@ footer.footer-admin {
   display: inline-block;
   background: none repeat scroll 0 0 $dark-blue;
   color: $light-blue;
+  float: right;
 }
 
 .button-close:hover {
@@ -389,6 +390,7 @@ footer.footer-admin {
   -webkit-transition: all 0.3s ease 0s; 
 }
 
-.admin-side-box .button-close {
-  float: right;
+.pop-up-customer .button-close {
+  background: none repeat scroll 0 0 $dark-brown;
+  color: $light-brown;
 }
