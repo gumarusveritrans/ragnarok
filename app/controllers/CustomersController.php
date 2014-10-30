@@ -42,12 +42,20 @@ class CustomersController extends BaseController {
 		return View::make('/customers/change-password-success');
 	}
 
+	public function close_account_success(){	
+		return View::make('/customers/close-account-success');
+	}
+
 	public function topup_success(){	
 		return View::make('/customers/topup-success');
 	}
 
 	public function transfer_success(){	
 		return View::make('/customers/transfer-success');
+	}
+
+	public function register_success(){	
+		return View::make('/customers/register-success');
 	}
 
 	public function upload() {
@@ -78,6 +86,356 @@ class CustomersController extends BaseController {
 	      return Redirect::to('upload');
 	    }
 	  }
+	}
+
+	public function validate_registration_form(){
+		// process the form here
+
+		// create the validation rules ------------------------
+		$rules = array(
+			'username'             	=> 'required', 						// just a normal required validation
+			'email'            		=> 'required|email', 	// required and must be unique in the ducks table
+			'password'         		=> 'required',
+			'password_confirmation' => 'required|same:password' 			// required and has to match the password field
+		);
+
+		// create custom validation messages ------------------
+		$messages = array(
+			'same' 	=> 'The :others must matched.'
+		);
+
+		// do the validation ----------------------------------
+		// validate against the inputs from our form
+		$validator = Validator::make(Input::all(), $rules, $messages);
+
+		// check if the validator failed -----------------------
+		if ($validator->fails()) {
+
+			// redirect our user back with error messages		
+			$messages = $validator->messages();
+
+			// also redirect them back with old inputs so they dont have to fill out the form again
+			// but we wont redirect them with the password they entered
+
+			return Redirect::to('/register')
+				->withErrors($validator)
+				->withInput(Input::except('password', 'password_confirmation'));
+
+		} else {
+			// validation successful ---------------------------
+
+			// our duck has passed all tests!
+			// let him enter the database
+
+			// create the data for our duck
+			// $duck = new Duck;
+			// $duck->name     = Input::get('name');
+			// $duck->email    = Input::get('email');
+			// $duck->password = Hash::make(Input::get('password'));
+
+			// save our duck
+			// $duck->save();
+
+			// redirect ----------------------------------------
+			// redirect our user back to the form so they can do it all over again
+			return Redirect::to('customers/register-success');
+		}
+
+	}
+
+	public function validate_login_form(){
+		// process the form here
+
+		// create the validation rules ------------------------
+		$rules = array(
+			'email'            		=> 'required|email', 	// required and must be unique in the ducks table
+			'password'         		=> 'required'
+		);
+
+		// do the validation ----------------------------------
+		// validate against the inputs from our form
+		$validator = Validator::make(Input::all(), $rules);
+
+		// check if the validator failed -----------------------
+		if ($validator->fails()) {
+
+			// redirect our user back with error messages		
+			$messages = $validator->messages();
+
+			// also redirect them back with old inputs so they dont have to fill out the form again
+			// but we wont redirect them with the password they entered
+
+			return Redirect::to('/login')
+				->withErrors($validator);
+
+		} else {
+			// validation successful ---------------------------
+
+			// our duck has passed all tests!
+			// let him enter the database
+
+			// create the data for our duck
+			// $duck = new Duck;
+			// $duck->name     = Input::get('name');
+			// $duck->email    = Input::get('email');
+			// $duck->password = Hash::make(Input::get('password'));
+
+			// save our duck
+			// $duck->save();
+
+			// redirect ----------------------------------------
+			// redirect our user back to the form so they can do it all over again
+			return Redirect::to('customers/dashboard');
+		}
+
+	}
+
+	public function validate_topup_form(){
+		// process the form here
+
+		// create the validation rules ------------------------
+		$rules = array(
+			'topup_amount'     		=> 'required|numeric'
+		);
+
+		// do the validation ----------------------------------
+		// validate against the inputs from our form
+		$validator = Validator::make(Input::all(), $rules);
+
+		// check if the validator failed -----------------------
+		if ($validator->fails()) {
+
+			// redirect our user back with error messages		
+			$messages = $validator->messages();
+
+			// also redirect them back with old inputs so they dont have to fill out the form again
+			// but we wont redirect them with the password they entered
+
+			return Redirect::to('/customers/topup')
+				->withErrors($validator);
+
+		} else {
+			// validation successful ---------------------------
+
+			// our duck has passed all tests!
+			// let him enter the database
+
+			// create the data for our duck
+			// $duck = new Duck;
+			// $duck->name     = Input::get('name');
+			// $duck->email    = Input::get('email');
+			// $duck->password = Hash::make(Input::get('password'));
+
+			// save our duck
+			// $duck->save();
+
+			// redirect ----------------------------------------
+			// redirect our user back to the form so they can do it all over again
+			return Redirect::to('customers/topup-success');
+		}
+
+	}
+
+	public function validate_transfer_form(){
+		// process the form here
+
+		// create the validation rules ------------------------
+		$rules = array(
+			'transfer_recipient'		=> 'required|email',
+			'transfer_amount'     		=> 'required|numeric'
+		);
+
+		// do the validation ----------------------------------
+		// validate against the inputs from our form
+		$validator = Validator::make(Input::all(), $rules);
+
+		// check if the validator failed -----------------------
+		if ($validator->fails()) {
+
+			// redirect our user back with error messages		
+			$messages = $validator->messages();
+
+			// also redirect them back with old inputs so they dont have to fill out the form again
+			// but we wont redirect them with the password they entered
+
+			return Redirect::to('/customers/transfer')
+				->withErrors($validator)
+				->withInput(Input::except('transfer_amount'));
+
+		} else {
+			// validation successful ---------------------------
+
+			// our duck has passed all tests!
+			// let him enter the database
+
+			// create the data for our duck
+			// $duck = new Duck;
+			// $duck->name     = Input::get('name');
+			// $duck->email    = Input::get('email');
+			// $duck->password = Hash::make(Input::get('password'));
+
+			// save our duck
+			// $duck->save();
+
+			// redirect ----------------------------------------
+			// redirect our user back to the form so they can do it all over again
+			return Redirect::to('customers/transfer-success');
+		}
+
+	}
+
+	public function validate_close_account_form(){
+		// process the form here
+
+		// create the validation rules ------------------------
+		$rules = array(
+			'account_bank'		 => 'required',
+			'account_number'     => 'required|numeric',
+			'account_name'     	 => 'required'	
+		);
+
+		// do the validation ----------------------------------
+		// validate against the inputs from our form
+		$validator = Validator::make(Input::all(), $rules);
+
+		// check if the validator failed -----------------------
+		if ($validator->fails()) {
+
+			// redirect our user back with error messages		
+			$messages = $validator->messages();
+
+			// also redirect them back with old inputs so they dont have to fill out the form again
+			// but we wont redirect them with the password they entered
+
+			return Redirect::to('/customers/profile#close-account')
+				->withErrors($validator);
+
+		} else {
+			// validation successful ---------------------------
+
+			// our duck has passed all tests!
+			// let him enter the database
+
+			// create the data for our duck
+			// $duck = new Duck;
+			// $duck->name     = Input::get('name');
+			// $duck->email    = Input::get('email');
+			// $duck->password = Hash::make(Input::get('password'));
+
+			// save our duck
+			// $duck->save();
+
+			// redirect ----------------------------------------
+			// redirect our user back to the form so they can do it all over again
+			return Redirect::to('customers/close-account-success');
+		}
+
+	}
+
+	public function validate_change_password_form(){
+		// process the form here
+
+		// create the validation rules ------------------------
+		$rules = array(
+			'current_password'	 		=> 'required',
+			'password'     				=> 'required',
+			'password_confirmation'   	=> 'required|same:password'	
+		);
+
+		// create custom validation messages ------------------
+		$messages = array(
+			'same' 	=> 'The :others must matched.'
+		);
+
+		// do the validation ----------------------------------
+		// validate against the inputs from our form
+		$validator = Validator::make(Input::all(), $rules, $messages);
+
+		// check if the validator failed -----------------------
+		if ($validator->fails()) {
+
+			// redirect our user back with error messages		
+			$messages = $validator->messages();
+
+			// also redirect them back with old inputs so they dont have to fill out the form again
+			// but we wont redirect them with the password they entered
+
+			return Redirect::to('/customers/profile#change-password')
+				->withErrors($validator);
+
+		} else {
+			// validation successful ---------------------------
+
+			// our duck has passed all tests!
+			// let him enter the database
+
+			// create the data for our duck
+			// $duck = new Duck;
+			// $duck->name     = Input::get('name');
+			// $duck->email    = Input::get('email');
+			// $duck->password = Hash::make(Input::get('password'));
+
+			// save our duck
+			// $duck->save();
+
+			// redirect ----------------------------------------
+			// redirect our user back to the form so they can do it all over again
+			return Redirect::to('customers/change-password-success');
+		}
+
+	}
+
+	public function validate_increase_limit_form(){
+		// process the form here
+
+		// create the validation rules ------------------------
+		$rules = array(
+			'id_number'	 		=> 'required',
+			'gender'     		=> 'required',
+			'birth_place'		=> 'required',
+			'address'			=> 'required',
+			'province'			=> 'required',
+			'city'				=> 'required',
+			'postal_code'		=> 'required|numeric'
+		);
+
+
+		// do the validation ----------------------------------
+		// validate against the inputs from our form
+		$validator = Validator::make(Input::all(), $rules);
+
+		// check if the validator failed -----------------------
+		if ($validator->fails()) {
+
+			// redirect our user back with error messages		
+			$messages = $validator->messages();
+
+			// also redirect them back with old inputs so they dont have to fill out the form again
+			// but we wont redirect them with the password they entered
+
+			return Redirect::to('/customers/profile#user-information')
+				->withErrors($validator);
+
+		} else {
+			// validation successful ---------------------------
+
+			// our duck has passed all tests!
+			// let him enter the database
+
+			// create the data for our duck
+			// $duck = new Duck;
+			// $duck->name     = Input::get('name');
+			// $duck->email    = Input::get('email');
+			// $duck->password = Hash::make(Input::get('password'));
+
+			// save our duck
+			// $duck->save();
+
+			// redirect ----------------------------------------
+			// redirect our user back to the form so they can do it all over again
+			return Redirect::to('customers/change-password-success');
+		}
+
 	}
 
 }

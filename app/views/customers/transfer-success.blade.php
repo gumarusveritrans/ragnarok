@@ -7,7 +7,7 @@
 		<p>Your request for transfering to account xxx has succeeded.</p>
 		<br/>
 		<div style="text-align:left">
-			<a href="#">Back to Dashboard</a>
+			{{ link_to ("/customers/dashboard", 'Back to Dashboard') }}
 		</div>
 	</div>
 </div>
