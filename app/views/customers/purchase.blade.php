@@ -67,7 +67,7 @@
                         Casio Type X
                     </td>
                     <td>
-                        <button id="buy-product-01" class="button darkbrown profile" style="float:right">buy product</button>   
+                        <button id="buy-product-01" class="button-table darkbrown" style="float:right">buy product</button>   
                     </td>
                 </tr>
                 <tr>
@@ -81,22 +81,111 @@
                         Casio Type Y
                     </td>
                     <td>
-                        <button id="buy-product-02" class="button darkbrown profile" style="float:right">buy product</button> 
+                        <button id="buy-product-02" class="button-table darkbrown" style="float:right">buy product</button> 
                     </td>
                 </tr>
             </table>
 
         </div>
 
-        <div id="subbuttons-wrapper" style="overflow:visible;">
+        <div id="subbuttons-wrapper">
         	<div class="table">
         		<div class="column">
-					<a href="{{ url('/customers/purchase-success') }}"><button class="button darkbrown profile">PURCHASE</button></a>
+					<a href="{{ url('/customers/purchase-success') }}"><button class="button darkbrown profile" style="float:right">PURCHASE</button></a>
         		</div>
         	</div>
         </div>
 
 	</div>
+
+    <div id="pop-up-buy-product" class="pop-up-customer" style="display: none">
+        <h1>BUY PRODUCT</h1>
+        <br/>
+        <div class="table">
+            <div class="column">
+                <h2>Product Name</h2>
+                <h3>Product 01</h3>
+            </div>
+            <div class="column">
+                <h2>Price</h2>
+                <h3>Rp 10.000,-</h3>
+            </div>
+        </div>
+        <br/>
+        <div class="table">
+            <div class="column">
+                <h2>Description</h2>
+                <h3>CASIO TYPE X</h3>
+            </div>
+        </div>
+        <br/>
+        <div class="table">
+            <div class="column">
+                <h2>Quantity</h2>
+                <h3>CASIO TYPE X</h3>
+            </div>
+            <div class="column">
+                <button id="buy-button" class="button darkbrown admin-notification" style="float:right">BUY</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="pop-up-shopping-cart" class="pop-up-customer" style="display: none">
+        <h1>SHOPPING CART</h1>
+        <br/>
+        <table>
+            <thead>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+            </thead>
+        </table>
+
+        <div class="table-box-content">
+            <table>
+                <tr>
+                    <td>Product 01</td>
+                    <td>Rp 10.000,-</td>
+                    <td>CASIO TYPE X</td>
+                    <td>1</td>
+                    <td>Rp 10.000,-</td>
+                </tr>
+                <tr>
+                    <td>Product 02</td>
+                    <td>Rp 20.000,-</td>
+                    <td>CASIO TYPE Y</td>
+                    <td>2</td>
+                    <td>Rp 40.000,-</td>
+                </tr>
+                <tr>
+                    <td>Product 03</td>
+                    <td>Rp 20.000,-</td>
+                    <td>CASIO TYPE Y</td>
+                    <td>2</td>
+                    <td>Rp 40.000,-</td>
+                </tr>
+                <tr>
+                    <td>Product 04</td>
+                    <td>Rp 20.000,-</td>
+                    <td>CASIO TYPE Y</td>
+                    <td>2</td>
+                    <td>Rp 40.000,-</td>
+                </tr>
+                <tr>
+                    <td>Product 05</td>
+                    <td>Rp 20.000,-</td>
+                    <td>CASIO TYPE Y</td>
+                    <td>2</td>
+                    <td>Rp 40.000,-</td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <a href="{{ url('/customers/purchase-success') }}"><button class="button darkbrown profile">PURCHASE</button></a>       
+    </div>
 
 <script type="text/javascript">
 			
@@ -140,6 +229,18 @@
 			// all dropdowns
 			$('.wrapper-dropdown').removeClass('active');
 		});
+
+        $("#buy-product-01").click(function(){
+            $("#pop-up-buy-product").fadeIn();
+        });
+
+        $("#buy-button").click(function(){
+            $("#pop-up-buy-product").hide();
+        });
+
+        $("#shopping-cart-button").click(function(){
+            $("#pop-up-shopping-cart").fadeIn();
+        });
 
 	});
 

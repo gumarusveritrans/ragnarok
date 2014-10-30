@@ -57,6 +57,10 @@ class CustomersController extends BaseController {
 	public function register_success(){	
 		return View::make('/customers/register-success');
 	}
+	
+	public function purchase_success(){	
+		return View::make('/customers/purchase-success');
+	}
 
 	public function upload() {
 	  // getting all of the post data

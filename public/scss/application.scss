@@ -359,6 +359,14 @@ footer.footer-admin {
       color: $white;
     }
   }
+  &.darkbrown {
+  background: none repeat scroll 0 0 $dark-brown;
+  color: $light-brown;
+    &:hover {
+      background: none repeat scroll 0 0 $blue;
+      color: $white;
+    }
+  }
 }
 
 .button-close {
