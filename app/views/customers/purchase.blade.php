@@ -33,7 +33,7 @@
 					</div>
 				</div>
 				<div class="column">
-					<button class="button darkbrown profile" style="float:right">SHOPPING CART</button>
+					<button id="shopping-cart-button" class="button darkbrown profile" style="float:right">SHOPPING CART</button>
 				</div>
 			</div>
 
@@ -44,88 +44,44 @@
                 <thead>
                     <tr>
                         <th>
-                            Transaction Type
+                            Product Name
                         </th>
                         <th>
-                            Date & Time
-                        </th>
-                        <th>
-                            Bank
-                        </th>
-                        <th>
-                            Amount
+                            Price
                         </th>
                         <th>
                             Description
+                        </th>
+                        <th>
                         </th>
                     </tr>
                 </thead>
                 <tr>
                     <td >
-                        Row 1
+                        Product 01
                     </td>
                     <td>
-                        Row 1
+                        Rp 10.000,-
                     </td>
                     <td>
-                        Row 1
+                        Casio Type X
                     </td>
                     <td>
-                        Row 1
-                    </td>
-                    <td>
-                        Row 1
+                        <button id="buy-product-01" class="button darkbrown profile" style="float:right">buy product</button>   
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Row 2
+                        Product 02
                     </td>
                     <td>
-                        Row 2
+                        Rp 20.000,-
                     </td>
                     <td>
-                        Row 2
+                        Casio Type Y
                     </td>
                     <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        Row 4
-                    </td>
-                    <td>
-                        Row 4
-                    </td>
-                    <td>
-                        Row 4
-                    </td>
-                    <td>
-                        Row 4
-                    </td>
-                    <td>
-                        Row 4
+                        <button id="buy-product-02" class="button darkbrown profile" style="float:right">buy product</button> 
                     </td>
                 </tr>
             </table>
@@ -135,10 +91,9 @@
         <div id="subbuttons-wrapper" style="overflow:visible;">
         	<div class="table">
         		<div class="column">
-					<button class="button darkbrown profile" style="float:right">PURCHASE</button>
+					<a href="{{ url('/customers/purchase-success') }}"><button class="button darkbrown profile">PURCHASE</button></a>
         		</div>
         	</div>
-        	
         </div>
 
 	</div>

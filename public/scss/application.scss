@@ -238,6 +238,11 @@ footer.footer-admin {
 }
 
 /* Button Style */
+.linked-button a {
+  text-decoration: none;
+  display: inline-block;
+}
+
 .button {
   border: 0 none;
   border-radius: 2px 2px 2px 2px;

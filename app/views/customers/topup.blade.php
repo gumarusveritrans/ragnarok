@@ -23,12 +23,13 @@
 
     <div id="transaction-box-wrapper">
 
-      {{ Form::open() }}
+      {{ Form::open(array('url' => 'topup-form', 'method' => 'post')) }}
 
         <div id="transaction-form-wrapper">
           <div>
             {{ Form::label('topup_amount', 'Top-Up Amount') }}
             {{ Form::text('topup_amount', '', array('class' => 'form-control')) }}
+            @if ($errors->has('topup_amount')) <p class="error-message">{{ $errors->first('topup_amount') }}</p> @endif
           </div>
           <br/>
           <div class="block">
@@ -48,7 +49,7 @@
         Confirm top-up to proceed the transaction with Permata VA Account.
       </p>
       <div class="block">
-          <button class="button darkbrown profile">INCREASE LIMIT</button>
+          <a href="{{ url('/customers/increase-limit') }}"><button class="button darkbrown profile">INCREASE LIMIT</button></a>
       </div>
     </div>
 
