@@ -6,6 +6,7 @@ Route::get('/contact', 'ConnectPagesController@contact');
 Route::get('/pricing', 'ConnectPagesController@pricing');
 Route::get('/product', 'ConnectPagesController@product');
 Route::get('/login', 'CustomersController@login');
+Route::post('/login', 'CustomersController@login');
 Route::get('/register', 'CustomersController@register');
 
 Route::get('/customers/dashboard', 'CustomersController@dashboard');
@@ -22,6 +23,7 @@ Route::get('/customers/purchase-success', 'CustomersController@purchase_success'
 Route::get('/customers/topup', 'CustomersController@topup');
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/purchase', 'CustomersController@purchase');
+Route::post('/customers/logout', array('as' => 'customer_logout','uses'=>'CustomersController@logout'));
 Route::get('/customers/register-success', 'CustomersController@register_success');
 
 Route::get('/admin/login', 'AdminController@login');
