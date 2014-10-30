@@ -46,8 +46,8 @@
               </ul>
             </div>
             <div id="login-register-wrapper" class="block">
-              <button class="button orange centered">LOGIN</button>
-              <button class="button darkbrown centered">REGISTER</button>
+              <a href="{{ url('/login') }}"><button class="button orange centered">LOGIN</button></a>
+              <a href="{{ url('/register') }}"><button class="button darkbrown centered">REGISTER</button></a>
             </div>
         @endif
       </header>

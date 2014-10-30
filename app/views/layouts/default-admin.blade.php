@@ -7,6 +7,7 @@
     {{ HTML::style('css/connect_pages.css') }}
     {{ HTML::style('css/users.css') }}
     {{ HTML::script('js/jquery-1.11.1.min.js') }}
+    {{ HTML::script('js/jquery-ui.min.js') }}
   </head>
   <body>
     <div id="body-wrapper">

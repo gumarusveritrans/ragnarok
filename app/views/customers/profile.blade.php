@@ -58,7 +58,7 @@
     <div class="profile-box-wrapper">
       <div id="close-account-box" class="profile-box-container" style="display: none">
 
-        {{ Form::open() }}
+        {{ Form::open(array('url' => 'close-account-form', 'method' => 'post')) }}
 
           <div class="profile-box-form">
             <h2>CLOSE ACCOUNT</h2>
@@ -67,18 +67,21 @@
             </p>
 
             <div>
-              {{ Form::label('current_password', 'Current Password') }}
-              {{ Form::password('current_password', array('class' => 'form-control')) }}
+              {{ Form::label('account_bank', 'Account Bank') }}
+              {{ Form::text('account_bank', '', array('class' => 'form-control')) }}
+              @if ($errors->has('account_bank')) <p class="error-message">{{ $errors->first('account_bank') }}</p> @endif
             </div>
 
             <div>
-              {{ Form::label('password', 'Password') }}
-              {{ Form::password('password', array('class' => 'form-control')) }}
+              {{ Form::label('account_number', 'Account Number') }}
+              {{ Form::text('account_number', '', array('class' => 'form-control')) }}
+              @if ($errors->has('account_number')) <p class="error-message">{{ $errors->first('account_number') }}</p> @endif
             </div>
 
             <div>
-              {{ Form::label('password_confirmation', 'Password Confirmation') }}
-              {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
+              {{ Form::label('account_name', 'Account Name') }}
+              {{ Form::text('account_name', '', array('class' => 'form-control')) }}
+              @if ($errors->has('account_name')) <p class="error-message">{{ $errors->first('account_name') }}</p> @endif
             </div>
 
             <div class="block">
@@ -92,7 +95,7 @@
 
       <div id="change-password-box" class="profile-box-container" style="display: none"> 
         
-        {{ Form::open() }}
+        {{ Form::open(array('url' => 'change-password-form', 'method' => 'post')) }}
 
           <div class="profile-box-form">
             <h2>CHANGE PASSWORD</h2>
@@ -100,16 +103,19 @@
             <div>
               {{ Form::label('current_password', 'Current Password') }}<br />
               {{ Form::password('current_password', array('class' => 'form-control')) }}
+              @if ($errors->has('current_password')) <p class="error-message">{{ $errors->first('current_password') }}</p> @endif
             </div>
 
             <div>
               {{ Form::label('password', 'Password') }}<br />
               {{ Form::password('password', array('class' => 'form-control')) }}
+              @if ($errors->has('password')) <p class="error-message">{{ $errors->first('password') }}</p> @endif
             </div>
 
             <div>
               {{ Form::label('password_confirmation', 'Password Confirmation') }}<br />
               {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
+              @if ($errors->has('password_confirmation')) <p class="error-message">{{ $errors->first('password_confirmation') }}</p> @endif
             </div>
 
             <div class="block">

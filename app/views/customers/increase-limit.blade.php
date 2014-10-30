@@ -87,6 +87,19 @@
 		<div id="upload-id-card" style="display:none">
 			<h2 style="text-align:left">Step 3 of 3 - Upload ID Card</h2>
 			<div>
+			        {{ Form::open(array('url'=>'apply/upload','method'=>'POST', 'files'=>true)) }}
+				    <div class="control-group">
+				        <div class="controls">
+				        	{{ Form::file('image') }}
+				      		<p class="errors">{{$errors->first('image')}}</p>
+				    		@if(Session::has('error'))
+				    		<p class="errors">{{ Session::get('error') }}</p>
+				    		@endif
+				        </div>
+				    </div>
+				    <div id="success"> </div>
+				      {{ Form::submit('Submit', array('class'=>'send-btn')) }}
+				      {{ Form::close() }}
 				<button id="button-3" class="button darkbrown">FINISH</button>
 			</div>
 		</div>
