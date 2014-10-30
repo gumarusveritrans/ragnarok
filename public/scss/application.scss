@@ -273,7 +273,6 @@ footer.footer-admin {
     color: $light-brown;
     &.close-account {
       width: 165px;
-      height: 35px;
       margin-top: 10px;
     }
     &:hover {
@@ -320,9 +319,66 @@ footer.footer-admin {
   &.profile {
     width: 165px;
   }
+  &.admin-notification {
+    width: 125px;
+    height: 40px;
+  }
 }
 
 .button[disabled=disabled], .button:disabled {
     background: none repeat scroll 0 0 $light-gray;
     color: $dark;
+}
+
+.pop-up .button {
+  font-size: 25px;
+  height: 45px;
+}
+
+/* Button for Table */
+.button-table {
+  border: 0 none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 18px;
+  text-transform: none;
+  text-align: center;
+  width: 180px;
+  height: 25px;
+  transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -webkit-transition: all 0.3s ease 0s;
+  &.darkblue {  
+    background: none repeat scroll 0 0 $dark-blue;
+    color: $light-blue;
+    &:hover {
+      background: none repeat scroll 0 0 $cyan;
+      color: $white;
+    }
+  }
+}
+
+.button-close {
+  width: 20px;
+  height: 20px;
+  font-size: 15px;
+  cursor: pointer;
+  display: inline-block;
+  background: none repeat scroll 0 0 $dark-blue;
+  color: $light-blue;
+}
+
+.button-close:hover {
+  background: none repeat scroll 0 0 $cyan;
+  color: $white;
+  transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -webkit-transition: all 0.3s ease 0s; 
+}
+
+.admin-notification-box .button-close {
+  float: right;
 }

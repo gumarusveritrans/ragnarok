@@ -96,8 +96,10 @@ $cyan:         #3ABEEF;
 
 .all-table table{
   border-spacing: 0;
-  width:90%;
+  width: 90%;
   height:100%;
+  float: right;
+  margin-right: 75px;
 }
 
 .all-table.customer tr:nth-child(even){
@@ -118,7 +120,7 @@ $cyan:         #3ABEEF;
 
 .all-table td{
   text-align:left;
-  padding:10px;
+  padding:8px;
   font-size:16px;
 }
 
@@ -288,9 +290,6 @@ $cyan:         #3ABEEF;
   font-size: 15px;
   text-align: justify;
 }
-
-
-
 
 /* Purchase Section */
 .wrapper-dropdown {
