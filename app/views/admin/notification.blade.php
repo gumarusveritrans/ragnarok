@@ -137,13 +137,13 @@
             </table>
         </div>
 
-        <div id="customer-detail-box" class="centered admin-notification-box" style="display: none">
+        <div id="customer-detail-box" class="centered admin-side-box" style="display: none">
             <span id="close-customer-detail" class="button-close">&#10006;</span>
             <h2>Customer Details</h2>
             <br/>
             <h1>daniel.aja</h1>
             <br/>
-            <table id="admin-notification-table">
+            <table id="admin-side-table">
                 <tr>
                     <td>
                         Redeem Amount
@@ -181,14 +181,14 @@
             <button id="close-account-button" class="button darkblue dashboard">Close Account</button>
         </div>
 
-        <div id="confirm-request-box" class="centered admin-notification-box" style="display: none">
+        <div id="confirm-request-box" class="centered admin-side-box" style="display: none">
             <span id="close-confirm-request" class="button-close">&#10006;</span>
             <h2>Customer Details</h2>
             <br/>
             <h1>daniel.aja</h1>
             <br/>
             <img src="" width="100%" height="200px"></img>
-            <table id="admin-notification-table">
+            <table id="admin-side-table">
                 <tr>
                     <td>
                         ID Type
@@ -241,14 +241,13 @@
             <br/>
             <a href="#"><button class="button darkblue admin-notification">ACCEPT</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="#deny"><button id="denial-button" class="button cyan admin-notification">DENY</button></a>
+            <br/><br/>
             <div id="denial-messages-box" style="display: none">
-                <br/>
                 {{ Form::open() }}
                     {{ Form::label('denial_messages', 'Denial Messages') }}
-                    {{ Form::textarea('denial_messages', '', array('class' => 'form-control denial-messages')) }}
+                    {{ Form::textarea('denial_messages', '', array('class' => 'form-control text-area')) }}
+                    {{ Form::submit('SEND', array('class' => 'button darkblue admin-notification')) }}
                 {{ Form::close() }}
-                <br/>
-                <a href="#"><button class="button darkblue admin-notification">SEND</button></a>
             </div>
         </div>
         <div id="pop-up-close-account" class="pop-up" style="display: none">
@@ -284,12 +283,12 @@
         });
 
         $( "#customer-detail-button" ).click(function() {
-            $("#customer-detail-box").delay(400).fadeIn("fast");
+            $("#customer-detail-box").delay(300).fadeIn("fast");
             $("#admin-close-account-table").animate({width:'60%'});
         });
 
         $( "#confirm-request-button" ).click(function() {
-            $("#confirm-request-box").delay(400).fadeIn("fast");
+            $("#confirm-request-box").delay(300).fadeIn("fast");
             $("#admin-increase-limit-table").animate({width:'60%'});
         });
 
@@ -299,12 +298,12 @@
 
         $( "#close-customer-detail" ).click(function() {
             $("#customer-detail-box").fadeOut("fast");
-            $("#admin-close-account-table").delay(400).animate({width:'90%'});
+            $("#admin-close-account-table").delay(300).animate({width:'90%'});
         });
 
         $( "#close-confirm-request" ).click(function() {
             $("#confirm-request-box").fadeOut("fast");
-            $("#admin-increase-limit-table").delay(400).animate({width:'90%'});
+            $("#admin-increase-limit-table").delay(300).animate({width:'90%'});
         });
 
         $( "#close-account-button" ).click(function() {

@@ -62,8 +62,8 @@ $cyan:         #3ABEEF;
   text-align: justify;
 }
 
-/* Admin Notification */
-.admin-notification-box {
+/* Admin Side Box */
+.admin-side-box {
   height: auto;
   width: 350px;
   text-align: center;
@@ -72,25 +72,25 @@ $cyan:         #3ABEEF;
   color: $dark-blue;
 }
 
-.admin-notification-box h1 {
+.admin-side-box h1 {
   font-size: 35px;
   font-weight: normal;
   margin: 0px;
   padding: 10px;
 }
 
-.admin-notification-box h2 {
+.admin-side-box h2 {
   font-size: 25px;
   font-weight: normal;
   margin: 0px;
 }
 
-#admin-notification-table {
+#admin-side-table {
   text-align: left;
   font-size: 20px;
   width: 100%;
 }
-#admin-notification-table td{
+#admin-side-table td{
   padding-bottom: 10px;
   vertical-align: top;
 }
@@ -269,7 +269,7 @@ textarea.form-control {
   height: auto;
 }
 
-.form-control.denial-messages {
+.form-control.text-area {
   max-height: 150px;
   max-width: 324px;
 }
