@@ -1,0 +1,7 @@
+1. Making function getRootUrl() in Configuration.php
+2. Delete static variables in configuration(not used)
+3. Delete set variables in configuration
+4. Change curl userpwd to webservice_username and webservice_password
+5. Change in curl, set session if login or unset session. and if set, set session-token as header
+6. Don't forget set Webservice_Username and Webservice_Password configuration
+7. Session variables for connect are stored in config connect_session file

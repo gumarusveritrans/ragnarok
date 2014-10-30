@@ -10,7 +10,6 @@
   </head>
   <body>
     <div id="body-wrapper">
-
       <header class="header-customer">
         <div id="logo-wrapper" class="block">
           {{ HTML::image('images/logo.png', 'Connect Logo', array('class' => 'centered')) }}
@@ -28,7 +27,9 @@
                   </ul>
                 </li>
                 <li>{{ link_to ("/customers/profile", 'MY PROFILE') }}</li>
-                <li>{{ link_to ("/customers/destroy", 'LOG OUT') }}</li>
+                {{ Form::open(array('route'=> 'customer_logout')) }}
+                  <li>{{ Form::submit('LOG OUT') }}</li>
+                {{ Form::close() }}
               </ul>
             </div>
             <div id="welcome-wrapper" class="customer block">

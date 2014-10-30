@@ -2,6 +2,10 @@
 
 class CustomersController extends BaseController {
 
+	public function __construct(Illuminate\Session\SessionManager $session){
+		$this->session = $session;
+	}
+
 	public function dashboard(){
 		return View::make('/customers/dashboard');
 	}
@@ -10,8 +14,59 @@ class CustomersController extends BaseController {
 		return View::make('/customers/profile');
 	}
 
-	public function login(){	
-		return View::make('/customers/login');
+	public function login(){
+		if(Session::get('cyclos_session_token') != null){
+			return Redirect::to('/');
+		}
+		if(Request::getMethod()=='GET'){
+			return View::make('/customers/login');	
+		}else if(Request::getMethod()=='POST'){
+			$loginService = new Cyclos\Service('loginService',$this->session);
+
+			// Set the parameters
+			$params = new stdclass();
+			$params->user = array('username' => $_POST['email']);
+			$params->password = $_POST['password'];
+			$params->remoteAddress = $_SERVER['REMOTE_ADDR'];
+
+			// Perform the login
+			try {
+				$result = $loginService->run('loginUser',$params);
+				print_r($result);
+				//Session::put('cyclos_session_token',$result->sessionToken);
+				//Session::put('cyclos_username',$params->user);
+				//Session::put('cyclos_remote_address',$params->remoteAddress);
+				//return Redirect::to('/customers/dashboard');
+			} catch (Cyclos\ConnectionException $e) {
+				echo("Cyclos server couldn't be contacted");
+				die();
+			} catch (Cyclos\ServiceException $e) {
+				switch ($e->errorCode) {
+					case 'VALIDATION':
+						echo("Missing username / password");
+						break;
+					case 'LOGIN':
+						echo("Invalid username / password");
+						break;
+					case 'REMOTE_ADDRESS_BLOCKED':
+						echo("Your access is blocked by exceeding invalid login attempts");
+						break;
+					default:
+						echo("Error while performing login: {$e->errorCode}");
+						break;
+				}
+				die();
+			}
+		}
+		
+	}
+
+	public function logout(){
+		$loginService = new Cyclos\LoginService();
+		$result = $loginService->logout();
+		Session::flush();
+		print_r($result);
+		//return Redirect::to("/");
 	}
 
 	public function register(){	
