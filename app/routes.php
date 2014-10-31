@@ -1,6 +1,8 @@
 <?php
 
 Route::get('/', 'ConnectPagesController@home');
+
+//Route for Connect Pages
 Route::get('/about', 'ConnectPagesController@about');
 Route::get('/contact', 'ConnectPagesController@contact');
 Route::get('/pricing', 'ConnectPagesController@pricing');
@@ -9,6 +11,7 @@ Route::get('/login', 'CustomersController@login');
 Route::post('/login', 'CustomersController@login');
 Route::get('/register', 'CustomersController@register');
 
+//Route for Customers Sectiion
 Route::get('/customers/dashboard', 'CustomersController@dashboard');
 Route::get('/customers/profile', 'CustomersController@profile');
 Route::get('/customers/transaction', 'CustomersController@transaction');
@@ -25,19 +28,6 @@ Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/purchase', 'CustomersController@purchase');
 Route::post('/customers/logout', array('as' => 'customer_logout','uses'=>'CustomersController@logout'));
 Route::get('/customers/register-success', 'CustomersController@register_success');
-
-Route::get('/admin/login', 'AdminController@login');
-Route::get('/admin/login', 'AdminController@login');
-Route::get('/admin/dashboard', 'AdminController@dashboard');
-Route::get('/admin/notification', 'AdminController@notification');
-Route::get('/admin/manage-user', 'AdminController@manage_user');
-
-
-Route::get('upload', function() {
-  return View::make('customers.increase-limit');
-});
-Route::post('apply/upload', 'CustomersController@upload');
-
 //Route for Validation Form
 Route::post('register-form', 'CustomersController@validate_registration_form');
 Route::post('login-form', 'CustomersController@validate_login_form');
@@ -45,3 +35,22 @@ Route::post('topup-form', 'CustomersController@validate_topup_form');
 Route::post('transfer-form', 'CustomersController@validate_transfer_form');
 Route::post('close-account-form', 'CustomersController@validate_close_account_form');
 Route::post('change-password-form', 'CustomersController@validate_change_password_form');
+
+Route::get('upload', function() {
+  return View::make('customers.increase-limit');
+});
+Route::post('apply/upload', 'CustomersController@upload');
+
+//Route for Admin Section
+Route::get('/admin/login', 'AdminController@login');
+Route::get('/admin/login', 'AdminController@login');
+Route::get('/admin/dashboard', 'AdminController@dashboard');
+Route::get('/admin/notification', 'AdminController@notification');
+Route::get('/admin/manage-user', 'AdminController@manage_user');
+//Route for Validation Form
+Route::post('admin-login-form', 'AdminController@validate_login_form');
+
+
+
+
+

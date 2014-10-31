@@ -27,9 +27,10 @@
                   </ul>
                 </li>
                 <li>{{ link_to ("/customers/profile", 'MY PROFILE') }}</li>
-                {{ Form::open(array('route'=> 'customer_logout')) }}
+                <li>{{ link_to ("/customers_logout", 'LOG OUT') }}</li>
+<!--                 {{ Form::open(array('route'=> 'customer_logout')) }}
                   <li>{{ Form::submit('LOG OUT') }}</li>
-                {{ Form::close() }}
+                {{ Form::close() }} -->
               </ul>
             </div>
             <div id="welcome-wrapper" class="customer block">

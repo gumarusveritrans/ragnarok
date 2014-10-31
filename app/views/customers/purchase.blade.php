@@ -189,6 +189,14 @@
         <a href="{{ url('/customers/purchase-success') }}"><button class="button darkbrown profile">PURCHASE</button></a>       
     </div>
 
+    <div id="pop-up-buy-success" class="pop-up-customer" style="display: none">
+        <h1>ADDED TO CART</h1>
+        <br/>
+        <h2>This product has been added to your shopping cart!</h2>
+        <br/>
+        <button id="ok-buy-success" class="button darkbrown profile">OK</button>
+    </div>
+
 <script type="text/javascript">
 			
 	function DropDown(el) {
@@ -251,6 +259,19 @@
         $( "#close-shopping-cart" ).click(function() {
             $("#pop-up-shopping-cart").fadeOut("fast");
         });
+
+        $( "#buy-button" ).click(function() {
+            $("#pop-up-buy-product").fadeOut("fast");
+            $("#pop-up-buy-success").fadeIn("fast"); 
+        });
+
+        $( "#ok-buy-success" ).click(function() {
+            $("#pop-up-buy-success").fadeOut("fast"); 
+        });
+
+
+
+
 
 	});
 

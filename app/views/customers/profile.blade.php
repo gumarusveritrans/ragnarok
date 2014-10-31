@@ -148,6 +148,14 @@
       $("#close-account-button").addClass('lightbrown');
       $(this).addClass('orange');
     });
+
+  $(document).ready(function(){
+    var close_account_path = location.href.split("#")[1];
+    if(close_account_path == "close-account") {
+      $( "#close-account-button" ).trigger("click");
+    }
+  });
+      
     
   </script>
 

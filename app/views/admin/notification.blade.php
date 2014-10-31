@@ -239,7 +239,7 @@
                 </tr>
             </table>
             <br/>
-            <a href="#"><button class="button darkblue admin-notification">ACCEPT</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button id="accept-increase-limit-button" class="button darkblue admin-notification">ACCEPT</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="#deny"><button id="denial-button" class="button cyan admin-notification">DENY</button></a>
             <br/><br/>
             <div id="denial-messages-box" style="display: none">
@@ -253,8 +253,18 @@
         <div id="pop-up-close-account" class="pop-up" style="display: none">
             <h1>CLOSE ACCOUNT</h1>
             <h2>Are you sure to close user's account?</h2>
-            <a href=""><button id="yes-close-account" class="button darkblue admin-notification">YES</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button id="yes-close-account" class="button darkblue admin-notification">YES</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="no-close-account" class="button cyan admin-notification">NO</button>
+        </div>
+        <div id="pop-up-close-account-confirmed" class="pop-up" style="display: none">
+            <h1>CLOSE ACCOUNT</h1>
+            <h2>User Account has been closed successfully!</h2>
+            <button id="ok-close-account" class="button darkblue admin-notification">OK</button>
+        </div>
+        <div id="pop-up-confirm-request" class="pop-up" style="display: none">
+            <h1>CONFIRMED</h1>
+            <h2>User Account's Limit has been increased successfully!</h2>
+            <button id="ok-confirm-request" class="button darkblue admin-notification">OK</button>
         </div>
     </div>
 
@@ -313,6 +323,23 @@
         $( "#no-close-account" ).click(function() {
             $("#pop-up-close-account").fadeOut("fast");
         });
+
+        $( "#yes-close-account" ).click(function() {
+            $("#pop-up-close-account").fadeOut("fast");
+            $("#pop-up-close-account-confirmed").fadeIn("fast");
+        });
+
+        $( "#ok-close-account" ).click(function() {
+            $("#pop-up-close-account-confirmed").fadeOut("fast");
+        });
+
+        $( "#accept-increase-limit-button" ).click(function() {
+            $("#pop-up-confirm-request").fadeIn("fast");
+        });
+
+        $( "#ok-confirm-request" ).click(function() {
+            $("#pop-up-confirm-request").fadeOut("fast");
+        });        
 
         //$( "#customer-detail-button" ).click(function() {
         //   $("td:nth-child(2),th:nth-child(2)").hide();
