@@ -5,7 +5,7 @@
         <span class="subtitle admin">NOTIFICATION</span>
     </div>
 
-    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="blue"/>
+    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="blue" style="margin-top: -10px;">
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
@@ -32,14 +32,14 @@
                     </tr>
                 </thead>
                 <tr>
-                    <td >
-                        Row 1
+                    <td>
+                        RID999999999
                     </td>
                     <td>
-                        Row 1
+                        16/10/2014 18:10:14
                     </td>
                     <td>
-                        Row 1
+                        gumarus.dharmawan.william
                     </td>
                     <td>
                         <a href="#customer-detail"><button id="customer-detail-button" class="button-table darkblue dashboard">Customer Details</button></a>
@@ -94,13 +94,13 @@
                 </thead>
                 <tr>
                     <td>
-                        Row 1
+                        RID999999999
                     </td>
                     <td>
-                        Row 1
+                        16/10/2014 18:10:14
                     </td>
                     <td>
-                        Row 1
+                        gumarus.dharmawan.william
                     </td>
                     <td>
                         <a href="#confirm-request"><button id="confirm-request-button" class="button-table darkblue dashboard">Confirm Request</button></a>
@@ -252,7 +252,7 @@
         </div>
         <div id="pop-up-close-account" class="pop-up" style="display: none">
             <h1>CLOSE ACCOUNT</h1>
-            <h2>Are you sure to close user's account?</h2>
+            <h2>Are you sure want to close user's account?</h2>
             <button id="yes-close-account" class="button darkblue admin-notification">YES</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="no-close-account" class="button cyan admin-notification">NO</button>
         </div>
@@ -274,10 +274,11 @@
           $( "#admin-increase-limit-table" ).hide();
           $( "#admin-close-account-table" ).fadeIn("fast");
           $("#admin-increase-limit-button").removeClass('cyan');
-          $("#admin-close-account-table").css("width","90%");
-          $("#admin-increase-limit-table").css("width","90%");
+          $("#admin-close-account-table").css("width","1230px");
+          $("#admin-increase-limit-table").css("width","1230px");
           $("#customer-detail-box").hide();
           $("#confirm-request-box").hide();
+          $("#pop-up-close-account").hide();
           $(this).addClass('cyan');
         });
 
@@ -285,21 +286,23 @@
           $( "#admin-close-account-table" ).hide();
           $( "#admin-increase-limit-table" ).fadeIn("fast");
           $("#admin-close-account-button").removeClass('cyan');
-          $("#admin-close-account-table").css("width","90%");
-          $("#admin-increase-limit-table").css("width","90%");
+          $("#admin-close-account-table").css("width","1230px");
+          $("#admin-increase-limit-table").css("width","1230px");
           $("#customer-detail-box").hide();
           $("#confirm-request-box").hide();
+          $("#pop-up-close-account").hide();
           $(this).addClass('cyan');
         });
 
         $( "#customer-detail-button" ).click(function() {
             $("#customer-detail-box").delay(300).fadeIn("fast");
-            $("#admin-close-account-table").animate({width:'60%'});
+            $("#admin-close-account-table").animate({width:'820px'});
+            $("#pop-up-close-account").hide();
         });
 
         $( "#confirm-request-button" ).click(function() {
             $("#confirm-request-box").delay(300).fadeIn("fast");
-            $("#admin-increase-limit-table").animate({width:'60%'});
+            $("#admin-increase-limit-table").animate({width:'820px'});
         });
 
         $( "#denial-button" ).click(function() {
@@ -308,12 +311,13 @@
 
         $( "#close-customer-detail" ).click(function() {
             $("#customer-detail-box").fadeOut("fast");
-            $("#admin-close-account-table").delay(300).animate({width:'90%'});
+            $("#admin-close-account-table").delay(300).animate({width:'1230px'});
+            $("#pop-up-close-account").hide();
         });
 
         $( "#close-confirm-request" ).click(function() {
             $("#confirm-request-box").fadeOut("fast");
-            $("#admin-increase-limit-table").delay(300).animate({width:'90%'});
+            $("#admin-increase-limit-table").delay(300).animate({width:'1230px'});
         });
 
         $( "#close-account-button" ).click(function() {
@@ -340,10 +344,6 @@
         $( "#ok-confirm-request" ).click(function() {
             $("#pop-up-confirm-request").fadeOut("fast");
         });        
-
-        //$( "#customer-detail-button" ).click(function() {
-        //   $("td:nth-child(2),th:nth-child(2)").hide();
-        //});
 
     </script>
 @stop
