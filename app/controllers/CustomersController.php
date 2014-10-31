@@ -117,32 +117,37 @@ class CustomersController extends BaseController {
 		return View::make('/customers/purchase-success');
 	}
 
+	public function getUploadForm() {
+        return View::make('image/upload-form');
+    }
+
 	public function upload() {
 	  // getting all of the post data
 	  $file = array('image' => Input::file('image'));
 	  // setting up rules
-	  $rules = array('image' => 'required',); //mimes:jpeg,bmp,png and for max size max:10000
+	  $rules = array('image' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
 	  // doing the validation, passing post data, rules and the messages
 	  $validator = Validator::make($file, $rules);
 	  if ($validator->fails()) {
 	    // send back to the page with the input data and errors
-	    return Redirect::to('upload')->withInput()->withErrors($validator);
+	    return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
 	  }
 	  else {
 	    // checking file is valid.
 	    if (Input::file('image')->isValid()) {
-	      $destinationPath = 'uploads'; // upload path
+	      $destinationPath = 'uploads/'; // upload path
 	      $extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
 	      $fileName = rand(11111,99999).'.'.$extension; // renameing image
-	      Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
+	      Input::file('image')->move('public/uploads/', $fileName); // uploading file to given path
 	      // sending back with message
 	      Session::flash('success', 'Upload successfully'); 
-	      return Redirect::to('upload');
+	      return Response::json(['success' => true, 'file' => asset($destinationPath.$fileName)]);
+	      // return Redirect::to('customers/increase-limit-success');
 	    }
 	    else {
 	      // sending back with error message.
 	      Session::flash('error', 'uploaded file is not valid');
-	      return Redirect::to('upload');
+	      return Redirect::to('customers/increase-limit#upload-id-card');
 	    }
 	  }
 	}
@@ -444,7 +449,7 @@ class CustomersController extends BaseController {
 
 	}
 
-	public function validate_increase_limit_form(){
+	public function validate_user_information_form(){
 		// process the form here
 
 		// create the validation rules ------------------------
@@ -472,7 +477,7 @@ class CustomersController extends BaseController {
 			// also redirect them back with old inputs so they dont have to fill out the form again
 			// but we wont redirect them with the password they entered
 
-			return Redirect::to('/customers/profile#user-information')
+			return Redirect::to('/customers/increase-limit#user-information')
 				->withErrors($validator);
 
 		} else {
@@ -492,7 +497,7 @@ class CustomersController extends BaseController {
 
 			// redirect ----------------------------------------
 			// redirect our user back to the form so they can do it all over again
-			return Redirect::to('customers/change-password-success');
+			return Redirect::to('customers/increase-limit#upload-id-card');
 		}
 
 	}
