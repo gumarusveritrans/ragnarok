@@ -5,7 +5,7 @@
         <span class="subtitle admin">DASHBOARD</span>
     </div>
 
-    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="blue"/>
+    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="blue" style="margin-top: -10px;">
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
@@ -37,19 +37,19 @@
                 </thead>
                 <tr>
                     <td >
-                        Row 1
+                        PID99999999
                     </td>
                     <td>
-                        Row 1
+                        16/10/2014 18:10:14
                     </td>
                     <td>
-                        Row 1
+                        gumarus.dharmawan.william
                     </td>
                     <td>
-                        Row 1
+                        Rp 5.000.000,00
                     </td>
                     <td>
-                        Row 1
+                        Garuda Indonesia
                     </td>
                 </tr>
                 <tr>
@@ -110,19 +110,19 @@
                 </thead>
                 <tr>
                     <td >
-                        Row 1
+                        TID99999999
                     </td>
                     <td>
-                        Row 1
+                        16/10/2014 18:10:14
                     </td>
                     <td>
-                        Row 1
+                        gumarus.dharmawan.william
                     </td>
                     <td>
-                        Row 1
+                        Rp 5.000.000,00
                     </td>
                     <td>
-                        Row 1
+                        gumarus.darmawan.william
                     </td>
                 </tr>
                 <tr>
@@ -183,19 +183,19 @@
                 </thead>
                 <tr>
                     <td >
-                        Row 1
+                        TUID99999999
                     </td>
                     <td>
-                        Row 1
+                        16/10/2014 18:10:14
                     </td>
                     <td>
-                        Row 1
+                        gumarus.dharmawan.william
                     </td>
                     <td>
-                        Row 1
+                        Rp 5.000.000,00
                     </td>
                     <td>
-                        Row 1
+                        Inactive
                     </td>
                 </tr>
                 <tr>
