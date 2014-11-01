@@ -47,10 +47,10 @@ Route::post('topup-form', 'CustomersController@validate_topup_form');
 Route::post('transfer-form', 'CustomersController@validate_transfer_form');
 Route::post('close-account-form', 'CustomersController@validate_close_account_form');
 Route::post('change-password-form', 'CustomersController@validate_change_password_form');
-Route::post('apply/upload', 'CustomersController@upload');
-Route::get('upload', function() {
-  return View::make('customers.increase-limit');
-});
+
+Route::post('user-information-form', 'CustomersController@validate_user_information_form');
+Route::post('upload-id-card', 'CustomersController@upload');
+Route::get('/upload', 'CustomersController@getUploadForm');
 
 //Route for Validation Form
 Route::post('admin-login-form', 'AdminController@validate_login_form');

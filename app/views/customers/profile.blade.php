@@ -119,7 +119,7 @@
             </div>
 
             <div class="block">
-              {{ Form::submit('Redeem & Close', array('class' => 'button darkbrown close-account')) }}
+              {{ Form::submit('Change Password', array('class' => 'button darkbrown close-account')) }}
             </div>
           </div>
         
@@ -154,8 +154,12 @@
     if(close_account_path == "close-account") {
       $( "#close-account-button" ).trigger("click");
     }
-  });
-      
+
+    var change_password_path = location.href.split("#")[1];
+    if(change_password_path == "change-password") {
+      $( "#change-password-button" ).trigger("click");
+    }
+  });  
     
   </script>
 

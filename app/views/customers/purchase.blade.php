@@ -149,7 +149,7 @@
         <div class="table-box-content">
             <table>
                 <tr>
-                    <td>Product 01</td>
+                    <td>Product 01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
                     <td>Rp 10.000,-</td>
                     <td>CASIO TYPE X</td>
                     <td>1</td>
