@@ -11,6 +11,11 @@ $dark-blue:    #262261;
 $light-blue:   #BDCAD2;
 $cyan:         #3ABEEF;
 $red:          #ff0000;
+$light-gray:   #F8F8FF;
+$dark-orange:  #F7931D;
+$light-red:    #E0A2A8;
+$dark-red:     #BE1E2D;
+
 
 /* Login and Register Form */
 #login-register-form {
@@ -33,6 +38,11 @@ $red:          #ff0000;
 .form-container.admin {
   background: $light-blue;
   color: $dark-blue;
+}
+
+.form-container.merchant {
+  background: $light-red;
+  color: $dark-red;
 }
 
 .form-wrapper {
@@ -107,13 +117,22 @@ $red:          #ff0000;
   width: 450px;
   text-align: center;
   padding: 25px;
-  background: $light-blue;
-  color: $dark-blue;
   border: 1px solid;
-  border-color: $dark-blue;
   position: absolute;
   top: 35%;
   left: 32%;
+}
+
+.pop-up.admin {
+  background: $light-blue;
+  color: $dark-blue;
+  border-color: $dark-blue;
+}
+
+.pop-up.merchant {
+  background: $light-red;
+  color: $dark-red;
+  border-color: $dark-red;
 }
 
 .pop-up h1 {
@@ -182,9 +201,11 @@ $red:          #ff0000;
 }
 
 .line-center.admin{
-  padding:0 10px;
   background: $light-blue;
-  display:inline-block;
+}
+
+.line-center.merchant{
+  background: $light-red;
 }
 
 .line-title {
@@ -210,6 +231,10 @@ $red:          #ff0000;
 
 .admin.line-title:after{
   border-top:solid 2px $dark-blue;
+}
+
+.merchant.line-title:after{
+  border-top:solid 2px $dark-red;
 }
 
 /* Table Style */

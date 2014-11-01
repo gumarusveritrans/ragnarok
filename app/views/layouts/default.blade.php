@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Ragnarok</title>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
     {{ HTML::style('css/application.css') }}
     {{ HTML::style('css/connect_pages.css') }}
     {{ HTML::style('css/users.css') }}
