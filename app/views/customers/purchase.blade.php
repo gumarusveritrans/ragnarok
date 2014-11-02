@@ -98,8 +98,8 @@
 
 	</div>
 
-    <div id="pop-up-buy-product" class="pop-up-customer" style="display: none">
-        <span id="close-buy-product" class="button-close">&#10006;</span>
+    <div id="pop-up-buy-product" class="pop-up customer" style="display: none">
+        <span id="close-buy-product" class="button-close customer">&#10006;</span>
         <h1>BUY PRODUCT</h1>
         <br/>
         <div class="table">
@@ -132,8 +132,8 @@
     </div>
 
 
-    <div id="pop-up-shopping-cart" class="pop-up-customer" style="display: none">
-        <span id="close-shopping-cart" class="button-close">&#10006;</span>
+    <div id="pop-up-shopping-cart" class="pop-up customer" style="display: none">
+        <span id="close-shopping-cart" class="button-close customer">&#10006;</span>
         <h1>SHOPPING CART</h1>
         <br/>
         <table>
@@ -189,7 +189,7 @@
         <a href="{{ url('/customers/purchase-success') }}"><button class="button darkbrown profile">PURCHASE</button></a>       
     </div>
 
-    <div id="pop-up-buy-success" class="pop-up-customer" style="display: none">
+    <div id="pop-up-buy-success" class="pop-up customer" style="display: none">
         <h1>ADDED TO CART</h1>
         <br/>
         <h2>This product has been added to your shopping cart!</h2>
@@ -232,9 +232,7 @@
 	}
 
 	$(function() {
-
 		var dd = new DropDown( $('#dd') );
-
 		$(document).click(function() {
 			// all dropdowns
 			$('.wrapper-dropdown').removeClass('active');
@@ -268,11 +266,6 @@
         $( "#ok-buy-success" ).click(function() {
             $("#pop-up-buy-success").fadeOut("fast"); 
         });
-
-
-
-
-
 	});
 
 </script>

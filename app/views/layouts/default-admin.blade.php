@@ -3,10 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>Ragnarok Admin</title>
-    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
-    {{ HTML::style('css/application.css') }}
-    {{ HTML::style('css/connect_pages.css') }}
-    {{ HTML::style('css/users.css') }}
+    <link rel="shortcut icon" href="{{ asset('images/favicon_admin.ico') }}">
+    {{ HTML::style('css/default.css') }}
+    {{ HTML::style('css/forms.css') }}
+    {{ HTML::style('css/tables.css') }}
+    {{ HTML::style('css/buttons.css') }}
+    {{ HTML::style('css/admin.css') }}
     {{ HTML::script('js/jquery-1.11.1.min.js') }}
     {{ HTML::script('js/jquery-ui.min.js') }}
   </head>

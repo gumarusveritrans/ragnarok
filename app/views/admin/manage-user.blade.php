@@ -185,7 +185,7 @@
             </table>
         </div>
         <div id="profile-box" class="centered admin-side-box" style="display: none">
-            <span id="close-profile" class="button-close">&#10006;</span>
+            <span id="close-profile" class="button-close admin">&#10006;</span>
             <h2>Customer Details</h2>
             <br/>
             <h1>daniel.aja</h1>
@@ -242,7 +242,7 @@
             </table>
         </div>
         <div id="add-product-box" class="centered admin-side-box" style="display: none">
-            <span id="close-add-product" class="button-close">&#10006;</span>
+            <span id="close-add-product" class="button-close admin">&#10006;</span>
             <h1>Add Product</h1>
             {{ Form::open() }}
                 {{ Form::label('product_name', 'Product Name') }}
@@ -258,7 +258,7 @@
             {{ Form::close() }}
         </div>
         <div id="create-merchant-box" class="centered admin-side-box" style="display: none">
-            <span id="close-create-merchant" class="button-close">&#10006;</span>
+            <span id="close-create-merchant" class="button-close admin">&#10006;</span>
             <h1>Create Merchant</h1>
             {{ Form::open() }}
                 {{ Form::label('merchant', 'Merchant Name') }}

@@ -138,7 +138,7 @@
         </div>
 
         <div id="customer-detail-box" class="centered admin-side-box" style="display: none">
-            <span id="close-customer-detail" class="button-close">&#10006;</span>
+            <span id="close-customer-detail" class="button-close admin">&#10006;</span>
             <h2>Customer Details</h2>
             <br/>
             <h1>daniel.aja</h1>
@@ -182,7 +182,7 @@
         </div>
 
         <div id="confirm-request-box" class="centered admin-side-box" style="display: none">
-            <span id="close-confirm-request" class="button-close">&#10006;</span>
+            <span id="close-confirm-request" class="button-close admin">&#10006;</span>
             <h2>Customer Details</h2>
             <br/>
             <h1>daniel.aja</h1>

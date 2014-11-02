@@ -28,7 +28,7 @@
                             Customer Name
                         </th>
                         <th>
-                            Gross Amount
+                            Amount
                         </th>
                         <th>
                             Merchant Name
