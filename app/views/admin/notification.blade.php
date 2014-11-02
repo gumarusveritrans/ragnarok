@@ -250,18 +250,18 @@
                 {{ Form::close() }}
             </div>
         </div>
-        <div id="pop-up-close-account" class="pop-up" style="display: none">
+        <div id="pop-up-close-account" class="admin pop-up" style="display: none">
             <h1>CLOSE ACCOUNT</h1>
             <h2>Are you sure want to close user's account?</h2>
             <button id="yes-close-account" class="button darkblue admin-notification">YES</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="no-close-account" class="button cyan admin-notification">NO</button>
         </div>
-        <div id="pop-up-close-account-confirmed" class="pop-up" style="display: none">
+        <div id="pop-up-close-account-confirmed" class="admin pop-up" style="display: none">
             <h1>CLOSE ACCOUNT</h1>
             <h2>User Account has been closed successfully!</h2>
             <button id="ok-close-account" class="button darkblue admin-notification">OK</button>
         </div>
-        <div id="pop-up-confirm-request" class="pop-up" style="display: none">
+        <div id="pop-up-confirm-request" class="admin pop-up" style="display: none">
             <h1>CONFIRMED</h1>
             <h2>User Account's Limit has been increased successfully!</h2>
             <button id="ok-confirm-request" class="button darkblue admin-notification">OK</button>

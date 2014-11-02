@@ -10,6 +10,11 @@ $white:        #FFFFFF;
 $dark-blue:    #262261;
 $light-blue:   #BDCAD2;
 $cyan:         #3ABEEF;
+$red:          #ff0000;
+$light-gray:   #F8F8FF;
+$dark-orange:  #F7931D;
+$light-red:    #E0A2A8;
+$dark-red:     #BE1E2D;
 
 /* Header Style */
 #welcome-wrapper {
@@ -28,6 +33,10 @@ $cyan:         #3ABEEF;
 
 #welcome-wrapper.admin {
   color: $cyan;
+}
+
+#welcome-wrapper.merchant {
+  color: $dark-orange;
 }
 
 /* Content Style */
@@ -51,6 +60,11 @@ $cyan:         #3ABEEF;
 
 .subtitle.admin {
   color: $dark-blue;
+  line-height: 50px;
+}
+
+.subtitle.merchant {
+  color: $dark-red;
   line-height: 50px;
 }
 
@@ -122,6 +136,14 @@ $cyan:         #3ABEEF;
   background-color:$white;
 }
 
+.all-table.merchant tr:nth-child(even){
+  background-color:$light-red;
+}
+
+.all-table.merchant tr:nth-child(odd){
+  background-color:$white;
+}
+
 .all-table td{
   text-align:left;
   padding: 8px 10px;
@@ -139,6 +161,10 @@ $cyan:         #3ABEEF;
   color:$dark-blue;
 }
 
+.all-table.merchant td{
+  color:$dark-red;
+}
+
 .all-table thead th{
   text-align:left;
   font-size:17px;
@@ -151,10 +177,14 @@ $cyan:         #3ABEEF;
   color:$light-brown;
 }
 
-
 .all-table.admin thead th{
   background-color:$dark-blue;
   color:$light-blue;
+}
+
+.all-table.merchant thead th{
+  background-color:$dark-red;
+  color:$light-red;
 }
 
 /* Set Width Purchase Table */
@@ -339,6 +369,63 @@ $cyan:         #3ABEEF;
 #admin-manage-user-merchant-table th:nth-child(6),
 #admin-manage-user-merchant-table td:nth-child(6){
   width: 150px;
+}
+
+/* Set Width Merchant Transaction Table */
+#merchant-transaction-table th:nth-child(1),
+#merchant-transaction-table td:nth-child(1){
+  width: 170px;
+}
+
+#merchant-transaction-table th:nth-child(2),
+#merchant-transaction-table td:nth-child(2){
+  width: 200px;
+}
+
+#merchant-transaction-table th:nth-child(3),
+#merchant-transaction-table td:nth-child(3){
+  width: 350px;
+}
+
+#merchant-transaction-table th:nth-child(4),
+#merchant-transaction-table td:nth-child(4){
+  width: 180px;
+}
+
+#merchant-transaction-table th:nth-child(5),
+#merchant-transaction-table td:nth-child(5){
+  width: 130px;
+}
+
+#merchant-transaction-table th:nth-child(6),
+#merchant-transaction-table td:nth-child(6){
+  width: 100px;
+}
+
+#merchant-transaction-table th:nth-child(7),
+#merchant-transaction-table td:nth-child(7){
+  width: 100px;
+}
+
+/* Set Width List Products Table */
+#admin-close-account-table th:nth-child(1),
+#admin-close-account-table td:nth-child(1){
+  width: 200px;
+}
+
+#admin-close-account-table th:nth-child(2),
+#admin-close-account-table td:nth-child(2){
+  width: 260px;
+}
+
+#admin-close-account-table th:nth-child(3),
+#admin-close-account-table td:nth-child(3){
+  width: 420px;
+}
+
+#admin-close-account-table th:nth-child(4),
+#admin-close-account-table td:nth-child(4){
+  width: 350px;
 }
 
 /* Profile Section */
