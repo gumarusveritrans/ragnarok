@@ -87,11 +87,20 @@ class CustomersController extends BaseController {
 		);
 
 		$customer_details = array(
-		    'first_name'    => "Andri",
-    		'last_name'     => "Litani",
-    		'email'         => "andri@litani.com",
-    		'phone'         => "081122334455"	
+		    'first_name'    => "Danny",
+    		'last_name'     => "Pranoto",
+    		'email'         => "danny.pranoto@veritrans.co.id",
+    		'phone'         => "08123456789"	
 		);
+
+		$transaction_data = array(
+  			'payment_type' => 'bank_transfer',
+  			'bank_transfer' => array(
+      			'bank' => "permata"
+    		),
+  			'transaction_details' => $transaction_details,
+  			'customer_details' => $customer_details
+  		);
 
 	}
 
