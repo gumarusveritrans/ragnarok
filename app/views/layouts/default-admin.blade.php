@@ -15,7 +15,7 @@
       <header class="header-admin">
         @if (false)
           <div id="logo-admin-home" class="block">
-            {{ HTML::image('images/logo_admin.png', 'Connect Logo', array('class' => 'centered')) }}
+            {{ HTML::image('images/logo_admin_home.png', 'Connect Logo', array('class' => 'centered')) }}
           </div>
         @else
           <div id="logo-wrapper" class="block">

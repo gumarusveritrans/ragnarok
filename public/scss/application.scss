@@ -198,10 +198,12 @@ footer.footer-admin {
   display: none;
   opacity: 0;
   padding: 0;
+  z-index: 3;
+  list-style: none;
 }
 
 .centered-header li ul li {
-  display: block;
+  display: inline;
   padding: 0px;
   line-height: 40px;
   vertical-align: middle;
@@ -209,11 +211,15 @@ footer.footer-admin {
 
 .centered-header li ul li a {
   display: block;
-  background: $light-brown;
+  background: $dark-brown;
+  color: $light-brown !important;
+  border: 2px solid $dark-brown ;
 }
 
 .centered-header li ul li a:hover {
-  background: $dark-brown;
+  background: $light-brown;
+  color: $orange !important;
+  border: 2px solid $dark-brown ;
 }
 
 .centered-header li:hover ul {

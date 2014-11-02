@@ -77,6 +77,24 @@ class CustomersController extends BaseController {
 		return View::make('/customers/topup');
 	}
 
+	public function charge_topup(){
+		$server_key = '6d7ccd71-ea52-43cc-ac42-5402077bd6c6';
+		$papi_url = 'https://api.sandbox.veritrans.co.id/v2';
+
+		$transaction_details = array(
+			'order_id' => rand(),
+			'gross_amount' => 10
+		);
+
+		$customer_details = array(
+		    'first_name'    => "Andri",
+    		'last_name'     => "Litani",
+    		'email'         => "andri@litani.com",
+    		'phone'         => "081122334455"	
+		);
+
+	}
+
 	public function transfer(){	
 		return View::make('/customers/transfer');
 	}
