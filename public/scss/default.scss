@@ -1,0 +1,374 @@
+$dark-brown:   #534741;
+$light-brown:  #C2B59B;
+$lighter-brown:#CEB1A6;
+$orange:       #FBAF41;
+$dark:         #444444;
+$light:        #999999;
+$blue:         #2DB6CF;
+$green:        #46b98a;
+$white:        #FFFFFF;
+$dark-blue:    #262261;
+$light-blue:   #BDCAD2;
+$cyan:         #3ABEEF;
+$red:          #ff0000;
+$light-gray:   #F8F8FF;
+$dark-orange:  #F7931D;
+$light-red:    #E0A2A8;
+$dark-red:     #BE1E2D;
+
+@font-face{
+   font-family: "Century Gothic";
+   src: url(/fonts/gothic.ttf) format("truetype");
+}
+
+/* Html and Body Style */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 1300px;
+  height: 100%;
+  font-family: "Century Gothic";
+}
+
+#body-wrapper {
+  min-height: 100%;
+  position: relative;
+}
+
+/* Header Style */
+header {
+  height: 60px;
+}
+
+header.header-customer {
+  background: $dark-brown;
+}
+
+header.header-admin {
+  background: $dark-blue;
+}
+
+header.header-merchant {
+  background: $dark-red;
+}
+
+#welcome-wrapper {
+  font-size: 18px;
+  height: 60px;
+  width: 23%;
+  float: left;
+  white-space: nowrap;  
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#welcome-wrapper.customer {
+  color: $orange;
+}
+
+#welcome-wrapper.admin {
+  color: $cyan;
+}
+
+#welcome-wrapper.merchant {
+  color: $dark-orange;
+}
+
+/* Wrapper Logo Style */
+#logo-wrapper {
+  height: 100%;
+  width: 21%;
+  float: left;
+}
+
+#logo-admin-merchant.home {
+  height: 100%;
+  width: 100%;
+  float: center;
+}
+
+/* Wrapper Menu Style */
+.menu-wrapper {
+  height: 100%;
+  float: left;
+  width:56%;
+}
+
+.menu-wrapper#home a, .menu-wrapper#customer a{
+  text-decoration: none;
+  color: $light-brown;
+}
+
+.menu-wrapper#admin a{
+  text-decoration: none;
+  color: $light-blue;
+}
+
+.menu-wrapper#merchant a{
+  text-decoration: none;
+  color: $light-red;
+}
+
+.menu-wrapper#customer ul li ul li a{
+  text-decoration: none;
+  color: $dark-brown;
+}
+
+.menu-wrapper#home a:hover, .menu-wrapper#customer a:hover{
+  color: $orange;
+  transition: all 0.3s;
+}
+
+.menu-wrapper#admin a:hover{
+  color: $cyan;
+  transition: all 0.3s;
+}
+
+.menu-wrapper#merchant a:hover{
+  color: $dark-orange;
+  transition: all 0.3s;
+}
+
+.menu-wrapper ul{
+  list-style: none;
+  font-size: 18px;
+  padding-left: 0px;
+}
+
+.menu-wrapper li{
+  display: inline;
+  padding: 0 12px;
+}
+
+.menu-wrapper#customer a.active, .menu-wrapper#home a.active {
+  color: $orange;
+}
+
+.menu-wrapper#admin a.active {
+  color: $cyan;
+}
+
+.menu-wrapper#merchant a.active {
+  color: $dark-orange;
+}
+
+/* Content Style */
+#content {
+  width: 100%;
+  padding-bottom: 40px;
+}
+
+#subheader-wrapper {
+  margin: 0;
+  height: 80px;
+  padding: 0 50px;
+}
+
+.subtitle {
+  font-size: 40px;
+  text-align: left !important;
+  float: left;
+  width: 50%;
+}
+
+.subtitle.customer {
+  color: $dark-brown;
+  line-height: 80px;
+}
+
+.subtitle.admin {
+  color: $dark-blue;
+  line-height: 50px;
+}
+
+.subtitle.merchant {
+  color: $dark-red;
+  line-height: 50px;
+}
+
+#subcontent-wrapper {
+  margin: 0;
+  padding-bottom: 15px;
+  display: inline-block;
+  width: 100%;
+}
+
+#horizontal-line {
+  float:left;
+  margin-left:30px;
+}
+
+#subbuttons-wrapper {
+  clear: both;
+  width: auto;
+  min-height: 30px;
+  padding: 0 50px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.balance {
+  font-size: 15px;
+  color: $dark-brown;
+  float: left;
+  text-align:right;
+  height: 100%;
+  width: 50%;
+}
+
+.currency {
+  font-size: 30px;
+  color: $orange;
+}
+
+/* Footer Style */
+footer {
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+footer.footer-customer {
+  background: $orange;
+}
+
+footer.footer-admin {
+  background: $cyan;
+}
+
+footer.footer-merchant {
+  background: $light-red;
+}
+
+/* Centered object inside div vertically */
+.block {
+  text-align: center;
+}
+
+.block:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em;
+}
+
+.centered {
+  margin: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.centered-header {
+  margin: auto;
+  display: inline-block;
+  vertical-align: middle;
+  line-height:60px;
+}
+
+.centered-header li {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  padding: 0 12px;
+}
+
+.centered-header li a {
+  display: block;
+}
+
+.centered-header li:hover ul {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.6s ease 0s;
+}
+
+.centered-header li ul {
+  position: absolute;
+  top: 60px;
+  width: 125px;
+  display: none;
+  opacity: 0;
+  padding: 0;
+  z-index: 3;
+  list-style: none;
+}
+
+.centered-header li ul li {
+  display: inline;
+  padding: 0px;
+  line-height: 40px;
+  vertical-align: middle;
+}
+
+.centered-header li ul li a {
+  display: block;
+  background: $dark-brown;
+  color: $light-brown !important;
+  border: 2px solid $dark-brown ;
+}
+
+.centered-header li ul li a:hover {
+  background: $light-brown;
+  color: $orange !important;
+  border: 2px solid $dark-brown ;
+}
+
+.right {
+  text-align: right;
+}
+
+.vertical-align {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Pop-Up Style */
+.pop-up {
+  height: auto;
+  width: 450px;
+  text-align: center;
+  padding: 25px;
+  border: 1px solid;
+  position: absolute;
+  top: 35%;
+  left: 32%;
+}
+
+.pop-up.customer {
+  background: $light-brown;
+  color: $dark-brown;
+  border-color: $dark-brown;
+}
+
+.pop-up.admin {
+  background: $light-blue;
+  color: $dark-blue;
+  border-color: $dark-blue;
+}
+
+.pop-up.merchant {
+  background: $light-red;
+  color: $dark-red;
+  border-color: $dark-red;
+}
+
+.pop-up h1 {
+  font-size: 30px;
+  font-weight: normal;
+  margin: 0px;
+  padding: 10px;
+}
+
+.pop-up h2 {
+  font-size: 20px;
+  font-weight: normal;
+  margin: 0px;
+  padding-top: 10px;
+  padding-bottom: 25px;
+}

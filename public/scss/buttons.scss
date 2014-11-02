@@ -1,0 +1,215 @@
+$dark-brown:   #534741;
+$light-brown:  #C2B59B;
+$lighter-brown:#CEB1A6;
+$orange:       #FBAF41;
+$dark:         #444444;
+$light:        #999999;
+$blue:         #2DB6CF;
+$green:        #46b98a;
+$white:        #FFFFFF;
+$dark-blue:    #262261;
+$light-blue:   #BDCAD2;
+$cyan:         #3ABEEF;
+$red:          #ff0000;
+$light-gray:   #F8F8FF;
+$dark-orange:  #F7931D;
+$light-red:    #E0A2A8;
+$dark-red:     #BE1E2D;
+
+/* Button Style */
+.button {
+  border: 0 none;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 20px;
+  text-transform: none;
+  margin-left: 5px;
+  margin-right: 5px;
+  text-align: center;
+  width: 115px;
+  height: 35px;
+  transition: all 0.3s ease 0s;
+  &.dashboard {
+    width: 200px;
+    margin: 0 90px;
+  }
+  &.profile {
+    width: 165px;
+  }
+  &.admin-notification {
+    width: 125px;
+    height: 40px;
+  }
+  &.merchant {
+    width: 125px;
+    height: 40px;
+  }
+  &.orange {
+    background: $orange;
+    color: $dark-brown;
+    &:hover {
+      background: $green;
+      color: $white;
+    }
+  }
+  &.darkbrown {
+    background: $dark-brown;
+    color: $light-brown;
+    &:hover {
+      background: $blue;
+      color: $white;
+    }
+    &.close-account {
+      width: 165px;
+      margin-top: 10px;
+    }
+  }
+  &.lightbrown {  
+    background: $light-brown;
+    color: $dark-brown;
+    &:hover {
+      background: $blue;
+      color: $white;
+    }
+  }
+  &.darkblue {  
+    background: $dark-blue;
+    color: $light-blue;
+    &:hover {
+      background: $cyan;
+      color: $white;
+    }
+  }
+  &.lightblue {  
+    background: $light-blue;
+    color: $dark-blue;
+    &:hover {
+      background: $cyan;
+      color: $white;
+    }
+  }
+  &.cyan {
+    background: $cyan;
+    color: $dark-blue;
+    &:hover {
+      background: $green;
+      color: $white;
+    }
+  }
+  &.darkred {
+    background: $dark-red;
+    color: $light-red;
+    &:hover {
+      background: $light-red;
+      color: $white;
+    }
+  }
+  &.lightred {
+    background: $light-red;
+    color: $dark-red;
+    &:hover {
+      background: $dark-red;
+      color: $white;
+    }
+  }
+}
+
+/* Button Inside Table */
+.button-table {
+  border: 0 none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 18px;
+  text-transform: none;
+  text-align: center;
+  height: 20px;
+  width: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: all 0.3s ease 0s;
+  &.darkblue {  
+    background: $dark-blue;
+    color: $light-blue;
+    &:hover {
+      background: $cyan;
+      color: $white;
+    }
+  }
+  &.darkbrown {
+  background: $dark-brown;
+  color: $light-brown;
+    &:hover {
+      background: $blue;
+      color: $white;
+    }
+  }
+  &.darkred {
+    background: $dark-red;
+    color: $light-red;
+    &:hover {
+      background: $light-red;
+      color: $white;
+    }
+  }
+  &.lightred {
+    background: $light-red;
+    color: $dark-red;
+    &:hover {
+      background: $dark-red;
+      color: $white;
+    }
+  }
+}
+
+.button-close {
+  width: 20px;
+  height: 20px;
+  font-size: 15px;
+  cursor: pointer;
+  display: inline-block;
+  float: right;
+}
+
+.button-close.customer {
+  background: $dark-brown;
+  color: $light-brown;
+}
+
+.button-close.admin {
+
+  background: $dark-blue;
+  color: $light-blue;
+}
+
+.button-close:hover.customer {
+  background: $light-brown;
+  color: $white;
+  transition: all 0.3s ease 0s;
+}
+
+.button-close:hover.admin {
+  background: $blue;
+  color: $white;
+  transition: all 0.3s ease 0s;
+}
+
+.button[disabled=disabled], .button:disabled {
+    background: $light-gray;
+    color: $dark;
+}
+
+.pop-up .button {
+  font-size: 25px;
+  height: 45px;
+}
+
+.linked-button a {
+  text-decoration: none;
+  display: inline-block;
+}

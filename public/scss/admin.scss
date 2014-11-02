@@ -1,0 +1,56 @@
+$dark-brown:   #534741;
+$light-brown:  #C2B59B;
+$lighter-brown:#CEB1A6;
+$orange:       #FBAF41;
+$dark:         #444444;
+$light:        #999999;
+$blue:         #2DB6CF;
+$green:        #46b98a;
+$white:        #FFFFFF;
+$dark-blue:    #262261;
+$light-blue:   #BDCAD2;
+$cyan:         #3ABEEF;
+$red:          #ff0000;
+$light-gray:   #F8F8FF;
+$dark-orange:  #F7931D;
+$light-red:    #E0A2A8;
+$dark-red:     #BE1E2D;
+
+/* Admin Side Box */
+.admin-side-box {
+  height: auto;
+  width: 350px;
+  text-align: center;
+  padding: 25px;
+  background: $light-blue;
+  color: $dark-blue;
+}
+
+.admin-side-box h1 {
+  font-size: 35px;
+  font-weight: normal;
+  margin: 0px;
+  padding: 10px;
+}
+
+.admin-side-box h2 {
+  font-size: 25px;
+  font-weight: normal;
+  margin: 0px;
+}
+
+#admin-side-table {
+  text-align: left;
+  font-size: 20px;
+  width: 100%;
+}
+#admin-side-table td{
+  padding-bottom: 10px;
+  vertical-align: top;
+}
+
+.link-download a{
+  color :$dark-blue;
+  float: right;
+  margin-right: 80px;
+}
