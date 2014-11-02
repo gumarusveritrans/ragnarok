@@ -676,20 +676,6 @@ $dark-red:     #BE1E2D;
   margin-right: 80px;
 }
 
-/* No CSS3 support */
-
-.no-opacity       wrapper-dropdown .dropdown,
-.no-pointerevents .wrapper-dropdown .dropdown {
-    display: none;
-    opacity: 1; /* If opacity support but no pointer-events support */
-    pointer-events: auto; /* If pointer-events support but no pointer-events support */
-}
-
-.no-opacity       .wrapper-dropdown.active .dropdown,
-.no-pointerevents .wrapper-dropdown.active .dropdown {
-    display: block;
-}
-
 /* Pop Up */  
 .pop-up-customer {
   height: auto;

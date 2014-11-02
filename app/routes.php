@@ -24,6 +24,7 @@ Route::get('/customers/transfer-success', 'CustomersController@transfer_success'
 Route::get('/customers/topup-success', 'CustomersController@topup_success');
 Route::get('/customers/purchase-success', 'CustomersController@purchase_success');
 Route::get('/customers/topup', 'CustomersController@topup');
+
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/purchase', 'CustomersController@purchase');
 Route::post('/customers/logout', array('as' => 'customer_logout','uses'=>'CustomersController@logout'));

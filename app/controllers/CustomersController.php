@@ -77,33 +77,6 @@ class CustomersController extends BaseController {
 		return View::make('/customers/topup');
 	}
 
-	public function charge_topup(){
-		$server_key = '6d7ccd71-ea52-43cc-ac42-5402077bd6c6';
-		$papi_url = 'https://api.sandbox.veritrans.co.id/v2';
-
-		$transaction_details = array(
-			'order_id' => rand(),
-			'gross_amount' => 10
-		);
-
-		$customer_details = array(
-		    'first_name'    => "Danny",
-    		'last_name'     => "Pranoto",
-    		'email'         => "danny.pranoto@veritrans.co.id",
-    		'phone'         => "08123456789"	
-		);
-
-		$transaction_data = array(
-  			'payment_type' => 'bank_transfer',
-  			'bank_transfer' => array(
-      			'bank' => "permata"
-    		),
-  			'transaction_details' => $transaction_details,
-  			'customer_details' => $customer_details
-  		);
-
-	}
-
 	public function transfer(){	
 		return View::make('/customers/transfer');
 	}
@@ -322,6 +295,8 @@ class CustomersController extends BaseController {
 
 			// redirect ----------------------------------------
 			// redirect our user back to the form so they can do it all over again
+			
+			$response = PaymentAPI::charge_topup();
 			return Redirect::to('customers/topup-success');
 		}
 

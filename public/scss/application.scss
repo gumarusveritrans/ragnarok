@@ -423,10 +423,10 @@ footer.footer-merchant {
     }
   }
   &.darkbrown {
-  background: none repeat scroll 0 0 $dark-brown;
+  background: $dark-brown;
   color: $light-brown;
     &:hover {
-      background: none repeat scroll 0 0 $blue;
+      background: $blue;
       color: $white;
     }
   }

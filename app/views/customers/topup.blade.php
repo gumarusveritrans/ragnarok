@@ -2,7 +2,7 @@
 
 @section('content')
   <div id="subheader-wrapper">
-    <span class="subtitle customer">TRANSFER</span>
+    <span class="subtitle customer">TOP-UP</span>
     <div class="balance">
       Balance<br/>
           <span class="currency">
