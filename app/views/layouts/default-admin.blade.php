@@ -17,6 +17,7 @@
         @if (false)
           <div id="logo-admin-merchant-home" class="block">
             {{ HTML::image('images/logo_admin.png', 'Connect Logo', array('class' => 'centered')) }}
+
           </div>
         @else
           <div id="logo-wrapper" class="block">
