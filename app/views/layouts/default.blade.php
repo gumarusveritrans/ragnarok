@@ -20,7 +20,7 @@
         <div id="logo-wrapper" class="block">
           {{ HTML::image('images/logo.png', 'Connect Logo', array('class' => 'centered')) }}
         </div>
-        @if (true)
+        @if (Session::get('cyclos_session_token'))
             <div id="customer" class="block menu-wrapper" >
               <ul class="centered-header">
                 <li>{{ link_to ("/customers/dashboard", 'DASHBOARD') }}</li>
@@ -40,7 +40,7 @@
               </ul>
             </div>
             <div id="welcome-wrapper" class="customer block">
-              <font color="#C2B59B">Welcome,</font> User1234
+              <font color="#C2B59B">Welcome,</font> {{Session::get('cyclos_username')}}
             </div>
         @else
             <div id="home" class="block menu-wrapper">

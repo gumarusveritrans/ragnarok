@@ -6,14 +6,10 @@
         <div class="balance">
         	Balance<br/>
         	<span class="currency">
-        		Rp 3.000.000,00
+        		Rp {{{$data['balance']}}}
         	</span><br/>
             from the limit of
-        	@if(true)
-          		Rp 5.000.000,00
-        	@else
-            	Rp 1.000.000,00
-        	@endif
+        	Rp {{{$data['limitBalance']}}}
         </div>
     </div>
     <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="#534741" />
