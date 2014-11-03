@@ -3,11 +3,21 @@
 class CustomersController extends BaseController {
 
 	public function dashboard(){
-		return View::make('/customers/dashboard');
+		$data = array();
+		$data['username'] = ConnectHelper::getCurrentUserUsername();
+		$data['balance'] = ConnectHelper::getCurrentUserBalance();
+		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+
+		return View::make('/customers/dashboard')->with('data',$data);
 	}
 
 	public function profile(){	
-		return View::make('/customers/profile');
+		$data = array();
+		$data['username'] = ConnectHelper::getCurrentUserUsername();
+		$data['balance'] = ConnectHelper::getCurrentUserBalance();
+		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+
+		return View::make('/customers/profile')->with('data',$data);
 	}
 
 	public function login(){

@@ -6,10 +6,10 @@
         <div class="balance">
         	Balance<br/>
         	<span class="currency">
-        		Rp {{ConnectHelper::getCurrentUserBalance()}}
+        		Rp {{{$data['balance']}}}
         	</span><br/>
             from the limit of
-        	Rp {{ConnectHelper::getCurrentUserLimitBalance()}}
+        	Rp {{{$data['limitBalance']}}}
         </div>
     </div>
     <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="#534741" />

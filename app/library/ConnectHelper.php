@@ -17,4 +17,8 @@ class ConnectHelper{
 		$result = $accountService->run('getAccountsSummary',array(array("username"=>Session::get('cyclos_username')),array("date"=>"null")),true);
 		return intval($result[0]->status->upperCreditLimit);
 	}
+
+	public static function getCurrentUserUsername(){
+		return Session::get('cyclos_username');
+	}
 }
