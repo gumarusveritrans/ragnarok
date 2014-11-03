@@ -5,7 +5,7 @@
         <span class="subtitle admin">MANAGE USER</span>
     </div>
 
-    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="blue"/>
+    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="blue" style="margin-top: -10px;">
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
@@ -39,19 +39,19 @@
                 </thead>
                 <tr>
                     <td >
-                        Row 1
+                        CID99999999
                     </td>
                     <td>
-                        Row 1
+                        gumarus.dharmawan.william
                     </td>
                     <td>
-                        Row 1
+                        gumarus.dharmawan.william@gmail.com
                     </td>
                     <td>
-                        Row 1
+                        Rp 5.000.000,00
                     </td>
                     <td>
-                        Row 1
+                        Rp 5.000.000,00
                     </td>
                     <td>
                         <a href="#profile"><button id="profile-button" class="button-table darkblue dashboard">Profile</button></a>
@@ -124,16 +124,16 @@
                 </thead>
                 <tr>
                     <td >
-                        Row 1
+                        MID99999999
                     </td>
                     <td>
-                        Row 1
+                        Garuda Indonesia
                     </td>
                     <td>
-                        Row 1
+                        gumarus.dharmawan.william@gmail.com
                     </td>
                     <td>
-                        Row 1
+                        Rp 5.000.000,00
                     </td>
                     <td>
                         <a href="#delete"><button id="delete-id-button" class="button-table darkblue dashboard">Delete ID</button></a>
@@ -185,7 +185,7 @@
             </table>
         </div>
         <div id="profile-box" class="centered admin-side-box" style="display: none">
-            <span id="close-profile" class="button-close">&#10006;</span>
+            <span id="close-profile" class="button-close admin">&#10006;</span>
             <h2>Customer Details</h2>
             <br/>
             <h1>daniel.aja</h1>
@@ -242,7 +242,7 @@
             </table>
         </div>
         <div id="add-product-box" class="centered admin-side-box" style="display: none">
-            <span id="close-add-product" class="button-close">&#10006;</span>
+            <span id="close-add-product" class="button-close admin">&#10006;</span>
             <h1>Add Product</h1>
             {{ Form::open() }}
                 {{ Form::label('product_name', 'Product Name') }}
@@ -258,7 +258,7 @@
             {{ Form::close() }}
         </div>
         <div id="create-merchant-box" class="centered admin-side-box" style="display: none">
-            <span id="close-create-merchant" class="button-close">&#10006;</span>
+            <span id="close-create-merchant" class="button-close admin">&#10006;</span>
             <h1>Create Merchant</h1>
             {{ Form::open() }}
                 {{ Form::label('merchant', 'Merchant Name') }}
@@ -271,9 +271,9 @@
             {{ Form::close() }}
         </div>
         <a href="#create-merchant"><button id="create-merchant-button" class="button darkblue dashboard" style="display: none; float: right; margin-right: 80px">Create Merchant</button></a>
-        <div id="pop-up-delete-id" class="pop-up" style="display: none">
+        <div id="pop-up-delete-id" class="admin pop-up" style="display: none">
             <h1>DELETE ID</h1>
-            <h2>Are you sure to delete merchant's account?</h2>
+            <h2>Are you sure want to delete merchant's account?</h2>
             <a href=""><button id="yes-add-product" class="button darkblue admin-notification">YES</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="no-delete-id" class="button cyan admin-notification">NO</button>
         </div>
@@ -285,12 +285,17 @@
           $("#admin-manage-user-merchant-table").hide();
           $("#admin-manage-user-customer-table").fadeIn("fast");
           $("#admin-manage-user-merchant-button").removeClass('cyan');
-          $("#admin-manage-user-customer-table").css("width","90%");
-          $("#admin-manage-user-merchant-table").css("width","90%");
+          $("#admin-manage-user-customer-table").css("width","1230px");
+          $("#admin-manage-user-merchant-table").css("width","1230px");
+          $("#admin-manage-user-customer-table th:nth-child(3)").animate({'max-width':'370px'});
+          $("#admin-manage-user-customer-table td:nth-child(3)").animate({'max-width':'370px'});
+          $("#admin-manage-user-merchant-table th:nth-child(3)").animate({'max-width':'370px'});
+          $("#admin-manage-user-merchant-table td:nth-child(3)").animate({'max-width':'370px'});
           $("#profile-box").hide();
           $("#add-product-box").hide();
           $("#create-merchant-box").hide();
           $("#create-merchant-button").hide();
+          $("#pop-up-delete-id").hide();
           $(this).addClass('cyan');
         });
 
@@ -298,35 +303,46 @@
           $("#admin-manage-user-customer-table").hide();
           $("#admin-manage-user-merchant-table").fadeIn("fast");
           $("#admin-manage-user-customer-button").removeClass('cyan');
-          $("#admin-manage-user-merchant-table").css("width","90%");
-          $("#admin-manage-user-customer-table").css("width","90%");
+          $("#admin-manage-user-merchant-table").css("width","1230px");
+          $("#admin-manage-user-customer-table").css("width","1230px");
+          $("#admin-manage-user-customer-table th:nth-child(3)").animate({'max-width':'370px'});
+          $("#admin-manage-user-customer-table td:nth-child(3)").animate({'max-width':'370px'});
+          $("#admin-manage-user-merchant-table th:nth-child(3)").animate({'max-width':'370px'});
+          $("#admin-manage-user-merchant-table td:nth-child(3)").animate({'max-width':'370px'});
           $("#profile-box").hide();
           $("#add-product-box").hide();
           $("#create-merchant-box").hide();
           $("#create-merchant-button").show();
+          $("#pop-up-delete-id").hide();
           $(this).addClass('cyan');
         });
 
         $( "#profile-button" ).click(function() {
             $("#profile-box").delay(300).fadeIn("fast");
-            $("#admin-manage-user-customer-table").animate({width:'60%'});
+            $("#admin-manage-user-customer-table").animate({width:'820px'});
+            $("#admin-manage-user-customer-table th:nth-child(3)").animate({'max-width':'0px'});
+            $("#admin-manage-user-customer-table td:nth-child(3)").animate({'max-width':'0px'});
         });
 
         $( "#close-profile" ).click(function() {
             $("#profile-box").fadeOut("fast");
-            $("#admin-manage-user-customer-table").delay(300).animate({width:'90%'});
+            $("#admin-manage-user-customer-table").delay(300).animate({width:'1230px'});
         });
 
         $( "#add-product-button" ).click(function() {
             $("#add-product-box").delay(300).fadeIn("fast");
-            $("#admin-manage-user-merchant-table").animate({width:'60%'});
+            $("#admin-manage-user-merchant-table").animate({width:'820px'});
+            $("#admin-manage-user-merchant-table th:nth-child(3)").animate({'max-width':'0px'});
+            $("#admin-manage-user-merchant-table td:nth-child(3)").animate({'max-width':'0px'});
             $("#create-merchant-button").hide();
+            $("#pop-up-delete-id").hide();
         });
 
         $( "#close-add-product" ).click(function() {
             $("#add-product-box").fadeOut("fast");
-            $("#admin-manage-user-merchant-table").delay(300).animate({width:'90%'});
+            $("#admin-manage-user-merchant-table").delay(300).animate({width:'1230px'});
             $("#create-merchant-button").delay(700).show(10);
+            $("#pop-up-delete-id").hide();
         });
 
         $( "#delete-id-button" ).click(function() {
@@ -339,14 +355,16 @@
 
         $("#create-merchant-button").click(function() {
             $("#create-merchant-box").delay(300).fadeIn("fast");
-            $("#admin-manage-user-merchant-table").animate({width:'60%'});
+            $("#admin-manage-user-merchant-table").animate({width:'820px'});
             $("#create-merchant-button").hide();
+            $("#pop-up-delete-id").hide();
         });
 
         $( "#close-create-merchant" ).click(function() {
             $("#create-merchant-box").fadeOut("fast");
-            $("#admin-manage-user-merchant-table").delay(300).animate({width:'90%'});
+            $("#admin-manage-user-merchant-table").delay(300).animate({width:'1230px'});
             $("#create-merchant-button").delay(700).show(10);
+            $("#pop-up-delete-id").hide();
         });
 
     </script>

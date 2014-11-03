@@ -3,10 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>Ragnarok</title>
-    {{ HTML::style('css/application.css') }}
-    {{ HTML::style('css/connect_pages.css') }}
-    {{ HTML::style('css/users.css') }}
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
+    {{ HTML::style('css/default.css') }}
+    {{ HTML::style('css/forms.css') }}
+    {{ HTML::style('css/tables.css') }}
+    {{ HTML::style('css/buttons.css') }}
+    {{ HTML::style('css/customers.css') }}
     {{ HTML::script('js/jquery-1.11.1.min.js') }}
+    {{ HTML::script('js/jquery.form.min.js') }}
   </head>
   <body>
     <div id="body-wrapper">
@@ -27,9 +31,10 @@
                   </ul>
                 </li>
                 <li>{{ link_to ("/customers/profile", 'MY PROFILE') }}</li>
-                {{ Form::open(array('route'=> 'customer_logout')) }}
+                <li>{{ link_to ("/customers_logout", 'LOG OUT') }}</li>
+<!--                 {{ Form::open(array('route'=> 'customer_logout')) }}
                   <li>{{ Form::submit('LOG OUT') }}</li>
-                {{ Form::close() }}
+                {{ Form::close() }} -->
               </ul>
             </div>
             <div id="welcome-wrapper" class="customer block">

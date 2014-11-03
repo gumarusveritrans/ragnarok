@@ -3,9 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>Ragnarok Admin</title>
-    {{ HTML::style('css/application.css') }}
-    {{ HTML::style('css/connect_pages.css') }}
-    {{ HTML::style('css/users.css') }}
+    <link rel="shortcut icon" href="{{ asset('images/favicon_admin.ico') }}">
+    {{ HTML::style('css/default.css') }}
+    {{ HTML::style('css/forms.css') }}
+    {{ HTML::style('css/tables.css') }}
+    {{ HTML::style('css/buttons.css') }}
+    {{ HTML::style('css/admin.css') }}
     {{ HTML::script('js/jquery-1.11.1.min.js') }}
     {{ HTML::script('js/jquery-ui.min.js') }}
   </head>
@@ -14,12 +17,13 @@
 
       <header class="header-admin">
         @if (false)
-          <div id="logo-admin-home" class="block">
-            {{ HTML::image('images/logo.png', 'Connect Logo', array('class' => 'centered')) }}
+          <div id="logo-admin-merchant-home" class="block">
+            {{ HTML::image('images/logo_admin.png', 'Connect Logo', array('class' => 'centered')) }}
+
           </div>
         @else
           <div id="logo-wrapper" class="block">
-            {{ HTML::image('images/logo.png', 'Connect Logo', array('class' => 'centered')) }}
+            {{ HTML::image('images/logo_admin.png', 'Connect Logo', array('class' => 'centered')) }}
           </div>
           <div id="admin" class="block menu-wrapper">
             <ul class="centered-header">

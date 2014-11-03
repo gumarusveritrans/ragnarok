@@ -41,7 +41,7 @@
 	  </h2>
 
 	  <div id="login-register-form" class="form-bottom-wrapper">
-	    <button href="" class="button darkbrown">REGISTER</button>
+	    <a href="{{ url('/register') }}"><button class="button darkbrown centered">REGISTER</button></a>
 	  </div>
 
 	</div>
