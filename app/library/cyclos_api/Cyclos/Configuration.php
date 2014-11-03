@@ -17,13 +17,13 @@ class Configuration {
 	 * Returns the curl options to execute a call of the given operation, with the given parameters
 	 */
 
-	public static function curlOptions($operation, $params,$remote_address = null) {
+	public static function curlOptions($operation, $params,$session_token = null,$remote_address = null) {
 		$request = new \stdclass();
 		$request->operation = $operation;
 		$request->params = $params;
 
 		//REQUEST AFTER LOGIN
-		if($operation == 'loginUser' || $remote_address==null){//JUST FOR REQUEST  LOGIN USER
+		if($session_token == null && $remote_address == null){//CHECK IF REQUEST WITH ADMIN WEBSERVICE
 			return array(
 					CURLOPT_RETURNTRANSFER => true,
 					CURLOPT_USERPWD => $_ENV['CYCLOS_WEBSERVICE_USERNAME'] . ":" . $_ENV['CYCLOS_WEBSERVICE_PASSWORD'],
@@ -33,8 +33,10 @@ class Configuration {
 		}else{
 			return array(
 					CURLOPT_RETURNTRANSFER => true,
-					CURLOPT_HTTPHEADER => array('Content-type: application/json',
-						'Remote-Address: '. $remote_address),
+					CURLOPT_HTTPHEADER => array(
+						'Session-Token: ' . $session_token,
+						'Remote-Address: '. $remote_address,
+						'Content-type: application/json'),
 					CURLOPT_POSTFIELDS => \json_encode($request)
 			);
 		}

@@ -23,7 +23,7 @@
 
     <div id="transaction-box-wrapper">
 
-      {{ Form::open(array('url' => 'transfer-form', 'method' => 'post')) }}
+      {{ Form::open() }}
 
         <div id="transaction-form-wrapper">
 
