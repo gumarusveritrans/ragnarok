@@ -33,10 +33,7 @@
                   </ul>
                 </li>
                 <li>{{ link_to ("/customers/profile", 'MY PROFILE') }}</li>
-                <li>{{ link_to ("/customers_logout", 'LOG OUT') }}</li>
-<!--                 {{ Form::open(array('route'=> 'customer_logout')) }}
-                  <li>{{ Form::submit('LOG OUT') }}</li>
-                {{ Form::close() }} -->
+                <li>{{ link_to ("/customers/logout", 'LOG OUT', array('data-method' => 'post')) }}</li>
               </ul>
             </div>
             <div id="welcome-wrapper" class="customer block">
@@ -83,6 +80,18 @@
           }
       });
 
+  });
+
+  $(function(){
+    $('[data-method]').append(function(){
+        return "\n"+
+        "<form action='"+$(this).attr('href')+"' method='POST' style='display:none'>\n"+
+        "   <input type='hidden' name='_method' value='"+$(this).attr('data-method')+"'>\n"+
+        "</form>\n"
+    })
+    .removeAttr('href')
+    .attr('style','cursor:pointer;')
+    .attr('onclick','$(this).find("form").submit();');
   });
 
 </script>

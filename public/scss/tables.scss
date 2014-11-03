@@ -26,6 +26,7 @@ $dark-red:     #BE1E2D;
   width: 1230px;
   height:100%;
   margin-right: 75px;
+  table-layout:fixed;
 }
 
 .all-table.admin table {
@@ -82,6 +83,9 @@ $dark-red:     #BE1E2D;
   font-size:17px;
   padding:10px;
   font-weight: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .all-table.customer thead th{
@@ -102,111 +106,127 @@ $dark-red:     #BE1E2D;
 /* Set Top-Up Dashboard Table */
 #topup-dashboard-table th:nth-child(1),
 #topup-dashboard-table td:nth-child(1){
-  width: 300px;
+  width: 25%;
 }
 
 #topup-dashboard-table th:nth-child(2),
 #topup-dashboard-table td:nth-child(2){
-  width: 330px;
+  width: 27%;
 }
 
 #topup-dashboard-table th:nth-child(3),
 #topup-dashboard-table td:nth-child(3){
-  width: 300px;
+  width: 24%;
 }
 
 #topup-dashboard-table th:nth-child(4),
 #topup-dashboard-table td:nth-child(4){
-  width: 300px;
+  width: 24%;
+}
+
+#topup-dashboard-table tr:last-child td {
+  border-bottom: 1px solid $light-brown;
 }
 
 /* Set Transfer Dashboard Table */
 #transfer-dashboard-table th:nth-child(1),
 #transfer-dashboard-table td:nth-child(1){
-  width: 300px;
+  width: 24%;
 }
 
 #transfer-dashboard-table th:nth-child(2),
 #transfer-dashboard-table td:nth-child(2){
-  width: 330px;
+  width: 28%;
 }
 
 #transfer-dashboard-table th:nth-child(3),
 #transfer-dashboard-table td:nth-child(3){
-  width: 300px;
+  width: 24%;
 }
 
 #transfer-dashboard-table th:nth-child(4),
 #transfer-dashboard-table td:nth-child(4){
-  width: 300px;
+  width: 24%;
+}
+
+#transfer-dashboard-table tr:last-child td {
+  border-bottom: 1px solid $light-brown;
 }
 
 /* Set Purchase Dashboard Table */
 #purchase-dashboard-table th:nth-child(1),
 #purchase-dashboard-table td:nth-child(1){
-  width: 300px;
+  width: 24%;
 }
 
 #purchase-dashboard-table th:nth-child(2),
 #purchase-dashboard-table td:nth-child(2){
-  width: 330px;
+  width: 28%;
 }
 
 #purchase-dashboard-table th:nth-child(3),
 #purchase-dashboard-table td:nth-child(3){
-  width: 300px;
+  width: 24%;
 }
 
 #purchase-dashboard-table th:nth-child(4),
 #purchase-dashboard-table td:nth-child(4){
-  width: 300px;
+  width: 24%;
+}
+
+#purchase-dashboard-table tr:last-child td {
+  border-bottom: 1px solid $light-brown;
 }
 
 /* Set Purchase Transaction Table */
 #purchase-transaction-table th:nth-child(1),
 #purchase-transaction-table td:nth-child(1){
-  width: 350px;
+  width: 28%;
 }
 
 #purchase-transaction-table th:nth-child(2),
 #purchase-transaction-table td:nth-child(2){
-  width: 400px;
+  width: 33%;
 }
 
 #purchase-transaction-table th:nth-child(3),
 #purchase-transaction-table td:nth-child(3){
-  width: 280px;
+  width: 23%;
 }
 
 #purchase-transaction-table th:nth-child(4),
 #purchase-transaction-table td:nth-child(4){
-  width: 200px;
+  width: 16%;
+}
+
+#purchase-transaction-table tr:last-child td {
+  border-bottom: 1px solid $light-brown;
 }
 
 /* Set Width Purchase Admin Table */
 #admin-purchase-transaction-table th:nth-child(1),
 #admin-purchase-transaction-table td:nth-child(1){
-  width: 160px;
+  width: 13%;
 }
 
 #admin-purchase-transaction-table th:nth-child(2),
 #admin-purchase-transaction-table td:nth-child(2){
-  width: 220px;
+  width: 18%;
 }
 
 #admin-purchase-transaction-table th:nth-child(3),
 #admin-purchase-transaction-table td:nth-child(3){
-  width: 340px;
+  width: 28%;
 }
 
 #admin-purchase-transaction-table th:nth-child(4),
 #admin-purchase-transaction-table td:nth-child(4){
-  width: 200px;
+  width: 16%;
 }
 
 #admin-purchase-transaction-table th:nth-child(5),
 #admin-purchase-transaction-table td:nth-child(5){
-  width: 310px;
+  width: 25%;
 }
 
 #admin-purchase-transaction-table tr:last-child td {
@@ -216,27 +236,27 @@ $dark-red:     #BE1E2D;
 /* Set Width Transfer Admin Table */
 #admin-transfer-transaction-table th:nth-child(1),
 #admin-transfer-transaction-table td:nth-child(1){
-  width: 150px;
+  width: 12%;
 }
 
 #admin-transfer-transaction-table th:nth-child(2),
 #admin-transfer-transaction-table td:nth-child(2){
-  width: 210px;
+  width: 17%;
 }
 
 #admin-transfer-transaction-table th:nth-child(3),
 #admin-transfer-transaction-table td:nth-child(3){
-  width: 340px;
+  width: 28%;
 }
 
 #admin-transfer-transaction-table th:nth-child(4),
 #admin-transfer-transaction-table td:nth-child(4){
-  width: 190px;
+  width: 15%;
 }
 
 #admin-transfer-transaction-table th:nth-child(5),
 #admin-transfer-transaction-table td:nth-child(5){
-  width: 340px;
+  width: 28%;
 }
 
 #admin-transfer-transaction-table tr:last-child td {
@@ -246,27 +266,27 @@ $dark-red:     #BE1E2D;
 /* Set Width Top-Up Admin Table */
 #admin-top-up-transaction-table th:nth-child(1),
 #admin-top-up-transaction-table td:nth-child(1){
-  width: 170px;
+  width: 14%;
 }
 
 #admin-top-up-transaction-table th:nth-child(2),
 #admin-top-up-transaction-table td:nth-child(2){
-  width: 230px;
+  width: 19%;
 }
 
 #admin-top-up-transaction-table th:nth-child(3),
 #admin-top-up-transaction-table td:nth-child(3){
-  width: 410px;
+  width: 33%;
 }
 
 #admin-top-up-transaction-table th:nth-child(4),
 #admin-top-up-transaction-table td:nth-child(4){
-  width: 220px;
+  width: 18%;
 }
 
 #admin-top-up-transaction-table th:nth-child(5),
 #admin-top-up-transaction-table td:nth-child(5){
-  width: 200px;
+  width: 16%;
 }
 
 #admin-top-up-transaction-table tr:last-child td {
@@ -276,22 +296,22 @@ $dark-red:     #BE1E2D;
 /* Set Width Close Account Admin Table */
 #admin-close-account-table th:nth-child(1),
 #admin-close-account-table td:nth-child(1){
-  width: 200px;
+  width: 16%;
 }
 
 #admin-close-account-table th:nth-child(2),
 #admin-close-account-table td:nth-child(2){
-  width: 260px;
+  width: 22%;
 }
 
 #admin-close-account-table th:nth-child(3),
 #admin-close-account-table td:nth-child(3){
-  width: 420px;
+  width: 34%;
 }
 
 #admin-close-account-table th:nth-child(4),
 #admin-close-account-table td:nth-child(4){
-  width: 350px;
+  width: 28%;
 }
 
 #admin-close-account-table tr:last-child td {
@@ -301,22 +321,22 @@ $dark-red:     #BE1E2D;
 /* Set Width Increase Limit Admin Table */
 #admin-increase-limit-table th:nth-child(1),
 #admin-increase-limit-table td:nth-child(1){
-  width: 200px;
+  width: 16%;
 }
 
 #admin-increase-limit-table th:nth-child(2),
 #admin-increase-limit-table td:nth-child(2){
-  width: 260px;
+  width: 22%;
 }
 
 #admin-increase-limit-table th:nth-child(3),
 #admin-increase-limit-table td:nth-child(3){
-  width: 420px;
+  width: 34%;
 }
 
 #admin-increase-limit-table th:nth-child(4),
 #admin-increase-limit-table td:nth-child(4){
-  width: 350px;
+  width: 28%;
 }
 
 #admin-increase-limit-table tr:last-child td {
@@ -326,33 +346,32 @@ $dark-red:     #BE1E2D;
 /* Set Width Manage Customer Table */
 #admin-manage-user-customer-table th:nth-child(1),
 #admin-manage-user-customer-table td:nth-child(1){
-  width: 140px;
+  width: 12%;
 }
 
 #admin-manage-user-customer-table th:nth-child(2),
 #admin-manage-user-customer-table td:nth-child(2){
-  width: 270px;
+  width: 22%;
 }
 
 #admin-manage-user-customer-table th:nth-child(3),
 #admin-manage-user-customer-table td:nth-child(3){
-  width: 370px;
-  max-width: 370px;
+  width: 30%;
 }
 
 #admin-manage-user-customer-table th:nth-child(4),
 #admin-manage-user-customer-table td:nth-child(4){
-  width: 160px;
+  width: 13%;
 }
 
 #admin-manage-user-customer-table th:nth-child(5),
 #admin-manage-user-customer-table td:nth-child(5){
-  width: 160px;
+  width: 13%;
 }
 
 #admin-manage-user-customer-table th:nth-child(6),
 #admin-manage-user-customer-table td:nth-child(6){
-  width: 130px;
+  width: 10%;
 }
 
 #admin-manage-user-customer-table tr:last-child td {
@@ -362,33 +381,32 @@ $dark-red:     #BE1E2D;
 /* Set Width Manage Merchant Table */
 #admin-manage-user-merchant-table th:nth-child(1),
 #admin-manage-user-merchant-table td:nth-child(1){
-  width: 140px;
+  width: 11%;
 }
 
 #admin-manage-user-merchant-table th:nth-child(2),
 #admin-manage-user-merchant-table td:nth-child(2){
-  width: 290px;
+  width: 24%;
 }
 
 #admin-manage-user-merchant-table th:nth-child(3),
 #admin-manage-user-merchant-table td:nth-child(3){
-  width: 370px;
-  max-width: 370px;
+  width: 31%;
 }
 
 #admin-manage-user-merchant-table th:nth-child(4),
 #admin-manage-user-merchant-table td:nth-child(4){
-  width: 160px;
+  width: 13%;
 }
 
 #admin-manage-user-merchant-table th:nth-child(5),
 #admin-manage-user-merchant-table td:nth-child(5){
-  width: 120px;
+  width: 10%;
 }
 
 #admin-manage-user-merchant-table th:nth-child(6),
 #admin-manage-user-merchant-table td:nth-child(6){
-  width: 150px;
+  width: 11%;
 }
 
 #admin-manage-user-merchant-table tr:last-child td {
@@ -398,60 +416,64 @@ $dark-red:     #BE1E2D;
 /* Set Width Merchant Transaction Table */
 #merchant-transaction-table th:nth-child(1),
 #merchant-transaction-table td:nth-child(1){
-  width: 170px;
+  width: 14%;
 }
 
 #merchant-transaction-table th:nth-child(2),
 #merchant-transaction-table td:nth-child(2){
-  width: 200px;
+  width: 16%;
 }
 
 #merchant-transaction-table th:nth-child(3),
 #merchant-transaction-table td:nth-child(3){
-  width: 350px;
+  width: 28%;
 }
 
 #merchant-transaction-table th:nth-child(4),
 #merchant-transaction-table td:nth-child(4){
-  width: 180px;
+  width: 15%;
 }
 
 #merchant-transaction-table th:nth-child(5),
 #merchant-transaction-table td:nth-child(5){
-  width: 130px;
+  width: 11%;
 }
 
 #merchant-transaction-table th:nth-child(6),
 #merchant-transaction-table td:nth-child(6){
-  width: 100px;
+  width: 8%;
 }
 
 #merchant-transaction-table th:nth-child(7),
 #merchant-transaction-table td:nth-child(7){
-  width: 100px;
+  width: 8%;
 }
 
-#admin-transaction-table tr:last-child td {
-  border-bottom: 1px solid $light-blue;
+#merchant-transaction-table tr:last-child td {
+  border-bottom: 1px solid $light-red;
 }
 
 /* Set Width Merchant List Products Table */
 #merchant-list-products-table th:nth-child(1),
 #merchant-list-products-table td:nth-child(1){
-  width: 200px;
+  width: 16%;
 }
 
 #merchant-list-products-table th:nth-child(2),
 #merchant-list-products-table td:nth-child(2){
-  width: 260px;
+  width: 25%;
 }
 
 #merchant-list-products-table th:nth-child(3),
 #merchant-list-products-table td:nth-child(3){
-  width: 420px;
+  width: 16%;
 }
 
 #merchant-list-products-table th:nth-child(4),
 #merchant-list-products-table td:nth-child(4){
-  width: 350px;
+  width: 43%;
+}
+
+#merchant-list-products-table tr:last-child td {
+  border-bottom: 1px solid $light-red;
 }

@@ -18,6 +18,7 @@ $dark-red:     #BE1E2D;
 
 /* Button Style */
 .button {
+  font-family: "Century Gothic";
   border: 0 none;
   border-radius: 2px;
   cursor: pointer;
@@ -37,7 +38,7 @@ $dark-red:     #BE1E2D;
     margin: 0 90px;
   }
   &.profile {
-    width: 165px;
+    width: 170px;
   }
   &.admin-notification {
     width: 125px;
@@ -169,8 +170,8 @@ $dark-red:     #BE1E2D;
 
 .button-close {
   width: 20px;
-  height: 20px;
-  font-size: 15px;
+  line-height: 20px;
+  font-size: 14px;
   cursor: pointer;
   display: inline-block;
   float: right;

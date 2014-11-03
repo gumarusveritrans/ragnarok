@@ -6,10 +6,10 @@
         <div class="balance">
         	Balance<br/>
         	<span class="currency">
-        		Rp {{{$data['balance']}}}
+        		Rp {{{ number_format($data['balance'], 2, ',', '.') }}}
         	</span><br/>
             from the limit of
-        	Rp {{{$data['limitBalance']}}}
+        	Rp {{{ number_format($data['limitBalance'], 2, ',', '.') }}}
         </div>
     </div>
     <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="#534741" />

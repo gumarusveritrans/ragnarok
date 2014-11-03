@@ -5,15 +5,11 @@
     	<span class="subtitle customer">PURCHASE PRODUCTS</span>
     	<div class="balance">
     	  Balance<br/>
-    	      <span class="currency">
-    	        Rp 1.500.000,00
-    	      </span><br/>
-    	        from the limit of 
-    	      @if(true)
-    	          Rp 5.000.000,00
-    	      @else
-    	          Rp 1.000.000,00
-    	      @endif
+            <span class="currency">
+                Rp {{{ number_format($data['balance'], 2, ',', '.') }}}
+            </span><br/>
+            from the limit of
+            Rp {{{ number_format($data['limitBalance'], 2, ',', '.') }}}
     	</div>
 	</div>
 
@@ -33,7 +29,7 @@
 					</div>
 				</div>
 				<div class="column">
-					<button id="shopping-cart-button" class="button darkbrown profile">SHOPPING CART</button>
+					<button id="shopping-cart-button" class="button darkbrown profile" style="margin-right:-50px">SHOPPING CART</button>
 				</div>
 			</div>
 
@@ -87,15 +83,6 @@
             </table>
 
         </div>
-
-        <div id="subbuttons-wrapper">
-        	<div class="table">
-        		<div class="column">
-					<a href="{{ url('/customers/purchase-success') }}"><button class="button darkbrown profile" style="float:right">PURCHASE</button></a>
-        		</div>
-        	</div>
-        </div>
-
 	</div>
 
     <div id="pop-up-buy-product" class="pop-up customer" style="display: none">
@@ -122,7 +109,6 @@
     <div id="pop-up-shopping-cart" class="pop-up customer" style="display: none">
         <span id="close-shopping-cart" class="button-close customer">&#10006;</span>
         <h1>SHOPPING CART</h1>
-        <br/>
         <table>
             <thead>
                 <th>Product ID</th>
@@ -179,7 +165,7 @@
     <div id="pop-up-buy-success" class="pop-up customer" style="display: none">
         <h1>ADDED TO CART</h1>
         <br/>
-        <h2>This product has been added to your shopping cart!</h2>
+        <h3>This product has been added to your shopping cart!</h3>
         <br/>
         <button id="ok-buy-success" class="button darkbrown profile">OK</button>
     </div>
@@ -221,20 +207,21 @@
 	$(function() {
 		var dd = new DropDown( $('#dd') );
 		$(document).click(function() {
-			// all dropdowns
 			$('.wrapper-dropdown').removeClass('active');
 		});
 
         $("#buy-product-01").click(function(){
             $("#pop-up-buy-product").fadeIn();
+            $("#pop-up-shopping-cart").fadeOut("fast");
         });
 
         $("#buy-button").click(function(){
-            $("#pop-up-buy-product").hide();
+            $("#pop-up-buy-product").fadeOut();
         });
 
         $("#shopping-cart-button").click(function(){
             $("#pop-up-shopping-cart").fadeIn();
+            $("#pop-up-buy-product").fadeOut();
         });
 
         $( "#close-buy-product" ).click(function() {
