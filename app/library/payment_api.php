@@ -1,5 +1,5 @@
 <?php
-
+include_once('Veritrans.php');
 use Vinelab\Http\Client as HttpClient;
 
 class PaymentAPI {
