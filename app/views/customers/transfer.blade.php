@@ -30,13 +30,12 @@
           <div>
             {{ Form::label('transfer_recipient', 'Transfer to Account (Email)') }}
             {{ Form::text('transfer_recipient', Input::old('transfer_recipient'), array('class' => 'form-control')) }}
-            @if ($errors->has('transfer_recipient')) <p class="error-message">{{ $errors->first('transfer_recipient') }}</p> @endif
           </div>
 
           <div>
             {{ Form::label('transfer_amount', 'Transfer Amount') }}
             {{ Form::text('transfer_amount', '', array('class' => 'form-control')) }}
-            @if ($errors->has('transfer_amount')) <p class="error-message">{{ $errors->first('transfer_amount') }}</p> @endif
+             @if(Session::has('errors'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif 
           </div>
           <br/>
           <div class="block">
