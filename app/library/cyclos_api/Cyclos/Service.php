@@ -1,24 +1,25 @@
 <?php namespace Cyclos;
 
-	use Illuminate\Session\SessionManager as Session;
+	use Session;
 /**
  * Base class for Cyclos service proxies
  */
 class Service {
 	private $urlSuffix;
-	private $session;
 
-	public function __construct($urlSuffix, Session $session) {
+	public function __construct($urlSuffix) {
 		$this->urlSuffix = $urlSuffix;
-		$this->session = $session;
 	}
 	
-	public function run($operation, $params){
+	public function run($operation, $params,$fromUser){
+
 		// Setup curl
 		$url = Configuration::url($this->urlSuffix);
 		$ch = \curl_init($url);
-		if($this->session->get('cyclos_session_token'!=null)){
-			$options = Configuration::curlOptions($operation, $params,$this->session->get('cyclos_remote_address'));
+
+
+		if($fromUser){
+			$options = Configuration::curlOptions($operation, $params,Session::get('cyclos_session_token'),Session::get('cyclos_remote_address'));
 		}else{
 			$options = Configuration::curlOptions($operation, $params);
 		}
@@ -29,7 +30,10 @@ class Service {
 		$result = \json_decode($json);
 		$code = \curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		if ($code == 200) {
-			return $result->result;
+			if ($operation != 'logout')
+				return $result->result;
+			else
+				return;
 		} else {
 			$error = $result;
 			if ($error == NULL) {

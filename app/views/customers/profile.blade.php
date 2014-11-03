@@ -29,7 +29,7 @@
         Username
       </div>
       <div class="profile-content">
-        Gumarus
+        {{{$data['username']}}}
       </div>
       <div class="profile-header">
         Email
@@ -41,17 +41,13 @@
         Balance
       </div>
       <div class="profile-content">
-        Rp 3.000.000,00
+        Rp {{{$data['balance']}}}
       </div>
       <div class="profile-header">
         Limit Balance
       </div>
       <div class="profile-content">
-        @if(true)
-          Rp 5.000.000,00
-        @else
-          Rp 1.000.000,00
-        @endif
+        Rp {{{$data['limitBalance']}}}
       </div>
     </div>
 

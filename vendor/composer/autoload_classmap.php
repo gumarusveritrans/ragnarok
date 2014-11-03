@@ -29,6 +29,7 @@ return array(
     'ClassPreloader\\Parser\\DirVisitor' => $vendorDir . '/classpreloader/classpreloader/src/ClassPreloader/Parser/DirVisitor.php',
     'ClassPreloader\\Parser\\FileVisitor' => $vendorDir . '/classpreloader/classpreloader/src/ClassPreloader/Parser/FileVisitor.php',
     'ClassPreloader\\Parser\\NodeTraverser' => $vendorDir . '/classpreloader/classpreloader/src/ClassPreloader/Parser/NodeTraverser.php',
+    'ConnectHelper' => $baseDir . '/app/library/ConnectHelper.php',
     'ConnectPagesController' => $baseDir . '/app/controllers/ConnectPagesController.php',
     'Crypt_AES' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/AES.php',
     'Crypt_Base' => $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Base.php',

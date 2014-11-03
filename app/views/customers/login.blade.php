@@ -9,7 +9,7 @@
 			</span>
 		</h1>
 
-		{{ Form::open(array('url' => 'login-form', 'method' => 'post')) }}
+		{{ Form::open() }}
 
 	      <div id="login-register-form" class="form-wrapper">
 	        {{ Form::label('email', 'Email Address') }}

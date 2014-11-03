@@ -2,16 +2,22 @@
 
 class CustomersController extends BaseController {
 
-	public function __construct(Illuminate\Session\SessionManager $session){
-		$this->session = $session;
-	}
-
 	public function dashboard(){
-		return View::make('/customers/dashboard');
+		$data = array();
+		$data['username'] = ConnectHelper::getCurrentUserUsername();
+		$data['balance'] = ConnectHelper::getCurrentUserBalance();
+		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+
+		return View::make('/customers/dashboard')->with('data',$data);
 	}
 
 	public function profile(){	
-		return View::make('/customers/profile');
+		$data = array();
+		$data['username'] = ConnectHelper::getCurrentUserUsername();
+		$data['balance'] = ConnectHelper::getCurrentUserBalance();
+		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+
+		return View::make('/customers/profile')->with('data',$data);
 	}
 
 	public function login(){
@@ -21,7 +27,7 @@ class CustomersController extends BaseController {
 		if(Request::getMethod()=='GET'){
 			return View::make('/customers/login');	
 		}else if(Request::getMethod()=='POST'){
-			$loginService = new Cyclos\Service('loginService',$this->session);
+			$loginService = new Cyclos\Service('loginService');
 
 			// Set the parameters
 			$params = new stdclass();
@@ -31,12 +37,22 @@ class CustomersController extends BaseController {
 
 			// Perform the login
 			try {
-				$result = $loginService->run('loginUser',$params);
-				print_r($result);
-				//Session::put('cyclos_session_token',$result->sessionToken);
-				//Session::put('cyclos_username',$params->user);
-				//Session::put('cyclos_remote_address',$params->remoteAddress);
-				//return Redirect::to('/customers/dashboard');
+				$result = $loginService->run('loginUser',$params,false);
+
+				//print_r($result);
+				Session::put('cyclos_session_token',$result->sessionToken);
+				Session::put('cyclos_username',$params->user['username']);
+				Session::put('cyclos_remote_address',$params->remoteAddress);
+					
+				//GETTING THE GROUP NAME
+				$params = new stdclass();
+				$params->id = $result->user->id;
+
+				$userGroupService = new Cyclos\Service('userGroupService');
+				$result = $userGroupService->run('getChangeGroupData',$params,false);
+				
+				Session::put('cyclos_group',$result->currentGroup->name);
+				return Redirect::to('/customers/dashboard');
 			} catch (Cyclos\ConnectionException $e) {
 				echo("Cyclos server couldn't be contacted");
 				die();
@@ -55,6 +71,7 @@ class CustomersController extends BaseController {
 						echo("Error while performing login: {$e->errorCode}");
 						break;
 				}
+				Session::flush();
 				die();
 			}
 		}
@@ -62,11 +79,20 @@ class CustomersController extends BaseController {
 	}
 
 	public function logout(){
-		$loginService = new Cyclos\LoginService();
-		$result = $loginService->logout();
 		Session::flush();
-		print_r($result);
-		//return Redirect::to("/");
+		$params = new stdclass();
+		$loginService = new Cyclos\Service('loginService');
+
+		try {
+			$loginService->run('logout',array(),true);
+			return Redirect::to("/");
+		}catch (Cyclos\ConnectionException $e) {
+			echo("Cyclos server couldn't be contacted");
+			die();
+		} catch (Cyclos\ServiceException $e) {
+			echo("Error while performing logout: {$e->errorCode}");
+		}
+		die();
 	}
 
 	public function register(){	
@@ -78,7 +104,30 @@ class CustomersController extends BaseController {
 	}
 
 	public function transfer(){	
-		return View::make('/customers/transfer');
+		if(Request::getMethod()=='GET'){
+			return View::make('/customers/transfer');
+		}else{
+			$transactionService = new Cyclos\Service('transactionService');
+			$paymentService = new Cyclos\Service('paymentService');
+
+			try{
+				$data = $transactionService->run('getPaymentData',array(array("username"=>Session::get('cyclos_username')),array("username"=> $_POST['transfer_recipient'])),true);
+				
+				$params = new stdclass();
+				$params->from = $data->from;
+				$params->to = $data->to;
+				$params->type = $data->paymentTypes[0];
+				$params->amount = $_POST['transfer_amount'];
+				$params->desc = "Transfer from ". $data->from->name. " to ". $data->to->name;
+
+				$paymentResult = $paymentService->run('perform',$params,true);
+
+				echo "payment success";
+			}catch (Cyclos\ServiceException $e){
+				var_dump($e->errorCode);
+				//return Redirect::to('/customers/transfer')->withErrors('errors','asdfsdf');
+			}
+		}
 	}
 
 	public function purchase(){	
