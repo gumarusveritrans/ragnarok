@@ -270,7 +270,7 @@
                 {{ Form::submit('ADD', array('class' => 'button darkblue admin-notification')) }}
             {{ Form::close() }}
         </div>
-        <a href="#create-merchant"><button id="create-merchant-button" class="button darkblue dashboard" style="display: none; float: right; margin-right: 80px">Create Merchant</button></a>
+        <a href="#create-merchant"><button id="create-merchant-button" class="button darkblue dashboard" style="display: none; float: right; margin-right: 80px; margin-top: 10px">Create Merchant</button></a>
         <div id="pop-up-delete-id" class="admin pop-up" style="display: none">
             <h1>DELETE ID</h1>
             <h2>Are you sure want to delete merchant's account?</h2>

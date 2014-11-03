@@ -336,14 +336,8 @@ footer.footer-merchant {
   padding: 25px;
   border: 1px solid;
   position: absolute;
-  top: 35%;
+  top: 30%;
   left: 32%;
-}
-
-.pop-up.customer {
-  background: $light-brown;
-  color: $dark-brown;
-  border-color: $dark-brown;
 }
 
 .pop-up.admin {
@@ -358,14 +352,14 @@ footer.footer-merchant {
   border-color: $dark-red;
 }
 
-.pop-up h1 {
+.pop-up.admin h1 {
   font-size: 30px;
   font-weight: normal;
   margin: 0px;
-  padding: 10px;
+  padding: 0px 10px 10px 10px;
 }
 
-.pop-up h2 {
+.pop-up.admin h2 {
   font-size: 20px;
   font-weight: normal;
   margin: 0px;

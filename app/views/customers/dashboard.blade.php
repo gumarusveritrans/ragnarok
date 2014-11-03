@@ -20,12 +20,12 @@
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
-            <a href="#top-up"><button id="topup-transaction-button" class="button lightbrown dashboard">Top-Up Transaction</button></a>
-            <a href="#transfer"><button id="transfer-transaction-button" class="button lightbrown dashboard">Transfer Transaction</button></a>
-            <a href="#purchase"><button id="purchase-transaction-button" class="button lightbrown dashboard">Purchase Transaction</button></a>
+            <a href="#top-up"><button id="topup-dashboard-button" class="button lightbrown dashboard">Top-Up Transaction</button></a>
+            <a href="#transfer"><button id="transfer-dashboard-button" class="button lightbrown dashboard">Transfer Transaction</button></a>
+            <a href="#purchase"><button id="purchase-dashboard-button" class="button lightbrown dashboard">Purchase Transaction</button></a>
         </div>
 
-        <div id="topup-transaction-table" class="all-table customer" style="display:none">
+        <div id="topup-dashboard-table" class="all-table customer" style="display:none">
             <table align="center">
                 <thead>
                     <tr>
@@ -74,7 +74,7 @@
             </table>
         </div>
 
-        <div id="transfer-transaction-table" class="all-table customer" style="display:none">
+        <div id="transfer-dashboard-table" class="all-table customer" style="display:none">
             <table align="center">
                 <thead>
                     <tr>
@@ -123,7 +123,7 @@
             </table>
         </div>
 
-        <div id="purchase-transaction-table" class="all-table customer" style="display:none">
+        <div id="purchase-dashboard-table" class="all-table customer" style="display:none">
             <table align="center">
                 <thead>
                     <tr>
@@ -134,7 +134,7 @@
                             Date & Time
                         </th>
                         <th>
-                            Gross Amount
+                            Amount
                         </th>
                         <th>
                             Merchant Name
@@ -177,36 +177,36 @@
 
     <script type="text/javascript">
 
-        $("#topup-transaction-button").click(function() {
-          $("#transfer-transaction-table").hide();
-          $("#purchase-transaction-table").hide();
-          $("#topup-transaction-table").fadeIn();
+        $("#topup-dashboard-button").click(function() {
+          $("#transfer-dashboard-table").hide();
+          $("#purchase-dashboard-table").hide();
+          $("#topup-dashboard-table").fadeIn();
           $('.lightbrown').removeClass('lightbrown');
           $('.orange').removeClass('orange');
-          $("#transfer-transaction-button").addClass('lightbrown');
-          $("#purchase-transaction-button").addClass('lightbrown');
+          $("#transfer-dashboard-button").addClass('lightbrown');
+          $("#purchase-dashboard-button").addClass('lightbrown');
           $(this).addClass('orange');
         });
 
-        $("#transfer-transaction-button").click(function() {
-          $("#topup-transaction-table").hide();
-          $("#purchase-transaction-table").hide();
-          $("#transfer-transaction-table").fadeIn();
+        $("#transfer-dashboard-button").click(function() {
+          $("#topup-dashboard-table").hide();
+          $("#purchase-dashboard-table").hide();
+          $("#transfer-dashboard-table").fadeIn();
           $('.lightbrown').removeClass('lightbrown');
           $('.orange').removeClass('orange');
-          $("#topup-transaction-button").addClass('lightbrown');
-          $("#purchase-transaction-button").addClass('lightbrown');
+          $("#topup-dashboard-button").addClass('lightbrown');
+          $("#purchase-dashboard-button").addClass('lightbrown');
           $(this).addClass('orange');
         });
 
-        $("#purchase-transaction-button").click(function() {
-          $("#topup-transaction-table").hide();
-          $("#transfer-transaction-table").hide();
-          $("#purchase-transaction-table").fadeIn();
+        $("#purchase-dashboard-button").click(function() {
+          $("#topup-dashboard-table").hide();
+          $("#transfer-dashboard-table").hide();
+          $("#purchase-dashboard-table").fadeIn();
           $('.lightbrown').removeClass('lightbrown');
           $('.orange').removeClass('orange');
-          $("#topup-transaction-button").addClass('lightbrown');
-          $("#transfer-transaction-button").addClass('lightbrown');
+          $("#topup-dashboard-button").addClass('lightbrown');
+          $("#transfer-dashboard-button").addClass('lightbrown');
           $(this).addClass('orange');
         });
 

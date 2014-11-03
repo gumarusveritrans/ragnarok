@@ -2,19 +2,19 @@
 
 @section('content')
 	<div id="subheader-wrapper">
-	<span class="subtitle customer">PURCHASE PRODUCTS</span>
-	<div class="balance">
-	  Balance<br/>
-	      <span class="currency">
-	        Rp 1.500.000,00
-	      </span><br/>
-	        from the limit of 
-	      @if(true)
-	          Rp 5.000.000,00
-	      @else
-	          Rp 1.000.000,00
-	      @endif
-	</div>
+    	<span class="subtitle customer">PURCHASE PRODUCTS</span>
+    	<div class="balance">
+    	  Balance<br/>
+    	      <span class="currency">
+    	        Rp 1.500.000,00
+    	      </span><br/>
+    	        from the limit of 
+    	      @if(true)
+    	          Rp 5.000.000,00
+    	      @else
+    	          Rp 1.000.000,00
+    	      @endif
+    	</div>
 	</div>
 
 	<hr id="horizontal-line-dashboard" noshade size=1 width=95% />
@@ -33,13 +33,13 @@
 					</div>
 				</div>
 				<div class="column">
-					<button id="shopping-cart-button" class="button darkbrown profile" style="float:right">SHOPPING CART</button>
+					<button id="shopping-cart-button" class="button darkbrown profile">SHOPPING CART</button>
 				</div>
 			</div>
 
 		</div>
 
-        <div class="all-table customer">
+        <div id="purchase-transaction-table" class="all-table customer">
             <table align="center">
                 <thead>
                     <tr>
@@ -47,10 +47,10 @@
                             Product Name
                         </th>
                         <th>
-                            Price
+                            Description
                         </th>
                         <th>
-                            Description
+                            Price
                         </th>
                         <th>
                         </th>
@@ -61,13 +61,13 @@
                         Product 01
                     </td>
                     <td>
-                        Rp 10.000,-
-                    </td>
-                    <td>
                         Casio Type X
                     </td>
                     <td>
-                        <button id="buy-product-01" class="button-table darkbrown" style="float:right">buy product</button>   
+                        Rp 1.000.000,00
+                    </td>
+                    <td>
+                        <button id="buy-product-01" class="button-table darkbrown">buy product</button>   
                     </td>
                 </tr>
                 <tr>
@@ -81,7 +81,7 @@
                         Casio Type Y
                     </td>
                     <td>
-                        <button id="buy-product-02" class="button-table darkbrown" style="float:right">buy product</button> 
+                        <button id="buy-product-02" class="button-table darkbrown">buy product</button> 
                     </td>
                 </tr>
             </table>
@@ -102,28 +102,16 @@
         <span id="close-buy-product" class="button-close customer">&#10006;</span>
         <h1>BUY PRODUCT</h1>
         <br/>
-        <div class="table">
-            <div class="column">
-                <h2>Product Name</h2>
-                <h3>Product 01</h3>
-            </div>
-            <div class="column">
-                <h2>Price</h2>
-                <h3>Rp 10.000,-</h3>
-            </div>
-        </div>
+        <h3>Product Name</h3>
+        <h2>Ticket Travel Samarinda-Jakarta</h2>
+        <br/>
+        <h3>Price</h3>
+        <h2>Rp 1.000.000,00</h2>
         <br/>
         <div class="table">
             <div class="column">
-                <h2>Description</h2>
-                <h3>CASIO TYPE X</h3>
-            </div>
-        </div>
-        <br/>
-        <div class="table">
-            <div class="column">
-                <h2>Quantity</h2>
-                <h3>CASIO TYPE X</h3>
+                <h3>Quantity</h3>
+                <h2>15</h2>
             </div>
             <div class="column">
                 <button id="buy-button" class="button darkbrown admin-notification" style="float:right">BUY</button>
@@ -131,16 +119,15 @@
         </div>
     </div>
 
-
     <div id="pop-up-shopping-cart" class="pop-up customer" style="display: none">
         <span id="close-shopping-cart" class="button-close customer">&#10006;</span>
         <h1>SHOPPING CART</h1>
         <br/>
         <table>
             <thead>
+                <th>Product ID</th>
                 <th>Product Name</th>
                 <th>Price</th>
-                <th>Description</th>
                 <th>Quantity</th>
                 <th>Subtotal</th>
             </thead>
@@ -149,37 +136,37 @@
         <div class="table-box-content">
             <table>
                 <tr>
-                    <td>Product 01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                    <td>Rp 10.000,-</td>
-                    <td>CASIO TYPE X</td>
+                    <td>PID999999</td>
+                    <td>Product 01</td>
+                    <td>Rp 1.000.000,00</td>
                     <td>1</td>
-                    <td>Rp 10.000,-</td>
+                    <td>Rp 1.000.000,00</td>
                 </tr>
                 <tr>
+                    <td>PID999999</td>
                     <td>Product 02</td>
                     <td>Rp 20.000,-</td>
-                    <td>CASIO TYPE Y</td>
                     <td>2</td>
                     <td>Rp 40.000,-</td>
                 </tr>
                 <tr>
+                    <td>PID999999</td>
                     <td>Product 03</td>
                     <td>Rp 20.000,-</td>
-                    <td>CASIO TYPE Y</td>
                     <td>2</td>
                     <td>Rp 40.000,-</td>
                 </tr>
                 <tr>
+                    <td>PID999999</td>
                     <td>Product 04</td>
                     <td>Rp 20.000,-</td>
-                    <td>CASIO TYPE Y</td>
                     <td>2</td>
                     <td>Rp 40.000,-</td>
                 </tr>
                 <tr>
+                    <td>PID999999</td>
                     <td>Product 05</td>
                     <td>Rp 20.000,-</td>
-                    <td>CASIO TYPE Y</td>
                     <td>2</td>
                     <td>Rp 40.000,-</td>
                 </tr>

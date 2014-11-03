@@ -9,8 +9,10 @@
     {{ HTML::style('css/tables.css') }}
     {{ HTML::style('css/buttons.css') }}
     {{ HTML::style('css/customers.css') }}
+    {{ HTML::style('css/jquery-ui.min.css') }}
     {{ HTML::script('js/jquery-1.11.1.min.js') }}
     {{ HTML::script('js/jquery.form.min.js') }}
+    {{ HTML::script('js/jquery-ui.min.js') }}
   </head>
   <body>
     <div id="body-wrapper">

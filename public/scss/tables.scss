@@ -99,7 +99,91 @@ $dark-red:     #BE1E2D;
   color:$light-red;
 }
 
-/* Set Width Purchase Table */
+/* Set Top-Up Dashboard Table */
+#topup-dashboard-table th:nth-child(1),
+#topup-dashboard-table td:nth-child(1){
+  width: 300px;
+}
+
+#topup-dashboard-table th:nth-child(2),
+#topup-dashboard-table td:nth-child(2){
+  width: 330px;
+}
+
+#topup-dashboard-table th:nth-child(3),
+#topup-dashboard-table td:nth-child(3){
+  width: 300px;
+}
+
+#topup-dashboard-table th:nth-child(4),
+#topup-dashboard-table td:nth-child(4){
+  width: 300px;
+}
+
+/* Set Transfer Dashboard Table */
+#transfer-dashboard-table th:nth-child(1),
+#transfer-dashboard-table td:nth-child(1){
+  width: 300px;
+}
+
+#transfer-dashboard-table th:nth-child(2),
+#transfer-dashboard-table td:nth-child(2){
+  width: 330px;
+}
+
+#transfer-dashboard-table th:nth-child(3),
+#transfer-dashboard-table td:nth-child(3){
+  width: 300px;
+}
+
+#transfer-dashboard-table th:nth-child(4),
+#transfer-dashboard-table td:nth-child(4){
+  width: 300px;
+}
+
+/* Set Purchase Dashboard Table */
+#purchase-dashboard-table th:nth-child(1),
+#purchase-dashboard-table td:nth-child(1){
+  width: 300px;
+}
+
+#purchase-dashboard-table th:nth-child(2),
+#purchase-dashboard-table td:nth-child(2){
+  width: 330px;
+}
+
+#purchase-dashboard-table th:nth-child(3),
+#purchase-dashboard-table td:nth-child(3){
+  width: 300px;
+}
+
+#purchase-dashboard-table th:nth-child(4),
+#purchase-dashboard-table td:nth-child(4){
+  width: 300px;
+}
+
+/* Set Purchase Transaction Table */
+#purchase-transaction-table th:nth-child(1),
+#purchase-transaction-table td:nth-child(1){
+  width: 350px;
+}
+
+#purchase-transaction-table th:nth-child(2),
+#purchase-transaction-table td:nth-child(2){
+  width: 400px;
+}
+
+#purchase-transaction-table th:nth-child(3),
+#purchase-transaction-table td:nth-child(3){
+  width: 280px;
+}
+
+#purchase-transaction-table th:nth-child(4),
+#purchase-transaction-table td:nth-child(4){
+  width: 200px;
+}
+
+/* Set Width Purchase Admin Table */
 #admin-purchase-transaction-table th:nth-child(1),
 #admin-purchase-transaction-table td:nth-child(1){
   width: 160px;
@@ -125,7 +209,11 @@ $dark-red:     #BE1E2D;
   width: 310px;
 }
 
-/* Set Width Transfer Table */
+#admin-purchase-transaction-table tr:last-child td {
+  border-bottom: 1px solid $light-blue;
+}
+
+/* Set Width Transfer Admin Table */
 #admin-transfer-transaction-table th:nth-child(1),
 #admin-transfer-transaction-table td:nth-child(1){
   width: 150px;
@@ -151,7 +239,11 @@ $dark-red:     #BE1E2D;
   width: 340px;
 }
 
-/* Set Width Top-Up Table */
+#admin-transfer-transaction-table tr:last-child td {
+  border-bottom: 1px solid $light-blue;
+}
+
+/* Set Width Top-Up Admin Table */
 #admin-top-up-transaction-table th:nth-child(1),
 #admin-top-up-transaction-table td:nth-child(1){
   width: 170px;
@@ -177,7 +269,11 @@ $dark-red:     #BE1E2D;
   width: 200px;
 }
 
-/* Set Width Close Account Table */
+#admin-top-up-transaction-table tr:last-child td {
+  border-bottom: 1px solid $light-blue;
+}
+
+/* Set Width Close Account Admin Table */
 #admin-close-account-table th:nth-child(1),
 #admin-close-account-table td:nth-child(1){
   width: 200px;
@@ -198,7 +294,11 @@ $dark-red:     #BE1E2D;
   width: 350px;
 }
 
-/* Set Width Increase Limit Table */
+#admin-close-account-table tr:last-child td {
+  border-bottom: 1px solid $light-blue;
+}
+
+/* Set Width Increase Limit Admin Table */
 #admin-increase-limit-table th:nth-child(1),
 #admin-increase-limit-table td:nth-child(1){
   width: 200px;
@@ -217,6 +317,10 @@ $dark-red:     #BE1E2D;
 #admin-increase-limit-table th:nth-child(4),
 #admin-increase-limit-table td:nth-child(4){
   width: 350px;
+}
+
+#admin-increase-limit-table tr:last-child td {
+  border-bottom: 1px solid $light-blue;
 }
 
 /* Set Width Manage Customer Table */
@@ -251,6 +355,10 @@ $dark-red:     #BE1E2D;
   width: 130px;
 }
 
+#admin-manage-user-customer-table tr:last-child td {
+  border-bottom: 1px solid $light-blue;
+}
+
 /* Set Width Manage Merchant Table */
 #admin-manage-user-merchant-table th:nth-child(1),
 #admin-manage-user-merchant-table td:nth-child(1){
@@ -281,6 +389,10 @@ $dark-red:     #BE1E2D;
 #admin-manage-user-merchant-table th:nth-child(6),
 #admin-manage-user-merchant-table td:nth-child(6){
   width: 150px;
+}
+
+#admin-manage-user-merchant-table tr:last-child td {
+  border-bottom: 1px solid $light-blue;
 }
 
 /* Set Width Merchant Transaction Table */
@@ -317,6 +429,10 @@ $dark-red:     #BE1E2D;
 #merchant-transaction-table th:nth-child(7),
 #merchant-transaction-table td:nth-child(7){
   width: 100px;
+}
+
+#admin-transaction-table tr:last-child td {
+  border-bottom: 1px solid $light-blue;
 }
 
 /* Set Width Merchant List Products Table */

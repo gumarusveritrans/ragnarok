@@ -182,13 +182,12 @@ $dark-red:     #BE1E2D;
 }
 
 .button-close.admin {
-
   background: $dark-blue;
   color: $light-blue;
 }
 
 .button-close:hover.customer {
-  background: $light-brown;
+  background: $dark-blue;
   color: $white;
   transition: all 0.3s ease 0s;
 }
