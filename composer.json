@@ -5,13 +5,12 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.2.*",
-		"guzzlehttp/guzzle": "~5.0",
-		"vinelab/http": "dev-master"
+		"laravel/framework": "4.2.*"
 	},
 	"require-dev": {
     	"panique/laravel-sass": "dev-master"
 	},
+
 	"autoload": {
 		"classmap": [
 			"app/commands",

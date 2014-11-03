@@ -59,16 +59,23 @@ class CustomersController extends BaseController {
 			} catch (Cyclos\ServiceException $e) {
 				switch ($e->errorCode) {
 					case 'VALIDATION':
-						echo("Missing username / password");
+						Session::flash('errors', 'Missing username/password');
+						return View::make('customers/login');
 						break;
 					case 'LOGIN':
-						echo("Invalid username / password");
+						//return View::make('customers/login')->with('errors', 'Invalid Username/Password');
+						Session::flash('errors', 'Invalid username/password');
+						return View::make('customers/login');
 						break;
 					case 'REMOTE_ADDRESS_BLOCKED':
-						echo("Your access is blocked by exceeding invalid login attempts");
+						//return View::make('customers/login')->with('errors', 'Your access is blocked by exceeding invalid login attempts');
+						Session::flash('errors', 'Your access is blocked by exceeding invalid login attempts');
+						return View::make('customers/login');
 						break;
 					default:
-						echo("Error while performing login: {$e->errorCode}");
+						//return View::make('customers/login')->with('errors', 'Error while performing login: {$e->errorCode}');
+						Session::flash('errors', 'Error while performing login: {$e->errorCode}');
+						return View::make('customers/login');
 						break;
 				}
 				Session::flush();
@@ -122,6 +129,10 @@ class CustomersController extends BaseController {
 			$transactionService = new Cyclos\Service('transactionService');
 			$paymentService = new Cyclos\Service('paymentService');
 
+			if (Session::get('cyclos_username') == $_POST['transfer_recipient']){
+				Session::flash('errors', 'Couldn\'t transfer to your own account');
+				return View::make('customers/transfer');			
+			}
 			try{
 				$data = $transactionService->run('getPaymentData',array(array("username"=>Session::get('cyclos_username')),array("username"=> $_POST['transfer_recipient'])),true);
 				
@@ -134,10 +145,35 @@ class CustomersController extends BaseController {
 
 				$paymentResult = $paymentService->run('perform',$params,true);
 
-				echo "payment success";
+				return View::make('customers/transfer-success')
+					->with('transfer_amount', $_POST['transfer_amount'])
+					->with('transfer_recipient', $_POST['transfer_recipient']);
 			}catch (Cyclos\ServiceException $e){
-				var_dump($e->errorCode);
-				//return Redirect::to('/customers/transfer')->withErrors('errors','asdfsdf');
+				switch ($e->errorCode) {
+					case 'VALIDATION':
+						Session::flash('errors', 'Please input the correct recipient and amount');
+						return View::make('customers/transfer');
+						break;
+					case 'ENTITY_NOT_FOUND':
+						Session::flash('errors', 'Invalid User Recipient');
+						return View::make('customers/transfer');
+						break;
+					case 'INSUFFICIENT_BALANCE':
+						Session::flash('errors', 'Insufficient Balance');
+						return View::make('customers/transfer');
+						break;
+					case 'DATA_ACCESS':
+						Session::flash('errors', 'Transfer Overload');
+						return View::make('customers/transfer');
+						break;
+					case 'INVALID_PARAMETER':
+						Session::flash('errors', 'Invalid Transfer Amount');
+						return View::make('customers/transfer');
+						break;
+					default:
+						var_dump($e->errorCode);
+						break;
+				}
 			}
 		}
 	}
@@ -168,10 +204,6 @@ class CustomersController extends BaseController {
 
 	public function close_account_success(){	
 		return View::make('/customers/close-account-success');
-	}
-
-	public function topup_success(){	
-		return View::make('/customers/topup-success');
 	}
 
 	public function transfer_success(){	
@@ -365,8 +397,8 @@ class CustomersController extends BaseController {
 			// redirect ----------------------------------------
 			// redirect our user back to the form so they can do it all over again
 			
-			$response = PaymentAPI::charge_topup();
-			return Redirect::to('customers/topup-success');
+			$response = PaymentAPI::charge_topup(Input::get('topup_amount'));
+			return View::make('customers/topup-success')->with('va_number',$response->permata_va_number);
 		}
 
 	}

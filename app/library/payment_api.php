@@ -1,17 +1,14 @@
 <?php
-
-use Vinelab\Http\Client as HttpClient;
+include_once('veritrans-php/Veritrans.php');
 
 class PaymentAPI {
 
 
-	public static function charge_topup(){
-		$server_key = '6d7ccd71-ea52-43cc-ac42-5402077bd6c6';
-		$papi_url = 'https://api.sandbox.veritrans.co.id/v2/charge';
+	public static function charge_topup($topup_amount){
 
 		$transaction_details = array(
-			'order_id' => '123123123',
-			'gross_amount' => 10
+			'order_id' => rand(),
+			'gross_amount' => $topup_amount
 		);
 
 		$customer_details = array(
@@ -30,22 +27,11 @@ class PaymentAPI {
   			'customer_details' => $customer_details
   		);
 
+		Veritrans_Config::$serverKey = '6d7ccd71-ea52-43cc-ac42-5402077bd6c6';
+		Veritrans_Config::$isProduction = false;
 
-
-  		$client = new HttpClient;
-  		$request = [
-        	'url' => $papi_url,
-        	'headers' => [
-				'Authorization' =>  'Basic ' + base64_encode($server_key),
-        		'Accept' => 'application/json',
-        		'Content-Type' => 'application/json'
-        	],
-        	'json' => json_encode($transaction_data)
-    	];
-  		
-  		$response = $client->get($request);
-		var_dump($response->json());
-  		return $response->json();	
+  		$response = Veritrans_VtDirect::charge($transaction_data);
+  		return $response;	
 	}
 
 }	
