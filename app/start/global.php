@@ -48,6 +48,17 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(Exception $exception, $code)
 {
+	if($exception->errorCode == "LOGGED_OUT"){
+		Session::flush();
+		Session::flash('errors', 'You session has expired.');
+		if(Session::get('cyclos_role') == Config::get('connect_variable.merchant')){
+			return Redirect::to('/merchants/login');
+		}else if(Session::get('cyclos_role') == Config::get('connect_variable.merchant')){
+			return Redirect::to('/admin/login');
+		}else{
+			return Redirect::to('/login');
+		}
+	}
 	Log::error($exception);
 });
 
