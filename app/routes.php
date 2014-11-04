@@ -10,6 +10,7 @@ Route::get('/product', 'ConnectPagesController@product');
 Route::get('/login', 'CustomersController@login');
 Route::post('/login', 'CustomersController@login');
 Route::get('/register', 'CustomersController@register');
+Route::post('/register', 'CustomersController@register');
 
 //Route for Customers Sectiion
 Route::get('/customers/dashboard', 'CustomersController@dashboard');
@@ -38,11 +39,11 @@ Route::get('/admin/manage-user', 'AdminController@manage_user');
 
 //Route for Merchant Section
 Route::get('/merchants/login', 'MerchantsController@login');
+Route::post('/merchants/login', 'MerchantsController@login');
 Route::get('/merchants/transaction', 'MerchantsController@transaction');
 Route::get('/merchants/list-products', 'MerchantsController@list_products');
 
 //Route for Validation Form
-Route::post('register-form', 'CustomersController@validate_registration_form');
 Route::post('login-form', 'CustomersController@validate_login_form');
 Route::post('topup-form', 'CustomersController@validate_topup_form');
 Route::post('transfer-form', 'CustomersController@validate_transfer_form');

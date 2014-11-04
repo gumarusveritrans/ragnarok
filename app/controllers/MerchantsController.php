@@ -3,7 +3,74 @@
 class MerchantsController extends BaseController {
 
 	public function login(){
-		return View::make('/merchants/login');
+		if(Session::get('cyclos_group') == Config::get('connect_variable.merchant')){
+			return Redirect::to('/merchants/transaction');
+		}
+		if(Request::getMethod()=='GET'){
+			return View::make('/merchants/login');	
+		}else if(Request::getMethod()=='POST'){
+			$loginService = new Cyclos\Service('loginService');
+
+			// Set the parameters
+			$params = new stdclass();
+			$params->user = array('username' => $_POST['email']);
+			$params->password = $_POST['password'];
+			$params->remoteAddress = $_SERVER['REMOTE_ADDR'];
+
+			// Perform the login
+			try {
+				$result = $loginService->run('loginUser',$params,false);
+
+				//print_r($result);
+				Session::put('cyclos_session_token',$result->sessionToken);
+				Session::put('cyclos_username',$params->user['username']);
+				Session::put('cyclos_remote_address',$params->remoteAddress);
+					
+				//GETTING THE GROUP NAME
+				$params = new stdclass();
+				$params->id = $result->user->id;
+
+				$userService = new Cyclos\Service('userService');
+				$result = $userService->run('getViewProfileData',$params,false);
+
+				if($result->group->name != Config::get('connect_variable.merchant')){
+					Session::flush();
+					Session::flash('errors', 'Invalid username/password');
+					return View::make('merchants/login');
+				}
+
+				Session::put('cyclos_group',$result->group->name);
+				Session::put('cyclos_email',$result->email);
+				return Redirect::to('/merchants/transaction');
+			} catch (Cyclos\ConnectionException $e) {
+				echo("Cyclos server couldn't be contacted");
+				die();
+			} catch (Cyclos\ServiceException $e) {
+				switch ($e->errorCode) {
+					case 'VALIDATION':
+						Session::flash('errors', 'Missing username/password');
+						return View::make('merchants/login');
+						break;
+					case 'LOGIN':
+						//return View::make('customers/login')->with('errors', 'Invalid Username/Password');
+						Session::flash('errors', 'Invalid username/password');
+						return View::make('merchants/login');
+						break;
+					case 'REMOTE_ADDRESS_BLOCKED':
+						//return View::make('customers/login')->with('errors', 'Your access is blocked by exceeding invalid login attempts');
+						Session::flash('errors', 'Your access is blocked by exceeding invalid login attempts');
+						return View::make('merchants/login');
+						break;
+					default:
+						//return View::make('customers/login')->with('errors', 'Error while performing login: {$e->errorCode}');
+						Session::flash('errors', 'Error while performing login: {$e->errorCode}');
+						return View::make('merchants/login');
+						break;
+				}
+				Session::flush();
+				die();
+			}
+		}
 	}
 
 	public function transaction(){

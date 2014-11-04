@@ -15,6 +15,39 @@ class AdminController extends BaseController {
 	}
 
 	public function manage_user(){
+		//GETTING ALL USERS
+		$userService = new Cyclos\Service('userService');
+
+		//GETTING ACCOUNT ROLE
+		$usersResult = $userService->run('getUserRegistrationGroups',array(),false);
+		$roleId = array();
+		foreach($usersResult as $group){
+			$roleId[$group->name] = $group->id;
+		}
+
+		//GETTING ACCOUNTS
+		//GETTING VERIFIED USER
+		$params = new stdclass();
+		$params->groups = new stdclass();
+		$params->groups->id = $roleId[Config::get('connect_variable.verified_user')];
+		$params->pageSize = PHP_INT_MAX;
+		$verifiedUsersResult = $userService->run('search',$params,false);
+
+		//GETTING UNVERIFIED USER
+		$params = new stdclass();
+		$params->groups = new stdclass();
+		$params->groups->id = $roleId[Config::get('connect_variable.unverified_user')];
+		$params->pageSize = PHP_INT_MAX;
+		$unverifiedUsersResult = $userService->run('search',$params,false);
+
+		//GETTING MERCHANT
+		$params = new stdclass();
+		$params->groups = new stdclass();
+		$params->groups->id = $roleId[Config::get('connect_variable.merchant')];
+		$params->pageSize = PHP_INT_MAX;
+		$merchantsResult = $userService->run('search',$params,false);
+
+		
 		return View::make('/admin/manage-user');
 	}
 
