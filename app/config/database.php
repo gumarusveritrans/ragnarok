@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'psql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -66,9 +66,9 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'forge',
-			'username' => 'forge',
-			'password' => '',
+			'database' => 'connect',
+			'username' => 'cyclos',
+			'password' => 'cyclos',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
