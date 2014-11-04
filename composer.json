@@ -4,17 +4,8 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"type": "project",
-	"repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/dannypranoto/veritrans-php"
-        }
-    ],
 	"require": {
-		"laravel/framework": "4.2.*",
-		"guzzlehttp/guzzle": "~5.0",
-		"vinelab/http": "dev-master",
-		"veritrans/veritrans-php": "master"
+		"laravel/framework": "4.2.*"
 	},
 	"require-dev": {
     	"panique/laravel-sass": "dev-master"
