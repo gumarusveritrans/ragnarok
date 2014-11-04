@@ -16,6 +16,7 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+		$data['email'] = ConnectHelper::getCurrentUserEmail();
 
 		return View::make('/customers/profile')->with('data',$data);
 	}
@@ -48,10 +49,11 @@ class CustomersController extends BaseController {
 				$params = new stdclass();
 				$params->id = $result->user->id;
 
-				$userGroupService = new Cyclos\Service('userGroupService');
-				$result = $userGroupService->run('getChangeGroupData',$params,false);
-				
-				Session::put('cyclos_group',$result->currentGroup->name);
+				$userService = new Cyclos\Service('userService');
+				$result = $userService->run('getViewProfileData',$params,false);
+
+				Session::put('cyclos_group',$result->group->name);
+				Session::put('cyclos_email',$result->email);
 				return Redirect::to('/customers/dashboard');
 			} catch (Cyclos\ConnectionException $e) {
 				echo("Cyclos server couldn't be contacted");

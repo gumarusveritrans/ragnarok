@@ -35,7 +35,7 @@
         Email
       </div>
       <div class="profile-content">
-        gumarus.william@gmail.com
+        {{{$data['email']}}}
       </div>
       <div class="profile-header">
         Balance

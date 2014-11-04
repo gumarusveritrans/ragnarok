@@ -14,6 +14,7 @@ return array(
 	'cyclos_remote_address' => 'cyclos_remote_address',
 	'cyclos_username' => 'cyclos_username',
 	'cyclos_group' => 'cyclos_group',
+	'cyclos_email' => 'cyclos_email',
 
 	/*
 	|--------------------------------------------------------------------------
