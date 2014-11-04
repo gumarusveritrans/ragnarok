@@ -103,16 +103,28 @@ class CustomersController extends BaseController {
 	}
 
 	public function register(){	
+		$data = array();
+		$data['username'] = ConnectHelper::getCurrentUserUsername();
+		$data['balance'] = ConnectHelper::getCurrentUserBalance();
+		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();	
 		return View::make('/customers/register');
 	}
 
-	public function topup(){	
-		return View::make('/customers/topup');
+	public function topup(){
+		$data = array();
+		$data['username'] = ConnectHelper::getCurrentUserUsername();
+		$data['balance'] = ConnectHelper::getCurrentUserBalance();
+		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+		return View::make('/customers/topup')->with('data',$data);;
 	}
 
 	public function transfer(){	
 		if(Request::getMethod()=='GET'){
-			return View::make('/customers/transfer');
+			$data = array();
+			$data['username'] = ConnectHelper::getCurrentUserUsername();
+			$data['balance'] = ConnectHelper::getCurrentUserBalance();
+			$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+			return View::make('/customers/transfer')->with('data',$data);;
 		}else{
 			$transactionService = new Cyclos\Service('transactionService');
 			$paymentService = new Cyclos\Service('paymentService');
@@ -167,11 +179,19 @@ class CustomersController extends BaseController {
 	}
 
 	public function purchase(){	
-		return View::make('/customers/purchase');
+		$data = array();
+		$data['username'] = ConnectHelper::getCurrentUserUsername();
+		$data['balance'] = ConnectHelper::getCurrentUserBalance();
+		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+		return View::make('/customers/purchase')->with('data',$data);;
 	}
 
-	public function increase_limit(){	
-		return View::make('/customers/increase-limit');
+	public function increase_limit(){
+		$data = array();
+		$data['username'] = ConnectHelper::getCurrentUserUsername();
+		$data['balance'] = ConnectHelper::getCurrentUserBalance();
+		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+		return View::make('/customers/increase-limit')->with('data',$data);;
 	}
 
 	public function increase_limit_success(){	
