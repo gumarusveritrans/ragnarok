@@ -21,7 +21,6 @@ Route::get('/customers/increase-limit-success', 'CustomersController@increase_li
 Route::get('/customers/change-password-success', 'CustomersController@change_password_success');
 Route::get('/customers/close-account-success', 'CustomersController@close_account_success');
 Route::get('/customers/transfer-success', 'CustomersController@transfer_success');
-Route::get('/customers/topup-success', 'CustomersController@topup_success');
 Route::get('/customers/purchase-success', 'CustomersController@purchase_success');
 Route::get('/customers/topup', 'CustomersController@topup');
 

@@ -130,6 +130,7 @@
 
         $( "#no-accept-transaction" ).click(function() {
             $("#pop-up-accept-transaction").fadeOut("fast");
+            $("#pop-up-reject-transaction").fadeOut("fast");
         });
 
         $( "#reject-button" ).click(function() {
@@ -137,6 +138,7 @@
         });
 
         $( "#no-reject-transaction" ).click(function() {
+            $("#pop-up-accept-transaction").fadeOut("fast");
             $("#pop-up-reject-transaction").fadeOut("fast");
         });
 

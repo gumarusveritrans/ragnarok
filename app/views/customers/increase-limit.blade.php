@@ -3,58 +3,50 @@
 @section('content')
 	<div id="increase-limit-form" class="container centered">
 
-		<h1 class="line-title"><span class="line-center">Increase Limit</span></h1>
-
+		<h1 class="line-title customer"><span class="line-center customer">Increase Limit</span></h1>
+		<br/>
 		<div id="user-agreements" >
-			<h2 style="text-align:left">Step 1 of 3 - User Agreements</h2>
-
+			<h2>Step 1 of 3 - User Agreements</h2>
 			<div class="eula-box">
-				<p style="text-align:justify">Here's the end user licence agreements</span>
+				Here's the end user licence agreements. Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum.
 			</div>
-
-			<div style="font-size:15px;margin:20px 0">
+			<h3>
 				<input type="checkbox" name="checkbox" id="checkbox" class="css-checkbox" />
 				I agree with these terms and agreements
-			</div>
-
-			<div>
+			</h3>
+			<div class="next-button">
 				<a href="#user-information"><button id="button-1" class="button darkbrown">NEXT</button></a>
 			</div>
-	      	
 		</div>
 
 		<div id="user-information" style="display:none">
-			<h2 style="text-align:left">Step 2 of 3 - User Information</h2>
+			<h2>Step 2 of 3 - User Information</h2>
 			<div>
 				{{ Form::open(array('url' => 'user-information-form', 'method' => 'post')) }}
-	    
 			    	<div id="login-register-form" class="wrapper">
 				    	<div>
 					    	{{ Form::label('id_number', 'Identity Number') }}<br />
 					    	{{ Form::text('id_number', '', array('class' => 'form-control')) }}
 					    	@if ($errors->has('id_number')) <p class="error-message">{{ $errors->first('id_number') }}</p> @endif
 				    	</div>
-
 				    	<div>
 					    	{{ Form::label('gender', 'Gender') }}<br />
-					    	{{ Form::radio('gender', 'Male') }}
-					    	{{ Form::label('gender', 'Male') }}
-					    	{{ Form::radio('gender', 'Female') }}
-					    	{{ Form::label('gender', 'Female') }}
+					    	<div class="radio-style">
+						    	{{ Form::radio('gender', 'male') }}
+						    	{{ Form::label('gender', 'Male') }} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						    	{{ Form::radio('gender', 'female') }}
+						    	{{ Form::label('gender', 'Female') }}
+					    	</div>
 					    	@if ($errors->has('gender')) <p class="error-message">{{ $errors->first('gender') }}</p> @endif
 				    	</div>
-
 				    	<div>
 				      		{{ Form::label('birth_place', 'Birth Place') }}<br />
 				        	{{ Form::text('birth_place', '', array('class' => 'form-control')) }}
 				        	@if ($errors->has('birth_place')) <p class="error-message">{{ $errors->first('birth_place') }}</p> @endif
 				    	</div>
-
 				    	<div>
-				      		{{ Form::label('birth_date', 'Birth Date') }}<br />
-				        	{{ Form::selectRange('number', 1, 31) }}
-				        	{{ Form::selectMonth('month') }}
-				        	{{ Form::selectYear('year', 1900, 2014) }}
+				    		{{ Form::label('birth_date', 'Birth Date') }}<br />
+				    		<input id="birth_date" class="form-control" name="birth_date" type="text" value="">
 				    	</div>
 
 				    	<div>
@@ -83,7 +75,7 @@
 
 					</div>
 
-				    <div>
+				    <div class="next-button">
 				    	<a href="#upload-id-card">{{ Form::submit('NEXT', array('class' => 'button darkbrown')) }}</a>
 				    </div>
 
@@ -95,10 +87,8 @@
 			<h2 style="text-align:left">Step 3 of 3 - Upload ID Card</h2>
 			<div>
 			    {{ Form::open(array('url'=>'upload-id-card','method'=>'POST', 'files'=>true, 'id'=>'upload-form')) }}
-			    	<div id="uploaded-image" class="block">
-
-			    	</div>
-				    <div class="centered">
+			    	<div id="uploaded-image" class="block"></div>
+				    <div>
 				        	{{ Form::file('image', array('id'=>'image-upload')) }}
 				      		<p class="errors">{{$errors->first('image')}}</p>
 				    		@if(Session::has('error'))
@@ -106,7 +96,9 @@
 				    		@endif
 				    </div>
 				    <div id="validation-errors"></div>
+				    <div class="next-button">
 				      {{ Form::submit('FINISH', array('id'=>'finish-upload-button', 'class'=>'button darkbrown')) }}
+				    </div>
 				{{ Form::close() }}
 <!-- 				<div id="uploaded-image" class="block"></div>
 				<form class="form-horizontal" id="upload-form" enctype="multipart/form-data" method="post" action="{{ url('upload-id-card') }}" autocomplete="off">
@@ -141,7 +133,6 @@
 		    });
 
 			var isClick = false;
-
 
 			var user_information_path = location.href.split("#")[1];
 		    if(user_information_path == "user-information") {
@@ -193,6 +184,12 @@
 		    	});
 		    }
 		}
-
+		$(function() {
+			$("#birth_date").datepicker({
+				changeMonth: true,
+      			changeYear: true,
+      			yearRange: "-80:+0"
+			});
+		});
 	</script>
 @stop
