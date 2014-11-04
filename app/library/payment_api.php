@@ -4,10 +4,10 @@ include_once('veritrans-php/Veritrans.php');
 class PaymentAPI {
 
 
-	public static function charge_topup($topup_amount){
+	public static function charge_topup($topup_id, $topup_amount){
 
 		$transaction_details = array(
-			'order_id' => rand(),
+			'order_id' => $topup_id,
 			'gross_amount' => $topup_amount
 		);
 

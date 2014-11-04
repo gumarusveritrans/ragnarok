@@ -16,12 +16,13 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+		$data['email'] = ConnectHelper::getCurrentUserEmail();
 
 		return View::make('/customers/profile')->with('data',$data);
 	}
 
 	public function login(){
-		if(Session::get('cyclos_session_token') != null){
+		if(Session::get('cyclos_group') == Config::get("connect_variable.unverified_user") || Session::get('cyclos_group') == Config::get("connect_variable.verified_user")){
 			return Redirect::to('/');
 		}
 		if(Request::getMethod()=='GET'){
@@ -48,10 +49,17 @@ class CustomersController extends BaseController {
 				$params = new stdclass();
 				$params->id = $result->user->id;
 
-				$userGroupService = new Cyclos\Service('userGroupService');
-				$result = $userGroupService->run('getChangeGroupData',$params,false);
-				
-				Session::put('cyclos_group',$result->currentGroup->name);
+				$userService = new Cyclos\Service('userService');
+				$result = $userService->run('getViewProfileData',$params,false);
+
+				if($result->group->name != Config::get('connect_variable.unverified_user') && $result->group->name != Config::get('connect_variable.verified_user')){
+					Session::flush();
+					Session::flash('errors', 'Invalid username/password');
+					return View::make('customers/login');
+				}
+
+				Session::put('cyclos_group',$result->group->name);
+				Session::put('cyclos_email',$result->email);
 				return Redirect::to('/customers/dashboard');
 			} catch (Cyclos\ConnectionException $e) {
 				echo("Cyclos server couldn't be contacted");
@@ -103,11 +111,53 @@ class CustomersController extends BaseController {
 	}
 
 	public function register(){	
-		$data = array();
-		$data['username'] = ConnectHelper::getCurrentUserUsername();
-		$data['balance'] = ConnectHelper::getCurrentUserBalance();
-		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();	
-		return View::make('/customers/register');
+		//KICK LOGINED USER
+		if(Session::get('cyclos_session_token') != null){
+			return Redirect::to('/');
+		}
+		
+		if(Request::getMethod()=='GET'){
+			return View::make('/customers/register');	
+		}else if(Request::getMethod()=='POST'){
+			$userService = new Cyclos\Service('userService');
+
+			try{
+				$result = $userService->run("getUserRegistrationGroups",array(),false);
+				
+				$id;
+
+				foreach($result as $res){
+					if($res->name == Config::get('connect_variable.unverified_user')){
+						$id = $res->id;
+					}
+				}
+
+				$params = new stdclass();
+				$params->group = new stdclass();
+				$params->group->id = $id;
+
+				$params->username = $_POST['username'];
+				$params->email = $_POST['email'];
+				$params->name = $_POST['username'];
+
+
+				$userService->run('register',$params,false);
+				return View::make('customers/register-success');
+			}catch (Cyclos\ServiceException $e){
+				if($e->errorCode == "VALIDATION"){
+					$errors = "";
+					foreach($e->error->validation->propertyErrors as $error){
+						$errors = $errors . $error[0] . "\n";
+					}
+					Session::flash('errors',$errors);
+					return View::make('/customers/register');	
+					
+				}else{
+					Session::flash('errors',$e->errorCode);
+					return View::make('/customers/register');
+				}
+			}
+		}
 	}
 
 	public function topup(){
@@ -396,8 +446,22 @@ class CustomersController extends BaseController {
 
 			// redirect ----------------------------------------
 			// redirect our user back to the form so they can do it all over again
+			$topup = Topup::create(array(
+				'date_topup'=>new DateTime, 
+				'status'=>'',
+				'amount'=>Input::get('topup_amount'),
+				'permata_va_account'=>'',
+				'username_customer'=>ConnectHelper::getCurrentUserUsername()
+			));
 			
-			$response = PaymentAPI::charge_topup(Input::get('topup_amount'));
+			$response = PaymentAPI::charge_topup($topup->id, Input::get('topup_amount'));
+			
+			//Saving to Top Up Table Database
+			$topup->date_topup = new DateTime;
+			$topup->status = $response->transaction_status;
+			$topup->permata_va_account = $response->permata_va_number;
+			$topup->save();
+
 			return View::make('customers/topup-success')->with('va_number',$response->permata_va_number);
 		}
 
@@ -557,13 +621,13 @@ class CustomersController extends BaseController {
 
 		// create the validation rules ------------------------
 		$rules = array(
+			'full_name'	 		=> 'required|alpha',
+			'id_type'     		=> 'required',
 			'id_number'	 		=> 'required',
 			'gender'     		=> 'required',
 			'birth_place'		=> 'required',
-			'address'			=> 'required',
-			'province'			=> 'required',
-			'city'				=> 'required',
-			'postal_code'		=> 'required|numeric'
+			'birth_date'		=> 'required',
+			'id_address'		=> 'required'
 		);
 
 

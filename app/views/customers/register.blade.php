@@ -5,7 +5,7 @@
 	  
 		<h1 class="line-title"><span class="line-center customer">REGISTRATION</span></h1>
 	  
-		{{ Form::open(array('url' => 'register-form', 'method' => 'post')) }}
+		{{ Form::open() }}
 	    
 	    	<div id="login-register-form" class="form-wrapper">
 		    	<div>
@@ -29,7 +29,7 @@
 		    	<div>
 		    		{{ Form::label('password_confirmation', 'Password Confirmation') }}<br />
 		        	{{ Form::password('password_confirmation', array('class' => 'form-control')) }}
-		        	@if ($errors->has('password_confirmation')) <p class="error-message">{{ $errors->first('password_confirmation') }}</p> @endif
+		        	@if(Session::has('errors'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif
 		    	</div>
 
 		    	<p>By clicking <b>REGISTER</b> button, you have agree to our Terms and Condition</p>
