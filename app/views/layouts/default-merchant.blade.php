@@ -15,7 +15,7 @@
     <div id="body-wrapper">
 
       <header class="header-merchant">
-        @if (false)
+        @if (!Session::get('cyclos_session_token'))
           <div id="logo-admin-merchant-home" class="block">
             {{ HTML::image('images/logo_merchant.png', 'Connect Logo', array('class' => 'centered')) }}
           </div>
@@ -27,11 +27,11 @@
             <ul class="centered-header">
               <li>{{ link_to ("/merchants/transaction", 'TRANSACTION') }}</li>
               <li>{{ link_to ("/merchants/list-products", 'LIST PRODUCTS') }}</li>
-              <li>{{ link_to ("/merchants/destroy", 'LOG OUT') }}</li>
+              <li>{{ link_to ("/merchants/logout", 'LOG OUT', array('data-method' => 'post')) }}</li>
             </ul>
           </div>
           <div id="welcome-wrapper" class="merchant block">
-            <font color="#E0A2A8">Welcome,</font> Merchant123
+            <font color="#E0A2A8">Welcome,</font> {{Session::get('cyclos_username')}}
           </div>
         @endif
       </header>
@@ -58,6 +58,18 @@
               $this.addClass("active");
           }
       });
+  });
+
+  $(function(){
+    $('[data-method]').append(function(){
+        return "\n"+
+        "<form action='"+$(this).attr('href')+"' method='POST' style='display:none'>\n"+
+        "   <input type='hidden' name='_method' value='"+$(this).attr('data-method')+"'>\n"+
+        "</form>\n"
+    })
+    .removeAttr('href')
+    .attr('style','cursor:pointer;')
+    .attr('onclick','$(this).find("form").submit();');
   });
 
 </script>
