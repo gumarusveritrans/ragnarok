@@ -5,16 +5,16 @@
 
 		<h1 class="line-title merchant"><span class="line-center merchant">MERCHANT LOGIN</span></h1>
 
-		{{ Form::open(array('url' => 'merchant-login-form', 'method' => 'post')) }}
+		{{ Form::open() }}
 
 	      <div id="login-register-form" class="form-wrapper">
 	        {{ Form::label('email', 'Email Address') }}
 	        {{ Form::text('email', '', array('class' => 'form-control')) }}
-	        @if ($errors->has('email')) <p class="error-message">{{ $errors->first('email') }}</p> @endif
 
 	        {{ Form::label('password', 'Password') }}
 	        {{ Form::password('password', array('class' => 'form-control')) }}
-	        @if ($errors->has('password')) <p class="error-message">{{ $errors->first('password') }}</p> @endif
+	        @if(Session::has('errors'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif
+	        
 	      </div>
 
 	      <div id="login-register-form" class="form-wrapper">
