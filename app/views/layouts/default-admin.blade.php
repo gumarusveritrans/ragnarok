@@ -16,7 +16,7 @@
     <div id="body-wrapper">
 
       <header class="header-admin">
-        @if (false)
+      @if (!Session::get('cyclos_session_token'))
           <div id="logo-admin-merchant-home" class="block">
             {{ HTML::image('images/logo_admin.png', 'Connect Logo', array('class' => 'centered')) }}
 
@@ -30,11 +30,11 @@
               <li>{{ link_to ("/admin/dashboard", 'DASHBOARD') }}</li>
               <li>{{ link_to ("/admin/notification", 'NOTIFICATION') }}</li>
               <li>{{ link_to ("/admin/manage-user", 'MANAGE USER') }}</li>
-              <li>{{ link_to ("/admin/destroy", 'LOG OUT') }}</li>
+              <li>{{ link_to ("/admin/logout", 'LOG OUT', array('data-method' => 'post')) }}</li>
             </ul>
           </div>
           <div id="welcome-wrapper" class="admin block">
-            <font color="#BDCAD2">Welcome,</font> Admin123
+            <font color="#BDCAD2">Welcome,</font> {{Session::get('cyclos_username')}}
           </div>
         @endif
       </header>
@@ -61,6 +61,18 @@
               $this.addClass("active");
           }
       });
+  });
+
+  $(function(){
+    $('[data-method]').append(function(){
+        return "\n"+
+        "<form action='"+$(this).attr('href')+"' method='POST' style='display:none'>\n"+
+        "   <input type='hidden' name='_method' value='"+$(this).attr('data-method')+"'>\n"+
+        "</form>\n"
+    })
+    .removeAttr('href')
+    .attr('style','cursor:pointer;')
+    .attr('onclick','$(this).find("form").submit();');
   });
 
 </script>

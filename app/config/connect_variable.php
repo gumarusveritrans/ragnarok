@@ -27,5 +27,6 @@ return array(
 	'unverified_user' => '1 Million User',
 	'verified_user' => '5 Million User',
 	'merchant' => 'Merchant',
+	'admin' => 'Admin',
 	'user_balance' => 'balance'
 );

@@ -33,6 +33,8 @@ Route::get('/customers/register-success', 'CustomersController@register_success'
 
 //Route for Admin Section
 Route::get('/admin/login', 'AdminController@login');
+Route::post('/admin/login', 'AdminController@login');
+Route::post('/admin/logout', 'AdminController@logout');
 Route::get('/admin/dashboard', 'AdminController@dashboard');
 Route::get('/admin/notification', 'AdminController@notification');
 Route::get('/admin/manage-user', 'AdminController@manage_user');
@@ -40,6 +42,7 @@ Route::get('/admin/manage-user', 'AdminController@manage_user');
 //Route for Merchant Section
 Route::get('/merchants/login', 'MerchantsController@login');
 Route::post('/merchants/login', 'MerchantsController@login');
+Route::post('/merchants/logout','MerchantsController@logout');
 Route::get('/merchants/transaction', 'MerchantsController@transaction');
 Route::get('/merchants/list-products', 'MerchantsController@list_products');
 

@@ -73,6 +73,23 @@ class MerchantsController extends BaseController {
 		}
 	}
 
+	public function logout(){
+		Session::flush();
+		$params = new stdclass();
+		$loginService = new Cyclos\Service('loginService');
+
+		try {
+			$loginService->run('logout',array(),true);
+			return Redirect::to("/merchants/login");
+		}catch (Cyclos\ConnectionException $e) {
+			echo("Cyclos server couldn't be contacted");
+			die();
+		} catch (Cyclos\ServiceException $e) {
+			echo("Error while performing logout: {$e->errorCode}");
+		}
+		die();
+	}
+
 	public function transaction(){
 		return View::make('/merchants/transaction');
 	}
