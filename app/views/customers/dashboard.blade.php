@@ -31,42 +31,36 @@
                         <th>
                             Date & Time
                         </th>
-                        <th>
+<!--                         <th>
                             Amount
+                        </th> -->
+                        <th>
+                            Permata VA Number
                         </th>
                         <th>
                             Status
                         </th>
                     </tr>
                 </thead>
+                @foreach ($topups as $topup) 
                 <tr>
                     <td>
-                        TUID001
+                        {{{ "TUID".$topup->id }}}
                     </td>
                     <td>
-                        16/10/2014 18:10:14
+                        {{{ $topup->date_topup }}}
+                    </td>
+<!--                     <td>
+                        {{{ $topup->amount }}}
+                    </td> -->
+                    <td>
+                        {{{ $topup->permata_va_account }}}
                     </td>
                     <td>
-                        Rp 150.000,00
-                    </td>
-                    <td>
-                        Success
+                        {{{ $topup->status }}}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        TUID001
-                    </td>
-                    <td>
-                        17/10/2014 18:10:14
-                    </td>
-                    <td>
-                        Rp 200.000,00
-                    </td>
-                    <td>
-                        Pending
-                    </td>
-                </tr>
+                @endforeach
             </table>
         </div>
 
