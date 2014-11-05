@@ -24,7 +24,17 @@
 			<div>
 				{{ Form::open(array('url' => 'user-information-form', 'method' => 'post')) }}
 			    	<div id="login-register-form" class="wrapper">
-				    	<div>
+			    		<div>
+					    	{{ Form::label('full_name', 'Full Name') }}<br />
+					    	{{ Form::text('full_name', '', array('class' => 'form-control')) }}
+					    	@if ($errors->has('full_name')) <p class="error-message">{{ $errors->first('full_name') }}</p> @endif
+				    	</div>
+			    		<div>
+					    	{{ Form::label('id_type', 'ID Type') }}<br />
+					    	{{ Form::text('id_type', '', array('class' => 'form-control')) }}
+					    	@if ($errors->has('id_type')) <p class="error-message">{{ $errors->first('id_type') }}</p> @endif
+				    	</div>
+			    		<div>
 					    	{{ Form::label('id_number', 'Identity Number') }}<br />
 					    	{{ Form::text('id_number', '', array('class' => 'form-control')) }}
 					    	@if ($errors->has('id_number')) <p class="error-message">{{ $errors->first('id_number') }}</p> @endif
@@ -47,30 +57,22 @@
 				    	<div>
 				    		{{ Form::label('birth_date', 'Birth Date') }}<br />
 				    		<input id="birth_date" class="form-control" name="birth_date" type="text" value="">
+				    		@if ($errors->has('birth_date')) <p class="error-message">{{ $errors->first('birth_date') }}</p> @endif
 				    	</div>
 
 				    	<div>
+				      		{{ Form::label('id_address', 'Identity Address') }}<br />
+				        	{{ Form::text('id_address', '', array('class' => 'form-control')) }}
+				        	@if ($errors->has('id_address')) <p class="error-message">{{ $errors->first('id_address') }}</p> @endif
+				    	</div>
+
+				    	<input type="checkbox" name="checkbox-address" id="checkbox-address" class="css-checkbox" />
+				    	My current address is different with identity address 
+
+				    	<div id="address-form" style="display:none">
 				      		{{ Form::label('address', 'Address') }}<br />
 				        	{{ Form::text('address', '', array('class' => 'form-control')) }}
 				        	@if ($errors->has('address')) <p class="error-message">{{ $errors->first('address') }}</p> @endif
-				    	</div>
-
-				    	<div>
-				      		{{ Form::label('province', 'Province') }}<br />
-				        	{{ Form::text('province', '', array('class' => 'form-control')) }}
-				        	@if ($errors->has('province')) <p class="error-message">{{ $errors->first('province') }}</p> @endif
-				    	</div>
-
-				    	<div>
-				      		{{ Form::label('city', 'City') }}<br />
-				        	{{ Form::text('city', '', array('class' => 'form-control')) }}
-				        	@if ($errors->has('city')) <p class="error-message">{{ $errors->first('city') }}</p> @endif
-				    	</div>
-
-				    	<div>
-				      		{{ Form::label('postal_code', 'Postal Code') }}<br />
-				        	{{ Form::text('postal_code', '', array('class' => 'form-control')) }}
-				        	@if ($errors->has('postal_code')) <p class="error-message">{{ $errors->first('postal_code') }}</p> @endif
 				    	</div>
 
 					</div>
@@ -117,12 +119,21 @@
 
 		$(function(){
 
-			$( "input[type='checkbox']" ).change(function() {
+			$( "#checkbox" ).change(function() {
 				var $input = $( this );
 				if($input.prop("checked")) {
 				   	$("#button-1").prop("disabled", false);// something when checked
 				} else {
-					$("#button-1").prop("disabled", true);;// something else when not
+					$("#button-1").prop("disabled", true);// something else when not
+				}
+			}).change();
+
+			$( "#checkbox-address" ).change(function() {
+				var $input = $( this );
+				if($input.prop("checked")) {
+				   	$( "#address-form" ).fadeIn();// something when checked
+				} else {
+					$( "#address-form" ).hide();// something else when not
 				}
 			}).change();
 

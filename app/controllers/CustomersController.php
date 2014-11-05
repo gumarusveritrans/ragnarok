@@ -446,8 +446,22 @@ class CustomersController extends BaseController {
 
 			// redirect ----------------------------------------
 			// redirect our user back to the form so they can do it all over again
+			$topup = Topup::create(array(
+				'date_topup'=>new DateTime, 
+				'status'=>'',
+				'amount'=>Input::get('topup_amount'),
+				'permata_va_account'=>'',
+				'username_customer'=>ConnectHelper::getCurrentUserUsername()
+			));
 			
-			$response = PaymentAPI::charge_topup(Input::get('topup_amount'));
+			$response = PaymentAPI::charge_topup($topup->id, Input::get('topup_amount'));
+			
+			//Saving to Top Up Table Database
+			$topup->date_topup = new DateTime;
+			$topup->status = $response->transaction_status;
+			$topup->permata_va_account = $response->permata_va_number;
+			$topup->save();
+
 			return View::make('customers/topup-success')->with('va_number',$response->permata_va_number);
 		}
 
@@ -607,13 +621,13 @@ class CustomersController extends BaseController {
 
 		// create the validation rules ------------------------
 		$rules = array(
+			'full_name'	 		=> 'required|alpha',
+			'id_type'     		=> 'required',
 			'id_number'	 		=> 'required',
 			'gender'     		=> 'required',
 			'birth_place'		=> 'required',
-			'address'			=> 'required',
-			'province'			=> 'required',
-			'city'				=> 'required',
-			'postal_code'		=> 'required|numeric'
+			'birth_date'		=> 'required',
+			'id_address'		=> 'required'
 		);
 
 
