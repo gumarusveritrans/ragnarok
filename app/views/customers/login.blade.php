@@ -12,8 +12,8 @@
 		{{ Form::open() }}
 
 	      <div id="login-register-form" class="form-wrapper">
-	        {{ Form::label('email', 'Email Address') }}
-	        {{ Form::text('email', '', array('class' => 'form-control')) }}
+	        {{ Form::label('username', 'Username') }}
+	        {{ Form::text('username', '', array('class' => 'form-control')) }}
 
 	        {{ Form::label('password', 'Password') }}
 	        {{ Form::password('password', array('class' => 'form-control')) }}
