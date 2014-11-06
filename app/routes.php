@@ -12,7 +12,7 @@ Route::post('/login', 'CustomersController@login');
 Route::get('/register', 'CustomersController@register');
 // Route::post('/register', 'CustomersController@register');
 
-//Route for Customers Sectiion
+//Route for Customers Section
 Route::get('/customers/dashboard', 'CustomersController@dashboard');
 Route::get('/customers/profile', 'CustomersController@profile');
 Route::get('/customers/transaction', 'CustomersController@transaction');

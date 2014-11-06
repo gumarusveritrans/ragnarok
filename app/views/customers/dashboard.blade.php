@@ -82,34 +82,22 @@
                         </th>
                     </tr>
                 </thead>
-                <tr>
-                    <td >
-                        TID001
-                    </td>
-                    <td>
-                        18/10/2014 18:10:14
-                    </td>
-                    <td>
-                        Rp 10.000,00
-                    </td>
-                    <td>
-                        william.gumarus
-                    </td>
-                </tr>
+                @foreach ($transfers as $transfer) 
                 <tr>
                     <td>
-                        TID002
+                        {{{ "TID".$transfer->id }}}
                     </td>
                     <td>
-                        19/10/2014 18:10:14
+                        {{{ $transfer->date_transfer }}}
                     </td>
                     <td>
-                        Rp 50.000,00
+                        {{{ $transfer->amount }}}
                     </td>
                     <td>
-                        daniel
+                        {{{ $transfer->to_username }}}
                     </td>
                 </tr>
+                @endforeach
             </table>
         </div>
 

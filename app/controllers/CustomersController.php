@@ -13,9 +13,11 @@ class CustomersController extends BaseController {
 			DB::table('topup')	->where('id', $pending_topup->id)
 								->update(array('status' => ($response->transaction_status)));
 		}
-		$topups = DB::table('topup')->where('username_customer', $data['username'])->get();	
+		$topups = DB::table('topup')->where('username_customer', $data['username'])->get();
+		$transfers = DB::table('transfer')->where('from_username', $data['username'])->get();
 		return View::make('/customers/dashboard')->with('data',$data)
-												 ->with('topups', $topups);
+												 ->with('topups', $topups)
+												 ->with('transfers', $transfers);
 	}
 
 	public function profile(){	
@@ -51,7 +53,8 @@ class CustomersController extends BaseController {
 				Session::put('cyclos_session_token',$result->sessionToken);
 				Session::put('cyclos_username',$params->user['username']);
 				Session::put('cyclos_remote_address',$params->remoteAddress);
-					
+				Session::put('cyclos_id',$result->user->id);
+
 				//GETTING THE GROUP NAME
 				$params = new stdclass();
 				$params->id = $result->user->id;
@@ -67,6 +70,7 @@ class CustomersController extends BaseController {
 
 				Session::put('cyclos_group',$result->group->name);
 				Session::put('cyclos_email',$result->email);
+
 				return Redirect::to('/customers/dashboard');
 			} catch (Cyclos\ConnectionException $e) {
 				echo("Cyclos server couldn't be contacted");
@@ -200,6 +204,20 @@ class CustomersController extends BaseController {
 				$params->desc = "Transfer from ". $data->from->name. " to ". $data->to->name;
 
 				$paymentResult = $paymentService->run('perform',$params,true);
+
+				$transfer = Transfer::create(array(
+					'date_transfer'=>new DateTime, 
+					'from_username'=>ConnectHelper::getCurrentUserUsername(),
+					'to_username'=>$_POST['transfer_recipient'],
+					'amount'=>$_POST['transfer_amount']
+				));
+
+				Mail::send('emails.transfer', array('transfer_recipient' => $_POST['transfer_recipient'],
+													'transfer_amount' => $_POST['transfer_amount']), function($message)
+				{
+					$message->from('connect_cs@connect.co.id', 'Connect');
+				    $message->to('danny.pranoto@veritrans.co.id', 'Danny Pranoto')->subject('Transfer Success');
+				});
 
 				return View::make('customers/transfer-success')
 					->with('transfer_amount', $_POST['transfer_amount'])

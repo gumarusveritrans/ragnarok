@@ -25,4 +25,8 @@ class ConnectHelper{
 	public static function getCurrentUserEmail(){
 		return Session::get('cyclos_email');
 	}
+
+	public static function getCurrentUserId(){
+		return Session::get('cyclos_id');
+	}
 }

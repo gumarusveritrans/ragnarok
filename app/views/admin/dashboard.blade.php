@@ -52,40 +52,6 @@
                         Garuda Indonesia
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                </tr>
             </table>
 
             <table id="admin-transfer-transaction-table" align="center" style="display: none">
@@ -108,57 +74,25 @@
                         </th>
                     </tr>
                 </thead>
+                @foreach ($transfers as $transfer)
                 <tr>
                     <td >
-                        TID99999999
+                        {{{ "TID".$transfer->id }}}
                     </td>
                     <td>
-                        16/10/2014 18:10:14
+                        {{{ $transfer->date_transfer }}}
                     </td>
                     <td>
-                        gumarus.dharmawan.william
+                        {{{ $transfer->from_username }}}
                     </td>
                     <td>
-                        Rp 5.000.000,00
+                        {{{ $transfer->amount }}}
                     </td>
                     <td>
-                        gumarus.darmawan.william
+                        {{{ $transfer->to_username }}}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                </tr>
+                @endforeach
             </table>
 
             <table id="admin-top-up-transaction-table" align="center" style="display: none">
@@ -181,57 +115,25 @@
                         </th>
                     </tr>
                 </thead>
+                @foreach ($topups as $topup)
                 <tr>
                     <td >
-                        TUID99999999
+                        {{{ "TID".$topup->id }}}
                     </td>
                     <td>
-                        16/10/2014 18:10:14
+                        {{{ $topup->date_topup }}}
                     </td>
                     <td>
-                        gumarus.dharmawan.william
+                        {{{ $topup->username_customer }}}
                     </td>
                     <td>
-                        Rp 5.000.000,00
+                        {{{ $topup->amount }}}
                     </td>
                     <td>
-                        Inactive
+                        {{{ $topup->status }}}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                </tr>
+                @endforeach
             </table>
 
         </div>
