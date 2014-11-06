@@ -134,6 +134,20 @@ class AdminController extends BaseController {
 
 		$merchants = $merchantsResult->pageItems;
 
+		//GETTING MERCHANTS ATTRIBUTE
+		foreach($merchants as $merchant){
+			//GETTING MERCHANTS EMAIL
+			$params = new stdclass();
+			$params->id = $merchant->id;
+			$result = $userService->run('getViewProfileData',$params,false);
+			$merchant->email = $result->email;
+
+			//GETTING MERCHANTS BALANCE
+			$accountService = new Cyclos\Service('accountService');
+			$result = $accountService->run('getAccountsSummary',array(array("username"=>$merchant->username),array("date"=>"null")),false);
+			$merchant->balance = intval($result[0]->balance->amount);
+		}
+
 		return View::make('/admin/manage-user')->with('merchants',$merchants);
 	}
 

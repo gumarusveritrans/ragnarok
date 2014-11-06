@@ -121,10 +121,10 @@
                             {{{$merchant->username}}}
                         </td>
                         <td>
-                            gumarus.dharmawan.william@gmail.com
+                            {{{$merchant->email}}}
                         </td>
                         <td>
-                            Rp 5.000.000,00
+                            Rp {{{number_format($merchant->balance,2,',','.')}}}
                         </td>
                         <td>
                             <a href="#delete"><button id="delete-id-button" class="button-table darkblue dashboard">Delete ID</button></a>

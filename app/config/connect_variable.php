@@ -31,5 +31,6 @@ return array(
 	'closed_user_account' => 'User closed account',
 	'merchant' => 'Merchant',
 	'admin' => 'Admin',
-	'user_balance' => 'balance'
+	'user_balance' => 'balance',
+	'merchant_balace' => 'Merchant Balance'
 );
