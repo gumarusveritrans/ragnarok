@@ -10,7 +10,7 @@ Route::get('/product', 'ConnectPagesController@product');
 Route::get('/login', 'CustomersController@login');
 Route::post('/login', 'CustomersController@login');
 Route::get('/register', 'CustomersController@register');
-Route::post('/register', 'CustomersController@register');
+// Route::post('/register', 'CustomersController@register');
 
 //Route for Customers Sectiion
 Route::get('/customers/dashboard', 'CustomersController@dashboard');
@@ -18,32 +18,30 @@ Route::get('/customers/profile', 'CustomersController@profile');
 Route::get('/customers/transaction', 'CustomersController@transaction');
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/increase-limit', 'CustomersController@increase_limit');
-Route::get('/customers/increase-limit-success', 'CustomersController@increase_limit_success');
-Route::get('/customers/change-password-success', 'CustomersController@change_password_success');
-Route::get('/customers/close-account-success', 'CustomersController@close_account_success');
-Route::get('/customers/transfer-success', 'CustomersController@transfer_success');
-Route::get('/customers/purchase-success', 'CustomersController@purchase_success');
 Route::get('/customers/topup', 'CustomersController@topup');
-
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::post('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/purchase', 'CustomersController@purchase');
 Route::post('/customers/logout', array('as' => 'customer_logout','uses'=>'CustomersController@logout'));
-Route::get('/customers/register-success', 'CustomersController@register_success');
 
 //Route for Admin Section
 Route::get('/admin/login', 'AdminController@login');
+Route::post('/admin/login', 'AdminController@login');
+Route::post('/admin/logout', 'AdminController@logout');
 Route::get('/admin/dashboard', 'AdminController@dashboard');
 Route::get('/admin/notification', 'AdminController@notification');
 Route::get('/admin/manage-user', 'AdminController@manage_user');
+Route::post('/admin/redeem_user', 'AdminController@redeem_user');
 
 //Route for Merchant Section
 Route::get('/merchants/login', 'MerchantsController@login');
 Route::post('/merchants/login', 'MerchantsController@login');
+Route::post('/merchants/logout','MerchantsController@logout');
 Route::get('/merchants/transaction', 'MerchantsController@transaction');
 Route::get('/merchants/list-products', 'MerchantsController@list_products');
 
 //Route for Validation Form
+Route::post('registration-form', 'CustomersController@validate_registration_form');
 Route::post('login-form', 'CustomersController@validate_login_form');
 Route::post('topup-form', 'CustomersController@validate_topup_form');
 Route::post('transfer-form', 'CustomersController@validate_transfer_form');

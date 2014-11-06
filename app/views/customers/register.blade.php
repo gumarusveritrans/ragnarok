@@ -5,7 +5,7 @@
 	  
 		<h1 class="line-title"><span class="line-center customer">REGISTRATION</span></h1>
 	  
-		{{ Form::open() }}
+		{{ Form::open(array('url' => 'registration-form', 'method' => 'post')) }}
 	    
 	    	<div id="login-register-form" class="form-wrapper">
 		    	<div>

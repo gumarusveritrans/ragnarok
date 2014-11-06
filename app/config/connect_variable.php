@@ -15,6 +15,7 @@ return array(
 	'cyclos_username' => 'cyclos_username',
 	'cyclos_group' => 'cyclos_group',
 	'cyclos_email' => 'cyclos_email',
+	'cyclos_id' => 'cyclos_id',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,6 +27,9 @@ return array(
 	*/
 	'unverified_user' => '1 Million User',
 	'verified_user' => '5 Million User',
+	'request_close_account_user' => 'User request close account',
+	'closed_user_account' => 'User closed account',
 	'merchant' => 'Merchant',
+	'admin' => 'Admin',
 	'user_balance' => 'balance'
 );

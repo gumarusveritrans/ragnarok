@@ -4,16 +4,12 @@
   <div id="subheader-wrapper">
     <span class="subtitle">MY PROFILE</span>
     <div class="balance">
-      Balance<br/>
+          Balance<br/>
           <span class="currency">
-            Rp 1.500.000,00
+            Rp {{{ number_format($data['balance'], 2, ',', '.') }}}
           </span><br/>
-            from the limit of 
-          @if(true)
-              Rp 5.000.000,00
-          @else
-              Rp 1.000.000,00
-          @endif
+            from the limit of
+          Rp {{{ number_format($data['limitBalance'], 2, ',', '.') }}}
     </div>
   </div>
 
@@ -41,13 +37,13 @@
         Balance
       </div>
       <div class="profile-content">
-        Rp {{{$data['balance']}}}
+        Rp {{{ number_format($data['balance'], 2, ',', '.') }}}
       </div>
       <div class="profile-header">
         Limit Balance
       </div>
       <div class="profile-content">
-        Rp {{{$data['limitBalance']}}}
+        Rp {{{ number_format($data['limitBalance'], 2, ',', '.') }}}
       </div>
     </div>
 
@@ -112,6 +108,7 @@
               {{ Form::label('password_confirmation', 'Password Confirmation') }}<br />
               {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
               @if ($errors->has('password_confirmation')) <p class="error-message">{{ $errors->first('password_confirmation') }}</p> @endif
+              @if(Session::has('errors_cyclos'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif
             </div>
 
             <div class="block">

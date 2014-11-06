@@ -31,48 +31,25 @@
                         </th>
                     </tr>
                 </thead>
-                <tr>
-                    <td>
-                        RID999999999
-                    </td>
-                    <td>
-                        16/10/2014 18:10:14
-                    </td>
-                    <td>
-                        gumarus.dharmawan.william
-                    </td>
-                    <td>
-                        <a href="#customer-detail"><button id="customer-detail-button" class="button-table darkblue dashboard">Customer Details</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
+                @foreach ($redeems as $redeem)
+                    <?php if($redeem->redeemed == 'true')
+                        continue;
+                    ?>
+                    <tr>
+                        <td>
+                            RID{{{$redeem->id}}}
+                        </td>
+                        <td>
+                            {{{$redeem->date_redeem}}}
+                        </td>
+                        <td>
+                            {{{$redeem->username_customer}}}
+                        </td>
+                        <td>
+                            <a href="#customer-detail"><button id="{{{$redeem->id}}}" class="button-table darkblue dashboard customer-detail-button">Customer Details</button></a>
+                        </td>
+                    </tr>
+                @endforeach
             </table>
 
             <table id="admin-increase-limit-table" align="center" style="display: none">
@@ -141,14 +118,14 @@
             <span id="close-customer-detail" class="button-close admin">&#10006;</span>
             <h2>Customer Details</h2>
             <br/>
-            <h1>daniel.aja</h1>
+            <h1 id="increase-limit-name">daniel.aja</h1>
             <br/>
             <table id="admin-side-table">
                 <tr>
                     <td>
                         Redeem Amount
                     </td>
-                    <td>
+                    <td id="increase-limit-amount">
                         Rp 100.000,-
                     </td>
                 </tr>
@@ -156,7 +133,7 @@
                     <td>
                         Account Number
                     </td>
-                    <td>
+                    <td id="increase-limit-account-number">
                         4235325234
                     </td>
                 </tr>
@@ -164,7 +141,7 @@
                     <td>
                         Account Bank
                     </td>
-                    <td>
+                    <td id="increase-limit-bank-name">
                         BCA
                     </td>
                 </tr>
@@ -172,7 +149,7 @@
                     <td>
                         Account Name
                     </td>
-                    <td>
+                    <td id="increase-limit-account-name">
                         Daniel Aja
                     </td>
                 </tr>
@@ -270,6 +247,51 @@
 
     <script type="text/javascript">
 
+        var closed_id;
+        var customer_name;
+
+        var close_account_name = [];
+        var close_account_amount = [];
+        var close_account_bank = [];
+        var close_account_account_name = [];
+        var close_account_number = [];
+        @foreach ($redeems as $redeem)
+            close_account_name[{{{$redeem->id}}}] = '{{{$redeem->username_customer}}}';
+            close_account_amount[{{{$redeem->id}}}] = '{{{$redeem->amount}}}';
+            close_account_bank[{{{$redeem->id}}}] = '{{{$redeem->bank_name}}}';
+            close_account_account_name[{{{$redeem->id}}}] = '{{{$redeem->bank_account_name_receiver}}}';
+            close_account_number[{{{$redeem->id}}}] = '{{{$redeem->bank_account_number_receiver}}}';
+        @endforeach
+
+        function postRedeemed(){
+            method = "post"; // Set method to post by default if not specified.
+
+            // The rest of this code assumes you are not using a library.
+            // It can be made less wordy if you use one.
+            var form = document.createElement("form");
+            form.setAttribute("method", method);
+            form.setAttribute("action", '/admin/redeem_user');
+
+            var hiddenField = document.createElement("input");
+            
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "redeem_id");
+            hiddenField.setAttribute("value", closed_id);
+
+            form.appendChild(hiddenField);
+
+            hiddenField = document.createElement("input");
+            
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "redeem_username");
+            hiddenField.setAttribute("value", customer_name);
+
+            form.appendChild(hiddenField);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
         $( "#admin-close-account-button" ).click(function() {
           $( "#admin-increase-limit-table" ).hide();
           $( "#admin-close-account-table" ).fadeIn("fast");
@@ -294,7 +316,17 @@
           $(this).addClass('cyan');
         });
 
-        $( "#customer-detail-button" ).click(function() {
+        $( ".customer-detail-button" ).click(function() {
+
+            //GET WANTED CLOSED ID
+            closed_id = $(this).attr('id');
+            customer_name = close_account_name[$(this).attr('id')];
+
+            $("#increase-limit-name").html(close_account_name[$(this).attr('id')]);
+            $("#increase-limit-amount").html(close_account_amount[$(this).attr('id')]);
+            $("#increase-limit-bank-name").html(close_account_bank[$(this).attr('id')]);
+            $("#increase-limit-account-name").html(close_account_account_name[$(this).attr('id')]);
+            $("#increase-limit-account-number").html(close_account_number[$(this).attr('id')]);
             $("#customer-detail-box").delay(300).fadeIn("fast");
             $("#admin-close-account-table").animate({width:'820px'});
             $("#pop-up-close-account").hide();
@@ -330,7 +362,7 @@
 
         $( "#yes-close-account" ).click(function() {
             $("#pop-up-close-account").fadeOut("fast");
-            $("#pop-up-close-account-confirmed").fadeIn("fast");
+            postRedeemed();
         });
 
         $( "#ok-close-account" ).click(function() {

@@ -23,8 +23,8 @@
 					<div id="dd" class="wrapper-dropdown" style="float:left">
 						<span>Select Merchant</span>
 						<ul class="dropdown">
-							<li id="el-1" name="el-1" value="lazada"><label for="el-1">Lazada</label></li>
-							<li id="el-2" name="el-2" value="zalora"><label for="el-2">Zalora</label></li>
+							<li id="el-1" name="el-1" value="lazada"><a href="#" id="lazada-button">Lazada</a></li>
+							<li id="el-2" name="el-2" value="zalora"><a href="#" id="zalora-button">Zalora</a></li>
 						</ul>
 					</div>
 				</div>
@@ -36,6 +36,7 @@
 		</div>
 
         <div id="purchase-transaction-table" class="all-table customer">
+            <div id="Lazada">
             <table align="center">
                 <thead>
                     <tr>
@@ -71,17 +72,64 @@
                         Product 02
                     </td>
                     <td>
-                        Rp 20.000,-
+                        Casio Type Y
                     </td>
                     <td>
-                        Casio Type Y
+                        Rp 20.000,-
                     </td>
                     <td>
                         <button id="buy-product-02" class="button-table darkbrown">buy product</button> 
                     </td>
                 </tr>
             </table>
-
+            </div>
+            <div id="Zalora" style="display:none">
+            <table align="center">
+                <thead>
+                    <tr>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td >
+                        Product 01
+                    </td>
+                    <td>
+                        Samsung Note 8
+                    </td>
+                    <td>
+                        Rp 1.000.000,00
+                    </td>
+                    <td>
+                        <button id="buy-product-01" class="button-table darkbrown">buy product</button>   
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Product 02
+                    </td>
+                    <td>
+                        Samsung Note 7
+                    </td>
+                    <td>
+                        Rp 7.000.000,00
+                    </td>
+                    <td>
+                        <button id="buy-product-02" class="button-table darkbrown">buy product</button> 
+                    </td>
+                </tr>
+            </table>
+            </div>
         </div>
 	</div>
 
@@ -239,6 +287,16 @@
 
         $( "#ok-buy-success" ).click(function() {
             $("#pop-up-buy-success").fadeOut("fast"); 
+        });
+
+        $( "#lazada-button" ).click(function() {
+            $("#Lazada").fadeIn();
+            $("#Zalora").fadeOut("fast"); 
+        });
+
+        $( "#zalora-button" ).click(function() {
+            $("#Lazada").fadeOut("fast");
+            $("#Zalora").fadeIn(); 
         });
 	});
 
