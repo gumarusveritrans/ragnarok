@@ -18,9 +18,6 @@
                 <thead>
                     <tr>
                         <th>
-                            Customer ID
-                        </th>
-                        <th>
                             Customer Name
                         </th>
                         <th>
@@ -35,12 +32,11 @@
                         <th>
                             
                         </th>
+                        <th>
+                        </th>
                     </tr>
                 </thead>
                 <tr>
-                    <td >
-                        CID999999990000000000000
-                    </td>
                     <td>
                         gumarus.dharmawan.william
                     </td>
@@ -103,9 +99,6 @@
                 <thead>
                     <tr>
                         <th>
-                            Merchant ID
-                        </th>
-                        <th>
                             Merchant Name
                         </th>
                         <th>
@@ -122,66 +115,25 @@
                         </th>
                     </tr>
                 </thead>
-                <tr>
-                    <td >
-                        MID99999999
-                    </td>
-                    <td>
-                        Garuda Indonesia
-                    </td>
-                    <td>
-                        gumarus.dharmawan.william@gmail.com
-                    </td>
-                    <td>
-                        Rp 5.000.000,00
-                    </td>
-                    <td>
-                        <a href="#delete"><button id="delete-id-button" class="button-table darkblue dashboard">Delete ID</button></a>
-                    </td>
-                    <td>
-                        <a href="#add-product"><button id="add-product-button" class="button-table darkblue dashboard">Add Product</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
+                @foreach ($merchants as $merchant)
+                    <tr>
+                        <td>
+                            {{{$merchant->username}}}
+                        </td>
+                        <td>
+                            {{{$merchant->email}}}
+                        </td>
+                        <td>
+                            Rp {{{number_format($merchant->balance,2,',','.')}}}
+                        </td>
+                        <td>
+                            <a href="#delete"><button id="delete-id-button" class="button-table darkblue dashboard">Delete ID</button></a>
+                        </td>
+                        <td>
+                            <a href="#add-product"><button id="add-product-button" class="button-table darkblue dashboard">Add Product</button></a>
+                        </td>
+                    </tr>
+                @endforeach
             </table>
         </div>
         <div id="profile-box" class="centered admin-side-box" style="display: none">
@@ -260,7 +212,7 @@
         <div id="create-merchant-box" class="centered admin-side-box" style="display: none">
             <span id="close-create-merchant" class="button-close admin">&#10006;</span>
             <h1>Create Merchant</h1>
-            {{ Form::open() }}
+            {{ Form::open(array('url' =>'/admin/create_merchant ')) }}
                 {{ Form::label('merchant', 'Merchant Name') }}
                 {{ Form::text('merchant_name', '', array('class' => 'form-control')) }}
 

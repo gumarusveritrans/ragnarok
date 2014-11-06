@@ -108,6 +108,7 @@
               {{ Form::label('password_confirmation', 'Password Confirmation') }}<br />
               {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
               @if ($errors->has('password_confirmation')) <p class="error-message">{{ $errors->first('password_confirmation') }}</p> @endif
+              @if(Session::has('errors_cyclos'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif
             </div>
 
             <div class="block">

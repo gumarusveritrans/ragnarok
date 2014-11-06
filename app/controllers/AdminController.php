@@ -98,7 +98,8 @@ class AdminController extends BaseController {
 	}
 
 	public function notification(){
-		return View::make('/admin/notification');
+		$redeems = Redeem::all();
+		return View::make('/admin/notification')->with('redeems',$redeems);
 	}
 
 	public function manage_user(){
@@ -134,8 +135,23 @@ class AdminController extends BaseController {
 		$params->pageSize = PHP_INT_MAX;
 		$merchantsResult = $userService->run('search',$params,false);
 
-		
-		return View::make('/admin/manage-user');
+		$merchants = $merchantsResult->pageItems;
+
+		//GETTING MERCHANTS ATTRIBUTE
+		foreach($merchants as $merchant){
+			//GETTING MERCHANTS EMAIL
+			$params = new stdclass();
+			$params->id = $merchant->id;
+			$result = $userService->run('getViewProfileData',$params,false);
+			$merchant->email = $result->email;
+
+			//GETTING MERCHANTS BALANCE
+			$accountService = new Cyclos\Service('accountService');
+			$result = $accountService->run('getAccountsSummary',array(array("username"=>$merchant->username),array("date"=>"null")),false);
+			$merchant->balance = intval($result[0]->balance->amount);
+		}
+
+		return View::make('/admin/manage-user')->with('merchants',$merchants);
 	}
 
 	public function validate_login_form(){
@@ -183,6 +199,94 @@ class AdminController extends BaseController {
 			return Redirect::to('/admin/dashboard');
 		}
 
+	}
+
+	public function redeem_user(){
+		$userService = new Cyclos\Service('userService');
+		$userGroupService = new Cyclos\Service('userGroupService');
+		try{
+			//VALIDATE REDEEMATION
+			$redeem = Redeem::find(Input::get('redeem_id'));
+			if($redeem->redeemed == true){
+				throw new Exception();
+			}
+
+			//GETTING USER ID
+			$params = new stdclass();
+			$params->keywords = Input::get('redeem_username');
+			$result = $userService->run('search',$params,false);
+
+			$user_id = $result->pageItems[0]->id;
+			
+			//GET GROUP
+			$result = $userService->run("getUserRegistrationGroups",array(),false);
+				
+			$group_id;
+
+			foreach($result as $res){
+				if($res->name == Config::get('connect_variable.closed_user_account')){
+					$group_id = $res->id;
+				}
+			}
+
+			//CHANGE THE GROUP
+			$params = new stdclass();
+			$params->group = new stdclass();
+			$params->group->id = $group_id;
+
+			$params->user = new stdclass();
+			$params->user->id = $user_id;
+			$result = $userGroupService->run('changeGroup',$params,false);
+
+			$redeem->redeemed = true;
+			$redeem->save();
+			echo 'success!';
+		}catch(Exception $e){
+			echo 'There are some trouble, please try again later.';
+		}
+	}
+
+	public function create_merchant(){
+		$userService = new Cyclos\Service('userService');
+
+		try{
+			$result = $userService->run("getUserRegistrationGroups",array(),false);
+			
+			$id;
+
+			foreach($result as $res){
+				if($res->name == Config::get('connect_variable.merchant')){
+					$id = $res->id;
+				}
+			}
+
+			$params = new stdclass();
+			$params->group = new stdclass();
+			$params->group->id = $id;
+
+			$params->username = $_POST['merchant_name'];
+			$params->email = $_POST['merchant_email'];
+			$params->name = $_POST['merchant_name'];
+
+			$userService->run('register',$params,false);
+			echo 'merchant created!';
+
+		}catch (Cyclos\ServiceException $e){
+			if($e->errorCode == "VALIDATION"){
+				$errors = "";
+				foreach($e->error->validation->propertyErrors as $error){
+					$errors = $errors . $error[0] . "\n";
+				}
+				Session::flash('errors',$errors);
+				var_dump($errors);	
+				
+			}else{
+				Session::flash('errors',$e->errorCode);
+				var_dump($e->errorCode);
+			}
+		}
+
+		
 	}
 
 }

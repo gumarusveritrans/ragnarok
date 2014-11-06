@@ -54,7 +54,11 @@ class CustomersController extends BaseController {
 				Session::put('cyclos_username',$params->user['username']);
 				Session::put('cyclos_remote_address',$params->remoteAddress);
 				Session::put('cyclos_id',$result->user->id);
+<<<<<<< HEAD
 
+=======
+					
+>>>>>>> f646712bc8025a04f56d5d3ef12b5cee57c9e250
 				//GETTING THE GROUP NAME
 				$params = new stdclass();
 				$params->id = $result->user->id;
@@ -273,34 +277,33 @@ class CustomersController extends BaseController {
     }
 
 	public function upload() {
-	  // getting all of the post data
-	  $file = array('image' => Input::file('image'));
-	  // setting up rules
-	  $rules = array('image' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
-	  // doing the validation, passing post data, rules and the messages
-	  $validator = Validator::make($file, $rules);
-	  if ($validator->fails()) {
-	    // send back to the page with the input data and errors
-	    return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
-	  }
-	  else {
-	    // checking file is valid.
-	    if (Input::file('image')->isValid()) {
-	      $destinationPath = 'uploads/'; // upload path
-	      $extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
-	      $fileName = rand(11111,99999).'.'.$extension; // renameing image
-	      Input::file('image')->move('public/uploads/', $fileName); // uploading file to given path
-	      // sending back with message
-	      Session::flash('success', 'Upload successfully'); 
-	      return Response::json(['success' => true, 'file' => asset($destinationPath.$fileName)]);
-	      // return Redirect::to('customers/increase-limit-success');
-	    }
-	    else {
-	      // sending back with error message.
-	      Session::flash('error', 'uploaded file is not valid');
-	      return Redirect::to('customers/increase-limit#upload-id-card');
-	    }
-	  }
+		// getting all of the post database
+		$img = array('image' => Image::make(Input::file('image')));
+		// setting up rules
+		$rules = array('image' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
+		// doing the validation, passing post data, rules and the messages
+		$validator = Validator::make($img, $rules);
+		if ($validator->fails()) {
+			// send back to the page with the input data and errors
+			return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+		}
+		else {
+			// checking file is valid.
+			if (Input::file('image')->isValid()) {
+				Image::make(Input::file('image'))->resize(300, 200)->save('app/storage/uploads/foo.jpg');
+				$data = (string) Image::make('app/storage/uploads/foo.jpg')->encode('data-url');
+				Session::flash('success', 'Upload successfully');
+
+				// sending back with message
+				return Response::json(['success' => true, 'file' => $data]);
+				// return Redirect::to('customers/increase-limit-success');
+			}
+			else {
+				// sending back with error message.
+				Session::flash('error', 'uploaded file is not valid');
+				return Redirect::to('customers/increase-limit#upload-id-card');
+			}
+		}
 	}
 
 	public function validate_registration_form(){
@@ -508,11 +511,49 @@ class CustomersController extends BaseController {
 				->withErrors($validator);
 
 		} else {
-			// validation successful ---------------------------
+			
+			//GETTING REQUEST CLOSE ACCOUNT GROUPS
+			$userService = new Cyclos\Service('userService');
+			$userGroupService = new Cyclos\Service('userGroupService');
 
-			// redirect ----------------------------------------
-			// redirect our user back to the form so they can do it all over again
-			return Redirect::to('customers/close-account-success');
+			try{
+				$result = $userService->run("getUserRegistrationGroups",array(),false);
+				
+				$id;
+
+				foreach($result as $res){
+					if($res->name == Config::get('connect_variable.request_close_account_user')){
+						$id = $res->id;
+					}
+				}
+
+				//CHANGE THE GROUP
+				$params = new stdclass();
+				$params->group = new stdclass();
+				$params->group->id = $id;
+
+				$params->user = new stdclass();
+				$params->user->id = Session::get('cyclos_id');
+
+				$redeem = Redeem::create(array(
+					'date_redeem'=>new DateTime,
+					'amount'=> ConnectHelper::getCurrentUserBalance(),
+					'bank_account_name_receiver'=>Input::get('account_name'),
+					'bank_account_number_receiver'=>Input::get('account_number'),
+					'bank_name'=> Input::get('account_bank'),
+					'username_customer'=>ConnectHelper::getCurrentUserUsername(),
+					'redeemed' => 'false'
+				));
+
+				$result = $userGroupService->run('changeGroup',$params,false);
+				Session::flush();
+				return Redirect::to('customers/close-account-success');
+
+			}catch(Exception $e){
+				dd($e);
+				Session::flash('errors_cyclos','There are some trouble, please try again later');
+				return Redirect::to('/customers/profile#close-account');
+			}
 		}
 
 	}

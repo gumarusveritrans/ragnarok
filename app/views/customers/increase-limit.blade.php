@@ -91,11 +91,11 @@
 			    {{ Form::open(array('url'=>'upload-id-card','method'=>'POST', 'files'=>true, 'id'=>'upload-form')) }}
 			    	<div id="uploaded-image" class="block"></div>
 				    <div>
-				        	{{ Form::file('image', array('id'=>'image-upload')) }}
-				      		<p class="errors">{{$errors->first('image')}}</p>
-				    		@if(Session::has('error'))
-				    		<p class="errors">{{ Session::get('error') }}</p>
-				    		@endif
+			        	{{ Form::file('image', array('id'=>'image-upload')) }}
+			      		<p class="errors">{{$errors->first('image')}}</p>
+			    		@if(Session::has('error'))
+			    		<p class="errors">{{ Session::get('error') }}</p>
+			    		@endif
 				    </div>
 				    <div id="validation-errors"></div>
 				    <div class="next-button">

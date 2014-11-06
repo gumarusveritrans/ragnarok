@@ -8,7 +8,7 @@ class ConnectHelper{
 		$accountService = new Cyclos\Service('accountService');
 		$result = $accountService->run('getAccountsSummary',array(array("username"=>Session::get('cyclos_username')),array("date"=>"null")),true);
 
-		return intval($result[0]->{Config::get('connect_variable.user_balance')}->amount);
+		return intval($result[0]->balance->amount);
 	}
 
 	public static function getCurrentUserLimitBalance(){
