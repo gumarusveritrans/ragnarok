@@ -132,8 +132,9 @@ class AdminController extends BaseController {
 		$params->pageSize = PHP_INT_MAX;
 		$merchantsResult = $userService->run('search',$params,false);
 
-		
-		return View::make('/admin/manage-user');
+		$merchants = $merchantsResult->pageItems;
+
+		return View::make('/admin/manage-user')->with('merchants',$merchants);
 	}
 
 	public function validate_login_form(){
@@ -226,6 +227,49 @@ class AdminController extends BaseController {
 		}catch(Exception $e){
 			echo 'There are some trouble, please try again later.';
 		}
+	}
+
+	public function create_merchant(){
+		$userService = new Cyclos\Service('userService');
+
+		try{
+			$result = $userService->run("getUserRegistrationGroups",array(),false);
+			
+			$id;
+
+			foreach($result as $res){
+				if($res->name == Config::get('connect_variable.merchant')){
+					$id = $res->id;
+				}
+			}
+
+			$params = new stdclass();
+			$params->group = new stdclass();
+			$params->group->id = $id;
+
+			$params->username = $_POST['merchant_name'];
+			$params->email = $_POST['merchant_email'];
+			$params->name = $_POST['merchant_name'];
+
+			$userService->run('register',$params,false);
+			echo 'merchant created!';
+
+		}catch (Cyclos\ServiceException $e){
+			if($e->errorCode == "VALIDATION"){
+				$errors = "";
+				foreach($e->error->validation->propertyErrors as $error){
+					$errors = $errors . $error[0] . "\n";
+				}
+				Session::flash('errors',$errors);
+				var_dump($errors);	
+				
+			}else{
+				Session::flash('errors',$e->errorCode);
+				var_dump($e->errorCode);
+			}
+		}
+
+		
 	}
 
 }
