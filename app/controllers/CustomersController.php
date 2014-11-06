@@ -256,34 +256,33 @@ class CustomersController extends BaseController {
     }
 
 	public function upload() {
-	  // getting all of the post data
-	  $file = array('image' => Input::file('image'));
-	  // setting up rules
-	  $rules = array('image' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
-	  // doing the validation, passing post data, rules and the messages
-	  $validator = Validator::make($file, $rules);
-	  if ($validator->fails()) {
-	    // send back to the page with the input data and errors
-	    return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
-	  }
-	  else {
-	    // checking file is valid.
-	    if (Input::file('image')->isValid()) {
-	      $destinationPath = 'uploads/'; // upload path
-	      $extension = Input::file('image')->getClientOriginalExtension(); // getting image extension
-	      $fileName = rand(11111,99999).'.'.$extension; // renameing image
-	      Input::file('image')->move('public/uploads/', $fileName); // uploading file to given path
-	      // sending back with message
-	      Session::flash('success', 'Upload successfully'); 
-	      return Response::json(['success' => true, 'file' => asset($destinationPath.$fileName)]);
-	      // return Redirect::to('customers/increase-limit-success');
-	    }
-	    else {
-	      // sending back with error message.
-	      Session::flash('error', 'uploaded file is not valid');
-	      return Redirect::to('customers/increase-limit#upload-id-card');
-	    }
-	  }
+		// getting all of the post database
+		$img = array('image' => Image::make(Input::file('image')));
+		// setting up rules
+		$rules = array('image' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
+		// doing the validation, passing post data, rules and the messages
+		$validator = Validator::make($img, $rules);
+		if ($validator->fails()) {
+			// send back to the page with the input data and errors
+			return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+		}
+		else {
+			// checking file is valid.
+			if (Input::file('image')->isValid()) {
+				Image::make(Input::file('image'))->resize(300, 200)->save('app/storage/uploads/foo.jpg');
+				$data = (string) Image::make('app/storage/uploads/foo.jpg')->encode('data-url');
+				Session::flash('success', 'Upload successfully');
+
+				// sending back with message
+				return Response::json(['success' => true, 'file' => $data]);
+				// return Redirect::to('customers/increase-limit-success');
+			}
+			else {
+				// sending back with error message.
+				Session::flash('error', 'uploaded file is not valid');
+				return Redirect::to('customers/increase-limit#upload-id-card');
+			}
+		}
 	}
 
 	public function validate_registration_form(){
