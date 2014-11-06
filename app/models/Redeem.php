@@ -15,9 +15,10 @@ class Redeem extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'redeem';
+	public $timestamps = false;
 
 	protected $guarded = array('id');
-	protected $fillable = array('date_redeem', 'bank_account_name_receiver', 'bank_account_number_receiver', 'bank_name', 'username_customer');
+	protected $fillable = array('date_redeem','amount','bank_account_name_receiver', 'bank_account_number_receiver', 'bank_name', 'username_customer','redeemed');
 
 	/**
 	 * The attributes excluded from the model's JSON form.

@@ -44,6 +44,7 @@ class CustomersController extends BaseController {
 				Session::put('cyclos_session_token',$result->sessionToken);
 				Session::put('cyclos_username',$params->user['username']);
 				Session::put('cyclos_remote_address',$params->remoteAddress);
+				Session::put('cyclos_id',$result->user->id);
 					
 				//GETTING THE GROUP NAME
 				$params = new stdclass();
@@ -542,23 +543,49 @@ class CustomersController extends BaseController {
 				->withErrors($validator);
 
 		} else {
-			// validation successful ---------------------------
+			
+			//GETTING REQUEST CLOSE ACCOUNT GROUPS
+			$userService = new Cyclos\Service('userService');
+			$userGroupService = new Cyclos\Service('userGroupService');
 
-			// our duck has passed all tests!
-			// let him enter the database
+			try{
+				$result = $userService->run("getUserRegistrationGroups",array(),false);
+				
+				$id;
 
-			// create the data for our duck
-			// $duck = new Duck;
-			// $duck->name     = Input::get('name');
-			// $duck->email    = Input::get('email');
-			// $duck->password = Hash::make(Input::get('password'));
+				foreach($result as $res){
+					if($res->name == Config::get('connect_variable.request_close_account_user')){
+						$id = $res->id;
+					}
+				}
 
-			// save our duck
-			// $duck->save();
+				//CHANGE THE GROUP
+				$params = new stdclass();
+				$params->group = new stdclass();
+				$params->group->id = $id;
 
-			// redirect ----------------------------------------
-			// redirect our user back to the form so they can do it all over again
-			return Redirect::to('customers/close-account-success');
+				$params->user = new stdclass();
+				$params->user->id = Session::get('cyclos_id');
+
+				$redeem = Redeem::create(array(
+					'date_redeem'=>new DateTime,
+					'amount'=> ConnectHelper::getCurrentUserBalance(),
+					'bank_account_name_receiver'=>Input::get('account_name'),
+					'bank_account_number_receiver'=>Input::get('account_number'),
+					'bank_name'=> Input::get('account_bank'),
+					'username_customer'=>ConnectHelper::getCurrentUserUsername(),
+					'redeemed' => 'false'
+				));
+
+				$result = $userGroupService->run('changeGroup',$params,false);
+				Session::flush();
+				return Redirect::to('customers/close-account-success');
+
+			}catch(Exception $e){
+				dd($e);
+				Session::flash('errors_cyclos','There are some trouble, please try again later');
+				return Redirect::to('/customers/profile#close-account');
+			}
 		}
 
 	}

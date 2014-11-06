@@ -95,7 +95,8 @@ class AdminController extends BaseController {
 	}
 
 	public function notification(){
-		return View::make('/admin/notification');
+		$redeems = Redeem::all();
+		return View::make('/admin/notification')->with('redeems',$redeems);
 	}
 
 	public function manage_user(){
@@ -180,6 +181,51 @@ class AdminController extends BaseController {
 			return Redirect::to('/admin/dashboard');
 		}
 
+	}
+
+	public function redeem_user(){
+		$userService = new Cyclos\Service('userService');
+		$userGroupService = new Cyclos\Service('userGroupService');
+		try{
+			//VALIDATE REDEEMATION
+			$redeem = Redeem::find(Input::get('redeem_id'));
+			if($redeem->redeemed == true){
+				throw new Exception();
+			}
+
+			//GETTING USER ID
+			$params = new stdclass();
+			$params->keywords = Input::get('redeem_username');
+			$result = $userService->run('search',$params,false);
+
+			$user_id = $result->pageItems[0]->id;
+			
+			//GET GROUP
+			$result = $userService->run("getUserRegistrationGroups",array(),false);
+				
+			$group_id;
+
+			foreach($result as $res){
+				if($res->name == Config::get('connect_variable.closed_user_account')){
+					$group_id = $res->id;
+				}
+			}
+
+			//CHANGE THE GROUP
+			$params = new stdclass();
+			$params->group = new stdclass();
+			$params->group->id = $group_id;
+
+			$params->user = new stdclass();
+			$params->user->id = $user_id;
+			$result = $userGroupService->run('changeGroup',$params,false);
+
+			$redeem->redeemed = true;
+			$redeem->save();
+			echo 'success!';
+		}catch(Exception $e){
+			echo 'There are some trouble, please try again later.';
+		}
 	}
 
 }

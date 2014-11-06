@@ -38,6 +38,7 @@ Route::post('/admin/logout', 'AdminController@logout');
 Route::get('/admin/dashboard', 'AdminController@dashboard');
 Route::get('/admin/notification', 'AdminController@notification');
 Route::get('/admin/manage-user', 'AdminController@manage_user');
+Route::post('/admin/redeem_user', 'AdminController@redeem_user');
 
 //Route for Merchant Section
 Route::get('/merchants/login', 'MerchantsController@login');
