@@ -275,11 +275,11 @@ class CustomersController extends BaseController {
 	public function upload() {
 		// getting all of the post database
 		// setting up rules
-		if(Input::get('finish-form') == 'finish') {
-			return Response::json(['finish' => 'finish']);
-		}
+		// if(Input::get('finish-form') == 'finish') {
+		// 	return Response::json(['finish' => 'finish']);
+		// }
 
-		$rules = array('image' => 'image|required');
+		$rules = array('image' => 'image|required|max:1600');
 		
 		$messages = array(
 			'image' 	=> 'The image must in jpeg, png, bmp, gif, or jpg format.',
@@ -639,18 +639,7 @@ class CustomersController extends BaseController {
 		} else {
 			// validation successful ---------------------------
 			// input to database
-			$increase_limit = IncreaseLimit::create(array(
-				'date_increase_limit'=>new DateTime,
-				'full_name'=> Input::get('full_name'),
-				'id_type'=>Input::get('id_type'),
-				'id_number'=>Input::get('id_number'),
-				'gender'=>Input::get('gender'),
-				'place_birth'=>Input::get('birth_place'),
-				'date_birth'=>Input::get('birth_date'),
-				'id_address'=>Input::get('id_address'),
-				'address'=>Input::get('address'),
-				'username_customer'=>ConnectHelper::getCurrentUserUsername()
-			));
+
 			// redirect ----------------------------------------
 			// redirect our user back to the form so they can do it all over again
 			return Redirect::to('customers/increase-limit#upload-id-card');
