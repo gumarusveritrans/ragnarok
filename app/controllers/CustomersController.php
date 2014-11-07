@@ -54,11 +54,7 @@ class CustomersController extends BaseController {
 				Session::put('cyclos_username',$params->user['username']);
 				Session::put('cyclos_remote_address',$params->remoteAddress);
 				Session::put('cyclos_id',$result->user->id);
-<<<<<<< HEAD
 
-=======
-					
->>>>>>> f646712bc8025a04f56d5d3ef12b5cee57c9e250
 				//GETTING THE GROUP NAME
 				$params = new stdclass();
 				$params->id = $result->user->id;
