@@ -12,7 +12,7 @@ Route::post('/login', 'CustomersController@login');
 Route::get('/register', 'CustomersController@register');
 // Route::post('/register', 'CustomersController@register');
 
-//Route for Customers Sectiion
+//Route for Customers Section
 Route::get('/customers/dashboard', 'CustomersController@dashboard');
 Route::get('/customers/profile', 'CustomersController@profile');
 Route::get('/customers/transaction', 'CustomersController@transaction');
@@ -32,6 +32,7 @@ Route::get('/admin/dashboard', 'AdminController@dashboard');
 Route::get('/admin/notification', 'AdminController@notification');
 Route::get('/admin/manage-user', 'AdminController@manage_user');
 Route::post('/admin/redeem_user', 'AdminController@redeem_user');
+Route::post('/admin/create_merchant', ['before' => 'csrf', 'uses' => 'AdminController@create_merchant']);
 
 //Route for Merchant Section
 Route::get('/merchants/login', 'MerchantsController@login');

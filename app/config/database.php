@@ -76,6 +76,16 @@ return array(
 			'schema'   => 'public',
 		),
 
+		'pgsql2' => array(
+			'driver'   => 'pgsql',
+			'host'     => 'localhost',
+			'database' => 'cyclos4',
+			'username' => 'cyclos',
+			'password' => 'cyclos',
+			'charset'  => 'utf8',
+			'prefix'   => ''
+		),
+
 		'sqlsrv' => array(
 			'driver'   => 'sqlsrv',
 			'host'     => 'localhost',
