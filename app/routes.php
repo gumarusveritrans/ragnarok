@@ -54,3 +54,4 @@ Route::get('/upload', 'CustomersController@getUploadForm');
 
 //Route for Validation Form
 Route::post('admin-login-form', 'AdminController@validate_login_form');
+

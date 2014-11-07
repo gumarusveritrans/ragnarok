@@ -96,10 +96,11 @@
 			    		@if(Session::has('error'))
 			    		<p class="errors">{{ Session::get('error') }}</p>
 			    		@endif
+			    		<input id="finish-form" name="finish-form" type="hidden" value="">
 				    </div>
 				    <div id="validation-errors"></div>
 				    <div class="next-button">
-				      {{ Form::submit('FINISH', array('id'=>'finish-upload-button', 'class'=>'button darkbrown')) }}
+				      {{ Form::submit('FINISH', array('id'=>'finish-button', 'class'=>'button darkbrown')) }}
 				    </div>
 				{{ Form::close() }}
 <!-- 				<div id="uploaded-image" class="block"></div>
@@ -157,6 +158,14 @@
 		      $( "#upload-id-card" ).fadeIn();
 		    }
 
+			$(function() {
+				$("#birth_date").datepicker({
+					changeMonth: true,
+	      			changeYear: true,
+	      			yearRange: "-80:+0"
+			});
+		});
+
 		    var options = { 
                 beforeSubmit:  showRequest,
 		        success:       showResponse,
@@ -190,17 +199,12 @@
 		    } else {
 		        $("#uploaded-image").html("<img src='"+response.file+"' class='centered' />");
 		        $("#uploaded-image").css('display','block');
-		        $( "#finish-upload-button" ).click(function() {
-		    		window.location="{{ URL::to('customers/increase-limit-success') }}";
-		    	});
+		        $("#finish-form").val("finish");
+		    }
+		    if(response.finish == 'finish'){
+			  
 		    }
 		}
-		$(function() {
-			$("#birth_date").datepicker({
-				changeMonth: true,
-      			changeYear: true,
-      			yearRange: "-80:+0"
-			});
-		});
+
 	</script>
 @stop
