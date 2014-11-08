@@ -91,7 +91,10 @@ class AdminController extends BaseController {
 	}
 
 	public function dashboard(){
-		return View::make('/admin/dashboard');
+		$topups = DB::table('topup')->get();
+		$transfers = DB::table('transfer')->get();
+		return View::make('/admin/dashboard')->with('topups', $topups)
+											 ->with('transfers', $transfers);
 	}
 
 	public function notification(){

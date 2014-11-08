@@ -2,7 +2,7 @@
 
 @section('content')
   <div id="subheader-wrapper">
-    <span class="subtitle">MY PROFILE</span>
+    <span class="subtitle customer">MY PROFILE</span>
     <div class="balance">
           Balance<br/>
           <span class="currency">

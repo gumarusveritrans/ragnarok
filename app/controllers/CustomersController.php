@@ -7,9 +7,11 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$topups = DB::table('topup')->where('username_customer', $data['username'])->get();	
+		$topups = DB::table('topup')->where('username_customer', $data['username'])->get();
+		$transfers = DB::table('transfer')->where('from_username', $data['username'])->get();
 		return View::make('/customers/dashboard')->with('data',$data)
-												 ->with('topups', $topups);
+												 ->with('topups', $topups)
+												 ->with('transfers', $transfers);
 	}
 
 	public function profile(){	
@@ -46,7 +48,7 @@ class CustomersController extends BaseController {
 				Session::put('cyclos_username',$params->user['username']);
 				Session::put('cyclos_remote_address',$params->remoteAddress);
 				Session::put('cyclos_id',$result->user->id);
-					
+
 				//GETTING THE GROUP NAME
 				$params = new stdclass();
 				$params->id = $result->user->id;
@@ -62,6 +64,7 @@ class CustomersController extends BaseController {
 
 				Session::put('cyclos_group',$result->group->name);
 				Session::put('cyclos_email',$result->email);
+
 				return Redirect::to('/customers/dashboard');
 			} catch (Cyclos\ConnectionException $e) {
 				echo("Cyclos server couldn't be contacted");
@@ -196,6 +199,20 @@ class CustomersController extends BaseController {
 
 				$paymentResult = $paymentService->run('perform',$params,true);
 
+				$transfer = Transfer::create(array(
+					'date_transfer'=>new DateTime, 
+					'from_username'=>ConnectHelper::getCurrentUserUsername(),
+					'to_username'=>$_POST['transfer_recipient'],
+					'amount'=>$_POST['transfer_amount']
+				));
+
+				Mail::send('emails.transfer', array('transfer_recipient' => $_POST['transfer_recipient'],
+													'transfer_amount' => $_POST['transfer_amount']), function($message)
+				{
+					$message->from('connect_cs@connect.co.id', 'Connect');
+				    $message->to('danny.pranoto@veritrans.co.id', 'Danny Pranoto')->subject('Transfer Success');
+				});
+
 				return View::make('customers/transfer-success')
 					->with('transfer_amount', $_POST['transfer_amount'])
 					->with('transfer_recipient', $_POST['transfer_recipient']);
@@ -251,25 +268,35 @@ class CustomersController extends BaseController {
 
 	public function upload() {
 		// getting all of the post database
-		$img = array('image' => Image::make(Input::file('image')));
 		// setting up rules
-		$rules = array('image' => 'required'); //mimes:jpeg,bmp,png and for max size max:10000
+		// if(Input::get('finish-form') == 'finish') {
+		// 	return Response::json(['finish' => 'finish']);
+		// }
+
+		$rules = array('image' => 'image|required|max:1600');
+		
+		$messages = array(
+			'image' 	=> 'The image must in jpeg, png, bmp, gif, or jpg format.',
+			'required' => 'Please upload file with maximum size 1500kb'
+		);
+
 		// doing the validation, passing post data, rules and the messages
-		$validator = Validator::make($img, $rules);
+		$validator = Validator::make(Input::all(), $rules, $messages);
+
 		if ($validator->fails()) {
 			// send back to the page with the input data and errors
 			return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
 		}
 		else {
+			$filename = ConnectHelper::getCurrentUserUsername();
 			// checking file is valid.
 			if (Input::file('image')->isValid()) {
-				Image::make(Input::file('image'))->resize(300, 200)->save('app/storage/uploads/foo.jpg');
-				$data = (string) Image::make('app/storage/uploads/foo.jpg')->encode('data-url');
+				Image::make(Input::file('image'))->resize(400, 250)->save('app/storage/uploads/'.$filename.'.jpg');
+				$data = (string) Image::make('app/storage/uploads/'.$filename.'.jpg')->encode('data-url');
 				Session::flash('success', 'Upload successfully');
 
-				// sending back with message
 				return Response::json(['success' => true, 'file' => $data]);
-				// return Redirect::to('customers/increase-limit-success');
+				//return View::make('customers/increase-limit-success');
 			}
 			else {
 				// sending back with error message.
@@ -303,7 +330,7 @@ class CustomersController extends BaseController {
 		if ($validator->fails()) {
 
 			// redirect our user back with error messages		
-			$messages = $validator->messages();
+			//$messages = $validator->messages();
 
 			// also redirect them back with old inputs so they dont have to fill out the form again
 			// but we wont redirect them with the password they entered
@@ -340,7 +367,7 @@ class CustomersController extends BaseController {
 		if ($validator->fails()) {
 
 			// redirect our user back with error messages		
-			$messages = $validator->messages();
+			//$messages = $validator->messages();
 
 			// also redirect them back with old inputs so they dont have to fill out the form again
 			// but we wont redirect them with the password they entered
@@ -389,7 +416,7 @@ class CustomersController extends BaseController {
 			if ($validator->fails()) {
 
 				// redirect our user back with error messages		
-				$messages = $validator->messages();
+				//$messages = $validator->messages();
 
 				// also redirect them back with old inputs so they dont have to fill out the form again
 				// but we wont redirect them with the password they entered
@@ -438,7 +465,7 @@ class CustomersController extends BaseController {
 		if ($validator->fails()) {
 
 			// redirect our user back with error messages		
-			$messages = $validator->messages();
+			//$messages = $validator->messages();
 
 			// also redirect them back with old inputs so they dont have to fill out the form again
 			// but we wont redirect them with the password they entered
@@ -475,7 +502,7 @@ class CustomersController extends BaseController {
 		if ($validator->fails()) {
 
 			// redirect our user back with error messages		
-			$messages = $validator->messages();
+			//$messages = $validator->messages();
 
 			// also redirect them back with old inputs so they dont have to fill out the form again
 			// but we wont redirect them with the password they entered
@@ -554,7 +581,7 @@ class CustomersController extends BaseController {
 		if ($validator->fails()) {
 
 			// redirect our user back with error messages		
-			$messages = $validator->messages();
+			//$messages = $validator->messages();
 
 			// also redirect them back with old inputs so they dont have to fill out the form again
 			// but we wont redirect them with the password they entered
@@ -595,7 +622,7 @@ class CustomersController extends BaseController {
 		if ($validator->fails()) {
 
 			// redirect our user back with error messages		
-			$messages = $validator->messages();
+			//$messages = $validator->messages();
 
 			// also redirect them back with old inputs so they dont have to fill out the form again
 			// but we wont redirect them with the password they entered
@@ -605,6 +632,8 @@ class CustomersController extends BaseController {
 
 		} else {
 			// validation successful ---------------------------
+			// input to database
+
 			// redirect ----------------------------------------
 			// redirect our user back to the form so they can do it all over again
 			return Redirect::to('customers/increase-limit#upload-id-card');
