@@ -207,8 +207,8 @@
                 {{ Form::open((array('url' => 'admin/reject_increase_limit', 'method' => 'post'))) }}
                     {{ Form::label('denial_messages', 'Denial Messages') }}
                     {{ Form::textarea('denial_messages', '', array('class' => 'form-control text-area')) }}
-                    {{ Form::hidden('increase_limit_id') }}
-                    {{ Form::hidden('increase_limit_username') }}
+                    {{ Form::hidden('increase_limit_id','',array('id'=>'increase_limit_id')) }}
+                    {{ Form::hidden('increase_limit_username','',array('id'=>'increase_limit_username')) }}
                     {{ Form::submit('SEND', array('class' => 'button darkblue admin-notification')) }}
                 {{ Form::close() }}
             </div>
@@ -423,7 +423,7 @@
         });
 
         $( "#accept-increase-limit-button" ).click(function() {
-            $("#pop-up-confirm-request").fadeIn("fast");
+            //$("#pop-up-confirm-request").fadeIn("fast");
             postAccepted();
         });
 

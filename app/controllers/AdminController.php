@@ -201,6 +201,7 @@ class AdminController extends BaseController {
 				if($res->name == Config::get('connect_variable.closed_user_account')){
 					$group_id = $res->id;
 				}
+				break;
 			}
 
 			// Change the group
@@ -256,6 +257,55 @@ class AdminController extends BaseController {
 				var_dump($e->errorCode);
 			}
 		}
+	}
+
+	public function reject_increase_limit(){
+		$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));//->update(array('status' => ($response->transaction_status)));
+		$increase_limit->message = Input::get('denial_message');
+		$increase_limit->status = 'Rejected';
+
+		$increase_limit->save();
+
+		return Redirect::to('/admin/notification#');
+	}
+
+	public function accept_increase_limit(){
+		$userService = new Cyclos\Service('userService');
+		$userGroupService = new Cyclos\Service('userGroupService');
+
+		//GETTING USER ID
+		$user_id;
+		$params = new stdclass();
+		$params->keywords = Input::get('increase_limit_username');
+		$result = $userService->run('search',$params,false);
+		$user_id = $result->pageItems[0]->id;
+
+		//GETTING GROUP ID FOR UPDATE
+		$result = $userService->run("getUserRegistrationGroups",array(),false);
+		$group_id;
+
+
+		foreach($result as $res){
+			if($res->name == Config::get('connect_variable.verified_user')){
+				$group_id = $res->id;
+				break;
+			}
+		}
+
+		//UPDATE USER GROUP
+		$params = new stdclass();
+		$params->group = new stdclass();
+		$params->group->id = $group_id;
+
+		$params->user = new stdclass();
+		$params->user->id = $user_id;
+		$result = $userGroupService->run('changeGroup',$params,false);
+
+		$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));
+		$increase_limit->status = 'Accepted';
+		$increase_limit->save();
+
+		return Redirect::to('/admin/notification#');
 	}
 
 }

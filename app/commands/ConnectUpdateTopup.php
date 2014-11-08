@@ -40,7 +40,6 @@ class ConnectUpdateTopup extends Command {
 		$pending_topups = DB::table('topup')->where('status', 'pending')->get();
 		foreach ($pending_topups as $pending_topup) {
 			$response = PaymentAPI::update_status('TUID'.$pending_topup->id);
-			dd($response);
 			if($response->transaction_status != "pending"){
 				if($response->transaction_status == 'settlement'){
 					// PAY TO USER
