@@ -7,12 +7,6 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$pending_topups = DB::table('topup')->where('status', 'pending')->get();
-		foreach ($pending_topups as $pending_topup) {
-			$response = PaymentAPI::update_status('TUID'.$pending_topup->id);
-			DB::table('topup')	->where('id', $pending_topup->id)
-								->update(array('status' => ($response->transaction_status)));
-		}
 		$topups = DB::table('topup')->where('username_customer', $data['username'])->get();	
 		return View::make('/customers/dashboard')->with('data',$data)
 												 ->with('topups', $topups);
