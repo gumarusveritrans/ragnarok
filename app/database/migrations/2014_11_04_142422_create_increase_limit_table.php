@@ -22,10 +22,11 @@ class CreateIncreaseLimitTable extends Migration {
 			$table->string('gender');
 			$table->string('place_birth');
 			$table->date('date_birth');
-			$table->string('id_address');
-			$table->string('address')->nullable();;
+			$table->string('address');
+			$table->string('current_address');
 			$table->string('message')->nullable();
-			$table->string('username_customer');	
+			$table->string('username_customer');
+			$table->string('status');
 		});
 	}
 

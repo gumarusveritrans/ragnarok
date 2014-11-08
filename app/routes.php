@@ -32,6 +32,8 @@ Route::get('/admin/dashboard', 'AdminController@dashboard');
 Route::get('/admin/notification', 'AdminController@notification');
 Route::get('/admin/manage-user', 'AdminController@manage_user');
 Route::post('/admin/redeem_user', 'AdminController@redeem_user');
+Route::post('/admin/reject_increase_limit', 'AdminController@reject_increase_limit');
+Route::post('/admin/accept_increase_limit', 'AdminController@accept_increase_limit');
 Route::post('/admin/create_merchant', ['before' => 'csrf', 'uses' => 'AdminController@create_merchant']);
 
 //Route for Merchant Section

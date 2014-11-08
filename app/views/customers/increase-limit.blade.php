@@ -60,19 +60,23 @@
 				    		@if ($errors->has('birth_date')) <p class="error-message">{{ $errors->first('birth_date') }}</p> @endif
 				    	</div>
 
-				    	<div>
-				      		{{ Form::label('id_address', 'Identity Address') }}<br />
-				        	{{ Form::text('id_address', '', array('class' => 'form-control')) }}
-				        	@if ($errors->has('id_address')) <p class="error-message">{{ $errors->first('id_address') }}</p> @endif
-				    	</div>
-
-				    	<input type="checkbox" name="checkbox-address" id="checkbox-address" class="css-checkbox" />
-				    	My current address is different with identity address 
-
-				    	<div id="address-form" style="display:none">
-				      		{{ Form::label('address', 'Address') }}<br />
+				    	<div id="id_address_form">
+				      		{{ Form::label('address', 'Identity Address') }}<br />
 				        	{{ Form::text('address', '', array('class' => 'form-control')) }}
 				        	@if ($errors->has('address')) <p class="error-message">{{ $errors->first('address') }}</p> @endif
+				    	</div>
+
+				    	<div>
+				    		{{ Form::hidden('status', 'In process') }}
+				    	</div>
+
+				    	<input type="checkbox" name="checkbox_address" id="checkbox_address" value="false" class="css-checkbox" />
+				    	My current address is different with identity address 
+
+				    	<div id="current_address_form" style="display: none">
+				      		{{ Form::label('current_address', 'Current Address') }}<br />
+				        	{{ Form::text('current_address', '', array('class' => 'form-control')) }}
+				        	@if ($errors->has('current_address')) <p class="error-message">{{ $errors->first('current_address') }}</p> @endif
 				    	</div>
 
 					</div>
@@ -129,12 +133,18 @@
 				}
 			}).change();
 
-			$( "#checkbox-address" ).change(function() {
-				var $input = $( this );
+			$( "#checkbox_address" ).change(function() {
+				var $input = $(this);
+				//var $current_address = $('#id_address_form').find('input[name="address"]').val();
 				if($input.prop("checked")) {
-				   	$( "#address-form" ).fadeIn();// something when checked
-				} else {
-					$( "#address-form" ).hide();// something else when not
+				   	$( "#current_address_form" ).fadeIn();
+				   	$( "#checkbox_address" ).val("true");
+				}
+				else {
+					$( "#current_address_form" ).hide();
+					$( "#checkbox_address" ).val("false");
+					$( "#current_address" ).val("");
+					//$( "#current_address" ).val($current_address);
 				}
 			}).change();
 
@@ -160,6 +170,7 @@
 
 			$(function() {
 				$("#birth_date").datepicker({
+					maxDate: 0,
 					changeMonth: true,
 	      			changeYear: true,
 	      			yearRange: "-80:+0"
