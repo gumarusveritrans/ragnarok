@@ -82,7 +82,7 @@
 					</div>
 
 				    <div class="next-button">
-				    	<a href="#upload-id-card">{{ Form::submit('NEXT', array('class' => 'button darkbrown')) }}</a>
+				    	<a href="#upload-id-card">{{ Form::submit('NEXT', array('id' => 'button-2', 'class' => 'button darkbrown')) }}</a>
 				    </div>
 
 			    {{ Form::close() }}
@@ -100,6 +100,14 @@
 			    		@if(Session::has('error'))
 			    		<p class="errors">{{ Session::get('error') }}</p>
 			    		@endif
+<!-- 			    		{{ Form::hidden('full_name_fix') }}
+			    		{{ Form::hidden('id_type_fix') }}
+			    		{{ Form::hidden('id_number_fix') }}
+			    		{{ Form::hidden('gender_fix') }}
+			    		{{ Form::hidden('birth_place_fix') }}
+			    		{{ Form::hidden('birth_date_fix') }}
+			    		{{ Form::hidden('id_address_fix') }}
+			    		{{ Form::hidden('address_fix') }} -->
 			    		<input id="finish-form" name="finish-form" type="hidden" value="">
 				    </div>
 				    <div id="validation-errors"></div>
@@ -120,7 +128,52 @@
 		
 	</div>
 
+	<div id="notification" class="container" style="display:none">
+		<h1>Thank you</h1>
+		<div class="wrapper">
+			<p>Your request for increasing your limit have been received, we will verified for the agreement
+			within 1x24 hours. Please check your e-mail for further information.</p>
+			<br/>
+			<div style="text-align:left">
+				{{ link_to ("/customers/dashboard", 'Back to Dashboard') }}
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript">
+
+		function showRequest(formData, jqForm, options) { 
+		    $("#validation-errors").hide().empty();
+		    $("#uploaded-image").css('display','none');
+		    return true; 
+		} 
+
+		function showResponse(response, statusText, xhr, $form)  { 
+		    if(response.success == false)
+		    {
+		        var arr = response.errors;
+		        $.each(arr, function(index, value)
+		        {
+		            if (value.length != 0)
+		            {
+		                $("#validation-errors").append('<div class="alert alert-error"><strong>'+ value +'</strong><div>');
+		                $("#finish-form").val("false");
+		            }
+		        });
+		        $("#validation-errors").show();
+		    } else {
+		        $("#uploaded-image").html("<img src='"+response.file+"' class='centered' />");
+		        $("#uploaded-image").css('display','block');
+		        $("#finish-form").val("true");
+			    $("#finish-button" ).click(function() {
+			    	if ($("#finish-form").val() == "true"){
+
+			    		$( "#increase-limit-form" ).hide();
+			      		$( "#notification" ).fadeIn();
+			    	}
+			    });
+		    }
+		}
 
 		$(function(){
 
@@ -154,7 +207,23 @@
 		      $( "#user-information" ).fadeIn();
 		    });
 
-			var isClick = false;
+			$( "#button-2" ).click(function() {
+		      $( "#full_name_fix" ).val($("#full_name").val());
+		      $( "#id_type_fix" ).val($("#id_type").val());
+		      $( "#id_number_fix" ).val($("#id_number").val());
+		      $( "#gender_fix" ).val($("#gender").val());
+		      $( "#birth_place_fix" ).val($("#birth_place").val());
+		      $( "#birth_date_fix" ).val($("#birth_date").val());
+		      $( "#id_address_fix" ).val($("#id_address").val());
+			  $( "#address_fix" ).val($("#address").val()); 	
+		    });
+
+			$("#birth_date").datepicker({
+				maxDate: 0,
+				changeMonth: true,
+    			changeYear: true,
+    			yearRange: "-80:+0"
+			});
 
 			var user_information_path = location.href.split("#")[1];
 		    if(user_information_path == "user-information") {
@@ -168,15 +237,6 @@
 		      $( "#upload-id-card" ).fadeIn();
 		    }
 
-			$(function() {
-				$("#birth_date").datepicker({
-					maxDate: 0,
-					changeMonth: true,
-	      			changeYear: true,
-	      			yearRange: "-80:+0"
-			});
-		});
-
 		    var options = { 
                 beforeSubmit:  showRequest,
 		        success:       showResponse,
@@ -189,33 +249,7 @@
 
 		});
 
-		function showRequest(formData, jqForm, options) { 
-		    $("#validation-errors").hide().empty();
-		    $("#uploaded-image").css('display','none');
-		    return true; 
-		} 
 
-		function showResponse(response, statusText, xhr, $form)  { 
-		    if(response.success == false)
-		    {
-		        var arr = response.errors;
-		        $.each(arr, function(index, value)
-		        {
-		            if (value.length != 0)
-		            {
-		                $("#validation-errors").append('<div class="alert alert-error"><strong>'+ value +'</strong><div>');
-		            }
-		        });
-		        $("#validation-errors").show();
-		    } else {
-		        $("#uploaded-image").html("<img src='"+response.file+"' class='centered' />");
-		        $("#uploaded-image").css('display','block');
-		        $("#finish-form").val("finish");
-		    }
-		    if(response.finish == 'finish'){
-			  
-		    }
-		}
 
 	</script>
 @stop

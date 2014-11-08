@@ -7,12 +7,6 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$pending_topups = DB::table('topup')->where('status', 'pending')->get();
-		foreach ($pending_topups as $pending_topup) {
-			$response = PaymentAPI::update_status('TUID'.$pending_topup->id);
-			DB::table('topup')	->where('id', $pending_topup->id)
-								->update(array('status' => ($response->transaction_status)));
-		}
 		$topups = DB::table('topup')->where('username_customer', $data['username'])->get();
 		$transfers = DB::table('transfer')->where('from_username', $data['username'])->get();
 		return View::make('/customers/dashboard')->with('data',$data)
@@ -273,11 +267,11 @@ class CustomersController extends BaseController {
 	public function upload() {
 		// getting all of the post database
 		// setting up rules
-		if(Input::get('finish-form') == 'finish') {
-			return Response::json(['finish' => 'finish']);
-		}
+		// if(Input::get('finish-form') == 'finish') {
+		// 	return Response::json(['finish' => 'finish']);
+		// }
 
-		$rules = array('image' => 'image|required');
+		$rules = array('image' => 'image|required|max:1600');
 		
 		$messages = array(
 			'image' 	=> 'The image must in jpeg, png, bmp, gif, or jpg format.',
