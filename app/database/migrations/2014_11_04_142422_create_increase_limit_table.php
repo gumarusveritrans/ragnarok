@@ -20,8 +20,8 @@ class CreateIncreaseLimitTable extends Migration {
 			$table->string('id_type');
 			$table->string('id_number');
 			$table->string('gender');
-			$table->string('place_birth');
-			$table->date('date_birth');
+			$table->string('birth_place');
+			$table->date('birth_date');
 			$table->string('id_address');
 			$table->string('address')->nullable();;
 			$table->string('message')->nullable();

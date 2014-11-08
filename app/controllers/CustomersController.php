@@ -262,10 +262,29 @@ class CustomersController extends BaseController {
 
 	public function increase_limit(){
 		$data = array();
+
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
 		return View::make('/customers/increase-limit')->with('data',$data);
+	}
+
+	public function increase_limit_post(){
+		// $information = Input::get('test');
+
+		IncreaseLimit::create(array(
+			'date_increase_limit' => new DateTime,
+			'full_name' => Input::get('full_name'),
+			'id_type' => Input::get('id_type'),
+			'id_number' => Input::get('id_number'),
+			'gender' => Input::get('gender'),
+			'birth_place' => Input::get('birth_place'),
+			'birth_date' => Input::get('birth_date'),
+			'id_address'=> Input::get('id_address'),
+			'address' => Input::get('address'),
+			'username_customer' => ConnectHelper::getCurrentUserUsername()
+		));
+		return View::make('customers/increase-limit-success');
 	}
 
 	public function getUploadForm() {
@@ -639,10 +658,20 @@ class CustomersController extends BaseController {
 		} else {
 			// validation successful ---------------------------
 			// input to database
+			// $user_information_data = array('full_name' => Input::get('full_name'),
+			// 								  'id_type' => Input::get('id_type'),
+			// 								  'id_number' => Input::get('id_number'),
+			// 								  'gender' => Input::get('gender'),
+			// 								  'birth_place' => Input::get('birth_place'),
+			// 								  'birth_date' => Input::get('birth_date'),
+			// 								  'id_address' => Input::get('id_address')
+			// 								  );
 
 			// redirect ----------------------------------------
 			// redirect our user back to the form so they can do it all over again
-			return Redirect::to('customers/increase-limit#upload-id-card');
+			$form_input = Input::all();
+			return Redirect::to('customers/increase-limit#upload-id-card')
+					->with('form_input',$form_input);
 		}
 
 	}

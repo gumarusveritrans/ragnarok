@@ -1,6 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
+
 	<div id="increase-limit-form" class="container centered">
 
 		<h1 class="line-title customer"><span class="line-center customer">Increase Limit</span></h1>
@@ -96,19 +97,13 @@
 			    		@if(Session::has('error'))
 			    		<p class="errors">{{ Session::get('error') }}</p>
 			    		@endif
-<!-- 			    		{{ Form::hidden('full_name_fix') }}
-			    		{{ Form::hidden('id_type_fix') }}
-			    		{{ Form::hidden('id_number_fix') }}
-			    		{{ Form::hidden('gender_fix') }}
-			    		{{ Form::hidden('birth_place_fix') }}
-			    		{{ Form::hidden('birth_date_fix') }}
-			    		{{ Form::hidden('id_address_fix') }}
-			    		{{ Form::hidden('address_fix') }} -->
 			    		<input id="finish-form" name="finish-form" type="hidden" value="">
 				    </div>
 				    <div id="validation-errors"></div>
 				    <div class="next-button">
-				      {{ Form::submit('FINISH', array('id'=>'finish-button', 'class'=>'button darkbrown')) }}
+				    	<button class='button darkbrown' id='finish-button'>
+				    	FINISH
+				    	</button>
 				    </div>
 				{{ Form::close() }}
 <!-- 				<div id="uploaded-image" class="block"></div>
@@ -138,39 +133,6 @@
 
 	<script type="text/javascript">
 
-		function showRequest(formData, jqForm, options) { 
-		    $("#validation-errors").hide().empty();
-		    $("#uploaded-image").css('display','none');
-		    return true; 
-		} 
-
-		function showResponse(response, statusText, xhr, $form)  { 
-		    if(response.success == false)
-		    {
-		        var arr = response.errors;
-		        $.each(arr, function(index, value)
-		        {
-		            if (value.length != 0)
-		            {
-		                $("#validation-errors").append('<div class="alert alert-error"><strong>'+ value +'</strong><div>');
-		                $("#finish-form").val("false");
-		            }
-		        });
-		        $("#validation-errors").show();
-		    } else {
-		        $("#uploaded-image").html("<img src='"+response.file+"' class='centered' />");
-		        $("#uploaded-image").css('display','block');
-		        $("#finish-form").val("true");
-			    $("#finish-button" ).click(function() {
-			    	if ($("#finish-form").val() == "true"){
-
-			    		$( "#increase-limit-form" ).hide();
-			      		$( "#notification" ).fadeIn();
-			    	}
-			    });
-		    }
-		}
-
 		$(function(){
 
 			$( "#checkbox" ).change(function() {
@@ -196,19 +158,6 @@
 		      $( "#upload-id-card" ).hide();
 		      $( "#user-information" ).fadeIn();
 		    });
-
-			$( "#button-2" ).click(function() {
-		      $( "#full_name_fix" ).val($("#full_name").val());
-		      $( "#id_type_fix" ).val($("#id_type").val());
-		      $( "#id_number_fix" ).val($("#id_number").val());
-		      $( "#gender_fix" ).val($("#gender").val());
-		      $( "#birth_place_fix" ).val($("#birth_place").val());
-		      $( "#birth_date_fix" ).val($("#birth_date").val());
-		      $( "#id_address_fix" ).val($("#id_address").val());
-			  $( "#address_fix" ).val($("#address").val()); 	
-		    });
-
-
 
 			$("#birth_date").datepicker({
 					changeMonth: true,
@@ -238,9 +187,147 @@
 		         $('#upload-form').ajaxForm(options).submit();          
 		     }); 
 
+		   	function postUserInformation(){
+	            method = "post"; // Set method to post by default if not specified.
+
+	            var form = document.createElement("form");
+	            form.setAttribute("method", method);
+	            form.setAttribute("action", '/customers/increase-limit-post');
+
+	            <?php
+	            	$form_input = Session::pull('form_input');
+
+            	?>	
+	            @if ($form_input)
+	            	
+		            var hiddenField = document.createElement("input");
+		            
+		            hiddenField.setAttribute("type", "hidden");
+		            hiddenField.setAttribute("name", "full_name");
+		            hiddenField.setAttribute("value", "{{{$form_input['full_name']}}}");
+
+		            form.appendChild(hiddenField);
+
+		            hiddenField = document.createElement("input");
+		            
+		            hiddenField.setAttribute("type", "hidden");
+		            hiddenField.setAttribute("name", "id_type");
+		            hiddenField.setAttribute("value", "{{{$form_input['id_type']}}}");
+
+		            form.appendChild(hiddenField);
+
+		            hiddenField = document.createElement("input");
+		            
+		            hiddenField.setAttribute("type", "hidden");
+		            hiddenField.setAttribute("name", "id_number");
+		            hiddenField.setAttribute("value", "{{{$form_input['id_number']}}}");
+
+		            form.appendChild(hiddenField);
+
+		            hiddenField = document.createElement("input");
+		            
+		            hiddenField.setAttribute("type", "hidden");
+		            hiddenField.setAttribute("name", "gender");
+		            hiddenField.setAttribute("value", "{{{$form_input['gender']}}}");
+
+		            form.appendChild(hiddenField);
+
+		            hiddenField = document.createElement("input");
+		            
+		            hiddenField.setAttribute("type", "hidden");
+		            hiddenField.setAttribute("name", "birth_place");
+		            hiddenField.setAttribute("value", "{{{$form_input['birth_place']}}}");
+
+		            form.appendChild(hiddenField);
+
+		            hiddenField = document.createElement("input");
+		            
+		            hiddenField.setAttribute("type", "hidden");
+		            hiddenField.setAttribute("name", "birth_date");
+		            hiddenField.setAttribute("value", "{{{$form_input['birth_date']}}}");
+
+		            form.appendChild(hiddenField);
+
+		            hiddenField = document.createElement("input");
+		            
+		            hiddenField.setAttribute("type", "hidden");
+		            hiddenField.setAttribute("name", "id_address");
+		            hiddenField.setAttribute("value", "{{{$form_input['id_address']}}}");
+
+		            form.appendChild(hiddenField);
+
+		            hiddenField = document.createElement("input");
+		            
+		            hiddenField.setAttribute("type", "hidden");
+		            hiddenField.setAttribute("name", "address");
+		            hiddenField.setAttribute("value", "{{{$form_input['address']}}}");
+
+		            form.appendChild(hiddenField);
+
+		            document.body.appendChild(form);
+
+	            @endif
+	            form.submit();
+	        }
+
+	        function showRequest(formData, jqForm, options) { 
+			    $("#validation-errors").hide().empty();
+			    $("#uploaded-image").css('display','none');
+			    return true; 
+			} 
+
+			function showResponse(response, statusText, xhr, $form)  {
+				// var user_information_data = {
+				// 	full_name: '{{{Input::old("full_name")}}}',
+				// 	id_type: '{{{Input::old("id_type")}}}',
+				// 	id_number: '{{{Input::old("id_number")}}}',
+				// 	gender: '{{{Input::old("gender")}}}',
+				// 	birth_place: '{{{Input::old("birth_place")}}}',
+				// 	birth_date: '{{{Input::old("birth_date")}}}',
+				// 	id_address: '{{{Input::old("id_address")}}}',
+				// 	address: '{{{Input::old("address")}}}'
+				// };
+			    if(response.success == false)
+			    {
+			        var arr = response.errors;
+			        $.each(arr, function(index, value)
+			        {
+			            if (value.length != 0)
+			            {
+			                $("#validation-errors").append('<div class="alert alert-error"><strong>'+ value +'</strong><div>');
+			                $("#finish-form").val("false");
+			            }
+			        });
+			        $("#validation-errors").show();
+			    } else {	
+			        $("#uploaded-image").html("<img src='"+response.file+"' class='centered' />");
+			        $("#uploaded-image").css('display','block');
+			        $("#finish-form").val("true");
+				    $("#finish-button" ).click(function() {
+				    	if ($("#finish-form").val() == "true"){
+				    		
+				    		postUserInformation();
+				   //  		$.ajax({
+							// 	url: "/customers/increase-limit-post",
+							// 	type: "POST",
+							// 	data: user_information_data
+							// })
+							//   .error(function( msg ) {
+							//     alert( "Error: " + msg );
+							//   })
+							//   .success(function( msg ) {
+							//     alert( "Success: " + msg );
+							//   });
+				   //  		// $( "#increase-limit-form" ).hide();
+				   //    // 		$( "#notification" ).fadeIn();
+				    	}
+				    });
+			    }
+			}
+
 		});
 
-
-
+		    
 	</script>
+
 @stop

@@ -18,6 +18,7 @@ Route::get('/customers/profile', 'CustomersController@profile');
 Route::get('/customers/transaction', 'CustomersController@transaction');
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/increase-limit', 'CustomersController@increase_limit');
+Route::post('/customers/increase-limit-post', 'CustomersController@increase_limit_post');
 Route::get('/customers/topup', 'CustomersController@topup');
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::post('/customers/transfer', 'CustomersController@transfer');
