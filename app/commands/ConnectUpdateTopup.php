@@ -46,7 +46,7 @@ class ConnectUpdateTopup extends Command {
 					//GETTING TRANSFER TYPE
 					$transactionService = new Cyclos\Service('transactionService');
 					$to = new stdclass();
-					$to->username = 'test2';
+					$to->username = $pending_topup->username_customer;
 					$result = $transactionService->run('getPaymentData',array("SYSTEM",$to),false);
 					
 					//TRANSFERRING TO USER
@@ -56,12 +56,23 @@ class ConnectUpdateTopup extends Command {
 					$parameters->from = $result->from;
 				    $parameters->to = $result->to;
 				    $parameters->type = $result->paymentTypes[0];
-				    $parameters->amount = $result->gross_amount;
-				    $parameters->description = "Topup for veritrans transaction id " . $result->transaction_id;
+				    $parameters->amount = $response->gross_amount;
+				    $parameters->description = "Topup for veritrans transaction id " . $response->transaction_id;
 				    
 				    $paymentResult = $paymentService->run('perform',$parameters,false);
+
+				    DB::table('topup')	->where('id', $pending_topup->id)->update(array('status' => 'success'));
+					
+					$email_customer = ConnectHelper::getUserEmail($pending_topup->username_customer);
+					Mail::send('emails.topup', array('transfer_amount' => $response->gross_amount), function($message)
+					{
+						$message->from('connect_cs@connect.co.id', 'Connect');
+					    $message->to($email_customer, $pending_topup->username_customer)->subject('Top-Up Success');
+					});
 				}
-				DB::table('topup')	->where('id', $pending_topup->id)->update(array('status' => ($response->transaction_status)));
+
+
+
 			}
 		};
 	}

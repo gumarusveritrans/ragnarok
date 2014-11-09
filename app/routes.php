@@ -16,6 +16,9 @@ Route::get('/register', 'CustomersController@register');
 
 //Route for Customers Section
 Route::get('/customers/dashboard', 'CustomersController@dashboard');
+Route::get('/customers/download-csv-topup', 'CustomersController@download_csv_topup');
+Route::get('/customers/download-csv-transfer', 'CustomersController@download_csv_transfer');
+Route::get('/customers/download-csv-purchase', 'CustomersController@download_csv_purchase');
 Route::get('/customers/profile', 'CustomersController@profile');
 Route::get('/customers/transaction', 'CustomersController@transaction');
 Route::get('/customers/transfer', 'CustomersController@transfer');
@@ -32,6 +35,9 @@ Route::get('/admin/login', 'AdminController@login');
 Route::post('/admin/login', 'AdminController@login');
 Route::post('/admin/logout', 'AdminController@logout');
 Route::get('/admin/dashboard', 'AdminController@dashboard');
+Route::get('/admin/download-csv-topup', 'AdminController@download_csv_topup');
+Route::get('/admin/download-csv-transfer', 'AdminController@download_csv_transfer');
+Route::get('/admin/download-csv-purchase', 'AdminController@download_csv_purchase');
 Route::get('/admin/notification', 'AdminController@notification');
 Route::get('/admin/manage-user', 'AdminController@manage_user');
 Route::post('/admin/redeem_user', 'AdminController@redeem_user');
