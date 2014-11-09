@@ -44,9 +44,14 @@
       <p>
         Confirm top-up to proceed the transaction with Permata VA Account.
       </p>
-      <div class="block">
+      @if($data['limitBalance'] == 1000000)
+        <p>
+          Click button below to increase your maximum limit balance.
+        </p>
+        <div class="block">
           <a href="{{ url('/customers/increase-limit') }}"><button class="button darkbrown profile">INCREASE LIMIT</button></a>
       </div>
+      @endif
     </div>
 
   </div>

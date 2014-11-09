@@ -32,5 +32,6 @@ return array(
 	'merchant' => 'Merchant',
 	'admin' => 'Admin',
 	'user_balance' => 'balance',
-	'merchant_balace' => 'Merchant Balance'
+	'merchant_balace' => 'Merchant Balance',
+	'topup_transfer_type' => 'Topup'
 );

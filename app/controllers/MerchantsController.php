@@ -3,12 +3,15 @@
 class MerchantsController extends BaseController {
 
 	public function login(){
+		
 		if(Session::get('cyclos_group') == Config::get('connect_variable.merchant')){
 			return Redirect::to('/merchants/transaction');
 		}
+
 		if(Request::getMethod()=='GET'){
 			return View::make('/merchants/login');	
-		}else if(Request::getMethod()=='POST'){
+		}
+		else if(Request::getMethod()=='POST'){
 			$loginService = new Cyclos\Service('loginService');
 
 			// Set the parameters
@@ -26,7 +29,7 @@ class MerchantsController extends BaseController {
 				Session::put('cyclos_username',$params->user['username']);
 				Session::put('cyclos_remote_address',$params->remoteAddress);
 					
-				//GETTING THE GROUP NAME
+				//Getting the group name
 				$params = new stdclass();
 				$params->id = $result->user->id;
 
@@ -77,7 +80,6 @@ class MerchantsController extends BaseController {
 		Session::flush();
 		$params = new stdclass();
 		$loginService = new Cyclos\Service('loginService');
-
 		try {
 			$loginService->run('logout',array(),true);
 			return Redirect::to("/merchants/login");

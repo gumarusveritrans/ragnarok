@@ -7,12 +7,6 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$pending_topups = DB::table('topup')->where('status', 'pending')->get();
-		foreach ($pending_topups as $pending_topup) {
-			$response = PaymentAPI::update_status('TUID'.$pending_topup->id);
-			DB::table('topup')	->where('id', $pending_topup->id)
-								->update(array('status' => ($response->transaction_status)));
-		}
 		$topups = DB::table('topup')->where('username_customer', $data['username'])->get();
 		$transfers = DB::table('transfer')->where('from_username', $data['username'])->get();
 		return View::make('/customers/dashboard')->with('data',$data)
@@ -48,14 +42,12 @@ class CustomersController extends BaseController {
 			// Perform the login
 			try {
 				$result = $loginService->run('loginUser',$params,false);
-
-				//print_r($result);
 				Session::put('cyclos_session_token',$result->sessionToken);
 				Session::put('cyclos_username',$params->user['username']);
 				Session::put('cyclos_remote_address',$params->remoteAddress);
 				Session::put('cyclos_id',$result->user->id);
 
-				//GETTING THE GROUP NAME
+				// Getting the group name
 				$params = new stdclass();
 				$params->id = $result->user->id;
 
@@ -121,7 +113,7 @@ class CustomersController extends BaseController {
 	}
 
 	public function register(){	
-		//KICK LOGINED USER
+		// Kick logined user
 		if(Session::get('cyclos_session_token') != null){
 			return Redirect::to('/');
 		}
@@ -270,7 +262,11 @@ class CustomersController extends BaseController {
 	}
 
 	public function increase_limit_post(){
-		// $information = Input::get('test');
+		if (Input::get('current_address') == ""){
+			$current_address = Input::get('id_address');
+		}else{
+			$current_address = Input::get('current_address');
+		}
 
 		IncreaseLimit::create(array(
 			'date_increase_limit' => new DateTime,
@@ -281,8 +277,9 @@ class CustomersController extends BaseController {
 			'birth_place' => Input::get('birth_place'),
 			'birth_date' => Input::get('birth_date'),
 			'id_address'=> Input::get('id_address'),
-			'address' => Input::get('address'),
-			'username_customer' => ConnectHelper::getCurrentUserUsername()
+			'current_address' => $current_address,
+			'username_customer' => ConnectHelper::getCurrentUserUsername(),
+			'status' => 'In Process'
 		));
 		return View::make('customers/increase-limit-success');
 	}
@@ -332,82 +329,43 @@ class CustomersController extends BaseController {
 	}
 
 	public function validate_registration_form(){
-		// process the form here
-
-		// create the validation rules ------------------------
 		$rules = array(
-			'username'             	=> 'required', 						// just a normal required validation
-			'email'            		=> 'required|email', 	// required and must be unique in the ducks table
+			'username'             	=> 'required',
+			'email'            		=> 'required|email',
 			'password'         		=> 'required',
-			'password_confirmation' => 'required|same:password' 			// required and has to match the password field
+			'password_confirmation' => 'required|same:password'
 		);
 
-		// create custom validation messages ------------------
 		$messages = array(
 			'same' 	=> 'The :others must matched.'
 		);
 
-		// do the validation ----------------------------------
-		// validate against the inputs from our form
 		$validator = Validator::make(Input::all(), $rules, $messages);
 
-		// check if the validator failed -----------------------
 		if ($validator->fails()) {
-
-			// redirect our user back with error messages		
-			//$messages = $validator->messages();
-
-			// also redirect them back with old inputs so they dont have to fill out the form again
-			// but we wont redirect them with the password they entered
-
 			return View::make('customers/register')
 				->withErrors($validator)
 				->withInput(Input::except('password', 'password_confirmation'));
-
 		} else {
-			// validation successful ---------------------------
-
-			// redirect ----------------------------------------
-			// redirect our user back to the form so they can do it all over again
-
 			return $this->register();
 		}
 
 	}
 
 	public function validate_login_form(){
-		// process the form here
-
-		// create the validation rules ------------------------
 		$rules = array(
-			'email'            		=> 'required|email', 	// required and must be unique in the ducks table
+			'email'            		=> 'required|email',
 			'password'         		=> 'required'
 		);
 
-		// do the validation ----------------------------------
-		// validate against the inputs from our form
 		$validator = Validator::make(Input::all(), $rules);
 
-		// check if the validator failed -----------------------
 		if ($validator->fails()) {
-
-			// redirect our user back with error messages		
-			//$messages = $validator->messages();
-
-			// also redirect them back with old inputs so they dont have to fill out the form again
-			// but we wont redirect them with the password they entered
-
 			return Redirect::to('/login')
 				->withErrors($validator);
-
 		} else {
-			// validation successful ---------------------------
-
-			// redirect ----------------------------------------
-			// redirect our user back to the form so they can do it all over again
 			return Redirect::to('customers/dashboard');
 		}
-
 	}
 
 	public function validate_topup_form(){
@@ -418,37 +376,23 @@ class CustomersController extends BaseController {
 		
 		if ($pending_topups != null){
 			return Redirect::to('/customers/topup')
-				->withErrors(array(
-					'topup_amount' => 'You have pending Top Up status, please confirm the payment first.'
-				));
+				->withErrors(array('topup_amount' => 'You have pending Top Up status, please confirm the payment first.'));
 		}else{
-			// process the form here
 			$max = $data['limitBalance'] - $data['balance'];
-			// create the validation rules ------------------------
+
 			$rules = array(
-				'topup_amount'     		=> 'required|numeric|max:'.$max
+				'topup_amount'     	=> 'required|numeric|max:'.$max
 			);
 
 			$messages = array(
 				'max' => 'The :attribute must not be greater than your limit balance (Maximum Top-Up allowed : :max)' 
 			);
 
-			// do the validation ----------------------------------
-			// validate against the inputs from our form
 			$validator = Validator::make(Input::all(), $rules, $messages);
 
-			// check if the validator failed -----------------------
 			if ($validator->fails()) {
-
-				// redirect our user back with error messages		
-				//$messages = $validator->messages();
-
-				// also redirect them back with old inputs so they dont have to fill out the form again
-				// but we wont redirect them with the password they entered
-
 				return Redirect::to('/customers/topup')
 					->withErrors($validator);
-
 			} else {
 				$topup = Topup::create(array(
 					'date_topup'=>new DateTime, 
@@ -457,102 +401,58 @@ class CustomersController extends BaseController {
 					'permata_va_account'=>'',
 					'username_customer'=>ConnectHelper::getCurrentUserUsername()
 				));
-				
 				$response = PaymentAPI::charge_topup($topup->id, Input::get('topup_amount'));
-				
-				//Saving to Top Up Table Database
 				$topup->date_topup = new DateTime;
 				$topup->status = $response->transaction_status;
 				$topup->permata_va_account = $response->permata_va_number;
 				$topup->save();
-
 				return View::make('customers/topup-success')->with('va_number',$response->permata_va_number);
 			}	
 		}
-		
-
 	}
 
 	public function validate_transfer_form(){
-		// process the form here
-
-		// create the validation rules ------------------------
 		$rules = array(
 			'transfer_recipient'		=> 'required|email',
 			'transfer_amount'     		=> 'required|numeric'
 		);
 
-		// do the validation ----------------------------------
-		// validate against the inputs from our form
 		$validator = Validator::make(Input::all(), $rules);
 
-		// check if the validator failed -----------------------
 		if ($validator->fails()) {
-
-			// redirect our user back with error messages		
-			//$messages = $validator->messages();
-
-			// also redirect them back with old inputs so they dont have to fill out the form again
-			// but we wont redirect them with the password they entered
-
 			return Redirect::to('/customers/transfer')
 				->withErrors($validator)
 				->withInput(Input::except('transfer_amount'));
-
 		} else {
-			// validation successful ---------------------------
-
-			// redirect ----------------------------------------
-			// redirect our user back to the form so they can do it all over again
 			return Redirect::to('customers/transfer-success');
 		}
-
 	}
 
 	public function validate_close_account_form(){
-		// process the form here
-
-		// create the validation rules ------------------------
 		$rules = array(
 			'account_bank'		 => 'required',
 			'account_number'     => 'required|numeric',
 			'account_name'     	 => 'required'	
 		);
 
-		// do the validation ----------------------------------
-		// validate against the inputs from our form
 		$validator = Validator::make(Input::all(), $rules);
 
-		// check if the validator failed -----------------------
 		if ($validator->fails()) {
-
-			// redirect our user back with error messages		
-			//$messages = $validator->messages();
-
-			// also redirect them back with old inputs so they dont have to fill out the form again
-			// but we wont redirect them with the password they entered
-
 			return Redirect::to('/customers/profile#close-account')
 				->withErrors($validator);
-
 		} else {
-			
-			//GETTING REQUEST CLOSE ACCOUNT GROUPS
+			//Getting request close account groups
 			$userService = new Cyclos\Service('userService');
 			$userGroupService = new Cyclos\Service('userGroupService');
-
 			try{
 				$result = $userService->run("getUserRegistrationGroups",array(),false);
-				
 				$id;
-
 				foreach($result as $res){
 					if($res->name == Config::get('connect_variable.request_close_account_user')){
 						$id = $res->id;
 					}
 				}
-
-				//CHANGE THE GROUP
+				// Change the group
 				$params = new stdclass();
 				$params->group = new stdclass();
 				$params->group->id = $id;
@@ -580,54 +480,30 @@ class CustomersController extends BaseController {
 				return Redirect::to('/customers/profile#close-account');
 			}
 		}
-
 	}
 
 	public function validate_change_password_form(){
-		// process the form here
-
-		// create the validation rules ------------------------
 		$rules = array(
 			'current_password'	 		=> 'required',
 			'password'     				=> 'required',
 			'password_confirmation'   	=> 'required|same:password'	
 		);
 
-		// create custom validation messages ------------------
 		$messages = array(
 			'same' 	=> 'The :others must matched.'
 		);
 
-		// do the validation ----------------------------------
-		// validate against the inputs from our form
 		$validator = Validator::make(Input::all(), $rules, $messages);
 
-		// check if the validator failed -----------------------
 		if ($validator->fails()) {
-
-			// redirect our user back with error messages		
-			//$messages = $validator->messages();
-
-			// also redirect them back with old inputs so they dont have to fill out the form again
-			// but we wont redirect them with the password they entered
-
 			return Redirect::to('/customers/profile#change-password')
 				->withErrors($validator);
-
 		} else {
-			// validation successful ---------------------------
-
-			// redirect ----------------------------------------
-			// redirect our user back to the form so they can do it all over again
 			return Redirect::to('customers/change-password-success');
 		}
-
 	}
 
 	public function validate_user_information_form(){
-		// process the form here
-
-		// create the validation rules ------------------------
 		$rules = array(
 			'full_name'	 		=> 'required|alpha',
 			'id_type'     		=> 'required',
@@ -638,42 +514,15 @@ class CustomersController extends BaseController {
 			'id_address'		=> 'required'
 		);
 
-
-		// do the validation ----------------------------------
-		// validate against the inputs from our form
 		$validator = Validator::make(Input::all(), $rules);
 
-		// check if the validator failed -----------------------
 		if ($validator->fails()) {
-
-			// redirect our user back with error messages		
-			//$messages = $validator->messages();
-
-			// also redirect them back with old inputs so they dont have to fill out the form again
-			// but we wont redirect them with the password they entered
-
 			return Redirect::to('/customers/increase-limit#user-information')
 				->withErrors($validator);
-
 		} else {
-			// validation successful ---------------------------
-			// input to database
-			// $user_information_data = array('full_name' => Input::get('full_name'),
-			// 								  'id_type' => Input::get('id_type'),
-			// 								  'id_number' => Input::get('id_number'),
-			// 								  'gender' => Input::get('gender'),
-			// 								  'birth_place' => Input::get('birth_place'),
-			// 								  'birth_date' => Input::get('birth_date'),
-			// 								  'id_address' => Input::get('id_address')
-			// 								  );
-
-			// redirect ----------------------------------------
-			// redirect our user back to the form so they can do it all over again
 			$form_input = Input::all();
 			return Redirect::to('customers/increase-limit#upload-id-card')
 					->with('form_input',$form_input);
 		}
-
 	}
-
 }

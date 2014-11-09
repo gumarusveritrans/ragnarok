@@ -61,19 +61,19 @@
 				    		@if ($errors->has('birth_date')) <p class="error-message">{{ $errors->first('birth_date') }}</p> @endif
 				    	</div>
 
-				    	<div>
+				    	<div id="id_address_form">
 				      		{{ Form::label('id_address', 'Identity Address') }}<br />
 				        	{{ Form::text('id_address', '', array('class' => 'form-control')) }}
 				        	@if ($errors->has('id_address')) <p class="error-message">{{ $errors->first('id_address') }}</p> @endif
 				    	</div>
 
-				    	<input type="checkbox" name="checkbox-address" id="checkbox-address" class="css-checkbox" />
+				    	<input type="checkbox" name="checkbox_address" id="checkbox_address" value="false" class="css-checkbox" />
 				    	My current address is different with identity address 
 
-				    	<div id="address-form" style="display:none">
-				      		{{ Form::label('address', 'Address') }}<br />
-				        	{{ Form::text('address', '', array('class' => 'form-control')) }}
-				        	@if ($errors->has('address')) <p class="error-message">{{ $errors->first('address') }}</p> @endif
+				    	<div id="current_address_form" style="display: none">
+				      		{{ Form::label('current_address', 'Current Address') }}<br />
+				        	{{ Form::text('current_address', '', array('class' => 'form-control')) }}
+				        	@if ($errors->has('current_address')) <p class="error-message">{{ $errors->first('current_address') }}</p> @endif
 				    	</div>
 
 					</div>
@@ -106,14 +106,6 @@
 				    	</button>
 				    </div>
 				{{ Form::close() }}
-<!-- 				<div id="uploaded-image" class="block"></div>
-				<form class="form-horizontal" id="upload-form" enctype="multipart/form-data" method="post" action="{{ url('upload-id-card') }}" autocomplete="off">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                    <input type="file" name="image" id="image-upload" />
-                    <br/><br/>
-                    <input type="submit" class="button darkbrown" value="FINISH">
-                </form>
-                <div id="validation-errors"></div> -->
 			</div>
 		</div>
 		
@@ -144,12 +136,16 @@
 				}
 			}).change();
 
-			$( "#checkbox-address" ).change(function() {
-				var $input = $( this );
+			$( "#checkbox_address" ).change(function() {
+				var $input = $(this);
 				if($input.prop("checked")) {
-				   	$( "#address-form" ).fadeIn();// something when checked
-				} else {
-					$( "#address-form" ).hide();// something else when not
+				   	$( "#current_address_form" ).fadeIn();
+				   	$( "#checkbox_address" ).val("true");
+				}
+				else {
+					$( "#current_address_form" ).hide();
+					$( "#checkbox_address" ).val("false");
+					$( "#current_address" ).val("");
 				}
 			}).change();
 
@@ -160,9 +156,10 @@
 		    });
 
 			$("#birth_date").datepicker({
-					changeMonth: true,
-	      			changeYear: true,
-	      			yearRange: "-80:+0"
+				maxDate: 0,
+				changeMonth: true,
+    			changeYear: true,
+    			yearRange: "-80:+0"
 			});
 
 			var user_information_path = location.href.split("#")[1];
@@ -259,8 +256,8 @@
 		            hiddenField = document.createElement("input");
 		            
 		            hiddenField.setAttribute("type", "hidden");
-		            hiddenField.setAttribute("name", "address");
-		            hiddenField.setAttribute("value", "{{{$form_input['address']}}}");
+		            hiddenField.setAttribute("name", "current_address");
+		            hiddenField.setAttribute("value", "{{{$form_input['current_address']}}}");
 
 		            form.appendChild(hiddenField);
 
@@ -277,16 +274,6 @@
 			} 
 
 			function showResponse(response, statusText, xhr, $form)  {
-				// var user_information_data = {
-				// 	full_name: '{{{Input::old("full_name")}}}',
-				// 	id_type: '{{{Input::old("id_type")}}}',
-				// 	id_number: '{{{Input::old("id_number")}}}',
-				// 	gender: '{{{Input::old("gender")}}}',
-				// 	birth_place: '{{{Input::old("birth_place")}}}',
-				// 	birth_date: '{{{Input::old("birth_date")}}}',
-				// 	id_address: '{{{Input::old("id_address")}}}',
-				// 	address: '{{{Input::old("address")}}}'
-				// };
 			    if(response.success == false)
 			    {
 			        var arr = response.errors;
@@ -305,21 +292,7 @@
 			        $("#finish-form").val("true");
 				    $("#finish-button" ).click(function() {
 				    	if ($("#finish-form").val() == "true"){
-				    		
 				    		postUserInformation();
-				   //  		$.ajax({
-							// 	url: "/customers/increase-limit-post",
-							// 	type: "POST",
-							// 	data: user_information_data
-							// })
-							//   .error(function( msg ) {
-							//     alert( "Error: " + msg );
-							//   })
-							//   .success(function( msg ) {
-							//     alert( "Success: " + msg );
-							//   });
-				   //  		// $( "#increase-limit-form" ).hide();
-				   //    // 		$( "#notification" ).fadeIn();
 				    	}
 				    });
 			    }

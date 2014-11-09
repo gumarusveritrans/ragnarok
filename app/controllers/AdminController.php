@@ -3,12 +3,15 @@
 class AdminController extends BaseController {
 
 	public function login(){
+
 		if(Session::get('cyclos_group') == Config::get("connect_variable.admin")){
 			return Redirect::to('/admin/dashboard');
 		}
-		if(Request::getMethod()=='GET'){
+
+		if(Request::getMethod() == 'GET'){
 			return View::make('/admin/login');	
-		}else if(Request::getMethod()=='POST'){
+		}
+		else if(Request::getMethod() == 'POST'){
 			$loginService = new Cyclos\Service('loginService');
 
 			// Set the parameters
@@ -26,7 +29,7 @@ class AdminController extends BaseController {
 				Session::put('cyclos_username',$params->user['username']);
 				Session::put('cyclos_remote_address',$params->remoteAddress);
 					
-				//GETTING THE GROUP NAME
+				// Getting the group name
 				$params = new stdclass();
 				$params->id = $result->user->id;
 
@@ -77,7 +80,6 @@ class AdminController extends BaseController {
 		Session::flush();
 		$params = new stdclass();
 		$loginService = new Cyclos\Service('loginService');
-
 		try {
 			$loginService->run('logout',array(),true);
 			return Redirect::to("/admin/login");
@@ -93,42 +95,45 @@ class AdminController extends BaseController {
 	public function dashboard(){
 		$topups = DB::table('topup')->get();
 		$transfers = DB::table('transfer')->get();
-		return View::make('/admin/dashboard')->with('topups', $topups)
-											 ->with('transfers', $transfers);
+		return View::make('/admin/dashboard')
+			->with('topups', $topups)
+			->with('transfers', $transfers);
 	}
 
 	public function notification(){
 		$redeems = Redeem::all();
-		return View::make('/admin/notification')->with('redeems',$redeems);
+		$increase_limits = IncreaseLimit::all();
+		return View::make('/admin/notification')
+			->with('redeems', $redeems)
+			->with('increase_limits', $increase_limits);
 	}
 
 	public function manage_user(){
-		//GETTING ALL USERS
+		// Getting all rules
 		$userService = new Cyclos\Service('userService');
 
-		//GETTING ACCOUNT ROLE
+		// Getting account role
 		$usersResult = $userService->run('getUserRegistrationGroups',array(),false);
 		$roleId = array();
 		foreach($usersResult as $group){
 			$roleId[$group->name] = $group->id;
 		}
 
-		//GETTING ACCOUNTS
-		//GETTING VERIFIED USER
+		// Getting accounts and verified user
 		$params = new stdclass();
 		$params->groups = new stdclass();
 		$params->groups->id = $roleId[Config::get('connect_variable.verified_user')];
 		$params->pageSize = PHP_INT_MAX;
 		$verifiedUsersResult = $userService->run('search',$params,false);
 
-		//GETTING UNVERIFIED USER
+		// Getting unverified user
 		$params = new stdclass();
 		$params->groups = new stdclass();
 		$params->groups->id = $roleId[Config::get('connect_variable.unverified_user')];
 		$params->pageSize = PHP_INT_MAX;
 		$unverifiedUsersResult = $userService->run('search',$params,false);
 
-		//GETTING MERCHANT
+		// Getting merchant
 		$params = new stdclass();
 		$params->groups = new stdclass();
 		$params->groups->id = $roleId[Config::get('connect_variable.merchant')];
@@ -137,15 +142,15 @@ class AdminController extends BaseController {
 
 		$merchants = $merchantsResult->pageItems;
 
-		//GETTING MERCHANTS ATTRIBUTE
+		// Getting merchant attributes
 		foreach($merchants as $merchant){
-			//GETTING MERCHANTS EMAIL
+			// Getting merchant email
 			$params = new stdclass();
 			$params->id = $merchant->id;
 			$result = $userService->run('getViewProfileData',$params,false);
 			$merchant->email = $result->email;
 
-			//GETTING MERCHANTS BALANCE
+			// Getting merchant balance
 			$accountService = new Cyclos\Service('accountService');
 			$result = $accountService->run('getAccountsSummary',array(array("username"=>$merchant->username),array("date"=>"null")),false);
 			$merchant->balance = intval($result[0]->balance->amount);
@@ -155,47 +160,18 @@ class AdminController extends BaseController {
 	}
 
 	public function validate_login_form(){
-		// process the form here
-
-		// create the validation rules ------------------------
 		$rules = array(
-			'email'            		=> 'required|email', 	// required and must be unique in the ducks table
+			'email'            		=> 'required|email',
 			'password'         		=> 'required'
 		);
 
-		// do the validation ----------------------------------
-		// validate against the inputs from our form
 		$validator = Validator::make(Input::all(), $rules);
 
-		// check if the validator failed -----------------------
-		if ($validator->fails()) {
-
-			// redirect our user back with error messages		
+		if ($validator->fails()) {	
 			$messages = $validator->messages();
-
-			// also redirect them back with old inputs so they dont have to fill out the form again
-			// but we wont redirect them with the password they entered
-
 			return Redirect::to('/admin/login')
 				->withErrors($validator);
-
 		} else {
-			// validation successful ---------------------------
-
-			// our duck has passed all tests!
-			// let him enter the database
-
-			// create the data for our duck
-			// $duck = new Duck;
-			// $duck->name     = Input::get('name');
-			// $duck->email    = Input::get('email');
-			// $duck->password = Hash::make(Input::get('password'));
-
-			// save our duck
-			// $duck->save();
-
-			// redirect ----------------------------------------
-			// redirect our user back to the form so they can do it all over again
 			return Redirect::to('/admin/dashboard');
 		}
 
@@ -205,31 +181,30 @@ class AdminController extends BaseController {
 		$userService = new Cyclos\Service('userService');
 		$userGroupService = new Cyclos\Service('userGroupService');
 		try{
-			//VALIDATE REDEEMATION
+			// Validate redeemation
 			$redeem = Redeem::find(Input::get('redeem_id'));
 			if($redeem->redeemed == true){
 				throw new Exception();
 			}
 
-			//GETTING USER ID
+			// Getting user id
 			$params = new stdclass();
 			$params->keywords = Input::get('redeem_username');
 			$result = $userService->run('search',$params,false);
-
 			$user_id = $result->pageItems[0]->id;
 			
-			//GET GROUP
+			// Get group
 			$result = $userService->run("getUserRegistrationGroups",array(),false);
-				
 			$group_id;
 
 			foreach($result as $res){
 				if($res->name == Config::get('connect_variable.closed_user_account')){
 					$group_id = $res->id;
 				}
+				break;
 			}
 
-			//CHANGE THE GROUP
+			// Change the group
 			$params = new stdclass();
 			$params->group = new stdclass();
 			$params->group->id = $group_id;
@@ -251,7 +226,6 @@ class AdminController extends BaseController {
 
 		try{
 			$result = $userService->run("getUserRegistrationGroups",array(),false);
-			
 			$id;
 
 			foreach($result as $res){
@@ -270,7 +244,6 @@ class AdminController extends BaseController {
 
 			$userService->run('register',$params,false);
 			echo 'merchant created!';
-
 		}catch (Cyclos\ServiceException $e){
 			if($e->errorCode == "VALIDATION"){
 				$errors = "";
@@ -279,14 +252,60 @@ class AdminController extends BaseController {
 				}
 				Session::flash('errors',$errors);
 				var_dump($errors);	
-				
 			}else{
 				Session::flash('errors',$e->errorCode);
 				var_dump($e->errorCode);
 			}
 		}
+	}
 
-		
+	public function reject_increase_limit(){
+		$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));//->update(array('status' => ($response->transaction_status)));
+		$increase_limit->message = Input::get('denial_message');
+		$increase_limit->status = 'Rejected';
+
+		$increase_limit->save();
+
+		return Redirect::to('/admin/notification#');
+	}
+
+	public function accept_increase_limit(){
+		$userService = new Cyclos\Service('userService');
+		$userGroupService = new Cyclos\Service('userGroupService');
+
+		//GETTING USER ID
+		$user_id;
+		$params = new stdclass();
+		$params->keywords = Input::get('increase_limit_username');
+		$result = $userService->run('search',$params,false);
+		$user_id = $result->pageItems[0]->id;
+
+		//GETTING GROUP ID FOR UPDATE
+		$result = $userService->run("getUserRegistrationGroups",array(),false);
+		$group_id;
+
+
+		foreach($result as $res){
+			if($res->name == Config::get('connect_variable.verified_user')){
+				$group_id = $res->id;
+				break;
+			}
+		}
+
+		//UPDATE USER GROUP
+		$params = new stdclass();
+		$params->group = new stdclass();
+		$params->group->id = $group_id;
+
+		$params->user = new stdclass();
+		$params->user->id = $user_id;
+		$result = $userGroupService->run('changeGroup',$params,false);
+
+		$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));
+		$increase_limit->status = 'Accepted';
+		$increase_limit->save();
+
+		return Redirect::to('/admin/notification#');
 	}
 
 }
