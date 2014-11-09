@@ -540,7 +540,6 @@ class CustomersController extends BaseController {
 				return Redirect::to('customers/close-account-success');
 
 			}catch(Exception $e){
-				dd($e);
 				Session::flash('errors_cyclos','There are some trouble, please try again later');
 				return Redirect::to('/customers/profile#close-account');
 			}
@@ -548,23 +547,33 @@ class CustomersController extends BaseController {
 	}
 
 	public function validate_change_password_form(){
-		$rules = array(
-			'current_password'	 		=> 'required',
-			'password'     				=> 'required',
-			'password_confirmation'   	=> 'required|same:password'	
-		);
 
-		$messages = array(
-			'same' 	=> 'The :others must matched.'
-		);
+		$passwordService = new Cyclos\Service('passwordService');
+		$result = $passwordService->run('getChangePasswordData',array(),true);
 
-		$validator = Validator::make(Input::all(), $rules, $messages);
+		$changePasswordDTO = $result->changePassword;
+		$changePasswordDTO->oldPassword = Input::get('current_password');
+		$changePasswordDTO->newPassword = Input::get('password');
+		$changePasswordDTO->confirmNewPassword = Input::get('password_confirmation');
 
-		if ($validator->fails()) {
-			return Redirect::to('/customers/profile#change-password')
-				->withErrors($validator);
-		} else {
-			return Redirect::to('customers/change-password-success');
+		try{
+			$passwordService->run('change',$changePasswordDTO,true);
+			return View::make('customers/change-password-success');
+		}catch(Cyclos\ServiceException $e){
+			if($e->error->errorCode == 'VALIDATION'){
+				if(isset($e->error->validation->propertyErrors->confirmNewPassword)){
+					Session::flash('error_password_confirmation','invalid password confirmation');
+				}
+				if(isset($e->error->validation->propertyErrors->newPassword)){
+					Session::flash('error_password_new',$e->error->validation->propertyErrors->newPassword[0]);
+				}
+				if(isset($e->error->validation->propertyErrors->oldPassword)){
+					Session::flash('error_password_current','current password is empty');
+				}
+			}else if($e->error->errorCode == 'INVALID_PASSWORD'){
+				Session::flash('error_current_password','Invalid Password');
+			}
+			return Redirect::to('/customers/profile#change-password');
 		}
 	}
 
