@@ -254,11 +254,17 @@ class CustomersController extends BaseController {
 
 	public function increase_limit(){
 		$data = array();
-
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		return View::make('/customers/increase-limit')->with('data',$data);
+		$increase_limit = DB::table('increase_limit')->where('username_customer', $data['username'])->first();
+		if ($increase_limit == null || $increase_limit->status == "denied"){
+			return View::make('/customers/increase-limit')->with('data',$data);	
+		}
+		else{
+			return View::make('/customers/increase-limit-done');
+		}
+		
 	}
 
 	public function increase_limit_post(){
@@ -279,7 +285,7 @@ class CustomersController extends BaseController {
 			'id_address'=> Input::get('id_address'),
 			'current_address' => $current_address,
 			'username_customer' => ConnectHelper::getCurrentUserUsername(),
-			'status' => 'In Process'
+			'status' => 'in process'
 		));
 		return View::make('customers/increase-limit-success');
 	}
