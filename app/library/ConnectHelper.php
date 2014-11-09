@@ -30,6 +30,10 @@ class ConnectHelper{
 		return Session::get('cyclos_id');
 	}
 
+	public static function getCurrentUserRole(){
+		return Session::get('cyclos_role');
+	}
+
 	public static function getUserEmail($username){
 		$params = new stdclass();
 		$params->username = $username;

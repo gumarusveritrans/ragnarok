@@ -24,7 +24,7 @@
         <div id="transaction-form-wrapper">
 
           <div>
-            {{ Form::label('transfer_recipient', 'Transfer to Account (Email)') }}
+            {{ Form::label('transfer_recipient', 'Transfer to Account (Username)') }}
             {{ Form::text('transfer_recipient', Input::old('transfer_recipient'), array('class' => 'form-control')) }}
           </div>
 

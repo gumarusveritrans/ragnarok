@@ -60,9 +60,18 @@ class ConnectUpdateTopup extends Command {
 				    $parameters->description = "Topup for veritrans transaction id " . $response->transaction_id;
 				    
 				    $paymentResult = $paymentService->run('perform',$parameters,false);
+
+				    DB::table('topup')	->where('id', $pending_topup->id)->update(array('status' => 'success'));
+					
+					$email_customer = ConnectHelper::getUserEmail($pending_topup->username_customer);
+					Mail::send('emails.topup', array('transfer_amount' => $response->gross_amount), function($message)
+					{
+						$message->from('connect_cs@connect.co.id', 'Connect');
+					    $message->to($email_customer, $pending_topup->username_customer)->subject('Top-Up Success');
+					});
 				}
-				DB::table('topup')	->where('id', $pending_topup->id)->update(array('status' => 'success'));
-				
+
+
 
 			}
 		};
