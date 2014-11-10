@@ -87,7 +87,7 @@
                             <a href="#delete"><button id="delete-id-button" class="button-table darkblue dashboard">Delete ID</button></a>
                         </td>
                         <td>
-                            <a href="#add-product"><button id="add-product-button" class="button-table darkblue dashboard" value={{{$merchant->username}}}>Add Product</button></a>
+                            <a href="#add-product"><button class="add-product-button button-table darkblue dashboard" value={{{$merchant->username}}}>Add Product</button></a>
                         </td>
                     </tr>
                 @endforeach
@@ -244,7 +244,7 @@
             $("#admin-manage-user-customer-table td:nth-child(5)").delay(300).animate({'width':'15%'});
         });
 
-        $( "#add-product-button" ).click(function() {
+        $( ".add-product-button" ).click(function() {
             $("#add-product-box").delay(300).fadeIn("fast");
             $("#admin-manage-user-merchant-table").animate({width:'820px'});
             $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'0%'});
