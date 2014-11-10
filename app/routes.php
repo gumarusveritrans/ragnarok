@@ -7,6 +7,8 @@ Route::get('/about', 'ConnectPagesController@about');
 Route::get('/contact', 'ConnectPagesController@contact');
 Route::get('/pricing', 'ConnectPagesController@pricing');
 Route::get('/product', 'ConnectPagesController@product');
+Route::get('/reset-password','connectPagesController@reset_password');
+Route::post('/reset-password','connectPagesController@reset_password');
 Route::get('/login', 'CustomersController@login');
 Route::post('/login', 'CustomersController@login');
 Route::get('/register', 'CustomersController@register');

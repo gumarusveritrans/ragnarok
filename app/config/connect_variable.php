@@ -33,5 +33,6 @@ return array(
 	'admin' => 'Admin',
 	'user_balance' => 'balance',
 	'merchant_balace' => 'Merchant Balance',
-	'topup_transfer_type' => 'Topup'
+	'topup_transfer_type' => 'Topup',
+	'cyclos_login_password' => 'Login password'
 );
