@@ -119,7 +119,12 @@ class MerchantsController extends BaseController {
 	}
 
 	public function list_products(){
-		return View::make('/merchants/list-products');
+		$data = array();
+		$data['username'] = ConnectHelper::getCurrentUserUsername();
+		$data['balance'] = ConnectHelper::getCurrentUserBalance();
+
+		$products = DB::table('products')->where('merchant_name',$data['username'])->get();
+		return View::make('/merchants/list-products')->with('products', $products);
 	}
 
 }

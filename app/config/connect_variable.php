@@ -25,6 +25,7 @@ return array(
 	|
 	|
 	*/
+	'group_set_user' => 'Users',
 	'unverified_user' => '1 Million User',
 	'verified_user' => '5 Million User',
 	'request_close_account_user' => 'User request close account',

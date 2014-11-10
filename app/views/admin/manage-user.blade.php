@@ -33,6 +33,27 @@
                         </th>
                     </tr>
                 </thead>
+                @foreach ($users as $user)
+                    <tr>
+                        <td>
+                            {{{$user->username}}}
+                        </td>
+                        <td>
+                            {{{$user->email}}}
+                        </td>
+                        <td>
+                            Rp {{{number_format($user->balance,2,',','.')}}}
+                        </td>
+                        <td>
+                            Rp {{{number_format($user->limitBalance,2,',','.')}}}
+                        </td>
+                        <td>
+                            @if ($profiles[$user->username])
+                                <a href="#profile"><button class="profile-button button-table darkblue dashboard" value="{{{$user->username}}}">Profile</button></a>                            
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
                 <tr>
                     <td>
                         gumarus.dharmawan.william
@@ -87,7 +108,7 @@
                             <a href="#delete"><button id="delete-id-button" class="button-table darkblue dashboard">Delete ID</button></a>
                         </td>
                         <td>
-                            <a href="#add-product"><button id="add-product-button" class="button-table darkblue dashboard" value={{{$merchant->username}}}>Add Product</button></a>
+                            <a href="#add-product"><button class="add-product-button button-table darkblue dashboard" value={{{$merchant->username}}}>Add Product</button></a>
                         </td>
                     </tr>
                 @endforeach
@@ -97,14 +118,14 @@
             <span id="close-profile" class="button-close admin">&#10006;</span>
             <h2>Customer Details</h2>
             <br/>
-            <h1>daniel.aja</h1>
+            <h1 id="profile_box_username">Gumarus.d</h1>
             <br/>
             <table id="admin-side-table">
                 <tr>
                     <td>
                         ID Type
                     </td>
-                    <td>
+                    <td id="profile_box_id_type">
                         Identity Card
                     </td>
                 </tr>
@@ -112,7 +133,7 @@
                     <td>
                         ID Number
                     </td>
-                    <td>
+                    <td id="profile_box_id_number">
                         2328937862783
                     </td>
                 </tr>
@@ -120,15 +141,15 @@
                     <td>
                         Full Name
                     </td>
-                    <td>
-                        Daniel Aja
+                    <td id="profile_box_full_name">
+                        Gumarus Darmawan
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Address
                     </td>
-                    <td>
+                    <td id="profile_box_address">
                         Jalan Cisitu lalala lilili lelele lololo
                     </td>
                 </tr>
@@ -137,11 +158,11 @@
                         Place, Date of Birth
                     </td>
                     <td>
-                        Jakarta, 28 Februari 2012
+                        <span id="profile_box_birth_place">Jakarta</span>, <span id="profile_box_birth_date">28 Februari 2012</span>
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td id="profile_box_sex">
                         Sex
                     </td>
                     <td>
@@ -192,6 +213,27 @@
 
     <script type="text/javascript">
 
+        var profile_box_username = [];
+        var profile_box_id_type = [];
+        var profile_box_id_number = [];
+        var profile_box_full_name = [];
+        var profile_box_address = [];
+        var profile_box_birth_place = [];
+        var profile_box_birth_date = [];
+        var profile_box_sex = [];
+        @foreach($profiles as $profile)
+            @if (isset($profile->username_customer))
+                profile_box_username['{{{$profile->username_customer}}}'] = '{{{$profile->username_customer}}}';
+                profile_box_id_type['{{{$profile->username_customer}}}'] = '{{{$profile->id_type}}}';
+                profile_box_id_number['{{{$profile->username_customer}}}'] = '{{{$profile->id_number}}}';
+                profile_box_full_name['{{{$profile->username_customer}}}'] = '{{{$profile->full_name}}}';
+                profile_box_address['{{{$profile->username_customer}}}'] = '{{{$profile->current_address}}}';
+                profile_box_birth_place['{{{$profile->username_customer}}}'] = '{{{$profile->birth_place}}}';
+                profile_box_birth_date['{{{$profile->username_customer}}}'] = '{{{$profile->birth_date}}}';
+                profile_box_sex['{{{$profile->username_customer}}}'] = '{{{$profile->gender}}}';
+            @endif
+        @endforeach
+
         $("#admin-manage-user-customer-button").click(function() {
           $("#admin-manage-user-merchant-table").hide();
           $("#admin-manage-user-customer-table").fadeIn("fast");
@@ -228,7 +270,16 @@
           $(this).addClass('cyan');
         });
 
-        $( "#profile-button" ).click(function() {
+        $( ".profile-button" ).click(function() {
+            $("#profile_box_username").html(profile_box_username[$(this).val()]);
+            $("#profile_box_id_type").html(profile_box_id_type[$(this).val()]);
+            $("#profile_box_id_number").html(profile_box_id_number[$(this).val()]);
+            $("#profile_box_full_name").html(profile_box_full_name[$(this).val()]);
+            $("#profile_box_address").html(profile_box_address[$(this).val()]);
+            $("#profile_box_birth_place").html(profile_box_birth_place[$(this).val()]);
+            $("#profile_box_birth_date").html(profile_box_birth_date[$(this).val()]);
+            $("#profile_box_sex").html(profile_box_sex[$(this).val()]);
+            
             $("#profile-box").delay(300).fadeIn("fast");
             $("#admin-manage-user-customer-table").animate({width:'820px'});
             $("#admin-manage-user-customer-table th:nth-child(5)").animate({'width':'0%'});
@@ -244,7 +295,7 @@
             $("#admin-manage-user-customer-table td:nth-child(5)").delay(300).animate({'width':'15%'});
         });
 
-        $( "#add-product-button" ).click(function() {
+        $( ".add-product-button" ).click(function() {
             $("#add-product-box").delay(300).fadeIn("fast");
             $("#admin-manage-user-merchant-table").animate({width:'820px'});
             $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'0%'});
