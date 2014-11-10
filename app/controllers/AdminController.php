@@ -304,6 +304,30 @@ class AdminController extends BaseController {
 		}
 	}
 
+	public function add_product(){
+		$rules = array(
+			'product_name'	=> 'required',
+			'description'	=> 'required',
+			'price'			=> 'required|numeric',
+			'merchant_name' => 'required'
+		);
+
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails()){
+			return View::make('admin/manage-user#add-product')
+					->withErrors($validator);
+		}else{
+			Products::create(array(
+				'product_name' 	=> Input::get('product_name'),
+				'description' 	=> Input::get('description'),
+				'price' 		=> Input::get('price'),
+				'merchant_name' => Input::get('merchant_name')
+			));
+			return Redirect::to('admin/manage-user');
+		}
+	}
+
 	public function reject_increase_limit(){
 		$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));//->update(array('status' => ($response->transaction_status)));
 		$increase_limit->message = Input::get('denial_message');

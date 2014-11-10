@@ -21,11 +21,12 @@
 				<div class="column">
 					<span style="font-size:18px; float:left; padding: 0 10px">Select Merchant</span>
 					<div id="dd" class="wrapper-dropdown" style="float:left">
-						<span>Select Merchant</span>
+						<span>{{{ $products[0]->merchant_name or 'Select Merchant' }}}</span>
 						<ul class="dropdown">
-							<li id="el-1" name="el-1" value="lazada"><a href="#" id="lazada-button">Lazada</a></li>
-							<li id="el-2" name="el-2" value="zalora"><a href="#" id="zalora-button">Zalora</a></li>
-						</ul>
+                            @foreach ($merchants as $merchant)
+							<li id="el-1" name="el-1" value={{{$merchant->username}}}>{{ link_to ("/customers/purchase?merchant=".$merchant->username, $merchant->username) }}</li>
+						    @endforeach
+                        </ul>
 					</div>
 				</div>
 				<div class="column">
@@ -36,7 +37,6 @@
 		</div>
 
         <div id="purchase-transaction-table" class="all-table customer">
-            <div id="Lazada">
             <table align="center">
                 <thead>
                     <tr>
@@ -53,83 +53,23 @@
                         </th>
                     </tr>
                 </thead>
-                <tr>
-                    <td >
-                        Product 01
-                    </td>
-                    <td>
-                        Casio Type X
-                    </td>
-                    <td>
-                        Rp 1.000.000,00
-                    </td>
-                    <td>
-                        <button id="buy-product-01" class="button-table darkbrown">buy product</button>   
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Product 02
-                    </td>
-                    <td>
-                        Casio Type Y
-                    </td>
-                    <td>
-                        Rp 20.000,-
-                    </td>
-                    <td>
-                        <button id="buy-product-02" class="button-table darkbrown">buy product</button> 
-                    </td>
-                </tr>
-            </table>
-            </div>
-            <div id="Zalora" style="display:none">
-            <table align="center">
-                <thead>
+                @foreach ($products as $product)
                     <tr>
-                        <th>
-                            Product Name
-                        </th>
-                        <th>
-                            Description
-                        </th>
-                        <th>
-                            Price
-                        </th>
-                        <th>
-                        </th>
+                        <td >
+                            {{{ $product->product_name }}}
+                        </td>
+                        <td>
+                            {{{ $product->description }}}
+                        </td>
+                        <td>
+                            Rp {{{ number_format($product->price, 2, ',', '.') }}}
+                        </td>
+                        <td>
+                            <button id="buy-product-01" class="button-table darkbrown">buy product</button>   
+                        </td>
                     </tr>
-                </thead>
-                <tr>
-                    <td >
-                        Product 01
-                    </td>
-                    <td>
-                        Samsung Note 8
-                    </td>
-                    <td>
-                        Rp 1.000.000,00
-                    </td>
-                    <td>
-                        <button id="buy-product-01" class="button-table darkbrown">buy product</button>   
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Product 02
-                    </td>
-                    <td>
-                        Samsung Note 7
-                    </td>
-                    <td>
-                        Rp 7.000.000,00
-                    </td>
-                    <td>
-                        <button id="buy-product-02" class="button-table darkbrown">buy product</button> 
-                    </td>
-                </tr>
+                @endforeach
             </table>
-            </div>
         </div>
 	</div>
 
@@ -228,6 +168,7 @@
 	    this.index = -1;
 	    this.initEvents();
 	}
+
 	DropDown.prototype = {
 		initEvents : function() {
 			var obj = this;
