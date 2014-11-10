@@ -14,8 +14,8 @@
             <a href="#top-up"><button id="admin-top-up-transaction-button" class="button lightblue dashboard">Top-Up Transaction</button></a>
         </div>
 
-        <div class="all-table admin">
-            <table id="admin-purchase-transaction-table" align="center"style="display: none">
+        <div  id="admin-purchase-transaction-table" class="all-table admin" style="display: none">
+            <table align="center">
                 <thead>
                     <tr>
                         <th>
@@ -53,8 +53,10 @@
                     </td>
                 </tr>
             </table>
-
-            <table id="admin-transfer-transaction-table" align="center" style="display: none">
+            <span class="link-download-admin">{{ link_to ("/admin/download-csv-purchase", 'Download as CSV') }}</span>
+        </div>
+        <div id="admin-transfer-transaction-table" class="all-table admin" style="display: none">
+            <table align="center">
                 <thead>
                     <tr>
                         <th>
@@ -94,8 +96,10 @@
                 </tr>
                 @endforeach
             </table>
-
-            <table id="admin-top-up-transaction-table" align="center" style="display: none">
+            <span class="link-download-admin">{{ link_to ("/admin/download-csv-transfer", 'Download as CSV') }}</span>
+        </div>
+        <div id="admin-top-up-transaction-table" class="all-table admin" style="display: none">
+            <table  align="center">
                 <thead>
                     <tr>
                         <th>
@@ -135,11 +139,11 @@
                 </tr>
                 @endforeach
             </table>
-
+            <span class="link-download-admin">{{ link_to ("/admin/download-csv-topup", 'Download as CSV') }}</span>
         </div>
-        <span id="download-purchase" class="link-download" style="display: none">{{ link_to ("/", 'Download as Excel or CSV') }}</span>
-        <span id="download-transfer" class="link-download" style="display: none">{{ link_to ("/", 'Download as Excel or CSV') }}</span>
-        <span id="download-top-up" class="link-download" style="display: none">{{ link_to ("/", 'Download as Excel or CSV') }}</span>
+        
+        
+        
     </div>
 
     <script type="text/javascript">
@@ -147,10 +151,7 @@
         $( "#admin-purchase-transaction-button" ).click(function() {
           $( "#admin-transfer-transaction-table" ).hide();
           $( "#admin-top-up-transaction-table" ).hide();
-          $( "#download-transfer" ).hide();
-          $( "#download-top-up" ).hide();
           $( "#admin-purchase-transaction-table" ).fadeIn("fast");
-          $( "#download-purchase" ).fadeIn("fast");
           $('.cyan').removeClass('cyan');
           $(this).addClass('cyan');
         });
@@ -158,10 +159,7 @@
         $( "#admin-transfer-transaction-button" ).click(function() {
           $( "#admin-purchase-transaction-table" ).hide();
           $( "#admin-top-up-transaction-table" ).hide();
-          $( "#download-purchase" ).hide();
-          $( "#download-top-up" ).hide();
           $( "#admin-transfer-transaction-table" ).fadeIn("fast");
-          $( "#download-transfer" ).fadeIn("fast");
           $('.cyan').removeClass('cyan');
           $(this).addClass('cyan');
         });
@@ -169,10 +167,7 @@
         $( "#admin-top-up-transaction-button" ).click(function() {
           $( "#admin-purchase-transaction-table" ).hide();
           $( "#admin-transfer-transaction-table" ).hide();
-          $( "#download-purchase" ).hide();
-          $( "#download-transfer" ).hide();
           $( "#admin-top-up-transaction-table" ).fadeIn("fast");
-          $( "#download-top-up" ).fadeIn("fast");
           $('.cyan').removeClass('cyan');
           $(this).addClass('cyan');
         });

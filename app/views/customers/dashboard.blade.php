@@ -62,6 +62,7 @@
                 </tr>
                 @endforeach
             </table>
+            <span class="link-download-customer">{{ link_to ("/customers/download-csv-topup", 'Download as CSV') }}</span>
         </div>
 
         <div id="transfer-dashboard-table" class="all-table customer" style="display:none">
@@ -99,6 +100,7 @@
                 </tr>
                 @endforeach
             </table>
+            <span class="link-download-customer">{{ link_to ("/customers/download-csv-transfer", 'Download as CSV') }}</span>
         </div>
 
         <div id="purchase-dashboard-table" class="all-table customer" style="display:none">
@@ -148,6 +150,7 @@
                     </td>
                 </tr>
             </table>
+            <span class="link-download-customer">{{ link_to ("/customers/download-csv-purchase", 'Download as CSV') }}</span>
         </div>
 
     </div>

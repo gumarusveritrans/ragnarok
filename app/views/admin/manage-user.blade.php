@@ -87,7 +87,7 @@
                             <a href="#delete"><button id="delete-id-button" class="button-table darkblue dashboard">Delete ID</button></a>
                         </td>
                         <td>
-                            <a href="#add-product"><button id="add-product-button" class="button-table darkblue dashboard">Add Product</button></a>
+                            <a href="#add-product"><button id="add-product-button" class="button-table darkblue dashboard" value={{{$merchant->username}}}>Add Product</button></a>
                         </td>
                     </tr>
                 @endforeach
@@ -153,7 +153,7 @@
         <div id="add-product-box" class="centered admin-side-box" style="display: none">
             <span id="close-add-product" class="button-close admin">&#10006;</span>
             <h1>Add Product</h1>
-            {{ Form::open() }}
+            {{ Form::open(array('url' => '/admin/add-product', 'method' => 'post')) }}
                 {{ Form::label('product_name', 'Product Name') }}
                 {{ Form::text('product_name', '', array('class' => 'form-control')) }}
 
@@ -162,6 +162,8 @@
 
                 {{ Form::label('description', 'Description') }}
                 {{ Form::textarea('description', '', array('class' => 'form-control text-area')) }}
+
+                {{ Form::hidden('merchant_name', '', array('id'=>'merchant-name-input')) }}
 
                 {{ Form::submit('ADD', array('class' => 'button darkblue admin-notification')) }}
             {{ Form::close() }}
@@ -252,6 +254,7 @@
             $("#create-merchant-button").hide();
             $("#create-merchant-box").hide();
             $("#pop-up-delete-id").hide();
+            $("#merchant-name-input").val($("#add-product-button").val());
         });
 
         $( "#close-add-product" ).click(function() {

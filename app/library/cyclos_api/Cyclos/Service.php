@@ -30,10 +30,10 @@ class Service {
 		$result = \json_decode($json);
 		$code = \curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		if ($code == 200) {
-			if ($operation != 'logout')
-				return $result->result;
-			else
+			if ($operation == 'logout' && $this->urlSuffix == 'loginService' || $operation == 'change' && $this->urlSuffix = 'passwordService')
 				return;
+			else
+				return $result->result;
 		} else {
 			$error = $result;
 			if ($error == NULL) {

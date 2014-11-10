@@ -100,6 +100,51 @@ class AdminController extends BaseController {
 			->with('transfers', $transfers);
 	}
 
+	public function download_csv_topup() {
+		$topups_data = DB::table('topup')->get();
+		$filename = 'Topup_Data.csv';
+		$fp = fopen($filename, 'w');
+		$topup_header= array("topup_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
+		fputcsv($fp, $topup_header);
+        foreach( $topups_data as $topup ) {
+        	$topup_array = (array) $topup;
+            fputcsv($fp, $topup_array);
+        }
+        fclose($fp);
+
+        return Response::download($filename);
+	}
+
+	public function download_csv_transfer() {
+		$transfers_data = DB::table('transfer')->get();
+		$filename = 'Transfer_Data.csv';
+		$fp = fopen($filename, 'w');
+		$transfer_header= array("transfer_id", "date_time", "from_username", "to_username", "amount");
+		fputcsv($fp, $transfer_header);
+        foreach( $transfers_data as $transfer ) {
+        	$transfer_array = (array) $transfer;
+            fputcsv($fp, $transfer_array);
+        }
+        fclose($fp);
+
+        return Response::download($filename);
+	}
+
+	public function download_csv_purchase() {
+		$purchases_data = DB::table('purchase')->get();
+		$filename = 'Purchase_Data.csv';
+		$fp = fopen($filename, 'w');
+		$purchase_header= array("purchase_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
+		fputcsv($fp, $purchase_header);
+        foreach( $purchases_data as $purchase ) {
+        	$purchase_array = (array) $purchase;
+            fputcsv($fp, $purchase_array);
+        }
+        fclose($fp);
+
+        return Response::download($filename);
+	}
+
 	public function notification(){
 		$redeems = Redeem::all();
 		$increase_limits = IncreaseLimit::all();
@@ -259,12 +304,44 @@ class AdminController extends BaseController {
 		}
 	}
 
+	public function add_product(){
+		$rules = array(
+			'product_name'	=> 'required',
+			'description'	=> 'required',
+			'price'			=> 'required|numeric',
+			'merchant_name' => 'required'
+		);
+
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails()){
+			return View::make('admin/manage-user#add-product')
+					->withErrors($validator);
+		}else{
+			Products::create(array(
+				'product_name' 	=> Input::get('product_name'),
+				'description' 	=> Input::get('description'),
+				'price' 		=> Input::get('price'),
+				'merchant_name' => Input::get('merchant_name')
+			));
+			return Redirect::to('admin/manage-user');
+		}
+	}
+
 	public function reject_increase_limit(){
 		$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));//->update(array('status' => ($response->transaction_status)));
 		$increase_limit->message = Input::get('denial_message');
-		$increase_limit->status = 'Rejected';
+		$increase_limit->status = 'denied';
 
 		$increase_limit->save();
+
+		$email_customer = ConnectHelper::getUserEmail(Input::get('increase_limit_username'));
+		Mail::send('emails.increase_limit_rejected', array('customer_username' => Input::get('increase_limit_username'),
+														   'denial_message' => Input::get('denial_message')), function($message)
+		{
+			$message->from('connect_cs@connect.co.id', 'Connect');
+		    $message->to($email_customer, Input::get('increase_limit_username'))->subject('Request for Increase Limit Rejected');
+		});
 
 		return Redirect::to('/admin/notification#');
 	}
@@ -302,8 +379,16 @@ class AdminController extends BaseController {
 		$result = $userGroupService->run('changeGroup',$params,false);
 
 		$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));
-		$increase_limit->status = 'Accepted';
+		$increase_limit->status = 'accepted';
 		$increase_limit->save();
+
+		$email_customer = ConnectHelper::getUserEmail(Input::get('increase_limit_username'));
+		Mail::send('emails.increase_limit_approved', array('customer_username' => Input::get('increase_limit_username'),
+														   'denial_message' => Input::get('denial_message')), function($message)
+		{
+			$message->from('connect_cs@connect.co.id', 'Connect');
+		    $message->to($email_customer, Input::get('increase_limit_username'))->subject('Request for Increase Limit Approved');
+		});
 
 		return Redirect::to('/admin/notification#');
 	}

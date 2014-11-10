@@ -29,4 +29,19 @@ class ConnectHelper{
 	public static function getCurrentUserId(){
 		return Session::get('cyclos_id');
 	}
+
+	public static function getCurrentUserRole(){
+		return Session::get('cyclos_role');
+	}
+
+	public static function getUserEmail($username){
+		$params = new stdclass();
+		$params->username = $username;
+
+		$userService = new Cyclos\Service('userService');
+		$result = $userService->run('getViewProfileData',$params,false);
+
+		dd($result->email);
+		return $result->email;
+	}
 }

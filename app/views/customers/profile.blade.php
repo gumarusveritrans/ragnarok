@@ -95,20 +95,19 @@
             <div>
               {{ Form::label('current_password', 'Current Password') }}<br />
               {{ Form::password('current_password', array('class' => 'form-control')) }}
-              @if ($errors->has('current_password')) <p class="error-message">{{ $errors->first('current_password') }}</p> @endif
+              <p class="error-message">{{ Session::pull('error_password_current')}}</p>
             </div>
 
             <div>
               {{ Form::label('password', 'Password') }}<br />
               {{ Form::password('password', array('id' => 'password-id', 'class' => 'form-control')) }}
-              @if ($errors->has('password')) <p class="error-message">{{ $errors->first('password') }}</p> @endif
+              <p class="error-message">{{ Session::pull('error_password_new')}}</p>
             </div>
 
             <div>
               {{ Form::label('password_confirmation', 'Password Confirmation') }}<br />
               {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
-              @if ($errors->has('password_confirmation')) <p class="error-message">{{ $errors->first('password_confirmation') }}</p> @endif
-              @if(Session::has('errors_cyclos'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif
+              <p class="error-message">{{ Session::pull('error_password_confirmation')}}</p>
             </div>
 
             <div class="block">

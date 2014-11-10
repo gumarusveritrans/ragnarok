@@ -419,3 +419,10 @@ label-password {
 #pop-up-shopping-cart.pop-up tr:last-child td{
   border-bottom: none;
 }
+
+.link-download-customer a{
+  color :$dark-brown;
+  float: right;
+  margin-right: 80px;
+  margin-top: 10px;
+}
