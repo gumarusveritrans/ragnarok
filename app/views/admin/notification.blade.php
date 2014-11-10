@@ -70,7 +70,7 @@
                     </tr>
                 </thead>
                 @foreach ($increase_limits as $increase_limit)
-                    <?php if($increase_limit->status != 'In process')
+                    <?php if($increase_limit->status != 'in process')
                         continue;
                     ?>
                     <tr>

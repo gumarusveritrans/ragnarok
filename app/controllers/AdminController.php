@@ -164,19 +164,23 @@ class AdminController extends BaseController {
 			$roleId[$group->name] = $group->id;
 		}
 
-		// Getting accounts and verified user
-		$params = new stdclass();
-		$params->groups = new stdclass();
-		$params->groups->id = $roleId[Config::get('connect_variable.verified_user')];
-		$params->pageSize = PHP_INT_MAX;
-		$verifiedUsersResult = $userService->run('search',$params,false);
+		// Getting users
+		$groupService = new Cyclos\Service('groupService');
+		$result = $groupService->run('getSearchData',array(),false);
+		foreach($result->groupSets as $group){
+			if($group->name == Config::get('connect_variable.group_set_user')){
+				$group_set_id = $group->id;
+				break;
+			}
+		}
 
-		// Getting unverified user
 		$params = new stdclass();
 		$params->groups = new stdclass();
-		$params->groups->id = $roleId[Config::get('connect_variable.unverified_user')];
+		$params->groups->id = $group_set_id;
 		$params->pageSize = PHP_INT_MAX;
-		$unverifiedUsersResult = $userService->run('search',$params,false);
+		$usersResult = $userService->run('search',$params,false);
+
+		$users = $usersResult->pageItems;
 
 		// Getting merchant
 		$params = new stdclass();
@@ -186,6 +190,27 @@ class AdminController extends BaseController {
 		$merchantsResult = $userService->run('search',$params,false);
 
 		$merchants = $merchantsResult->pageItems;
+
+		$profiles = array();
+		// Getting user attribute
+		foreach($users as $user){
+			//Getting user email
+			$params = new stdclass();
+			$params->id = $user->id;
+			$result = $userService->run('getViewProfileData',$params,false);
+			$user->email = $result->email;
+
+			//Getting user balance
+			$accountService = new Cyclos\Service('accountService');
+			$result = $accountService->run('getAccountsSummary',array(array("username"=>$user->username),array("date"=>"null")),false);
+			$user->balance = intval($result[0]->balance->amount);
+			$user->limitBalance = intval($result[0]->status->upperCreditLimit);
+
+			//Getting user profile
+			$profile = IncreaseLimit::where('username_customer',$user->username)->first();
+			$profiles[$user->username] = $profile;
+		}
+		//dd($users);
 
 		// Getting merchant attributes
 		foreach($merchants as $merchant){
@@ -200,8 +225,7 @@ class AdminController extends BaseController {
 			$result = $accountService->run('getAccountsSummary',array(array("username"=>$merchant->username),array("date"=>"null")),false);
 			$merchant->balance = intval($result[0]->balance->amount);
 		}
-
-		return View::make('/admin/manage-user')->with('merchants',$merchants);
+		return View::make('/admin/manage-user')->with('merchants',$merchants)->with('users',$users)->with('profiles',$profiles);
 	}
 
 	public function validate_login_form(){
