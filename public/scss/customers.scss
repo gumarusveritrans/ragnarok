@@ -217,21 +217,6 @@ $dark-red:     #BE1E2D;
   position: relative;
 }
 
-.wrapper-dropdown .dropdown li label {
-  display: block;
-  padding: 5px;
-  border-bottom: 1px dotted $light-brown;
-  transition: all 0.3s ease-out;
-}
-
-.wrapper-dropdown .dropdown li:last-of-type label {
-  border: none;
-}
-
-.wrapper-dropdown .dropdown li:hover label {
-  background: #f0f0f0;
-}
-
 .wrapper-dropdown.active:after {
   border-width: 0 6px 6px 6px;
 }
@@ -239,6 +224,22 @@ $dark-red:     #BE1E2D;
 .wrapper-dropdown.active .dropdown {
   opacity: 1;
   pointer-events: auto;
+}
+.wrapper-dropdown .dropdown li a{
+  padding: 2px;
+  display: block;
+  text-decoration: none;
+  border-bottom: 1px dotted $light-brown;
+  color: $dark-brown;
+  transition: all 0.3s ease-out;
+}
+
+.wrapper-dropdown .dropdown li:last-of-type a{
+  border: none;
+}
+
+.wrapper-dropdown .dropdown li a:hover{
+  background: $light-brown;
 }
 
 /* Transfer Section */
@@ -394,3 +395,4 @@ $dark-red:     #BE1E2D;
   margin-right: 80px;
   margin-top: 10px;
 }
+

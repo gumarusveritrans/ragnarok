@@ -27,48 +27,22 @@
                         </th>
                     </tr>
                 </thead>
+                @foreach ($products as $product)
                 <tr>
                     <td >
-                        PID99999999
+                        {{{ 'PID'.$product->id }}}
                     </td>
                     <td>
-                        Tiket Samarinda-Jakarta PP
+                        {{{ $product->product_name }}}
                     </td>
                     <td>
-                        Rp 1.500.000,00
+                        Rp {{{ number_format($product->price, 2, ',', '.') }}}
                     </td>
                     <td>
-                        Tiket penerbangan dari Samarinda ke Jakarta pulang-pergi
+                        {{{ $product->description }}}
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                </tr>
+                @endforeach
             </table>
         </div>
     </div>
