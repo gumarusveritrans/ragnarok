@@ -318,7 +318,7 @@ class AdminController extends BaseController {
 			return View::make('admin/manage-user#add-product')
 					->withErrors($validator);
 		}else{
-			Products::create(array(
+			Product::create(array(
 				'product_name' 	=> Input::get('product_name'),
 				'description' 	=> Input::get('description'),
 				'price' 		=> Input::get('price'),

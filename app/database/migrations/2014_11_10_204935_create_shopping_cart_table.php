@@ -16,6 +16,8 @@ class CreateShoppingCartTable extends Migration {
 		{
 			$table->bigIncrements('id');
 			$table->integer('quantity');
+			$table->bigInteger('transaction_id');
+			$table->bigInteger('product_id');
 		});
 	}
 

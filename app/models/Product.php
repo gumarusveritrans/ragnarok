@@ -5,7 +5,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class ShoppingCart extends Eloquent implements UserInterface, RemindableInterface {
+class Product extends Eloquent implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
@@ -14,14 +14,20 @@ class ShoppingCart extends Eloquent implements UserInterface, RemindableInterfac
 	 *
 	 * @var string
 	 */
-	protected $table = 'shopping_cart';
+	protected $table = 'product';
 	public $timestamps = false;
 	protected $guarded = array('id');
-	protected $fillable = array('id_transaction', 'quantity', 'id_product');
+	protected $fillable = array('product_name','description','price','merchant_name');
 
-	/**
+	/** 
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
+
+    public function transaction()
+    {
+        return $this->belongsToMany('Transaction', 'shopping_cart', 'product_id', 'transaction_id')->withPivot('quantity');
+    }
+
 }

@@ -16,9 +16,7 @@ class Transaction extends Eloquent implements UserInterface, RemindableInterface
 	 */
 	protected $table = 'transaction';
 	public $timestamps = false;
-
 	protected $guarded = array('id');
-
 	protected $fillable = array('date_transaction', 'username_customer', 'status');
 
 	/**
@@ -27,9 +25,9 @@ class Transaction extends Eloquent implements UserInterface, RemindableInterface
 	 * @var array
 	 */
 
-    public function products()
+    public function product()
     {
-        return $this->belongsToMany('Product', 'shopping_cart', 'transaction_id', 'product_id')->withPivot('quantity');;
+        return $this->belongsToMany('Product', 'shopping_cart', 'transaction_id', 'product_id')->withPivot('quantity');
     }
 
 }

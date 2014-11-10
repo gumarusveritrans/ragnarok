@@ -93,15 +93,26 @@ class MerchantsController extends BaseController {
 	}
 
 	public function transaction(){
-		$merchant_name = SessionHelper::getCurrentUserUsername();
-		$products = Product::where('merchant_name', '=', $merchant_name);
-		$transactions = $products->transaction;
-		foreach ($transactions as $transaction){
-            foreach($transaction->product as $product){
-                $quantity = $product->pivot->quantity;
-                $total = $total + ($quantity * $product->price);
-            }
-        }
+		$merchant_name = ConnectHelper::getCurrentUserUsername();
+		$products = Product::where('merchant_name', '=', $merchant_name)->get();
+		$transactions = array();
+		$total = array();
+		foreach ($products as $product){
+			array_push($transactions, $product->transaction);
+		}
+		foreach($transactions as $transaction){
+			foreach($transaction->product as $product){
+				$total = $total + ($product->pivot->quantity * $product->price);
+			}
+		}
+		// foreach ($products as $product){
+		// 	foreach($product->transaction as $transaction){
+	 //            foreach($transaction->product as $product){
+	 //                $quantity = $product->pivot->quantity;
+	 //                $total = $total + ($quantity * $product->price);
+	 //            }
+	 //        }
+  //       }
 		return View::make('/merchants/transaction')
 			->with('transactions', $transactions)
 			->with('total', $total);

@@ -54,10 +54,10 @@
                             {{{$transaction->status}}}
                         </td>
                         <td>
-                            <a href="#accept-transaction"><button id="accept-button" class="button-table darkred merchant">Accept</button></a>
+                            <a href="#accept-transaction"><button id="{{{$transaction->id}}}" class="accept-button button-table darkred merchant">Accept</button></a>
                         </td>
                         <td>
-                            <a href="#reject-transaction"><button id="reject-button" class="button-table lightred merchant">Reject</button></a>
+                            <a href="#reject-transaction"><button id="{{{$transaction->id}}}" class="reject-button button-table lightred merchant">Reject</button></a>
                         </td>
                     </tr>
                 @endforeach
