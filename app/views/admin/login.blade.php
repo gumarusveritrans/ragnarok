@@ -16,12 +16,8 @@
 	        @if(Session::has('errors'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif
 	      </div>
 
-	      <div id="login-register-form" class="form-wrapper">
-	        <div class="table">
-	          <div class="column">
+	      <div id="login-register-form" class="form-bottom-wrapper">
 	          	{{ Form::submit('LOGIN', array('class' => 'button darkblue')) }}
-	          </div>
-	        </div>
 	      </div>
 	  
 	  {{ Form::close() }}

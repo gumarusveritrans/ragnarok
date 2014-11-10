@@ -100,7 +100,7 @@
 
             <div>
               {{ Form::label('password', 'Password') }}<br />
-              {{ Form::password('password', array('class' => 'form-control')) }}
+              {{ Form::password('password', array('id' => 'password-id', 'class' => 'form-control')) }}
               @if ($errors->has('password')) <p class="error-message">{{ $errors->first('password') }}</p> @endif
             </div>
 
@@ -152,8 +152,10 @@
     if(change_password_path == "change-password") {
       $( "#change-password-button" ).trigger("click");
     }
-  });  
-    
-  </script>
+  });
+
+  $("#password-id").strength();
+  
+</script>
 
 @stop

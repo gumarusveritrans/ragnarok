@@ -16,6 +16,38 @@ $dark-orange:  #F7931D;
 $light-red:    #E0A2A8;
 $dark-red:     #BE1E2D;
 
+/* Password Strength Meter */
+label-password {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.label-default {
+  background-color: #777;
+}
+
+.label-info {
+  background-color: #5bc0de;
+}
+
+.label-danger {
+  background-color: #d9534f;
+}
+
+.label-success {
+  background-color: #5cb85c;
+}
+
+.label-primary {
+  background-color: #428bca;
+}
+
+.label-warning {
+  background-color: #f0ad4e;
+}
+
 /* Profile Section */
 #profile-wrapper {
   float: left;

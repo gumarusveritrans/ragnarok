@@ -36,75 +36,31 @@
                         </th>
                     </tr>
                 </thead>
-                <tr>
-                    <td >
-                        TID99999999
-                    </td>
-                    <td>
-                        16/10/2014 18:10:14
-                    </td>
-                    <td>
-                        gumarus.dharmawan.william
-                    </td>
-                    <td>
-                        Rp 5.000.000,00
-                    </td>
-                    <td>
-                        In Process
-                    </td>
-                    <td>
-                        <a href="#accept-transaction"><button id="accept-button" class="button-table darkred merchant">Accept</button></a>
-                    </td>
-                    <td>
-                        <a href="#reject-transaction"><button id="reject-button" class="button-table lightred merchant">Reject</button></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                    <td>
-                        Row 2
-                    </td>
-                </tr>
-                <tr>
-                    <td >
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                    <td>
-                        Row 3
-                    </td>
-                </tr>
+                @foreach ($transactions as $transaction)
+                    <tr>
+                        <td >
+                            TID{{{$transaction->id}}}
+                        </td>
+                        <td>
+                            {{{$transaction->date_transaction}}}
+                        </td>
+                        <td>
+                            {{{$transaction->username_customer}}}
+                        </td>
+                        <td>
+                            {{{$total}}}
+                        </td>
+                        <td>
+                            {{{$transaction->status}}}
+                        </td>
+                        <td>
+                            <a href="#accept-transaction"><button id="accept-button" class="button-table darkred merchant">Accept</button></a>
+                        </td>
+                        <td>
+                            <a href="#reject-transaction"><button id="reject-button" class="button-table lightred merchant">Reject</button></a>
+                        </td>
+                    </tr>
+                @endforeach
             </table>
         </div>
         <span id="download-transaction" class="link-download" style="display: none">{{ link_to ("/", 'Download as Excel or CSV') }}</span>

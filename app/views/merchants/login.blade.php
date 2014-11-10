@@ -14,15 +14,10 @@
 	        {{ Form::label('password', 'Password') }}
 	        {{ Form::password('password', array('class' => 'form-control')) }}
 	        @if(Session::has('errors'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif
-	        
 	      </div>
 
-	      <div id="login-register-form" class="form-wrapper">
-	        <div class="table">
-	          <div class="column">
+	      <div id="login-register-form" class="form-bottom-wrapper">
 	          	{{ Form::submit('LOGIN', array('class' => 'button darkred')) }}
-	          </div>
-	        </div>
 	      </div>
 	  
 	  {{ Form::close() }}

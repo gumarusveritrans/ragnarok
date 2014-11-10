@@ -5,7 +5,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class Topup extends Eloquent implements UserInterface, RemindableInterface {
+class Transaction extends Eloquent implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
@@ -14,16 +14,22 @@ class Topup extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var string
 	 */
-	protected $table = 'topup';
+	protected $table = 'transaction';
 	public $timestamps = false;
 
 	protected $guarded = array('id');
-	protected $fillable = array('date_topup', 'status', 'amount', 'permata_va_number', 'username_customer');
+
+	protected $fillable = array('date_transaction', 'username_customer', 'status');
 
 	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
+
+    public function products()
+    {
+        return $this->belongsToMany('Product', 'shopping_cart', 'transaction_id', 'product_id')->withPivot('quantity');;
+    }
 
 }

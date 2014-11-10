@@ -54,7 +54,7 @@
                         {{{ $topup->amount }}}
                     </td> -->
                     <td>
-                        {{{ $topup->permata_va_account }}}
+                        {{{ $topup->permata_va_number }}}
                     </td>
                     <td>
                         {{{ $topup->status }}}

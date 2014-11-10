@@ -22,7 +22,7 @@
 
 		    	<div>
 		      		{{ Form::label('password', 'Password') }}<br />
-		        	{{ Form::password('password', array('class' => 'form-control')) }}
+		        	{{ Form::password('password', array('id'=> 'password', 'class' => 'form-control')) }}
 		        	@if ($errors->has('password')) <p class="error-message">{{ $errors->first('password') }}</p> @endif
 		    	</div>
 
@@ -42,4 +42,5 @@
 	    {{ Form::close() }}
 
 	</div>
+
 @stop

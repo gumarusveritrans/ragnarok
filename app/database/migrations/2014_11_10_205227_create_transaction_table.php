@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTopupTable extends Migration {
+class CreateTransactionTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,14 +12,12 @@ class CreateTopupTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('topup', function(Blueprint $table)
+		Schema::create('transaction', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
-			$table->dateTime('date_topup');
-			$table->string('status');
-			$table->integer('amount');
-			$table->string('permata_va_number');
+			$table->dateTime('date_transaction');
 			$table->string('username_customer');
+			$table->string('status');
 		});
 	}
 
@@ -30,7 +28,7 @@ class CreateTopupTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('topup');
+		Schema::drop('transaction');
 	}
 
 }

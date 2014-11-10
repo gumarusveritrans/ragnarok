@@ -11,6 +11,6 @@ return array(
     $vendorDir . '/phpseclib/phpseclib/phpseclib/Crypt/Random.php',
     $vendorDir . '/guzzlehttp/streams/src/functions.php',
     $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
-    $vendorDir . '/panique/laravel-sass/sass-compiler.php',
     $vendorDir . '/guzzlehttp/guzzle/src/functions.php',
+    $vendorDir . '/panique/laravel-sass/sass-compiler.php',
 );
