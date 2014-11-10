@@ -254,7 +254,49 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		return View::make('/customers/purchase')->with('data',$data);
+		
+		$userService = new Cyclos\Service('userService');
+
+		// Getting account role
+		$usersResult = $userService->run('getUserRegistrationGroups',array(),false);
+		$roleId = array();
+		foreach($usersResult as $group){
+			$roleId[$group->name] = $group->id;
+		}
+
+		// Getting merchant
+		$params = new stdclass();
+		$params->groups = new stdclass();
+		$params->groups->id = $roleId[Config::get('connect_variable.merchant')];
+		$params->pageSize = PHP_INT_MAX;
+		$merchantsResult = $userService->run('search',$params,false);
+
+		$merchants = $merchantsResult->pageItems;
+		$product_merchant = '';
+		// Getting merchant attributes
+		foreach($merchants as $merchant){
+			// Getting merchant email
+			$params = new stdclass();
+			$params->id = $merchant->id;
+			$result = $userService->run('getViewProfileData',$params,false);
+			$merchant->email = $result->email;
+
+			if($merchant->username == Input::get('merchant')){
+				$product_merchant = $merchant->username;
+			}
+
+			if(!Input::get('merchant')){
+				$product_merchant = $merchant->username;
+				break;
+			}
+		}
+
+		$products = DB::table('products')->where('merchant_name',$product_merchant)->get();
+		
+		return View::make('/customers/purchase')->with('data',$data)
+												->with('merchants', $merchants)
+												->with('products', $products);
+
 	}
 
 	public function increase_limit(){
