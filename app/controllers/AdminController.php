@@ -93,15 +93,15 @@ class AdminController extends BaseController {
 	}
 
 	public function dashboard(){
-		$topups = DB::table('topup')->get();
-		$transfers = DB::table('transfer')->get();
+		$topups = Topup::all();
+		$transfers = Transfer::all();
 		return View::make('/admin/dashboard')
 			->with('topups', $topups)
 			->with('transfers', $transfers);
 	}
 
 	public function download_csv_topup() {
-		$topups_data = DB::table('topup')->get();
+		$topups_data = Topup::all();
 		$filename = 'Topup_Data.csv';
 		$fp = fopen($filename, 'w');
 		$topup_header= array("topup_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
@@ -116,7 +116,7 @@ class AdminController extends BaseController {
 	}
 
 	public function download_csv_transfer() {
-		$transfers_data = DB::table('transfer')->get();
+		$transfers_data = Transfer::all();
 		$filename = 'Transfer_Data.csv';
 		$fp = fopen($filename, 'w');
 		$transfer_header= array("transfer_id", "date_time", "from_username", "to_username", "amount");
@@ -131,7 +131,7 @@ class AdminController extends BaseController {
 	}
 
 	public function download_csv_purchase() {
-		$purchases_data = DB::table('purchase')->get();
+		$purchases_data = Purchase::all();
 		$filename = 'Purchase_Data.csv';
 		$fp = fopen($filename, 'w');
 		$purchase_header= array("purchase_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
@@ -146,8 +146,8 @@ class AdminController extends BaseController {
 	}
 
 	public function notification(){
-		$redeems = Redeem::all();
-		$increase_limits = IncreaseLimit::all();
+		$redeems = Redeem::whereNotIn('redeemed', '=', 'true');
+		$increase_limits = IncreaseLimit::where('status', '=', 'in process');
 		return View::make('/admin/notification')
 			->with('redeems', $redeems)
 			->with('increase_limits', $increase_limits);

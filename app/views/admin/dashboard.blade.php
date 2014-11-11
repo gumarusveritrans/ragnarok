@@ -5,7 +5,7 @@
         <span class="subtitle admin">DASHBOARD</span>
     </div>
 
-    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="blue" style="margin-top: -10px;">
+    <hr id="admin-horizontal-line"/>
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">

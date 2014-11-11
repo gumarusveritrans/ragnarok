@@ -5,7 +5,7 @@
         <span class="subtitle merchant">TRANSACTION</span>
     </div>
 
-    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="red" style="margin-top: -10px;">
+    <hr id="merchant-horizontal-line"/>
 
     <div id="subcontent-wrapper">
 
@@ -36,28 +36,28 @@
                         </th>
                     </tr>
                 </thead>
-                @foreach ($transactions as $transaction)
+                @foreach ($purchases as $purchase)
                     <tr>
                         <td >
-                            TID{{{$transaction->id}}}
+                            TID{{{$purchase->id}}}
                         </td>
                         <td>
-                            {{{$transaction->date_transaction}}}
+                            {{{$purchase->date_transaction}}}
                         </td>
                         <td>
-                            {{{$transaction->username_customer}}}
+                            {{{$purchase->username_customer}}}
                         </td>
                         <td>
                             {{{$total}}}
                         </td>
                         <td>
-                            {{{$transaction->status}}}
+                            {{{$purchase->status}}}
                         </td>
                         <td>
-                            <a href="#accept-transaction"><button id="{{{$transaction->id}}}" class="accept-button button-table darkred merchant">Accept</button></a>
+                            <a href="#accept-transaction"><button id="{{{$purchase->id}}}" class="accept-button button-table darkred merchant">Accept</button></a>
                         </td>
                         <td>
-                            <a href="#reject-transaction"><button id="{{{$transaction->id}}}" class="reject-button button-table lightred merchant">Reject</button></a>
+                            <a href="#reject-transaction"><button id="{{{$purchase->id}}}" class="reject-button button-table lightred merchant">Reject</button></a>
                         </td>
                     </tr>
                 @endforeach

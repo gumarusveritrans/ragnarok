@@ -5,7 +5,7 @@
         <span class="subtitle admin">NOTIFICATION</span>
     </div>
 
-    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="blue" style="margin-top: -10px;">
+    <hr id="admin-horizontal-line"/>
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
@@ -32,9 +32,6 @@
                     </tr>
                 </thead>
                 @foreach ($redeems as $redeem)
-                    <?php if($redeem->redeemed == 'true')
-                        continue;
-                    ?>
                     <tr>
                         <td>
                             RCA{{{$redeem->id}}}
@@ -70,9 +67,6 @@
                     </tr>
                 </thead>
                 @foreach ($increase_limits as $increase_limit)
-                    <?php if($increase_limit->status != 'in process')
-                        continue;
-                    ?>
                     <tr>
                         <td>
                             RIL{{{$increase_limit->id}}}

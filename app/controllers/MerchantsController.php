@@ -95,13 +95,13 @@ class MerchantsController extends BaseController {
 	public function transaction(){
 		$merchant_name = ConnectHelper::getCurrentUserUsername();
 		$products = Product::where('merchant_name', '=', $merchant_name)->get();
-		$transactions = array();
+		$purchases = array();
 		$total = array();
 		foreach ($products as $product){
-			array_push($transactions, $product->transaction);
+			array_push($purchases, $product->transaction);
 		}
-		foreach($transactions as $transaction){
-			foreach($transaction->product as $product){
+		foreach($purchases as $purchase){
+			foreach($purchase->product as $product){
 				$total = $total + ($product->pivot->quantity * $product->price);
 			}
 		}
@@ -114,7 +114,7 @@ class MerchantsController extends BaseController {
 	 //        }
   //       }
 		return View::make('/merchants/transaction')
-			->with('transactions', $transactions)
+			->with('purchases', $purchases)
 			->with('total', $total);
 	}
 
@@ -123,7 +123,7 @@ class MerchantsController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 
-		$products = DB::table('product')->where('merchant_name',$data['username'])->get();
+		$products = Product::where('merchant_name', '=', $data['username'])->get();
 		return View::make('/merchants/list-products')->with('products', $products);
 	}
 

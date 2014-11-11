@@ -12,7 +12,7 @@
         	Rp {{{ number_format($data['limitBalance'], 2, ',', '.') }}}
         </div>
     </div>
-    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="#534741" />
+    <hr id="customer-horizontal-line"/>
 
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
@@ -32,9 +32,9 @@
                         <th>
                             Date & Time
                         </th>
-<!--                         <th>
+                        <th>
                             Amount
-                        </th> -->
+                        </th>
                         <th>
                             Permata VA Number
                         </th>
@@ -51,9 +51,9 @@
                     <td>
                         {{{ $topup->date_topup }}}
                     </td>
-<!--                     <td>
+                    <td>
                         {{{ $topup->amount }}}
-                    </td> -->
+                    </td>
                     <td>
                         {{{ $topup->permata_va_number }}}
                     </td>
@@ -129,30 +129,16 @@
                 </thead>
                 <tr>
                     <td>
-                        PID001
+                        
                     </td>
                     <td>
-                        20/10/2014 18:10:14
+                        
                     </td>
                     <td>
-                        Rp 150.000,00
+                       
                     </td>
                     <td>
-                        Lazada
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        PID002
-                    </td>
-                    <td>
-                        21/10/2014 18:10:14
-                    </td>
-                    <td>
-                        Rp 100.000,00
-                    </td>
-                    <td>
-                        Zalora
+                        
                     </td>
                 </tr>
             </table>

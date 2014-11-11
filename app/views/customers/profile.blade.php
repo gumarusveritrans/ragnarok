@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <hr id="horizontal-line" noshade size=1 width=95% />
+  <hr id="customer-horizontal-line"/>
 
   <div id="subcontent-wrapper">
     <div id="subbuttons-wrapper" class="right">

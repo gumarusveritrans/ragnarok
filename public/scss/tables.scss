@@ -25,12 +25,13 @@ $dark-red:     #BE1E2D;
   border-spacing: 0;
   width: 1230px;
   height:100%;
+  float: center;
   table-layout:fixed;
 }
 
 .all-table.admin table {
-  float: right;
   margin-right: 75px;
+  float: right;
 }
 
 .all-table.customer tr:nth-child(even){

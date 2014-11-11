@@ -7,8 +7,8 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$topups = DB::table('topup')->where('username_customer', $data['username'])->get();
-		$transfers = DB::table('transfer')->where('from_username', $data['username'])->get();
+		$topups = Topup::where('username_customer', '=', $data['username'])->get();
+		$transfers = Transfer::where('from_username', '=', $data['username'])->get();
 		return View::make('/customers/dashboard')->with('data',$data)
 												 ->with('topups', $topups)
 												 ->with('transfers', $transfers);
@@ -291,7 +291,7 @@ class CustomersController extends BaseController {
 			}
 		}
 
-		$products = DB::table('product')->where('merchant_name',$product_merchant)->get();
+		$products = Product::where('merchant_name', '=', $product_merchant)->get();
 		
 		return View::make('/customers/purchase')->with('data',$data)
 												->with('merchants', $merchants)
@@ -304,7 +304,7 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$increase_limit = DB::table('increase_limit')->where('username_customer', $data['username'])->first();
+		$increase_limit = IncreaseLimit::where('username_customer', '=', $data['username'])->first();
 		if ($increase_limit == null || $increase_limit->status == "denied"){
 			return View::make('/customers/increase-limit')->with('data',$data);	
 		}
@@ -382,7 +382,7 @@ class CustomersController extends BaseController {
 	}
 
 	public function download_csv_topup() {
-		$topups_data = DB::table('topup')->where('username_customer', ConnectHelper::getCurrentUserUsername())->get();
+		$topups_data = Topup::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
 		$filename = 'Topup_Data_'.$data['username'].'.csv';
 		$fp = fopen($filename, 'w');
 		$topup_header= array("topup_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
@@ -397,7 +397,7 @@ class CustomersController extends BaseController {
 	}
 
 	public function download_csv_transfer() {
-		$transfers_data = DB::table('transfer')->where('from_username', ConnectHelper::getCurrentUserUsername())->get();
+		$transfers_data = Transfer::where('from_username', '=', ConnectHelper::getCurrentUserUsername())->get();
 		$filename = 'Transfer_Data_'.$data['username'].'.csv';
 		$fp = fopen($filename, 'w');
 		$transfer_header= array("transfer_id", "date_time", "from_username", "to_username", "amount");
@@ -412,7 +412,7 @@ class CustomersController extends BaseController {
 	}
 
 	public function download_csv_purchase() {
-		$purchases_data = DB::table('purchase')->where('username_customer', ConnectHelper::getCurrentUserUsername())->get();
+		$purchases_data = Purchase::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
 		$filename = 'Purchase_Data_'.$data['username'].'.csv';
 		$fp = fopen($filename, 'w');
 		$purchase_header= array("purchase_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
@@ -471,7 +471,7 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$pending_topups = DB::table('topup')->where('status', 'pending')->where('username_customer', $data['username'])->get();
+		$pending_topups = Topup::where('status', '=', 'pending')->where('username_customer', '=', $data['username'])->get();
 		
 		if ($pending_topups != null){
 			return Redirect::to('/customers/topup')
