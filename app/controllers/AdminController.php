@@ -269,8 +269,8 @@ class AdminController extends BaseController {
 			foreach($result as $res){
 				if($res->name == Config::get('connect_variable.closed_user_account')){
 					$group_id = $res->id;
+					break;
 				}
-				break;
 			}
 
 			// Change the group
@@ -430,4 +430,44 @@ class AdminController extends BaseController {
 		return Redirect::to('/admin/notification#');
 	}
 
+	public function delete_merchant(){
+		//Change merchant group in cyclos
+		$userService = new Cyclos\Service('userService');
+		$userGroupService = new Cyclos\Service('userGroupService');
+		try{
+
+			// Getting user id
+			$params = new stdclass();
+			$params->keywords = Input::get('merchant_id');
+			$result = $userService->run('search',$params,false);
+			$user_id = $result->pageItems[0]->id;
+
+			// Get group
+			$result = $userService->run("getUserRegistrationGroups",array(),false);
+			$group_id;
+
+			foreach($result as $res){
+				if($res->name == Config::get('connect_variable.closed_merchant_account')){
+					$group_id = $res->id;
+					break;
+				}
+			}
+
+			// Change the group
+			$params = new stdclass();
+			$params->group = new stdclass();
+			$params->group->id = $group_id;
+
+			$params->user = new stdclass();
+			$params->user->id = $user_id;
+			$result = $userGroupService->run('changeGroup',$params,false);
+
+			//Delete merchant product
+			$products = Product::where('merchant_name',Input::get('merchant_id'))->delete();
+
+			echo 'success!';
+		}catch(Exception $e){
+			echo 'There are some trouble, please try again later.';
+		}
+	}
 }

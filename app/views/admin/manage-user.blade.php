@@ -54,23 +54,6 @@
                         </td>
                     </tr>
                 @endforeach
-                <tr>
-                    <td>
-                        gumarus.dharmawan.william
-                    </td>
-                    <td>
-                        gumarus.dharmawan.william@gmail.com
-                    </td>
-                    <td>
-                        Rp 5.000.000,00
-                    </td>
-                    <td>
-                        Rp 5.000.000,00
-                    </td>
-                    <td>
-                        <a href="#profile"><button id="profile-button" class="button-table darkblue dashboard">Profile</button></a>
-                    </td>
-                </tr>
             </table>
 
             <table id="admin-manage-user-merchant-table" align="center" style="display: none">
@@ -105,7 +88,7 @@
                             Rp {{{number_format($merchant->balance,2,',','.')}}}
                         </td>
                         <td>
-                            <a href="#delete"><button id="delete-id-button" class="button-table darkblue dashboard">Delete ID</button></a>
+                            <a href="#delete"><button  class="delete-id-button button-table darkblue dashboard" value="{{{$merchant->username}}}">Delete ID</button></a>
                         </td>
                         <td>
                             <a href="#add-product"><button class="add-product-button button-table darkblue dashboard" value={{{$merchant->username}}}>Add Product</button></a>
@@ -211,7 +194,7 @@
         <div id="pop-up-delete-id" class="admin pop-up" style="display: none">
             <h1>DELETE ID</h1>
             <h2>Are you sure want to delete merchant's account?</h2>
-            <a href=""><button id="yes-add-product" class="button darkblue admin-notification">YES</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button id="yes-delete-id" class="button darkblue admin-notification">YES</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="no-delete-id" class="button cyan admin-notification">NO</button>
         </div>
         <div id="pop-up-add-product" class="admin pop-up" style="display: none">
@@ -223,16 +206,50 @@
 
     <script type="text/javascript">
 
+
         $(function(){
 
-            var profile_box_username = [];
-            var profile_box_id_type = [];
-            var profile_box_id_number = [];
-            var profile_box_full_name = [];
-            var profile_box_address = [];
-            var profile_box_birth_place = [];
-            var profile_box_birth_date = [];
-            var profile_box_sex = [];
+        //For getting the merchant intended to delete
+        var deleted_merchant = "";
+
+        var profile_box_username = [];
+        var profile_box_id_type = [];
+        var profile_box_id_number = [];
+        var profile_box_full_name = [];
+        var profile_box_address = [];
+        var profile_box_birth_place = [];
+        var profile_box_birth_date = [];
+        var profile_box_sex = [];
+
+        function postDeleteMerchant(){
+            method = "post"; // Set method to post by default if not specified.
+
+            // The rest of this code assumes you are not using a library.
+            // It can be made less wordy if you use one.
+            var form = document.createElement("form");
+            form.setAttribute("method", method);
+            form.setAttribute("action", '/admin/delete_merchant');
+
+            var hiddenField = document.createElement("input");
+            
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "merchant_id");
+            hiddenField.setAttribute("value", deleted_merchant);
+
+            form.appendChild(hiddenField);
+
+            hiddenField = document.createElement("input");
+            
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "_token");
+            hiddenField.setAttribute("value", "{{{csrf_token()}}}");
+
+            form.appendChild(hiddenField);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
             @foreach($profiles as $profile)
                 @if (isset($profile->username_customer))
                     profile_box_username['{{{$profile->username_customer}}}'] = '{{{$profile->username_customer}}}';
@@ -329,9 +346,15 @@
                 $("#pop-up-delete-id").hide();
             });
 
-            $( "#delete-id-button" ).click(function() {
-                $("#pop-up-delete-id").fadeIn("fast");
-            });
+        $( ".delete-id-button" ).click(function() {
+            deleted_merchant = $(this).val();
+            $("#pop-up-delete-id").fadeIn("fast");
+        });
+
+        $("#yes-delete-id").click(function(){
+            postDeleteMerchant();
+        });
+
 
             $( "#no-delete-id" ).click(function() {
                 $("#pop-up-delete-id").fadeOut("fast");
