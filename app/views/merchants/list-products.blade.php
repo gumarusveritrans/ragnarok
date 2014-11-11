@@ -5,7 +5,7 @@
         <span class="subtitle merchant">LIST PRODUCTS</span>
     </div>
 
-    <hr id="horizontal-line-dashboard" noshade size=1 width=95% color="red" style="margin-top: -10px;">
+    <hr id="merchant-horizontal-line"/>
 
     <div id="subcontent-wrapper">
 

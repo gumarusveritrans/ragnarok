@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <hr id="horizontal-line-dashboard" noshade size=1 width=95% />
+  <hr/>
 
   <div id="subcontent-wrapper">
 
