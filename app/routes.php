@@ -45,6 +45,7 @@ Route::post('/admin/add-product', 'AdminController@add_product');
 Route::post('/admin/reject_increase_limit', 'AdminController@reject_increase_limit');
 Route::post('/admin/accept_increase_limit', 'AdminController@accept_increase_limit');
 Route::post('/admin/create_merchant', ['before' => 'csrf', 'uses' => 'AdminController@create_merchant']);
+Route::post('/admin/delete_merchant',['before' =>'csrf','uses' =>'AdminController@delete_merchant']);
 
 //Route for Merchant Section
 Route::get('/merchants/login', 'MerchantsController@login');

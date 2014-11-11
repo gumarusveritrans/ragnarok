@@ -30,6 +30,7 @@ return array(
 	'verified_user' => '5 Million User',
 	'request_close_account_user' => 'User request close account',
 	'closed_user_account' => 'User closed account',
+	'closed_merchant_account' => 'Closed merchant account',
 	'merchant' => 'Merchant',
 	'admin' => 'Admin',
 	'user_balance' => 'balance',
