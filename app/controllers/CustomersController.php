@@ -250,6 +250,7 @@ class CustomersController extends BaseController {
 	}
 
 	public function purchase(){	
+
 		$data = array();
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
@@ -286,12 +287,11 @@ class CustomersController extends BaseController {
 			}
 
 			if(!Input::get('merchant')){
-				$product_merchant = $merchant->username;
 				break;
 			}
 		}
 
-		$products = DB::table('products')->where('merchant_name',$product_merchant)->get();
+		$products = DB::table('product')->where('merchant_name',$product_merchant)->get();
 		
 		return View::make('/customers/purchase')->with('data',$data)
 												->with('merchants', $merchants)
@@ -640,5 +640,23 @@ class CustomersController extends BaseController {
 			return Redirect::to('customers/increase-limit#upload-id-card')
 					->with('form_input',$form_input);
 		}
+	}
+
+	public function purchase_products(){
+		$products_purchased = Input::json()->get('shoppingCart');
+		
+		$sum = 0;
+		$message = '';
+		//$transaction = new Transaction;
+		foreach($products_purchased as $product){
+			$db_product = Product::where('id',$product['id'])->where('merchant_name',Input::json()->get('merchant_username'))->get()[0];
+			$sum += $db_product->price * $product['quantity'];
+
+		}
+
+		$status = 'failed';
+		$message = $sum;
+
+		return Response::json(array('status' => $status ,'message' => $message));
 	}
 }
