@@ -33,7 +33,7 @@ return array(
     'ConnectPagesController' => $baseDir . '/app/controllers/ConnectPagesController.php',
     'ConnectUpdateTopup' => $baseDir . '/app/commands/ConnectUpdateTopup.php',
     'CreateIncreaseLimitTable' => $baseDir . '/app/database/migrations/2014_11_04_142422_create_increase_limit_table.php',
-    'CreateProductTable' => $baseDir . '/app/database/migrations/2014_11_11_011113_create_product_table.php',
+    'CreateProductTable' => $baseDir . '/app/database/migrations/2014_11_11_194413_create_product_table.php',
     'CreateRedeemTable' => $baseDir . '/app/database/migrations/2014_11_04_141839_create_redeem_table.php',
     'CreateShoppingCartTable' => $baseDir . '/app/database/migrations/2014_11_10_204935_create_shopping_cart_table.php',
     'CreateTopupTable' => $baseDir . '/app/database/migrations/2014_11_04_141219_create_topup_table.php',

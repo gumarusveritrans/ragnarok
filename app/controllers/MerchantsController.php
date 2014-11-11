@@ -123,7 +123,7 @@ class MerchantsController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 
-		$products = DB::table('products')->where('merchant_name',$data['username'])->get();
+		$products = DB::table('product')->where('merchant_name',$data['username'])->get();
 		return View::make('/merchants/list-products')->with('products', $products);
 	}
 

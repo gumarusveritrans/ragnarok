@@ -291,7 +291,7 @@ class CustomersController extends BaseController {
 			}
 		}
 
-		$products = DB::table('products')->where('merchant_name',$product_merchant)->get();
+		$products = DB::table('product')->where('merchant_name',$product_merchant)->get();
 		
 		return View::make('/customers/purchase')->with('data',$data)
 												->with('merchants', $merchants)

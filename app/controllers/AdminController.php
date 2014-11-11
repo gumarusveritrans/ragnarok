@@ -329,27 +329,40 @@ class AdminController extends BaseController {
 	}
 
 	public function add_product(){
-		$rules = array(
-			'product_name'	=> 'required',
-			'description'	=> 'required',
-			'price'			=> 'required|numeric',
-			'merchant_name' => 'required'
-		);
+		//check if its our form
+        if ( Session::token() !== Input::get( '_token' ) ) {
+            return Response::json( array(
+                'msg' => 'Unauthorized attempt to create setting'
+            ) );
+        }else{
+        	$rules = array(
+				'product_name'	=> 'required',
+				'description'	=> 'required',
+				'price'			=> 'required|numeric',
+				'merchant_name' => 'required'
+			);
 
-		$validator = Validator::make(Input::all(), $rules);
+			$validator = Validator::make(Input::all(), $rules);
 
-		if($validator->fails()){
-			return View::make('admin/manage-user#add-product')
-					->withErrors($validator);
-		}else{
-			Product::create(array(
-				'product_name' 	=> Input::get('product_name'),
-				'description' 	=> Input::get('description'),
-				'price' 		=> Input::get('price'),
-				'merchant_name' => Input::get('merchant_name')
-			));
-			return Redirect::to('admin/manage-user');
-		}
+			if($validator->fails()){
+				if(Request::ajax())
+	            {
+	                return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+	            } else{
+	                return Redirect::back()->withInput()->withErrors($validator);
+	            }
+			}else{
+				Product::create(array(
+					'product_name' 	=> Input::get('product_name'),
+					'description' 	=> Input::get('description'),
+					'price' 		=> Input::get('price'),
+					'merchant_name' => Input::get('merchant_name')
+				));
+
+				return Response::json(['success' => true], 200);
+			}
+
+        }
 	}
 
 	public function reject_increase_limit(){
