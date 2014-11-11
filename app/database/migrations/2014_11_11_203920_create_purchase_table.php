@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTransactionTable extends Migration {
+class CreatePurchaseTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,10 @@ class CreateTransactionTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('transaction', function(Blueprint $table)
+		Schema::create('purchase', function(Blueprint $table)
 		{
 			$table->bigIncrements('id');
-			$table->dateTime('date_transaction');
+			$table->dateTime('date_purchase');
 			$table->string('username_customer');
 			$table->string('status');
 		});
@@ -28,7 +28,7 @@ class CreateTransactionTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('transaction');
+		Schema::drop('purchase');
 	}
 
 }

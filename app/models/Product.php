@@ -25,9 +25,9 @@ class Product extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 
-    public function transaction()
+    public function purchase()
     {
-        return $this->belongsToMany('Transaction', 'shopping_cart', 'product_id', 'transaction_id')->withPivot('quantity');
+        return $this->belongsToMany('Purchase', 'shopping_cart', 'product_id', 'purchase_id')->withPivot('quantity');
     }
 
 }

@@ -74,6 +74,28 @@ header.header-merchant {
   color: $dark-orange;
 }
 
+/* Horizontal Line Style */
+hr {
+  width: 95%;
+  height: 1px;
+  border-width:0;
+}
+
+hr#customer-horizontal-line {
+  background-color: $dark-brown;
+}
+
+hr#admin-horizontal-line {
+  margin-top: -10px;
+  background-color: $dark-blue;
+}
+
+hr#merchant-horizontal-line {
+  margin-top: -10px;
+  background-color: $dark-red;
+}
+
+
 /* Wrapper Logo Style */
 #logo-wrapper {
   height: 100%;
