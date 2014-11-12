@@ -31,7 +31,7 @@ class ConnectHelper{
 	}
 
 	public static function getCurrentUserRole(){
-		return Session::get('cyclos_role');
+		return Session::get('cyclos_group');
 	}
 
 	public static function getUserEmail($username){

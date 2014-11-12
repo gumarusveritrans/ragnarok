@@ -31,9 +31,6 @@
                         <th>
                             
                         </th>
-                        <th>
-                            
-                        </th>
                     </tr>
                 </thead>
                 @foreach ($purchases as $purchase)
@@ -63,13 +60,8 @@
                 @endforeach
             </table>
         </div>
-        <span id="download-transaction" class="link-download" style="display: none">{{ link_to ("/", 'Download as Excel or CSV') }}</span>
-        <div id="pop-up-accept-transaction" class="merchant pop-up" style="display: none">
-            <h1>ACCEPT TRANSACTION</h1>
-            <h2>Are you sure want to accept this transaction?</h2>
-            <button id="yes-accept-transaction" class="button darkred merchant">YES</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button id="no-accept-transaction" class="button lightred merchant">NO</button>
-        </div>
+        <span id="download-transaction" class="link-download" style="display: none">{{ link_to ("/merchants/download-csv", 'Download as CSV') }}</span>
+
         <div id="pop-up-reject-transaction" class="merchant pop-up" style="display: none">
             <h1>REJECT TRANSACTION</h1>
             <h2>Are you sure want to reject this transaction?</h2>

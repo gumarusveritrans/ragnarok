@@ -22,6 +22,129 @@ class ConnectPagesController extends BaseController {
 		return View::make('/connect_pages/product');
 	}
 
+	public function login(){
+		if(Session::get('cyclos_group') == Config::get("connect_variable.unverified_user") || Session::get('cyclos_group') == Config::get("connect_variable.verified_user")){
+			return Redirect::to('/');
+		}
+		if(Request::getMethod()=='GET'){
+			return View::make('/customers/login');	
+		}else if(Request::getMethod()=='POST'){
+			$loginService = new Cyclos\Service('loginService');
+
+			// Set the parameters
+			$params = new stdclass();
+			$params->user = array('username' => $_POST['username']);
+			$params->password = $_POST['password'];
+			$params->remoteAddress = $_SERVER['REMOTE_ADDR'];
+
+			// Perform the login
+			try {
+				$result = $loginService->run('loginUser',$params,false);
+				Session::put('cyclos_session_token',$result->sessionToken);
+				Session::put('cyclos_username',$params->user['username']);
+				Session::put('cyclos_remote_address',$params->remoteAddress);
+				Session::put('cyclos_id',$result->user->id);
+
+
+
+				// Getting the group name
+				$params = new stdclass();
+				$params->id = $result->user->id;
+
+				$userService = new Cyclos\Service('userService');
+				$result = $userService->run('getViewProfileData',$params,false);
+
+				if($result->group->name != Config::get('connect_variable.unverified_user') && $result->group->name != Config::get('connect_variable.verified_user')){
+					Session::flush();
+					Session::flash('errors', 'Invalid username/password');
+					return View::make('connect_pages/login');
+				}
+
+				Session::put('cyclos_group',$result->group->name);
+				Session::put('cyclos_email',$result->email);
+				
+				return Redirect::to('/customers/dashboard');
+			} catch (Cyclos\ConnectionException $e) {
+				echo("Cyclos server couldn't be contacted");
+				die();
+			} catch (Cyclos\ServiceException $e) {
+				switch ($e->errorCode) {
+					case 'VALIDATION':
+						Session::flash('errors', 'Missing username/password');
+						return View::make('connect_pages/login');
+						break;
+					case 'LOGIN':
+						//return View::make('customers/login')->with('errors', 'Invalid Username/Password');
+						Session::flash('errors', 'Invalid username/password');
+						return View::make('connect_pages/login');
+						break;
+					case 'REMOTE_ADDRESS_BLOCKED':
+						//return View::make('customers/login')->with('errors', 'Your access is blocked by exceeding invalid login attempts');
+						Session::flash('errors', 'Your access is blocked by exceeding invalid login attempts');
+						return View::make('connect_pages/login');
+						break;
+					default:
+						//return View::make('customers/login')->with('errors', 'Error while performing login: {$e->errorCode}');
+						Session::flash('errors', 'Error while performing login: {$e->errorCode}');
+						return View::make('connect_pages/login');
+						break;
+				}
+				Session::flush();
+				die();
+			}
+		}
+	}
+
+	public function register(){	
+		// Kick logined user
+		if(Session::get('cyclos_session_token') != null){
+			return Redirect::to('/');
+		}
+		
+		if(Request::getMethod()=='GET'){
+			return View::make('/customers/register');	
+		}else if(Request::getMethod()=='POST'){
+			$userService = new Cyclos\Service('userService');
+
+			try{
+				$result = $userService->run("getUserRegistrationGroups",array(),false);
+				
+				$id;
+
+				foreach($result as $res){
+					if($res->name == Config::get('connect_variable.unverified_user')){
+						$id = $res->id;
+					}
+				}
+
+				$params = new stdclass();
+				$params->group = new stdclass();
+				$params->group->id = $id;
+
+				$params->username = $_POST['username'];
+				$params->email = $_POST['email'];
+				$params->name = $_POST['username'];
+
+
+				$userService->run('register',$params,false);
+				return View::make('customers/register-success');
+			}catch (Cyclos\ServiceException $e){
+				if($e->errorCode == "VALIDATION"){
+					$errors = "";
+					foreach($e->error->validation->propertyErrors as $error){
+						$errors = $errors . $error[0] . "\n";
+					}
+					Session::flash('errors',$errors);
+					return View::make('/connect_pages/register');	
+					
+				}else{
+					Session::flash('errors',$e->errorCode);
+					return View::make('/connect_pages/register');
+				}
+			}
+		}
+	}
+
 	public function reset_password(){
 		if(Request::getMethod()=='GET'){
 			return View::make('/connect_pages/reset_password');	

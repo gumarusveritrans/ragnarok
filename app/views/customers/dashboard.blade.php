@@ -64,7 +64,7 @@
                 @endforeach
             </table>
 
-            <span class="link-download-customer">{{ link_to ("/customers/download-csv-topup", 'Download as CSV') }}</span>
+            <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=topup", 'Download as CSV') }}</span>
             </div>
         </div>
 
@@ -104,7 +104,7 @@
                 </tr>
                 @endforeach
             </table>
-            <span class="link-download-customer">{{ link_to ("/customers/download-csv-transfer", 'Download as CSV') }}</span>
+            <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=transfer", 'Download as CSV') }}</span>
             </div>
         </div>
 
@@ -142,7 +142,7 @@
                     </td>
                 </tr>
             </table>
-            <span class="link-download-customer">{{ link_to ("/customers/download-csv-purchase", 'Download as CSV') }}</span>
+            <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=purchase", 'Download as CSV') }}</span>
             </div>
         </div>
 

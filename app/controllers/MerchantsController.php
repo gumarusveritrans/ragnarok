@@ -126,4 +126,26 @@ class MerchantsController extends BaseController {
 		return View::make('/merchants/list-products')->with('products', $products);
 	}
 
+	public function download_csv() {
+
+		$purchases_data = Purchase::all();
+		$filename = 'Purchase_Data.csv';
+		$fp = fopen($filename, 'w');	
+		$purchase_header= array("purchase_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
+		fputcsv($fp, $purchase_header);
+        foreach( $purchases_data as $purchase ) {
+        	$purchase_array = $purchase->toArray();
+            fputcsv($fp, $purchase_array);
+        }
+
+		fclose($fp);
+
+		App::finish(function($request, $response) use ($filename)
+	    {
+	        unlink($filename);
+	    });
+
+        return Response::download($filename);
+	}
+
 }

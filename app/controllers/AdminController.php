@@ -100,47 +100,46 @@ class AdminController extends BaseController {
 			->with('transfers', $transfers);
 	}
 
-	public function download_csv_topup() {
-		$topups_data = Topup::all();
-		$filename = 'Topup_Data.csv';
-		$fp = fopen($filename, 'w');
-		$topup_header= array("topup_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
-		fputcsv($fp, $topup_header);
-        foreach( $topups_data as $topup ) {
-        	$topup_array = (array) $topup;
-            fputcsv($fp, $topup_array);
-        }
-        fclose($fp);
+	public function download_csv() {
+		$transaction_type = Input::get('transaction_type');
 
-        return Response::download($filename);
-	}
+		if ($transaction_type == 'topup'){
+			$topups_data = Topup::all();
+			$filename = 'Topup_Data.csv';
+			$fp = fopen($filename, 'w');
+			$topup_header= array("topup_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
+			fputcsv($fp, $topup_header);
+	        foreach( $topups_data as $topup ) {
+	        	$topup_array = $topup->toArray();
+	            fputcsv($fp, $topup_array);
+        	}
+		} else if ($transaction_type == 'transfer'){
+			$transfers_data = Transfer::all();
+			$filename = 'Transfer_Data.csv';
+			$fp = fopen($filename, 'w');
+			$transfer_header= array("transfer_id", "date_time", "from_username", "to_username", "amount");
+			fputcsv($fp, $transfer_header);
+	        foreach( $transfers_data as $transfer ) {
+	        	$transfer_array = $transfer->toArray();
+	            fputcsv($fp, $transfer_array);
+	        }
+		} else if ($transaction_type == 'purchase'){
+			$purchases_data = Purchase::all();
+			$filename = 'Purchase_Data.csv';
+			$fp = fopen($filename, 'w');	
+			$purchase_header= array("purchase_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
+			fputcsv($fp, $purchase_header);
+	        foreach( $purchases_data as $purchase ) {
+	        	$purchase_array = $purchase->toArray();
+	            fputcsv($fp, $purchase_array);
+	        }
+		}
+		fclose($fp);
 
-	public function download_csv_transfer() {
-		$transfers_data = Transfer::all();
-		$filename = 'Transfer_Data.csv';
-		$fp = fopen($filename, 'w');
-		$transfer_header= array("transfer_id", "date_time", "from_username", "to_username", "amount");
-		fputcsv($fp, $transfer_header);
-        foreach( $transfers_data as $transfer ) {
-        	$transfer_array = (array) $transfer;
-            fputcsv($fp, $transfer_array);
-        }
-        fclose($fp);
-
-        return Response::download($filename);
-	}
-
-	public function download_csv_purchase() {
-		$purchases_data = Purchase::all();
-		$filename = 'Purchase_Data.csv';
-		$fp = fopen($filename, 'w');
-		$purchase_header= array("purchase_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
-		fputcsv($fp, $purchase_header);
-        foreach( $purchases_data as $purchase ) {
-        	$purchase_array = (array) $purchase;
-            fputcsv($fp, $purchase_array);
-        }
-        fclose($fp);
+		App::finish(function($request, $response) use ($filename)
+	    {
+	        unlink($filename);
+	    });
 
         return Response::download($filename);
 	}
