@@ -30,6 +30,10 @@ class CustomersController extends BaseController {
 												 ->with('transfers', $transfers);
 	}
 
+	public function reset_password() {
+		return View::make('connect_pages/reset-password');
+	}
+
 	public function profile(){	
 		$data = array();
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
@@ -187,7 +191,6 @@ class CustomersController extends BaseController {
 		}
 		//$products = DB::table('product')->where('merchant_name',$product_merchant)->get();
 		$products = Product::where('merchant_name', '=', $product_merchant)->get();
-		// dd($products);
 
 		return View::make('/customers/purchase')->with('data',$data)
 												->with('merchants', $merchants)
@@ -240,12 +243,6 @@ class CustomersController extends BaseController {
     }
 
 	public function upload() {
-		// getting all of the post database
-		// setting up rules
-		// if(Input::get('finish-form') == 'finish') {
-		// 	return Response::json(['finish' => 'finish']);
-		// }
-
 		$rules = array('image' => 'image|required|max:1600');
 		
 		$messages = array(

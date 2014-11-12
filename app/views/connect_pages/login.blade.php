@@ -14,7 +14,7 @@
 
 	      <div id="login-register-form" class="form-wrapper">
 	        {{ Form::label('username', 'Username') }}
-	        {{ Form::text('username', '', array('class' => 'form-control')) }}
+	        {{ Form::text('username', '', array('class' => 'form-control', 'maxlength' => '20')) }}
 
 	        {{ Form::label('password', 'Password') }}
 	        {{ Form::password('password', array('class' => 'form-control')) }}
@@ -27,7 +27,7 @@
 	          	{{ Form::submit('LOGIN', array('class' => 'button darkbrown')) }}
 	          </div>
 	          <div class="column">
-	          	Forgot Password?
+	          	{{ link_to('/reset-password', 'Forget Password?', array('class' => 'reset-password')) }}
 	          </div>
 	        </div>
 	      </div>

@@ -39,29 +39,26 @@
                             TID{{{$purchase->id}}}
                         </td>
                         <td>
-                            {{{$purchase->date_transaction}}}
+                            {{{$purchase->date_purchase}}}
                         </td>
                         <td>
                             {{{$purchase->username_customer}}}
                         </td>
                         <td>
-                            {{{$total}}}
+                           Rp {{{number_format($purchase->total(), 2, ',', '.')}}}
                         </td>
                         <td>
                             {{{$purchase->status}}}
                         </td>
                         <td>
-                            <a href="#accept-transaction"><button id="{{{$purchase->id}}}" class="accept-button button-table darkred merchant">Accept</button></a>
-                        </td>
-                        <td>
-                            <a href="#reject-transaction"><button id="{{{$purchase->id}}}" class="reject-button button-table lightred merchant">Reject</button></a>
+                            <a href="#reject-transaction"><button id="{{{$purchase->id}}}" class="reject-button button-table darkred merchant">Reject</button></a>
                         </td>
                     </tr>
                 @endforeach
             </table>
         </div>
-        <span id="download-transaction" class="link-download" style="display: none">{{ link_to ("/merchants/download-csv", 'Download as CSV') }}</span>
-
+        
+        <span class="link-download-merchant" class="link-download">{{ link_to ("/merchants/download-csv", 'Download as CSV') }}</span>
         <div id="pop-up-reject-transaction" class="merchant pop-up" style="display: none">
             <h1>REJECT TRANSACTION</h1>
             <h2>Are you sure want to reject this transaction?</h2>
@@ -72,21 +69,11 @@
 
     <script type="text/javascript">
 
-        $( "#accept-button" ).click(function() {
-            $("#pop-up-accept-transaction").fadeIn("fast");
-        });
-
-        $( "#no-accept-transaction" ).click(function() {
-            $("#pop-up-accept-transaction").fadeOut("fast");
-            $("#pop-up-reject-transaction").fadeOut("fast");
-        });
-
-        $( "#reject-button" ).click(function() {
+        $( ".reject-button" ).click(function() {
             $("#pop-up-reject-transaction").fadeIn("fast");
         });
 
         $( "#no-reject-transaction" ).click(function() {
-            $("#pop-up-accept-transaction").fadeOut("fast");
             $("#pop-up-reject-transaction").fadeOut("fast");
         });
 
