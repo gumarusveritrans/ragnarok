@@ -191,7 +191,11 @@ class AdminController extends BaseController {
 		$params->pageSize = PHP_INT_MAX;
 		$usersResult = $userService->run('search',$params,false);
 
-		$users = $usersResult->pageItems;
+		if(isset($usersResult->pageItems)){
+			$users = $usersResult->pageItems;
+		}else{
+			$users = array();
+		}	
 
 		// Getting merchant
 		$params = new stdclass();
@@ -199,8 +203,11 @@ class AdminController extends BaseController {
 		$params->groups->id = $roleId[Config::get('connect_variable.merchant')];
 		$params->pageSize = PHP_INT_MAX;
 		$merchantsResult = $userService->run('search',$params,false);
-
-		$merchants = $merchantsResult->pageItems;
+		if(isset($merchantsResult->pageItems)){	
+			$merchants = $merchantsResult->pageItems;
+		}else{
+			$merchants = array();
+		}
 
 		$profiles = array();
 		// Getting user attribute
