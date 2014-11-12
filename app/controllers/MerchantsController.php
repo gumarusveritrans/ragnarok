@@ -2,6 +2,18 @@
 
 class MerchantsController extends BaseController {
 
+	public function __construct(){
+		if (Request::path() != 'merchants/login'){
+			$this->beforeFilter(function(){
+				$role = ConnectHelper::getCurrentUserRole();
+				if ($role != Config::get('connect_variable.merchant')){
+					Session::flash('errors', 'Please login first with your account');
+					return Redirect::to('merchants/login');
+				}
+			});	
+		}
+	}
+
 	public function login(){
 		
 		if(Session::get('cyclos_group') == Config::get('connect_variable.merchant')){
@@ -135,6 +147,29 @@ class MerchantsController extends BaseController {
 
 		$products = Product::where('merchant_name', '=', $data['username'])->get();
 		return View::make('/merchants/list-products')->with('products', $products);
+	}
+
+	public function download_csv() {
+
+		$purchases_data = Purchase::all();
+		$filename = 'Purchase_Data.csv';
+		$fp = fopen($filename, 'w');	
+		$purchase_header= array("purchase_id", "date_time", "total", "username_customer", "status");
+		fputcsv($fp, $purchase_header);
+        foreach( $purchases_data as $purchase ) {
+        	$purchase_array = $purchase->toArray();
+        	array_push($purchase_array, $purchase->total());
+            fputcsv($fp, $purchase_array);
+        }
+
+		fclose($fp);
+
+		App::finish(function($request, $response) use ($filename)
+	    {
+	        unlink($filename);
+	    });
+
+        return Response::download($filename);
 	}
 
 }

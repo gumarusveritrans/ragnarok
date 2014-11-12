@@ -39,9 +39,10 @@ class ConnectUpdateTopup extends Command {
 	{
 		$pending_topups = DB::table('topup')->where('status', 'pending')->get();
 		foreach ($pending_topups as $pending_topup) {
-			$response = PaymentAPI::update_status('TUID'.$pending_topup->id);
+			$response = PaymentAPI::update_status('TUID1'.$pending_topup->id);
 			if($response->transaction_status != "pending"){
 				if($response->transaction_status == 'settlement'){
+					DB::beginTransaction();
 					// PAY TO USER
 					//GETTING TRANSFER TYPE
 					$transactionService = new Cyclos\Service('transactionService');
@@ -50,6 +51,7 @@ class ConnectUpdateTopup extends Command {
 					$result = $transactionService->run('getPaymentData',array("SYSTEM",$to),false);
 					
 					//TRANSFERRING TO USER
+				    DB::table('topup')	->where('id', $pending_topup->id)->update(array('status' => 'success'));
 					$paymentService = new Cyclos\Service('paymentService');
 
 					$parameters = new stdclass();
@@ -61,7 +63,7 @@ class ConnectUpdateTopup extends Command {
 				    
 				    $paymentResult = $paymentService->run('perform',$parameters,false);
 
-				    DB::table('topup')	->where('id', $pending_topup->id)->update(array('status' => 'success'));
+					DB::commit();
 					
 					$email_customer = ConnectHelper::getUserEmail($pending_topup->username_customer);
 					Mail::send('emails.topup', array('transfer_amount' => $response->gross_amount), function($message)

@@ -2,6 +2,16 @@
 
 class CustomersController extends BaseController {
 
+	public function __construct(){
+		$this->beforeFilter(function(){
+			$role = ConnectHelper::getCurrentUserRole();
+			if ($role != Config::get('connect_variable.unverified_user') && $role != Config::get('connect_variable.verified_user')){
+				Session::flash('errors', 'Please login first with your account');
+				return Redirect::to('/login');
+			}
+		});
+	}
+
 	public function dashboard(){
 		$data = array();
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
@@ -28,77 +38,6 @@ class CustomersController extends BaseController {
 		return View::make('/customers/profile')->with('data',$data);
 	}
 
-	public function login(){
-		if(Session::get('cyclos_group') == Config::get("connect_variable.unverified_user") || Session::get('cyclos_group') == Config::get("connect_variable.verified_user")){
-			return Redirect::to('/');
-		}
-		if(Request::getMethod()=='GET'){
-			return View::make('/customers/login');	
-		}else if(Request::getMethod()=='POST'){
-			$loginService = new Cyclos\Service('loginService');
-
-			// Set the parameters
-			$params = new stdclass();
-			$params->user = array('username' => $_POST['username']);
-			$params->password = $_POST['password'];
-			$params->remoteAddress = $_SERVER['REMOTE_ADDR'];
-
-			// Perform the login
-			try {
-				$result = $loginService->run('loginUser',$params,false);
-				Session::put('cyclos_session_token',$result->sessionToken);
-				Session::put('cyclos_username',$params->user['username']);
-				Session::put('cyclos_remote_address',$params->remoteAddress);
-				Session::put('cyclos_id',$result->user->id);
-
-				// Getting the group name
-				$params = new stdclass();
-				$params->id = $result->user->id;
-
-				$userService = new Cyclos\Service('userService');
-				$result = $userService->run('getViewProfileData',$params,false);
-
-				if($result->group->name != Config::get('connect_variable.unverified_user') && $result->group->name != Config::get('connect_variable.verified_user')){
-					Session::flush();
-					Session::flash('errors', 'Invalid username/password');
-					return View::make('customers/login');
-				}
-
-				Session::put('cyclos_group',$result->group->name);
-				Session::put('cyclos_email',$result->email);
-
-				return Redirect::to('/customers/dashboard');
-			} catch (Cyclos\ConnectionException $e) {
-				echo("Cyclos server couldn't be contacted");
-				die();
-			} catch (Cyclos\ServiceException $e) {
-				switch ($e->errorCode) {
-					case 'VALIDATION':
-						Session::flash('errors', 'Missing username/password');
-						return View::make('customers/login');
-						break;
-					case 'LOGIN':
-						//return View::make('customers/login')->with('errors', 'Invalid Username/Password');
-						Session::flash('errors', 'Invalid username/password');
-						return View::make('customers/login');
-						break;
-					case 'REMOTE_ADDRESS_BLOCKED':
-						//return View::make('customers/login')->with('errors', 'Your access is blocked by exceeding invalid login attempts');
-						Session::flash('errors', 'Your access is blocked by exceeding invalid login attempts');
-						return View::make('customers/login');
-						break;
-					default:
-						//return View::make('customers/login')->with('errors', 'Error while performing login: {$e->errorCode}');
-						Session::flash('errors', 'Error while performing login: {$e->errorCode}');
-						return View::make('customers/login');
-						break;
-				}
-				Session::flush();
-				die();
-			}
-		}
-	}
-
 	public function logout(){
 		Session::flush();
 		$params = new stdclass();
@@ -114,56 +53,6 @@ class CustomersController extends BaseController {
 			echo("Error while performing logout: {$e->errorCode}");
 		}
 		die();
-	}
-
-	public function register(){	
-		// Kick logined user
-		if(Session::get('cyclos_session_token') != null){
-			return Redirect::to('/');
-		}
-		
-		if(Request::getMethod()=='GET'){
-			return View::make('/customers/register');	
-		}else if(Request::getMethod()=='POST'){
-			$userService = new Cyclos\Service('userService');
-
-			try{
-				$result = $userService->run("getUserRegistrationGroups",array(),false);
-				
-				$id;
-
-				foreach($result as $res){
-					if($res->name == Config::get('connect_variable.unverified_user')){
-						$id = $res->id;
-					}
-				}
-
-				$params = new stdclass();
-				$params->group = new stdclass();
-				$params->group->id = $id;
-
-				$params->username = $_POST['username'];
-				$params->email = $_POST['username'];
-				$params->name = $_POST['username'];
-
-
-				$userService->run('register',$params,false);
-				return View::make('customers/register-success');
-			}catch (Cyclos\ServiceException $e){
-				if($e->errorCode == "VALIDATION"){
-					$errors = "";
-					foreach($e->error->validation->propertyErrors as $error){
-						$errors = $errors . $error[0] . "\n";
-					}
-					Session::flash('errors',$errors);
-					return View::make('/customers/register');	
-					
-				}else{
-					Session::flash('errors',$e->errorCode);
-					return View::make('/customers/register');
-				}
-			}
-		}
 	}
 
 	public function topup(){
@@ -213,7 +102,7 @@ class CustomersController extends BaseController {
 													'transfer_amount' => $_POST['transfer_amount']), function($message)
 				{
 					$message->from('connect_cs@connect.co.id', 'Connect');
-				    $message->to($email_customer, ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
+				    $message->to('danny.pranoto@veritrans.co.id', ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
 				});
 
 				return View::make('customers/transfer-success')
@@ -304,41 +193,43 @@ class CustomersController extends BaseController {
 	}
 
 	public function increase_limit(){
-		$data = array();
-		$data['username'] = ConnectHelper::getCurrentUserUsername();
-		$data['balance'] = ConnectHelper::getCurrentUserBalance();
-		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$increase_limit = IncreaseLimit::where('username_customer', '=', $data['username'])->first();
-		if ($increase_limit == null || $increase_limit->status == "denied"){
-			return View::make('/customers/increase-limit')->with('data',$data);	
+		if (Request::isMethod('GET')){
+			$data = array();
+			$data['username'] = ConnectHelper::getCurrentUserUsername();
+			$data['balance'] = ConnectHelper::getCurrentUserBalance();
+			$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+			$increase_limit = IncreaseLimit::where('username_customer', '=', $data['username'])->first();
+			if ($increase_limit == null || $increase_limit->status == "denied"){
+				return View::make('/customers/increase-limit')->with('data',$data);	
+			}
+			else{
+				return View::make('/customers/increase-limit-done');
+			}
 		}
-		else{
-			return View::make('/customers/increase-limit-done');
+		else if (Request::isMethod('POST')){
+			if (Input::get('current_address') == ""){
+				$current_address = Input::get('id_address');
+			}else{
+				$current_address = Input::get('current_address');
+			}
+
+			IncreaseLimit::create(array(
+				'date_increase_limit' => new DateTime,
+				'full_name' => Input::get('full_name'),
+				'id_type' => Input::get('id_type'),
+				'id_number' => Input::get('id_number'),
+				'gender' => Input::get('gender'),
+				'birth_place' => Input::get('birth_place'),
+				'birth_date' => Input::get('birth_date'),
+				'id_address'=> Input::get('id_address'),
+				'current_address' => $current_address,
+				'username_customer' => ConnectHelper::getCurrentUserUsername(),
+				'status' => 'in process'
+			));
+			return View::make('customers/increase-limit-success');
 		}
+
 		
-	}
-
-	public function increase_limit_post(){
-		if (Input::get('current_address') == ""){
-			$current_address = Input::get('id_address');
-		}else{
-			$current_address = Input::get('current_address');
-		}
-
-		IncreaseLimit::create(array(
-			'date_increase_limit' => new DateTime,
-			'full_name' => Input::get('full_name'),
-			'id_type' => Input::get('id_type'),
-			'id_number' => Input::get('id_number'),
-			'gender' => Input::get('gender'),
-			'birth_place' => Input::get('birth_place'),
-			'birth_date' => Input::get('birth_date'),
-			'id_address'=> Input::get('id_address'),
-			'current_address' => $current_address,
-			'username_customer' => ConnectHelper::getCurrentUserUsername(),
-			'status' => 'in process'
-		));
-		return View::make('customers/increase-limit-success');
 	}
 
 	public function getUploadForm() {
@@ -346,12 +237,6 @@ class CustomersController extends BaseController {
     }
 
 	public function upload() {
-		// getting all of the post database
-		// setting up rules
-		// if(Input::get('finish-form') == 'finish') {
-		// 	return Response::json(['finish' => 'finish']);
-		// }
-
 		$rules = array('image' => 'image|required|max:1600');
 		
 		$messages = array(
@@ -385,51 +270,50 @@ class CustomersController extends BaseController {
 		}
 	}
 
-	public function download_csv_topup() {
-		$topups_data = Topup::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
-		$filename = 'Topup_Data_'.$data['username'].'.csv';
-		$fp = fopen($filename, 'w');
-		$topup_header= array("topup_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
-		fputcsv($fp, $topup_header);
-        foreach( $topups_data as $topup ) {
-        	$topup_array = (array) $topup;
-            fputcsv($fp, $topup_array);
-        }
-        fclose($fp);
+	public function download_csv() {
+		$data['username'] = ConnectHelper::getCurrentUserUsername();
+		$transaction_type = Input::get('transaction_type');
+
+		if ($transaction_type == 'topup'){
+			$topups_data = Topup::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
+			$filename = 'Topup_Data_'.$data['username'].'.csv';
+			$fp = fopen($filename, 'w');
+			$topup_header= array("topup_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
+			fputcsv($fp, $topup_header);
+	        foreach( $topups_data as $topup ) {
+	        	$topup_array = $topup->toArray();
+	            fputcsv($fp, $topup_array);
+        	}
+		} else if ($transaction_type == 'transfer'){
+			$transfers_data = Transfer::where('from_username', '=', ConnectHelper::getCurrentUserUsername())->get();
+			$filename = 'Transfer_Data_'.$data['username'].'.csv';
+			$fp = fopen($filename, 'w');
+			$transfer_header= array("transfer_id", "date_time", "from_username", "to_username", "amount");
+			fputcsv($fp, $transfer_header);
+	        foreach( $transfers_data as $transfer ) {
+	        	$transfer_array = $transfer->toArray();
+	            fputcsv($fp, $transfer_array);
+	        }
+		} else if ($transaction_type == 'purchase'){
+			$purchases_data = Purchase::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
+			$filename = 'Purchase_Data_'.$data['username'].'.csv';
+			$fp = fopen($filename, 'w');	
+			$purchase_header= array("purchase_id", "date_time", "status", "amount", "username_customer");
+			fputcsv($fp, $purchase_header);
+	        foreach( $purchases_data as $purchase ) {
+	        	$purchase_array = $purchase->toArray();
+	            fputcsv($fp, $purchase_array);
+	        }
+		}
+		fclose($fp);
+
+		App::finish(function($request, $response) use ($filename)
+	    {
+	        unlink($filename);
+	    });
 
         return Response::download($filename);
 	}
-
-	public function download_csv_transfer() {
-		$transfers_data = Transfer::where('from_username', '=', ConnectHelper::getCurrentUserUsername())->get();
-		$filename = 'Transfer_Data_'.$data['username'].'.csv';
-		$fp = fopen($filename, 'w');
-		$transfer_header= array("transfer_id", "date_time", "from_username", "to_username", "amount");
-		fputcsv($fp, $transfer_header);
-        foreach( $transfers_data as $transfer ) {
-        	$transfer_array = (array) $transfer;
-            fputcsv($fp, $transfer_array);
-        }
-        fclose($fp);
-
-        return Response::download($filename);
-	}
-
-	public function download_csv_purchase() {
-		$purchases_data = Purchase::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
-		$filename = 'Purchase_Data_'.$data['username'].'.csv';
-		$fp = fopen($filename, 'w');
-		$purchase_header= array("purchase_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
-		fputcsv($fp, $purchase_header);
-        foreach( $purchases_data as $purchase ) {
-        	$purchase_array = (array) $purchase;
-            fputcsv($fp, $purchase_array);
-        }
-        fclose($fp);
-
-        return Response::download($filename);
-	}
-
 
 	public function validate_registration_form(){
 		$rules = array(
@@ -475,8 +359,8 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$pending_topups = Topup::where('status', '=', 'pending')->where('username_customer', '=', $data['username'])->get();
-		
+		$pending_topups = Topup::where('status', '=', 'pending')->where('username_customer', '=', $data['username'])->get()->toArray();
+
 		if ($pending_topups != null){
 			return Redirect::to('/customers/topup')
 				->withErrors(array('topup_amount' => 'You have pending Top Up status, please confirm the payment first.'));
@@ -510,11 +394,11 @@ class CustomersController extends BaseController {
 				$topup->permata_va_number = $response->permata_va_number;
 				$topup->save();
 
-				$email_customer = ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername());
+				// $email_customer = ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername());
 				Mail::send('emails.topup_request', array('permata_va_number' => $response->permata_va_number), function($message)
 				{
 					$message->from('connect_cs@connect.co.id', 'Connect');
-				    $message->to($email_customer, ConnectHelper::getCurrentUserUsername())->subject('Top Up Request');
+				    $message->to('danny.pranoto@veritrans.co.id', ConnectHelper::getCurrentUserUsername())->subject('Top Up Request');
 				});
 
 				return View::make('customers/topup-success')->with('va_number',$response->permata_va_number);
@@ -702,6 +586,10 @@ class CustomersController extends BaseController {
 
 			DB::commit();
 			$status = 'success';
+
+			//Sending notification
+
+
 		 	$message = View::make('/customers/purchase-success')->render();
 		}catch (Cyclos\ServiceException $e){
 			$status = 'failed';

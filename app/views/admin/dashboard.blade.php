@@ -55,7 +55,7 @@
                 </tr>
             </table>
 
-            <span class="link-download-admin">{{ link_to ("/admin/download-csv-purchase", 'Download as CSV') }}</span>
+            <span class="link-download-admin">{{ link_to ("/admin/download-csv?transaction_type=purchase", 'Download as CSV') }}</span>
             </div>
         </div>
         <div id="admin-transfer-transaction-table" class="all-table admin" style="display: none">
@@ -100,7 +100,7 @@
                 </tr>
                 @endforeach
             </table>
-            <span class="link-download-admin" style="clear:both; float:right">{{ link_to ("/admin/download-csv-transfer", 'Download as CSV') }}</span>
+            <span class="link-download-admin" style="clear:both; float:right">{{ link_to ("/admin/download-csv?transaction_type=transfer", 'Download as CSV') }}</span>
             </div>
         </div>
         <div id="admin-top-up-transaction-table" class="all-table admin" style="display: none">
@@ -145,11 +145,9 @@
                 </tr>
                 @endforeach
             </table>
-            <span class="link-download-admin" style="clear:both; float:right">{{ link_to ("/admin/download-csv-topup", 'Download as CSV') }}</span>
+            <span class="link-download-admin" style="clear:both; float:right">{{ link_to ("/admin/download-csv?transaction_type=topup", 'Download as CSV') }}</span>
             </div>
         </div>
-        
-        
         
     </div>
 

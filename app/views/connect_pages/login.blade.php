@@ -9,6 +9,7 @@
 			</span>
 		</h1>
 
+
 		{{ Form::open() }}
 
 	      <div id="login-register-form" class="form-wrapper">
