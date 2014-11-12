@@ -2,6 +2,18 @@
 
 class MerchantsController extends BaseController {
 
+	public function __construct(){
+		if (Request::path() != 'merchants/login'){
+			$this->beforeFilter(function(){
+				$role = ConnectHelper::getCurrentUserRole();
+				if ($role != Config::get('connect_variable.merchant')){
+					Session::flash('errors', 'Please login first with your account');
+					return Redirect::to('merchants/login');
+				}
+			});	
+		}
+	}
+
 	public function login(){
 		
 		if(Session::get('cyclos_group') == Config::get('connect_variable.merchant')){
