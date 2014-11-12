@@ -28,6 +28,7 @@ Route::get('/customers/topup', 'CustomersController@topup');
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::post('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/purchase', 'CustomersController@purchase');
+Route::post('/customers/purchase_products','CustomersController@purchase_products');
 Route::post('/customers/logout', array('as' => 'customer_logout','uses'=>'CustomersController@logout'));
 
 //Route for Admin Section
