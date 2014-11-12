@@ -21,7 +21,7 @@
 				<div class="column">
 					<span style="font-size:18px; float:left; padding: 0 10px">Select Merchant</span>
 					<div id="dd" class="wrapper-dropdown" style="float:left">
-						<span>{{{ $products[0]->merchant_name or 'Select Merchant' }}}</span>
+						<span>{{{ Input::get('merchant') != '' ? Input::get('merchant') : 'Select Merchant'}}}</span>
 						<ul class="dropdown">
                             @foreach ($merchants as $merchant)
 							<li id="el-1" name="el-1" value={{{$merchant->username}}}>{{ link_to ("/customers/purchase?merchant=".$merchant->username, $merchant->username) }}</li>
@@ -65,7 +65,7 @@
                             Rp {{{ number_format($product->price, 2, ',', '.') }}}
                         </td>
                         <td>
-                            <button id="buy-product-01" class="button-table darkbrown">buy product</button>   
+                            <button class="buy-product-button button-table darkbrown " value="{{{$product->id}}}">buy product</button>   
                         </td>
                     </tr>
                 @endforeach
@@ -78,15 +78,15 @@
         <h1>BUY PRODUCT</h1>
         <br/>
         <h3>Product Name</h3>
-        <h2>Ticket Travel Samarinda-Jakarta</h2>
+        <h2 id="buy_product_product_name">This is product name</h2>
         <br/>
         <h3>Price</h3>
-        <h2>Rp 1.000.000,00</h2>
+        <h2 id="buy_product_product_price">Rp 1.000.000,00</h2>
         <br/>
         <div class="table">
             <div class="column">
                 <h3>Quantity</h3>
-                <h2>15</h2>
+                <input id="buy-item-quantity" type="text"></input>
             </div>
             <div class="column">
                 <button id="buy-button" class="button darkbrown admin-notification" style="float:right">BUY</button>
@@ -99,7 +99,6 @@
         <h1>SHOPPING CART</h1>
         <table>
             <thead>
-                <th>Product ID</th>
                 <th>Product Name</th>
                 <th>Price</th>
                 <th>Quantity</th>
@@ -108,46 +107,17 @@
         </table>
 
         <div class="table-box-content">
-            <table>
+            <table id="shopping-cart-items">
                 <tr>
-                    <td>PID999999</td>
                     <td>Product 01</td>
                     <td>Rp 1.000.000,00</td>
                     <td>1</td>
                     <td>Rp 1.000.000,00</td>
                 </tr>
-                <tr>
-                    <td>PID999999</td>
-                    <td>Product 02</td>
-                    <td>Rp 20.000,-</td>
-                    <td>2</td>
-                    <td>Rp 40.000,-</td>
-                </tr>
-                <tr>
-                    <td>PID999999</td>
-                    <td>Product 03</td>
-                    <td>Rp 20.000,-</td>
-                    <td>2</td>
-                    <td>Rp 40.000,-</td>
-                </tr>
-                <tr>
-                    <td>PID999999</td>
-                    <td>Product 04</td>
-                    <td>Rp 20.000,-</td>
-                    <td>2</td>
-                    <td>Rp 40.000,-</td>
-                </tr>
-                <tr>
-                    <td>PID999999</td>
-                    <td>Product 05</td>
-                    <td>Rp 20.000,-</td>
-                    <td>2</td>
-                    <td>Rp 40.000,-</td>
-                </tr>
             </table>
         </div>
         <br/>
-        <a href="{{ url('/customers/purchase-success') }}"><button class="button darkbrown profile">PURCHASE</button></a>       
+        <button class="button darkbrown profile" id='button-purchase'>PURCHASE</button>       
     </div>
 
     <div id="pop-up-buy-success" class="pop-up customer" style="display: none">
@@ -160,6 +130,31 @@
 
 <script type="text/javascript">
 			
+    var purchasing = false;
+
+    //Variable for selecting intended to buy product
+    var selected_product;
+    var merchant_username = '{{{Input::get('merchant')}}}';
+
+    //For buy product
+    var product_name = [];
+    var product_price = [];
+    var product_id = [];
+
+    //For shopping cart
+    var shopping_cart = [];
+
+    //Class product
+    var Product = function(id,quantity){
+        this.id = id;
+        this.quantity = quantity;
+    }
+
+    @foreach ($products as $product)
+        product_name[{{{$product->id}}}] = '{{{$product->product_name}}}';
+        product_price[{{{$product->id}}}] = {{{$product->price}}};
+    @endforeach
+
 	function DropDown(el) {
 	    this.dd = el;
 	    this.placeholder = this.dd.children('span');
@@ -168,6 +163,47 @@
 	    this.index = -1;
 	    this.initEvents();
 	}
+
+    function shoppingCartToJSON(){
+        var json = {"shoppingCart": shopping_cart,"merchant_username": merchant_username};
+        return json;
+    }
+
+    function addProductToShoppingCart(product){
+        for(i = 0;i<shopping_cart.length;i++){
+            if(shopping_cart[i].id == product.id){
+                shopping_cart[i].quantity = product.quantity;
+                return;
+            }
+        }
+
+        shopping_cart[shopping_cart.length] = product;
+        return;
+    }
+
+    function postPurchaseProduct(){
+        $.ajax({
+            url:"/customers/purchase_products",
+            type:"POST",
+            contentType: 'application/json; charset=UTF-8',
+            dataType : 'json',
+            data: JSON.stringify(shoppingCartToJSON())
+        })
+        .fail(function(){
+            alert('Sorry, there are some errors with the system');
+        })
+        .done(function(msg){
+            if(msg['status'] == 'success'){
+                document.write(msg['message']);
+            }else{
+                alert(msg['message']);
+            }
+        })
+        .always(function(){
+            $("#button-purchase").removeAttr('disabled');
+            purchasing = false;
+        });
+    }
 
 	DropDown.prototype = {
 		initEvents : function() {
@@ -199,16 +235,54 @@
 			$('.wrapper-dropdown').removeClass('active');
 		});
 
-        $("#buy-product-01").click(function(){
+        $(".buy-product-button").click(function(){
+            $("#buy-item-quantity").val('')
+
+            //Change selected product for shopping cart
+            selected_product = $(this).val();
+
+            //Change buy box text
+            $("#buy_product_product_name").html(product_name[$(this).val()]);
+            $("#buy_product_product_price").html(product_price[$(this).val()]);
+
+
             $("#pop-up-buy-product").fadeIn();
             $("#pop-up-shopping-cart").fadeOut("fast");
         });
 
         $("#buy-button").click(function(){
-            $("#pop-up-buy-product").fadeOut();
+            var quantity = parseInt($("#buy-item-quantity").val());
+            if(!isNaN(quantity)){
+                addProductToShoppingCart(new Product(selected_product,quantity));
+                $("#pop-up-buy-product").fadeOut();
+                $("#pop-up-buy-success").fadeIn("fast");
+                $('#buy-item-quantity').css('background-color','white');
+            }else{
+                $('#buy-item-quantity').css('background-color','red');
+            }
         });
 
         $("#shopping-cart-button").click(function(){
+
+            //Refreshing shopping cart items
+            $("#shopping-cart-items").html("");
+
+            //Adding shopping cart items
+            shopping_cart.forEach(
+                function(val){
+                    //For adding product to shopping cart display
+                    var productElement = "";
+                    
+                    productElement+='<tr>';
+                    productElement+='<td>'+ product_name[val.id] +'</td>';
+                    productElement+='<td>Rp '+ new Intl.NumberFormat(['ban', 'id']).format(product_price[val.id]) + ',00' +'</td>';
+                    productElement+='<td>'+ val.quantity +'</td>';
+                    productElement+='<td> Rp '+ new Intl.NumberFormat(['ban', 'id']).format(val.quantity * product_price[val.id]) + ',00' + '</td>';
+                    productElement+='</tr>';
+                    $("#shopping-cart-items").append(productElement);
+                }
+            );
+
             $("#pop-up-shopping-cart").fadeIn();
             $("#pop-up-buy-product").fadeOut();
         });
@@ -221,13 +295,16 @@
             $("#pop-up-shopping-cart").fadeOut("fast");
         });
 
-        $( "#buy-button" ).click(function() {
-            $("#pop-up-buy-product").fadeOut("fast");
-            $("#pop-up-buy-success").fadeIn("fast"); 
-        });
-
         $( "#ok-buy-success" ).click(function() {
             $("#pop-up-buy-success").fadeOut("fast"); 
+        });
+
+        $('#button-purchase').click(function(){
+            if(!purchasing){
+                $(this).attr('disabled','disabled');
+                purchasing == true;
+                postPurchaseProduct();
+            }
         });
 
         $( "#lazada-button" ).click(function() {
