@@ -3,15 +3,21 @@
 class AdminController extends BaseController {
 
 	public function __construct(){
-		if (Request::path() != 'admin/login'){
-			$this->beforeFilter(function(){
-				$role = ConnectHelper::getCurrentUserRole();
-				if ($role != Config::get('connect_variable.admin')){
+		$this->beforeFilter(function(){
+			$role = ConnectHelper::getCurrentUserRole();
+			if ($role == Config::get('connect_variable.merchant')){
+				return Redirect::to('merchants/transaction');
+			}
+			elseif ($role == Config::get('connect_variable.unverified_user') || $role == Config::get('connect_variable.verified_user')){
+				return Redirect::to('customers/dashboard');
+			}
+			elseif ($role != Config::get('connect_variable.admin')){
+				if (Request::path() != 'admin/login'){
 					Session::flash('errors', 'Please login first with your account');
 					return Redirect::to('admin/login');
 				}
-			});	
-		}
+			}
+		});	
 	}
 
 	public function login(){

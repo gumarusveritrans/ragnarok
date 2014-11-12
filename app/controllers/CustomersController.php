@@ -5,7 +5,13 @@ class CustomersController extends BaseController {
 	public function __construct(){
 		$this->beforeFilter(function(){
 			$role = ConnectHelper::getCurrentUserRole();
-			if ($role != Config::get('connect_variable.unverified_user') && $role != Config::get('connect_variable.verified_user')){
+			if ($role == Config::get('connect_variable.merchant')){
+				return Redirect::to('merchants/transaction');
+			}
+			elseif ($role == Config::get('connect_variable.admin')) {
+				return Redirect::to('admin/dashboard');
+			}
+			elseif ($role != Config::get('connect_variable.unverified_user') && $role != Config::get('connect_variable.verified_user')){
 				Session::flash('errors', 'Please login first with your account');
 				return Redirect::to('/login');
 			}

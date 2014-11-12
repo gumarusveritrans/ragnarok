@@ -2,6 +2,21 @@
 
 class ConnectPagesController extends BaseController {
 
+	public function __construct(){
+		$this->beforeFilter(function(){
+			$role = ConnectHelper::getCurrentUserRole();
+			if ($role == Config::get('connect_variable.merchant')){
+				return Redirect::to('merchants/transaction');
+			}
+			elseif ($role == Config::get('connect_variable.unverified_user') || $role == Config::get('connect_variable.verified_user')){
+				return Redirect::to('customers/dashboard');
+			}
+			elseif ($role == Config::get('connect_variable.admin')){
+				return Redirect::to('admin/dashboard');
+			}
+		});	
+	}
+
 	public function home(){
 		return View::make('/connect_pages/home');
 	}
