@@ -15,8 +15,6 @@ class DatabaseSeeder extends Seeder {
 		$this->call('TransferTableSeeder');
 		$this->call('PurchaseTableSeeder');
 		$this->call('ProductTableSeeder');
-
-        $this->command->info('User table seeded!');
 	}
 
 }
@@ -30,7 +28,14 @@ class TopupTableSeeder extends Seeder {
         	'status' => 'success',
         	'amount' => 250000,
         	'permata_va_number' => '7546344512341',
-        	'username_customer' => 'danny.pranoto',
+        	'username_customer' => 'gumarus.dharmawan.william',
+        ));
+        Topup::create(array(
+            'date_topup' => '2014/10/22 18:10:14',
+            'status' => 'pending',
+            'amount' => 120000,
+            'permata_va_number' => '7546344512334',
+            'username_customer' => 'gumarus.dharmawan.william',
         ));
     }
 }
@@ -42,11 +47,11 @@ class RedeemTableSeeder extends Seeder {
         Redeem::create(array(
         	'date_redeem' => '2014/10/28 18:10:14',
         	'amount' => 75000,
-        	'bank_account_name_receiver' => 'Danny Pranoto',
+        	'bank_account_name_receiver' => 'Gumarus Dharmawan William',
         	'bank_account_number_receiver' => '932372376',
         	'bank_name' => 'Mandiri',
-        	'username_customer' => 'danny.pranoto',
-        	'redeemed' => 'true',
+        	'username_customer' => 'gumarus.dharmawan.william',
+        	'redeemed' => 'false',
         ));
     }
 }
@@ -67,7 +72,7 @@ class IncreaseLimitTableSeeder extends Seeder {
         	'current_address' => 'Jalan Tubagus Ismail 8 Dalam Bandung',
         	'message' => 'Kurang nih satu juta.',
         	'username_customer' => 'gumarus.dharmawan.william',
-        	'status' => 'accepted',
+        	'status' => 'in process',
         ));
     }
 }
@@ -78,9 +83,15 @@ class TransferTableSeeder extends Seeder {
         DB::table('transfer')->delete();
         Transfer::create(array(
         	'date_transfer' => '2014/10/23 18:10:14',
-        	'from_username' => 'daniel',
-        	'to_username' => 'gumarus.dharmawan.william',
+        	'from_username' => 'gumarus.dharmawan.william',
+        	'to_username' => 'daniel',
         	'amount' => 500000,
+        ));
+        Transfer::create(array(
+            'date_transfer' => '2014/10/24 18:10:14',
+            'from_username' => 'gumarus.dharmawan.william',
+            'to_username' => 'danny.pranoto',
+            'amount' => 150000,
         ));
     }
 }
@@ -89,11 +100,14 @@ class PurchaseTableSeeder extends Seeder {
     public function run()
     {
         DB::table('purchase')->delete();
-        Purchase::create(array(
-        	'date_purchase' => '2014/10/24 18:10:14',
-        	'username_customer' => 'daniel',
-        	'status' => 'success',
-        ));
+        $purchase = Purchase::create(array(
+                    	'date_purchase' => '2014/10/24 18:10:14',
+                    	'username_customer' => 'gumarus.dharmawan.william',
+                    	'status' => 'success',
+                    ));
+        $purchase->product()->attach(1, array('quantity' => 1));
+        $purchase->product()->attach(2, array('quantity' => 3));
+        $purchase->product()->attach(3, array('quantity' => 2));
     }
 }
 
@@ -104,8 +118,20 @@ class ProductTableSeeder extends Seeder {
         Product::create(array(
         	'product_name' => 'Nikon D5100 non VR',
         	'description' => 'Middle end camera made by Nikon.',
-        	'price' => 5000000,
+        	'price' => 3000000,
         	'merchant_name' => 'toko.kamera',
+        ));
+        Product::create(array(
+            'product_name' => 'Lens 18-140mm',
+            'description' => 'Lens tele.',
+            'price' => 500000,
+            'merchant_name' => 'toko.kamera',
+        ));
+        Product::create(array(
+            'product_name' => 'Nikon D3100 VR',
+            'description' => 'Low end camera made by Nikon.',
+            'price' => 1000000,
+            'merchant_name' => 'toko.kamera',
         ));
     }
 }
