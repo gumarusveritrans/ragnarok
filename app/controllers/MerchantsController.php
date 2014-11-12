@@ -105,28 +105,39 @@ class MerchantsController extends BaseController {
 	}
 
 	public function transaction(){
-		$merchant_name = ConnectHelper::getCurrentUserUsername();
-		$products = Product::where('merchant_name', '=', $merchant_name)->get();
-		$purchases = array();
-		$total = array();
-		if ($products->count() != 0){
-			foreach ($products as $product){
-				if ($product->transaction != null){
-					array_push($purchases, $product->transaction);
-				}
-			}		
-		}
-		if ($purchases != null){
-			foreach($purchases as $purchase){
-				foreach($purchase->product as $product){
-					$total = $total + ($product->pivot->quantity * $product->price);
-				}
-			}		
-		}
+		
+		$purchases = Purchase::whereHas('product', function($p)
+		{
+			$merchant_name = ConnectHelper::getCurrentUserUsername();
+		    $p->where('merchant_name', '=', $merchant_name);
 
+		})->get();
+		// $products = Product::with('purchase')->where('merchant_name', $merchant_name)->get();
+		// dd($products);
+		// foreach ($products->purchase as $purchase) {
+
+		// }
+		
+
+		// foreach ($products as $product){
+		// 	array_push($purchases, $product->transaction);
+		// }
+		// foreach($purchases as $purchase){
+		// 	foreach($purchase->product as $product){
+		// 		$total = $total + ($product->pivot->quantity * $product->price);
+		// 	}
+		
+		// foreach ($products as $product){
+		// 	foreach($product->transaction as $transaction){
+	 //            foreach($transaction->product as $product){
+	 //                $quantity = $product->pivot->quantity;
+	 //                $total = $total + ($quantity * $product->price);
+	 //            }
+	 //        }
+  //       }
 		return View::make('/merchants/transaction')
-			->with('purchases', $purchases)
-			->with('total', $total);
+			 ->with('purchases', $purchases);
+			 //->with('total', $tota);
 	}
 
 	public function list_products(){
@@ -143,10 +154,11 @@ class MerchantsController extends BaseController {
 		$purchases_data = Purchase::all();
 		$filename = 'Purchase_Data.csv';
 		$fp = fopen($filename, 'w');	
-		$purchase_header= array("purchase_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
+		$purchase_header= array("purchase_id", "date_time", "total", "username_customer", "status");
 		fputcsv($fp, $purchase_header);
         foreach( $purchases_data as $purchase ) {
         	$purchase_array = $purchase->toArray();
+        	array_push($purchase_array, $purchase->total());
             fputcsv($fp, $purchase_array);
         }
 

@@ -127,7 +127,7 @@ class ConnectPagesController extends BaseController {
 
 
 				$userService->run('register',$params,false);
-				return View::make('customers/register-success');
+				return View::make('connect_pages/register-success');
 			}catch (Cyclos\ServiceException $e){
 				if($e->errorCode == "VALIDATION"){
 					$errors = "";
