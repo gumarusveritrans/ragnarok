@@ -38,24 +38,24 @@
                 </thead>
                 <tr>
                     <td >
-                        PID99999999
+                        
                     </td>
                     <td>
-                        16/10/2014 18:10:14
+                        
                     </td>
                     <td>
-                        gumarus.dharmawan.william
+                        
                     </td>
                     <td>
-                        Rp 5.000.000,00
+                        
                     </td>
                     <td>
-                        Garuda Indonesia
+                        
                     </td>
                 </tr>
             </table>
 
-            <span class="link-download-admin" style="clear:both; float:right">{{ link_to ("/admin/download-csv-purchase", 'Download as CSV') }}</span>
+            <span class="link-download-admin">{{ link_to ("/admin/download-csv-purchase", 'Download as CSV') }}</span>
             </div>
         </div>
         <div id="admin-transfer-transaction-table" class="all-table admin" style="display: none">

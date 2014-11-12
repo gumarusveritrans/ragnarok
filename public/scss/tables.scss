@@ -104,25 +104,52 @@ $dark-red:     #BE1E2D;
   color:$light-red;
 }
 
+/* Link Download */
+.link-download-customer a{
+  color :$dark-brown;
+  float: right;
+  margin-right: 80px;
+  margin-top: 10px;
+}
+
+.link-download-admin a{
+  color :$dark-blue;
+  float: right;
+  margin-right: 80px;
+  margin-top: 10px;
+}
+
+.link-download-merchant a{
+  color :$dark-red;
+  float: right;
+  margin-right: 80px;
+  margin-top: 10px;
+}
+
 /* Set Top-Up Dashboard Table */
 #topup-dashboard-table th:nth-child(1),
 #topup-dashboard-table td:nth-child(1){
-  width: 25%;
+  width: 20%;
 }
 
 #topup-dashboard-table th:nth-child(2),
 #topup-dashboard-table td:nth-child(2){
-  width: 27%;
+  width: 22%;
 }
 
 #topup-dashboard-table th:nth-child(3),
 #topup-dashboard-table td:nth-child(3){
-  width: 24%;
+  width: 19%;
 }
 
 #topup-dashboard-table th:nth-child(4),
 #topup-dashboard-table td:nth-child(4){
-  width: 24%;
+  width: 22%;
+}
+
+#topup-dashboard-table th:nth-child(5),
+#topup-dashboard-table td:nth-child(5){
+  width: 15%;
 }
 
 #topup-dashboard-table tr:last-child td {
@@ -422,7 +449,7 @@ $dark-red:     #BE1E2D;
 
 #merchant-transaction-table th:nth-child(4),
 #merchant-transaction-table td:nth-child(4){
-  width: 15%;
+  width: 17%;
 }
 
 #merchant-transaction-table th:nth-child(5),
@@ -432,12 +459,7 @@ $dark-red:     #BE1E2D;
 
 #merchant-transaction-table th:nth-child(6),
 #merchant-transaction-table td:nth-child(6){
-  width: 8%;
-}
-
-#merchant-transaction-table th:nth-child(7),
-#merchant-transaction-table td:nth-child(7){
-  width: 8%;
+  width: 14%;
 }
 
 #merchant-transaction-table tr:last-child td {

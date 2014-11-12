@@ -12,6 +12,7 @@ Route::post('/reset-password','connectPagesController@reset_password');
 Route::get('/login', 'CustomersController@login');
 Route::post('/login', 'CustomersController@login');
 Route::get('/register', 'CustomersController@register');
+Route::get('/reset-password', 'CustomersController@reset_password');
 // Route::post('/register', 'CustomersController@register');
 
 //Route for Customers Section

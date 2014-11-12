@@ -14,6 +14,10 @@ class CustomersController extends BaseController {
 												 ->with('transfers', $transfers);
 	}
 
+	public function reset_password() {
+		return View::make('connect_pages/reset-password');
+	}
+
 	public function profile(){	
 		$data = array();
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
@@ -139,7 +143,7 @@ class CustomersController extends BaseController {
 				$params->group->id = $id;
 
 				$params->username = $_POST['username'];
-				$params->email = $_POST['email'];
+				$params->email = $_POST['username'];
 				$params->name = $_POST['username'];
 
 
@@ -292,7 +296,6 @@ class CustomersController extends BaseController {
 		}
 		//$products = DB::table('product')->where('merchant_name',$product_merchant)->get();
 		$products = Product::where('merchant_name', '=', $product_merchant)->get();
-		// dd($products);
 
 		return View::make('/customers/purchase')->with('data',$data)
 												->with('merchants', $merchants)

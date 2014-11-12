@@ -16,7 +16,7 @@ class AdminController extends BaseController {
 
 			// Set the parameters
 			$params = new stdclass();
-			$params->user = array('username' => $_POST['email']);
+			$params->user = array('username' => $_POST['username']);
 			$params->password = $_POST['password'];
 			$params->remoteAddress = $_SERVER['REMOTE_ADDR'];
 
@@ -230,7 +230,7 @@ class AdminController extends BaseController {
 
 	public function validate_login_form(){
 		$rules = array(
-			'email'            		=> 'required|email',
+			'username'            		=> 'required',
 			'password'         		=> 'required'
 		);
 
