@@ -13,7 +13,7 @@
     </div>
   </div>
 
-  <hr/>
+  <hr id="customer-horizontal-line"/>
 
   <div id="subcontent-wrapper">
 
