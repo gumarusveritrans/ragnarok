@@ -42,7 +42,7 @@ Route::get('/admin/download-csv-purchase', 'AdminController@download_csv_purchas
 Route::get('/admin/notification', 'AdminController@notification');
 Route::get('/admin/manage-user', 'AdminController@manage_user');
 Route::post('/admin/redeem_user', 'AdminController@redeem_user');
-Route::post('/admin/add-product', 'AdminController@add_product');
+Route::post('/admin/add-product', array('as' => 'add-product', 'uses' => 'AdminController@add_product'));
 Route::post('/admin/reject_increase_limit', 'AdminController@reject_increase_limit');
 Route::post('/admin/accept_increase_limit', 'AdminController@accept_increase_limit');
 Route::post('/admin/create_merchant', ['before' => 'csrf', 'uses' => 'AdminController@create_merchant']);

@@ -157,17 +157,22 @@
         <div id="add-product-box" class="centered admin-side-box" style="display: none">
             <span id="close-add-product" class="button-close admin">&#10006;</span>
             <h1>Add Product</h1>
-            {{ Form::open(array('url' => '/admin/add-product', 'method' => 'post')) }}
+            {{ Form::open(array('route' => 'add-product', 'method' => 'post', 'id' => 'add-product-form')) }}
                 {{ Form::label('product_name', 'Product Name') }}
-                {{ Form::text('product_name', '', array('class' => 'form-control')) }}
+                {{ Form::text('product_name', '', array('id' => 'product-name', 'required' => true, 'class' => 'form-control')) }}
+                {{ $errors->first('product_name', '<span>:message</span>') }}<br/>
 
                 {{ Form::label('price', 'Price') }}
-                {{ Form::text('price', '', array('class' => 'form-control')) }}
+                {{ Form::text('price', '', array('id' => 'price', 'required' => true, 'class' => 'form-control')) }}
+                {{ $errors->first('price', '<span>:message</span>') }}<br/>
 
                 {{ Form::label('description', 'Description') }}
-                {{ Form::textarea('description', '', array('class' => 'form-control text-area')) }}
+                {{ Form::textarea('description', '', array('id' => 'description', 'required' => true, 'class' => 'form-control text-area')) }}
+                {{ $errors->first('description', '<span>:message</span>') }}<br/>
 
-                {{ Form::hidden('merchant_name', '', array('id'=>'merchant-name-input')) }}
+                {{ Form::hidden('merchant_name', '', array('id'=>'merchant-name')) }}
+
+                <div id="validation-errors" style="display: none"></div>
 
                 {{ Form::submit('ADD', array('class' => 'button darkblue admin-notification')) }}
             {{ Form::close() }}
@@ -192,9 +197,17 @@
             <button id="yes-delete-id" class="button darkblue admin-notification">YES</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="no-delete-id" class="button cyan admin-notification">NO</button>
         </div>
+        <div id="pop-up-add-product" class="admin pop-up" style="display: none">
+            <h1>PRODUCT ADDED</h1>
+            <h2>The product has been added!</h2>
+            <a href=""><button id="ok-add-product" class="button darkblue admin-notification">OK</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
     </div>
 
     <script type="text/javascript">
+
+
+        $(function(){
 
         //For getting the merchant intended to delete
         var deleted_merchant = "";
@@ -237,134 +250,178 @@
             form.submit();
         }
 
-        @foreach($profiles as $profile)
-            @if (isset($profile->username_customer))
-                profile_box_username['{{{$profile->username_customer}}}'] = '{{{$profile->username_customer}}}';
-                profile_box_id_type['{{{$profile->username_customer}}}'] = '{{{$profile->id_type}}}';
-                profile_box_id_number['{{{$profile->username_customer}}}'] = '{{{$profile->id_number}}}';
-                profile_box_full_name['{{{$profile->username_customer}}}'] = '{{{$profile->full_name}}}';
-                profile_box_address['{{{$profile->username_customer}}}'] = '{{{$profile->current_address}}}';
-                profile_box_birth_place['{{{$profile->username_customer}}}'] = '{{{$profile->birth_place}}}';
-                profile_box_birth_date['{{{$profile->username_customer}}}'] = '{{{$profile->birth_date}}}';
-                profile_box_sex['{{{$profile->username_customer}}}'] = '{{{$profile->gender}}}';
-            @endif
-        @endforeach
 
-        $("#admin-manage-user-customer-button").click(function() {
-          $("#admin-manage-user-merchant-table").hide();
-          $("#admin-manage-user-customer-table").fadeIn("fast");
-          $("#admin-manage-user-merchant-button").removeClass('cyan');
-          $("#admin-manage-user-customer-table").css("width","1230px");
-          $("#admin-manage-user-merchant-table").css("width","1230px");
-          $("#admin-manage-user-customer-table th:nth-child(5)").animate({'width':'15%'});
-          $("#admin-manage-user-customer-table td:nth-child(5)").animate({'width':'15%'});
-          $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'15%'});
-          $("#admin-manage-user-merchant-table td:nth-child(5)").animate({'width':'15%'});
-          $("#profile-box").hide();
-          $("#add-product-box").hide();
-          $("#create-merchant-box").hide();
-          $("#create-merchant-button").hide();
-          $("#pop-up-delete-id").hide();
-          $(this).addClass('cyan');
-        });
+            @foreach($profiles as $profile)
+                @if (isset($profile->username_customer))
+                    profile_box_username['{{{$profile->username_customer}}}'] = '{{{$profile->username_customer}}}';
+                    profile_box_id_type['{{{$profile->username_customer}}}'] = '{{{$profile->id_type}}}';
+                    profile_box_id_number['{{{$profile->username_customer}}}'] = '{{{$profile->id_number}}}';
+                    profile_box_full_name['{{{$profile->username_customer}}}'] = '{{{$profile->full_name}}}';
+                    profile_box_address['{{{$profile->username_customer}}}'] = '{{{$profile->current_address}}}';
+                    profile_box_birth_place['{{{$profile->username_customer}}}'] = '{{{$profile->birth_place}}}';
+                    profile_box_birth_date['{{{$profile->username_customer}}}'] = '{{{$profile->birth_date}}}';
+                    profile_box_sex['{{{$profile->username_customer}}}'] = '{{{$profile->gender}}}';
+                @endif
+            @endforeach
 
-        $( "#admin-manage-user-merchant-button" ).click(function() {
-          $("#admin-manage-user-customer-table").hide();
-          $("#admin-manage-user-merchant-table").fadeIn("fast");
-          $("#admin-manage-user-customer-button").removeClass('cyan');
-          $("#admin-manage-user-merchant-table").css("width","1230px");
-          $("#admin-manage-user-customer-table").css("width","1230px");
-          $("#admin-manage-user-customer-table th:nth-child(5)").animate({'width':'15%'});
-          $("#admin-manage-user-customer-table td:nth-child(5)").animate({'width':'15%'});
-          $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'15%'});
-          $("#admin-manage-user-merchant-table td:nth-child(5)").animate({'width':'15%'});
-          $("#profile-box").hide();
-          $("#add-product-box").hide();
-          $("#create-merchant-box").hide();
-          $("#create-merchant-button").show();
-          $("#pop-up-delete-id").hide();
-          $(this).addClass('cyan');
-        });
+            $("#admin-manage-user-customer-button").click(function() {
+              $("#admin-manage-user-merchant-table").hide();
+              $("#admin-manage-user-customer-table").fadeIn("fast");
+              $("#admin-manage-user-merchant-button").removeClass('cyan');
+              $("#admin-manage-user-customer-table").css("width","1230px");
+              $("#admin-manage-user-merchant-table").css("width","1230px");
+              $("#admin-manage-user-customer-table th:nth-child(5)").animate({'width':'15%'});
+              $("#admin-manage-user-customer-table td:nth-child(5)").animate({'width':'15%'});
+              $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'15%'});
+              $("#admin-manage-user-merchant-table td:nth-child(5)").animate({'width':'15%'});
+              $("#profile-box").hide();
+              $("#add-product-box").hide();
+              $("#create-merchant-box").hide();
+              $("#create-merchant-button").hide();
+              $("#pop-up-delete-id").hide();
+              $(this).addClass('cyan');
+            });
 
-        $( ".profile-button" ).click(function() {
-            $("#profile_box_username").html(profile_box_username[$(this).val()]);
-            $("#profile_box_id_type").html(profile_box_id_type[$(this).val()]);
-            $("#profile_box_id_number").html(profile_box_id_number[$(this).val()]);
-            $("#profile_box_full_name").html(profile_box_full_name[$(this).val()]);
-            $("#profile_box_address").html(profile_box_address[$(this).val()]);
-            $("#profile_box_birth_place").html(profile_box_birth_place[$(this).val()]+', ');
-            $("#profile_box_birth_date").html(profile_box_birth_date[$(this).val()]);
-            $("#profile_box_sex").html(profile_box_sex[$(this).val()]);
+            $( "#admin-manage-user-merchant-button" ).click(function() {
+              $("#admin-manage-user-customer-table").hide();
+              $("#admin-manage-user-merchant-table").fadeIn("fast");
+              $("#admin-manage-user-customer-button").removeClass('cyan');
+              $("#admin-manage-user-merchant-table").css("width","1230px");
+              $("#admin-manage-user-customer-table").css("width","1230px");
+              $("#admin-manage-user-customer-table th:nth-child(5)").animate({'width':'15%'});
+              $("#admin-manage-user-customer-table td:nth-child(5)").animate({'width':'15%'});
+              $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'15%'});
+              $("#admin-manage-user-merchant-table td:nth-child(5)").animate({'width':'15%'});
+              $("#profile-box").hide();
+              $("#add-product-box").hide();
+              $("#create-merchant-box").hide();
+              $("#create-merchant-button").show();
+              $("#pop-up-delete-id").hide();
+              $(this).addClass('cyan');
+            });
+
+            $( ".profile-button" ).click(function() {
+                $("#profile_box_username").html(profile_box_username[$(this).val()]);
+                $("#profile_box_id_type").html(profile_box_id_type[$(this).val()]);
+                $("#profile_box_id_number").html(profile_box_id_number[$(this).val()]);
+                $("#profile_box_full_name").html(profile_box_full_name[$(this).val()]);
+                $("#profile_box_address").html(profile_box_address[$(this).val()]);
+                $("#profile_box_birth_place").html(profile_box_birth_place[$(this).val()]);
+                $("#profile_box_birth_date").html(profile_box_birth_date[$(this).val()]);
+                $("#profile_box_sex").html(profile_box_sex[$(this).val()]);
+                
+                $("#profile-box").delay(300).fadeIn("fast");
+                $("#admin-manage-user-customer-table").animate({width:'820px'});
+                $("#admin-manage-user-customer-table th:nth-child(5)").animate({'width':'0%'});
+                $("#admin-manage-user-customer-table td:nth-child(5)").animate({'width':'0%'});
+                $("#admin-manage-user-customer-table td:nth-child(5)").css("padding","0px");
+                $("#admin-manage-user-customer-table th:nth-child(5)").css("padding","0px");
+            });
+
+            $( "#close-profile" ).click(function() {
+                $("#profile-box").fadeOut("fast");
+                $("#admin-manage-user-customer-table").delay(300).animate({width:'1230px'});
+                $("#admin-manage-user-customer-table th:nth-child(5)").delay(300).animate({'width':'15%'});
+                $("#admin-manage-user-customer-table td:nth-child(5)").delay(300).animate({'width':'15%'});
+            });
+
+            $( ".add-product-button" ).click(function() {
+                $("#add-product-box").delay(300).fadeIn("fast");
+                $("#admin-manage-user-merchant-table").animate({width:'820px'});
+                $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'0%'});
+                $("#admin-manage-user-merchant-table td:nth-child(5)").animate({'width':'0%'});
+                $("#admin-manage-user-merchant-table td:nth-child(5)").css("padding","0px");
+                $("#admin-manage-user-merchant-table th:nth-child(5)").css("padding","0px");
+                $("#create-merchant-button").hide();
+                $("#create-merchant-box").hide();
+                $("#pop-up-delete-id").hide();
+                $("#merchant-name").val($(this).val());
+            });
+
+            $( "#close-add-product" ).click(function() {
+                $("#add-product-box").fadeOut("fast");
+                $("#admin-manage-user-merchant-table").delay(300).animate({width:'1230px'});
+                $("#admin-manage-user-merchant-table th:nth-child(5)").delay(300).animate({'width':'15%'});
+                $("#admin-manage-user-merchant-table td:nth-child(5)").delay(300).animate({'width':'15%'});
+                $("#create-merchant-button").delay(700).show(10);
+                $("#pop-up-delete-id").hide();
+            });
+
+            $( ".delete-id-button" ).click(function() {
+                deleted_merchant = $(this).val();
+                $("#pop-up-delete-id").fadeIn("fast");
+            });
+
+            $("#yes-delete-id").click(function(){
+                postDeleteMerchant();
+            });
+
+
+            $( "#no-delete-id" ).click(function() {
+                $("#pop-up-delete-id").fadeOut("fast");
+            });
+
+            $("#create-merchant-button").click(function() {
+                $("#create-merchant-box").delay(300).fadeIn("fast");
+                $("#admin-manage-user-merchant-table").animate({width:'820px'});
+                $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'0%'});
+                $("#admin-manage-user-merchant-table td:nth-child(5)").animate({'width':'0%'});
+                $("#admin-manage-user-merchant-table td:nth-child(5)").css("padding","0px");
+                $("#admin-manage-user-merchant-table th:nth-child(5)").css("padding","0px");
+                $("#create-merchant-button").hide();
+                $("#add-product-box").hide();
+                $("#pop-up-delete-id").hide();
+            });
+
+            $( "#close-create-merchant" ).click(function() {
+                $("#create-merchant-box").fadeOut("fast");
+                $("#admin-manage-user-merchant-table").delay(300).animate({width:'1230px'});
+                $("#admin-manage-user-merchant-table th:nth-child(5)").delay(300).animate({'width':'15%'});
+                $("#admin-manage-user-merchant-table td:nth-child(5)").delay(300).animate({'width':'15%'});
+                $("#create-merchant-button").delay(700).show(10);
+                $("#pop-up-delete-id").hide();
+            });
+
+            $( "#ok-add-product" ).click(function(){
+                $("#pop-up-add-product").hide();
+                $("#close-add-product").trigger("click");
+            });
+
+            $( 'form#add-product-form' ).submit(function(event) {
             
-            $("#profile-box").delay(300).fadeIn("fast");
-            $("#admin-manage-user-customer-table").animate({width:'820px'});
-            $("#admin-manage-user-customer-table th:nth-child(5)").animate({'width':'0%'});
-            $("#admin-manage-user-customer-table td:nth-child(5)").animate({'width':'0%'});
-            $("#admin-manage-user-customer-table td:nth-child(5)").css("padding","0px");
-            $("#admin-manage-user-customer-table th:nth-child(5)").css("padding","0px");
-        });
+                $.ajax({
+                    type: 'POST',
+                    cache: false,
+                    dataType: 'json',
+                    url: 'add-product',
+                    data: $('form#add-product-form').serialize(),
+                    beforeSend: function() { 
+                        $("#validation-errors").hide().empty(); 
+                    },
+                    success: function(data){
+                        if(data.success == false)
+                        {
+                            $("#add-product-box").fadeIn();
+                            var arr = data.errors;
+                            $.each(arr, function(index, value)
+                            {
+                                if (value.length != 0)
+                                {
+                                    $("#validation-errors").append('<div class="alert alert-error"><strong>'+ value +'</strong><div>');
+                                }
+                            });
+                            $("#validation-errors").show();
+                        } else if (data.success == true) {
+                             $("#pop-up-add-product").fadeIn();
+                        }
+                    },
+                    error: function(xhr, textStatus, thrownError){
+                        alert('Error');
+                    }
+                });
+                event.preventDefault();
+            });
 
-        $( "#close-profile" ).click(function() {
-            $("#profile-box").fadeOut("fast");
-            $("#admin-manage-user-customer-table").delay(300).animate({width:'1230px'});
-            $("#admin-manage-user-customer-table th:nth-child(5)").delay(300).animate({'width':'15%'});
-            $("#admin-manage-user-customer-table td:nth-child(5)").delay(300).animate({'width':'15%'});
-        });
-
-        $( ".add-product-button" ).click(function() {
-            $("#add-product-box").delay(300).fadeIn("fast");
-            $("#admin-manage-user-merchant-table").animate({width:'820px'});
-            $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'0%'});
-            $("#admin-manage-user-merchant-table td:nth-child(5)").animate({'width':'0%'});
-            $("#admin-manage-user-merchant-table td:nth-child(5)").css("padding","0px");
-            $("#admin-manage-user-merchant-table th:nth-child(5)").css("padding","0px");
-            $("#create-merchant-button").hide();
-            $("#create-merchant-box").hide();
-            $("#pop-up-delete-id").hide();
-            $("#merchant-name-input").val($("#add-product-button").val());
-        });
-
-        $( "#close-add-product" ).click(function() {
-            $("#add-product-box").fadeOut("fast");
-            $("#admin-manage-user-merchant-table").delay(300).animate({width:'1230px'});
-            $("#admin-manage-user-merchant-table th:nth-child(5)").delay(300).animate({'width':'15%'});
-            $("#admin-manage-user-merchant-table td:nth-child(5)").delay(300).animate({'width':'15%'});
-            $("#create-merchant-button").delay(700).show(10);
-            $("#pop-up-delete-id").hide();
-        });
-
-        $( ".delete-id-button" ).click(function() {
-            deleted_merchant = $(this).val();
-            $("#pop-up-delete-id").fadeIn("fast");
-        });
-
-        $("#yes-delete-id").click(function(){
-            postDeleteMerchant();
-        });
-
-        $( "#no-delete-id" ).click(function() {
-            $("#pop-up-delete-id").fadeOut("fast");
-        });
-
-        $("#create-merchant-button").click(function() {
-            $("#create-merchant-box").delay(300).fadeIn("fast");
-            $("#admin-manage-user-merchant-table").animate({width:'820px'});
-            $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'0%'});
-            $("#admin-manage-user-merchant-table td:nth-child(5)").animate({'width':'0%'});
-            $("#admin-manage-user-merchant-table td:nth-child(5)").css("padding","0px");
-            $("#admin-manage-user-merchant-table th:nth-child(5)").css("padding","0px");
-            $("#create-merchant-button").hide();
-            $("#add-product-box").hide();
-            $("#pop-up-delete-id").hide();
-        });
-
-        $( "#close-create-merchant" ).click(function() {
-            $("#create-merchant-box").fadeOut("fast");
-            $("#admin-manage-user-merchant-table").delay(300).animate({width:'1230px'});
-            $("#admin-manage-user-merchant-table th:nth-child(5)").delay(300).animate({'width':'15%'});
-            $("#admin-manage-user-merchant-table td:nth-child(5)").delay(300).animate({'width':'15%'});
-            $("#create-merchant-button").delay(700).show(10);
-            $("#pop-up-delete-id").hide();
         });
 
     </script>
