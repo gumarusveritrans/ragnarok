@@ -21,7 +21,7 @@
 				<div class="column">
 					<span style="font-size:18px; float:left; padding: 0 10px">Select Merchant</span>
 					<div id="dd" class="wrapper-dropdown" style="float:left">
-						<span>{{{ $products[0]->merchant_name or 'Select Merchant' }}}</span>
+						<span>{{{ Input::get('merchant') != '' ? Input::get('merchant') : 'Select Merchant'}}}</span>
 						<ul class="dropdown">
                             @foreach ($merchants as $merchant)
 							<li id="el-1" name="el-1" value={{{$merchant->username}}}>{{ link_to ("/customers/purchase?merchant=".$merchant->username, $merchant->username) }}</li>
@@ -130,6 +130,8 @@
 
 <script type="text/javascript">
 			
+    var purchasing = false;
+
     //Variable for selecting intended to buy product
     var selected_product;
     var merchant_username = '{{{Input::get('merchant')}}}';
@@ -193,9 +195,13 @@
         .done(function(msg){
             if(msg['status'] == 'success'){
                 document.write(msg['message']);
-            }else if(msg['status'] == 'failed'){
+            }else{
                 alert(msg['message']);
             }
+        })
+        .always(function(){
+            $("#button-purchase").removeAttr('disabled');
+            purchasing = false;
         });
     }
 
@@ -247,7 +253,6 @@
         $("#buy-button").click(function(){
             var quantity = parseInt($("#buy-item-quantity").val());
             if(!isNaN(quantity)){
-                //shopping_cart[selected_product] = new Product(selected_product,quantity);
                 addProductToShoppingCart(new Product(selected_product,quantity));
                 $("#pop-up-buy-product").fadeOut();
                 $("#pop-up-buy-success").fadeIn("fast");
@@ -295,7 +300,11 @@
         });
 
         $('#button-purchase').click(function(){
-            postPurchaseProduct();
+            if(!purchasing){
+                $(this).attr('disabled','disabled');
+                purchasing == true;
+                postPurchaseProduct();
+            }
         });
 
         $( "#lazada-button" ).click(function() {

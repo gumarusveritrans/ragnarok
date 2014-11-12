@@ -290,10 +290,10 @@ class CustomersController extends BaseController {
 				break;
 			}
 		}
-
-
+		//$products = DB::table('product')->where('merchant_name',$product_merchant)->get();
 		$products = Product::where('merchant_name', '=', $product_merchant)->get();
-		
+		// dd($products);
+
 		return View::make('/customers/purchase')->with('data',$data)
 												->with('merchants', $merchants)
 												->with('products', $products);
@@ -644,20 +644,73 @@ class CustomersController extends BaseController {
 	}
 
 	public function purchase_products(){
+
+		DB::beginTransaction();
+
 		$products_purchased = Input::json()->get('shoppingCart');
 		
-		$sum = 0;
-		$message = '';
-		//$transaction = new Transaction;
-		foreach($products_purchased as $product){
-			$db_product = Product::where('id',$product['id'])->where('merchant_name',Input::json()->get('merchant_username'))->get()[0];
-			$sum += $db_product->price * $product['quantity'];
-
+		//Validate shopping cart
+		if(count($products_purchased) == 0){
+			return Response::json(array('status' => 'failed' ,'message' => 'Shopping cart is empty'));
 		}
 
-		$status = 'failed';
-		$message = $sum;
+		//Quantity validator
+		foreach($products_purchased as $product){
+			if($product['quantity'] <= 0){
+				return Response::json(array('status' => 'failed' ,'message' => 'invalid amount'));
+			}
+		}
 
-		return Response::json(array('status' => $status ,'message' => $message));
+
+		//Make a purchase
+		$purchase = Purchase::create(array(
+			'date_purchase' => new DateTime,
+			'username_customer' => ConnectHelper::getCurrentUserUsername(),
+			'status' => 'success'
+		));
+
+		$sum = 0;
+		$message = '';
+		$status = '';
+		//$transaction = new Transaction;
+		foreach($products_purchased as $product){
+
+			//Check if exist in db and merchant's
+			$db_product = Product::where('id',$product['id'])->where('merchant_name',Input::json()->get('merchant_username'))->first();
+			$sum += $db_product->price * $product['quantity'];
+			$purchase->product()->attach($product['id'],array('quantity'=>$product['quantity']));
+		}
+
+		//Transferring balance from cyclos
+		try{
+			$transactionService = new Cyclos\Service('transactionService');
+			$paymentService = new Cyclos\Service('paymentService');
+
+			$data = $transactionService->run('getPaymentData',array(array("username"=>ConnectHelper::getCurrentUserUsername()),array("username"=> Input::json()->get('merchant_username'))),true);
+			
+			$params = new stdclass();
+			$params->from = $data->from;
+			$params->to = $data->to;
+			$params->type = $data->paymentTypes[0];
+			$params->amount = $sum;
+			$params->desc = "Transaction for buying product, purchase id : " + $purchase->id;
+
+			$paymentResult = $paymentService->run('perform',$params,true);
+
+			DB::commit();
+			$status = 'success';
+		 	$message = View::make('/customers/purchase-success')->render();
+		}catch (Cyclos\ServiceException $e){
+			$status = 'failed';
+			if($e->errorCode =="INSUFFICIENT_BALANCE"){
+				$message = 'Insufficient Balance';
+			}else{
+				$message = 'Sorry, there are some errors with the system';
+			}
+		}finally{
+			return Response::json(array('status' => $status ,'message' => $message));
+		}
+		
+
 	}
 }
