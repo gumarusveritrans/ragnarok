@@ -98,7 +98,7 @@ class CustomersController extends BaseController {
 													'transfer_amount' => $_POST['transfer_amount']), function($message)
 				{
 					$message->from('connect_cs@connect.co.id', 'Connect');
-				    $message->to($email_customer, ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
+				    $message->to('danny.pranoto@veritrans.co.id', ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
 				});
 
 				return View::make('customers/transfer-success')
@@ -362,8 +362,8 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$pending_topups = Topup::where('status', '=', 'pending')->where('username_customer', '=', $data['username'])->get();
-		
+		$pending_topups = Topup::where('status', '=', 'pending')->where('username_customer', '=', $data['username'])->get()->toArray();
+
 		if ($pending_topups != null){
 			return Redirect::to('/customers/topup')
 				->withErrors(array('topup_amount' => 'You have pending Top Up status, please confirm the payment first.'));
@@ -397,11 +397,11 @@ class CustomersController extends BaseController {
 				$topup->permata_va_number = $response->permata_va_number;
 				$topup->save();
 
-				$email_customer = ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername());
+				// $email_customer = ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername());
 				Mail::send('emails.topup_request', array('permata_va_number' => $response->permata_va_number), function($message)
 				{
 					$message->from('connect_cs@connect.co.id', 'Connect');
-				    $message->to($email_customer, ConnectHelper::getCurrentUserUsername())->subject('Top Up Request');
+				    $message->to('danny.pranoto@veritrans.co.id', ConnectHelper::getCurrentUserUsername())->subject('Top Up Request');
 				});
 
 				return View::make('customers/topup-success')->with('va_number',$response->permata_va_number);
@@ -589,6 +589,10 @@ class CustomersController extends BaseController {
 
 			DB::commit();
 			$status = 'success';
+
+			//Sending notification
+
+
 		 	$message = View::make('/customers/purchase-success')->render();
 		}catch (Cyclos\ServiceException $e){
 			$status = 'failed';

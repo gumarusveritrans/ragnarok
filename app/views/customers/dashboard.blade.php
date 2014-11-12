@@ -52,7 +52,7 @@
                         {{{ $topup->date_topup }}}
                     </td>
                     <td>
-                        {{{ $topup->amount }}}
+                        Rp {{{ number_format($topup->amount, 2, ',', '.') }}}
                     </td>
                     <td>
                         {{{ $topup->permata_va_number }}}
