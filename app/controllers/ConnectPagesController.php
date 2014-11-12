@@ -43,7 +43,7 @@ class ConnectPagesController extends BaseController {
 		}
 		if(Request::getMethod()=='GET'){
 			return View::make('/connect_pages/login');	
-		}else if(Request::getMethod()=='POST'){
+		}elseif(Request::getMethod()=='POST'){
 			$loginService = new Cyclos\Service('loginService');
 
 			// Set the parameters
@@ -118,7 +118,7 @@ class ConnectPagesController extends BaseController {
 		
 		if(Request::getMethod()=='GET'){
 			return View::make('/connect_pages/register');	
-		}else if(Request::getMethod()=='POST'){
+		}elseif(Request::getMethod()=='POST'){
 			$userService = new Cyclos\Service('userService');
 
 			try{
@@ -163,7 +163,7 @@ class ConnectPagesController extends BaseController {
 	public function reset_password(){
 		if(Request::getMethod()=='GET'){
 			return View::make('/connect_pages/reset_password');	
-		}else if(Request::getMethod()=='POST'){
+		}elseif(Request::getMethod()=='POST'){
 			//GETTING USER EMAIL
 			$userService = new Cyclos\Service('userService');
 			$params = new stdclass();

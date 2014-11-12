@@ -29,7 +29,7 @@ class AdminController extends BaseController {
 		if(Request::getMethod() == 'GET'){
 			return View::make('/admin/login');	
 		}
-		else if(Request::getMethod() == 'POST'){
+		elseif(Request::getMethod() == 'POST'){
 			$loginService = new Cyclos\Service('loginService');
 
 			// Set the parameters
@@ -131,7 +131,7 @@ class AdminController extends BaseController {
 	        	$topup_array = $topup->toArray();
 	            fputcsv($fp, $topup_array);
         	}
-		} else if ($transaction_type == 'transfer'){
+		} elseif ($transaction_type == 'transfer'){
 			$transfers_data = Transfer::all();
 			$filename = 'Transfer_Data.csv';
 			$fp = fopen($filename, 'w');
@@ -141,7 +141,7 @@ class AdminController extends BaseController {
 	        	$transfer_array = $transfer->toArray();
 	            fputcsv($fp, $transfer_array);
 	        }
-		} else if ($transaction_type == 'purchase'){
+		} elseif ($transaction_type == 'purchase'){
 			$purchases_data = Purchase::all();
 			$filename = 'Purchase_Data.csv';
 			$fp = fopen($filename, 'w');	

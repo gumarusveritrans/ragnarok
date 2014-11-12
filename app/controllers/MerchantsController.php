@@ -29,7 +29,7 @@ class MerchantsController extends BaseController {
 		if(Request::getMethod()=='GET'){
 			return View::make('/merchants/login');	
 		}
-		else if(Request::getMethod()=='POST'){
+		elseif(Request::getMethod()=='POST'){
 			$loginService = new Cyclos\Service('loginService');
 
 			// Set the parameters
