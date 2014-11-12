@@ -27,7 +27,7 @@ class ConnectPagesController extends BaseController {
 			return Redirect::to('/');
 		}
 		if(Request::getMethod()=='GET'){
-			return View::make('/customers/login');	
+			return View::make('/connect_pages/login');	
 		}else if(Request::getMethod()=='POST'){
 			$loginService = new Cyclos\Service('loginService');
 
@@ -62,7 +62,7 @@ class ConnectPagesController extends BaseController {
 
 				Session::put('cyclos_group',$result->group->name);
 				Session::put('cyclos_email',$result->email);
-				
+
 				return Redirect::to('/customers/dashboard');
 			} catch (Cyclos\ConnectionException $e) {
 				echo("Cyclos server couldn't be contacted");
@@ -102,7 +102,7 @@ class ConnectPagesController extends BaseController {
 		}
 		
 		if(Request::getMethod()=='GET'){
-			return View::make('/customers/register');	
+			return View::make('/connect_pages/register');	
 		}else if(Request::getMethod()=='POST'){
 			$userService = new Cyclos\Service('userService');
 

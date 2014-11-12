@@ -189,41 +189,43 @@ class CustomersController extends BaseController {
 	}
 
 	public function increase_limit(){
-		$data = array();
-		$data['username'] = ConnectHelper::getCurrentUserUsername();
-		$data['balance'] = ConnectHelper::getCurrentUserBalance();
-		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$increase_limit = IncreaseLimit::where('username_customer', '=', $data['username'])->first();
-		if ($increase_limit == null || $increase_limit->status == "denied"){
-			return View::make('/customers/increase-limit')->with('data',$data);	
+		if (Request::isMethod('GET')){
+			$data = array();
+			$data['username'] = ConnectHelper::getCurrentUserUsername();
+			$data['balance'] = ConnectHelper::getCurrentUserBalance();
+			$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+			$increase_limit = IncreaseLimit::where('username_customer', '=', $data['username'])->first();
+			if ($increase_limit == null || $increase_limit->status == "denied"){
+				return View::make('/customers/increase-limit')->with('data',$data);	
+			}
+			else{
+				return View::make('/customers/increase-limit-done');
+			}
 		}
-		else{
-			return View::make('/customers/increase-limit-done');
+		else if (Request::isMethod('POST')){
+			if (Input::get('current_address') == ""){
+				$current_address = Input::get('id_address');
+			}else{
+				$current_address = Input::get('current_address');
+			}
+
+			IncreaseLimit::create(array(
+				'date_increase_limit' => new DateTime,
+				'full_name' => Input::get('full_name'),
+				'id_type' => Input::get('id_type'),
+				'id_number' => Input::get('id_number'),
+				'gender' => Input::get('gender'),
+				'birth_place' => Input::get('birth_place'),
+				'birth_date' => Input::get('birth_date'),
+				'id_address'=> Input::get('id_address'),
+				'current_address' => $current_address,
+				'username_customer' => ConnectHelper::getCurrentUserUsername(),
+				'status' => 'in process'
+			));
+			return View::make('customers/increase-limit-success');
 		}
+
 		
-	}
-
-	public function increase_limit_post(){
-		if (Input::get('current_address') == ""){
-			$current_address = Input::get('id_address');
-		}else{
-			$current_address = Input::get('current_address');
-		}
-
-		IncreaseLimit::create(array(
-			'date_increase_limit' => new DateTime,
-			'full_name' => Input::get('full_name'),
-			'id_type' => Input::get('id_type'),
-			'id_number' => Input::get('id_number'),
-			'gender' => Input::get('gender'),
-			'birth_place' => Input::get('birth_place'),
-			'birth_date' => Input::get('birth_date'),
-			'id_address'=> Input::get('id_address'),
-			'current_address' => $current_address,
-			'username_customer' => ConnectHelper::getCurrentUserUsername(),
-			'status' => 'in process'
-		));
-		return View::make('customers/increase-limit-success');
 	}
 
 	public function getUploadForm() {

@@ -189,7 +189,7 @@
 
 	            var form = document.createElement("form");
 	            form.setAttribute("method", method);
-	            form.setAttribute("action", '/customers/increase-limit-post');
+	            form.setAttribute("action", '/customers/increase-limit');
 
 	            <?php
 	            	$form_input = Session::pull('form_input');

@@ -2,6 +2,18 @@
 
 class AdminController extends BaseController {
 
+	public function __construct(){
+		if (Request::path() != 'admin/login'){
+			$this->beforeFilter(function(){
+				$role = ConnectHelper::getCurrentUserRole();
+				if ($role != Config::get('connect_variable.admin')){
+					Session::flash('errors', 'Please login first with your account');
+					return Redirect::to('admin/login');
+				}
+			});	
+		}
+	}
+
 	public function login(){
 
 		if(Session::get('cyclos_group') == Config::get("connect_variable.admin")){
