@@ -16,7 +16,7 @@ class MerchantsController extends BaseController {
 
 			// Set the parameters
 			$params = new stdclass();
-			$params->user = array('username' => $_POST['email']);
+			$params->user = array('username' => $_POST['username']);
 			$params->password = $_POST['password'];
 			$params->remoteAddress = $_SERVER['REMOTE_ADDR'];
 
@@ -97,22 +97,21 @@ class MerchantsController extends BaseController {
 		$products = Product::where('merchant_name', '=', $merchant_name)->get();
 		$purchases = array();
 		$total = array();
-		foreach ($products as $product){
-			array_push($purchases, $product->transaction);
+		if ($products->count() != 0){
+			foreach ($products as $product){
+				if ($product->transaction != null){
+					array_push($purchases, $product->transaction);
+				}
+			}		
 		}
-		foreach($purchases as $purchase){
-			foreach($purchase->product as $product){
-				$total = $total + ($product->pivot->quantity * $product->price);
-			}
+		if ($purchases != null){
+			foreach($purchases as $purchase){
+				foreach($purchase->product as $product){
+					$total = $total + ($product->pivot->quantity * $product->price);
+				}
+			}		
 		}
-		// foreach ($products as $product){
-		// 	foreach($product->transaction as $transaction){
-	 //            foreach($transaction->product as $product){
-	 //                $quantity = $product->pivot->quantity;
-	 //                $total = $total + ($quantity * $product->price);
-	 //            }
-	 //        }
-  //       }
+
 		return View::make('/merchants/transaction')
 			->with('purchases', $purchases)
 			->with('total', $total);
