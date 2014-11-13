@@ -119,42 +119,53 @@ class ConnectPagesController extends BaseController {
 		if(Request::getMethod()=='GET'){
 			return View::make('/connect_pages/register');	
 		}elseif(Request::getMethod()=='POST'){
-			$userService = new Cyclos\Service('userService');
+			$rules = array(
+				'username'	=> 'required',
+				'email'		=> 'required|email'
+			);
 
-			try{
-				$result = $userService->run("getUserRegistrationGroups",array(),false);
-				
-				$id;
+			$validator = Validator::make(Input::all(), $rules);
 
-				foreach($result as $res){
-					if($res->name == Config::get('connect_variable.unverified_user')){
-						$id = $res->id;
-					}
-				}
+			if ($validator->fails()){
+				return View::make('connect_pages/register')->withErrors($validator);
+			}else{
+				$userService = new Cyclos\Service('userService');
 
-				$params = new stdclass();
-				$params->group = new stdclass();
-				$params->group->id = $id;
-
-				$params->username = $_POST['username'];
-				$params->email = $_POST['email'];
-				$params->name = $_POST['username'];
-
-
-				$userService->run('register',$params,false);
-				return View::make('connect_pages/register-success');
-			}catch (Cyclos\ServiceException $e){
-				if($e->errorCode == "VALIDATION"){
-					$errors = "";
-					foreach($e->error->validation->propertyErrors as $error){
-						$errors = $errors . $error[0] . "\n";
-					}
-					Session::flash('errors',$errors);
-					return View::make('/connect_pages/register');	
+				try{
+					$result = $userService->run("getUserRegistrationGroups",array(),false);
 					
-				}else{
-					Session::flash('errors',$e->errorCode);
-					return View::make('/connect_pages/register');
+					$id;
+
+					foreach($result as $res){
+						if($res->name == Config::get('connect_variable.unverified_user')){
+							$id = $res->id;
+						}
+					}
+
+					$params = new stdclass();
+					$params->group = new stdclass();
+					$params->group->id = $id;
+
+					$params->username = $_POST['username'];
+					$params->email = $_POST['email'];
+					$params->name = $_POST['username'];
+
+
+					$userService->run('register',$params,false);
+					return View::make('connect_pages/register-success');
+				}catch (Cyclos\ServiceException $e){
+					if($e->errorCode == "VALIDATION"){
+						$errors = "";
+						foreach($e->error->validation->propertyErrors as $error){
+							$errors = $errors . $error[0] . "\n";
+						}
+						Session::flash('errors',$errors);
+						return View::make('/connect_pages/register');	
+						
+					}else{
+						Session::flash('errors',$e->errorCode);
+						return View::make('/connect_pages/register');
+					}
 				}
 			}
 		}
@@ -230,6 +241,7 @@ class ConnectPagesController extends BaseController {
 					$message->from('connect_cs@connect.co.id', 'Connect');
 				    $message->to(Input::get('email'), Session::pull('temp_username'))->subject('Reset Password');
 				});
+				return View::make('connect_pages/reset-password-success');
 
 			}catch(Cyclos\ServiceException $e){
 				//NO EXCEPTION HANDLING NEEDED

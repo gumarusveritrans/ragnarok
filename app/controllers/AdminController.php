@@ -113,9 +113,11 @@ class AdminController extends BaseController {
 	public function dashboard(){
 		$topups = Topup::all();
 		$transfers = Transfer::all();
+		$purchases = Purchase::all();
 		return View::make('/admin/dashboard')
 			->with('topups', $topups)
-			->with('transfers', $transfers);
+			->with('transfers', $transfers)
+			->with('purchases', $purchases);
 	}
 
 	public function download_csv() {
@@ -145,10 +147,11 @@ class AdminController extends BaseController {
 			$purchases_data = Purchase::all();
 			$filename = 'Purchase_Data.csv';
 			$fp = fopen($filename, 'w');	
-			$purchase_header= array("purchase_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
+			$purchase_header= array("purchase_id", "date_purchase", "username_customer", "status", "total");
 			fputcsv($fp, $purchase_header);
 	        foreach( $purchases_data as $purchase ) {
 	        	$purchase_array = $purchase->toArray();
+	        	array_push($purchase_array, $purchase->total());
 	            fputcsv($fp, $purchase_array);
 	        }
 		}
@@ -308,7 +311,7 @@ class AdminController extends BaseController {
 
 			$redeem->redeemed = true;
 			$redeem->save();
-			echo 'success!';
+			return View::make('admin/close-account-success');
 		}catch(Exception $e){
 			echo 'There are some trouble, please try again later.';
 		}
@@ -381,7 +384,7 @@ class AdminController extends BaseController {
         	$rules = array(
 				'product_name'	=> 'required',
 				'description'	=> 'required',
-				'price'			=> 'required|numeric',
+				'price'			=> 'required|numeric|min:1',
 				'merchant_name' => 'required'
 			);
 
@@ -409,19 +412,28 @@ class AdminController extends BaseController {
 	}
 
 	public function reject_increase_limit(){
-		$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));//->update(array('status' => ($response->transaction_status)));
-		$increase_limit->message = Input::get('denial_message');
-		$increase_limit->status = 'denied';
-		$increase_limit->save();
+		$rules = array(
+			'denial_message'	=> 'required'
+		);
 
-		Mail::send('emails.increase_limit_rejected', array('customer_username' => Input::get('increase_limit_username'),
-														   'denial_message' => Input::get('denial_message')), function($message)
-		{
-			$message->from('connect_cs@connect.co.id', 'Connect');
-		    $message->to(ConnectHelper::getUserEmail(Input::get('increase_limit_username')), Input::get('increase_limit_username'))->subject('Request for Increase Limit Rejected');
-		});
+		$validator = Validator::make(Input::all(), $rules);
+		if ($validator->fails()){
+			return View::make('admin/notification#')->withErrors($validator);
+		}else{		
+			$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));//->update(array('status' => ($response->transaction_status)));
+			$increase_limit->message = Input::get('denial_message');
+			$increase_limit->status = 'denied';
+			$increase_limit->save();
 
-		return Redirect::to('/admin/notification#');
+			Mail::send('emails.increase_limit_rejected', array('customer_username' => Input::get('increase_limit_username'),
+															   'denial_message' => Input::get('denial_message')), function($message)
+			{
+				$message->from('connect_cs@connect.co.id', 'Connect');
+			    $message->to(ConnectHelper::getUserEmail(Input::get('increase_limit_username')), Input::get('increase_limit_username'))->subject('Request for Increase Limit Rejected');
+			});
+
+			return Redirect::to('/admin/notification#');
+		}
 	}
 
 	public function accept_increase_limit(){
@@ -431,7 +443,7 @@ class AdminController extends BaseController {
 		//GETTING USER ID
 		$user_id;
 		$params = new stdclass();
-		$params->keywords = Input::get('increase_limit_username');
+		$params->nameOrUsername = Input::get('increase_limit_username');
 		$result = $userService->run('search',$params,false);
 		$user_id = $result->pageItems[0]->id;
 
@@ -505,7 +517,7 @@ class AdminController extends BaseController {
 			//Delete merchant product
 			$products = Product::where('merchant_name',Input::get('merchant_id'))->delete();
 
-			echo 'success!';
+			return View::make('admin/delete-merchant-success');
 		}catch(Exception $e){
 			echo 'There are some trouble, please try again later.';
 		}

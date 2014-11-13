@@ -14,10 +14,10 @@
 
 	      <div id="login-register-form" class="form-wrapper">
 	        {{ Form::label('username', 'Username') }}
-	        {{ Form::text('username', '', array('class' => 'form-control', 'maxlength' => '20')) }}
+	        {{ Form::text('username', '', array('maxlength' => 20, 'class' => 'form-control', 'maxlength' => '20')) }}
 
 	        {{ Form::label('password', 'Password') }}
-	        {{ Form::password('password', array('class' => 'form-control')) }}
+	        {{ Form::password('password', array('maxlength' => 32, 'class' => 'form-control')) }}
 	        @if(Session::has('errors'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif
 	      </div>
 
