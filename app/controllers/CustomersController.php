@@ -113,6 +113,8 @@ class CustomersController extends BaseController {
 				    $message->to('danny.pranoto@veritrans.co.id', ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
 				});
 
+				Session::put('_token', sha1(microtime()));
+
 				return View::make('customers/transfer-success')
 					->with('transfer_amount', $_POST['transfer_amount'])
 					->with('transfer_recipient', $_POST['transfer_recipient']);
@@ -234,6 +236,7 @@ class CustomersController extends BaseController {
 				'username_customer' => ConnectHelper::getCurrentUserUsername(),
 				'status' => 'in process'
 			));
+			Session::put('_token', sha1(microtime()));
 			return View::make('customers/increase-limit-success');
 		}
 
@@ -476,7 +479,7 @@ class CustomersController extends BaseController {
 
 				$result = $userGroupService->run('changeGroup',$params,false);
 				Session::flush();
-				return Redirect::to('customers/close-account-success');
+				return View::make('customers/close-account-success');
 
 			}catch(Exception $e){
 				Session::flash('errors_cyclos','There are some trouble, please try again later');
@@ -518,7 +521,7 @@ class CustomersController extends BaseController {
 
 	public function validate_user_information_form(){
 		$rules = array(
-			'full_name'	 		=> 'required|alpha',
+			'full_name'	 		=> 'required',
 			'id_type'     		=> 'required',
 			'id_number'	 		=> 'required',
 			'gender'     		=> 'required',

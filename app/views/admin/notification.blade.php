@@ -264,7 +264,7 @@
             increase_limit_place_birth[{{{$increase_limit->id}}}] = '{{{$increase_limit->birth_place}}}';
             increase_limit_date_birth[{{{$increase_limit->id}}}] = '{{{$increase_limit->birth_date}}}';
             increase_limit_gender[{{{$increase_limit->id}}}] = '{{{$increase_limit->gender}}}';
-            increase_limit_image_url[{{{$increase_limit->id}}}] = '{{{(string) Image::make('app/storage/uploads/'.$increase_limit->username_customer.'.jpg')->encode('data-url')}}}';
+            increase_limit_image_url[{{{$increase_limit->id}}}] = '{{{(string) Image::make("app/storage/uploads/".$increase_limit->username_customer.".jpg")->encode("data-url")}}}';
         @endforeach
 
         function postRedeemed(){

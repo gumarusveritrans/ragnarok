@@ -163,8 +163,8 @@ class AdminController extends BaseController {
 	}
 
 	public function notification(){
-		$redeems = Redeem::whereNotIn('redeemed', '=', 'true');
-		$increase_limits = IncreaseLimit::where('status', '=', 'in process');
+		$redeems = Redeem::where('redeemed', '=', 'false')->get();
+		$increase_limits = IncreaseLimit::where('status', '=', 'in process')->get();
 		return View::make('/admin/notification')
 			->with('redeems', $redeems)
 			->with('increase_limits', $increase_limits);
@@ -393,15 +393,13 @@ class AdminController extends BaseController {
 		$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));//->update(array('status' => ($response->transaction_status)));
 		$increase_limit->message = Input::get('denial_message');
 		$increase_limit->status = 'denied';
-
 		$increase_limit->save();
 
-		$email_customer = ConnectHelper::getUserEmail(Input::get('increase_limit_username'));
 		Mail::send('emails.increase_limit_rejected', array('customer_username' => Input::get('increase_limit_username'),
 														   'denial_message' => Input::get('denial_message')), function($message)
 		{
 			$message->from('connect_cs@connect.co.id', 'Connect');
-		    $message->to($email_customer, Input::get('increase_limit_username'))->subject('Request for Increase Limit Rejected');
+		    $message->to(ConnectHelper::getUserEmail(Input::get('increase_limit_username')), Input::get('increase_limit_username'))->subject('Request for Increase Limit Rejected');
 		});
 
 		return Redirect::to('/admin/notification#');
