@@ -478,8 +478,8 @@ class AdminController extends BaseController {
 
 			// Getting user id
 			$params = new stdclass();
-			$params->keywords = Input::get('merchant_id');
-			$result = $userService->run('nameOrUsername',$params,false);
+			$params->nameOrUsername = Input::get('merchant_id');
+			$result = $userService->run('search',$params,false);
 			$user_id = $result->pageItems[0]->id;
 
 			// Get group
