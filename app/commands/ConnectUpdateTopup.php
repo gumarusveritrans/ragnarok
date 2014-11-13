@@ -49,7 +49,7 @@ class ConnectUpdateTopup extends Command {
 					$to = new stdclass();
 					$to->username = $pending_topup->username_customer;
 					$result = $transactionService->run('getPaymentData',array("SYSTEM",$to),false);
-					
+
 					//TRANSFERRING TO USER
 				    DB::table('topup')	->where('id', $pending_topup->id)->update(array('status' => 'success'));
 					$paymentService = new Cyclos\Service('paymentService');
@@ -65,18 +65,16 @@ class ConnectUpdateTopup extends Command {
 
 					DB::commit();
 					
-					$email_customer = ConnectHelper::getUserEmail($pending_topup->username_customer);
-					Mail::send('emails.topup', array('transfer_amount' => $response->gross_amount), function($message)
-					{
-						$message->from('connect_cs@connect.co.id', 'Connect');
-					    $message->to($email_customer, $pending_topup->username_customer)->subject('Top-Up Success');
-					});
+					// Mail::send('emails.topup', array('transfer_amount' => $response->gross_amount), function($message)
+					// {
+					//     $message->to('danny.pranoto@veritrans.co.id', $pending_topup->username_customer)->subject('Top-Up Success');
+					// });
 				}
 
 
 
 			}
-		};
+		}
 	}
 
 	/**

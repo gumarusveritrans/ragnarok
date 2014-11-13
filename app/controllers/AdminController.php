@@ -163,8 +163,9 @@ class AdminController extends BaseController {
 	}
 
 	public function notification(){
-		$redeems = Redeem::whereNotIn('redeemed', '=', 'true');
-		$increase_limits = IncreaseLimit::where('status', '=', 'in process');
+		$redeems = Redeem::whereNotIn('redeemed', '=', 'true')->get();
+		$increase_limits = IncreaseLimit::where('status', '=', 'in process')->get();
+		dd($redeems);
 		return View::make('/admin/notification')
 			->with('redeems', $redeems)
 			->with('increase_limits', $increase_limits);
@@ -315,41 +316,60 @@ class AdminController extends BaseController {
 	}
 
 	public function create_merchant(){
-		$userService = new Cyclos\Service('userService');
+		if ( Session::token() !== Input::get( '_token' ) ) {
+            return Response::json( array(
+                'msg' => 'Unauthorized attempt to create setting'
+            ) );
+        }else{
+        	$rules = array(
+				'merchant_name'	=> 'required',
+				'merchant_email'=> 'required|email'
+			);
 
-		try{
-			$result = $userService->run("getUserRegistrationGroups",array(),false);
-			$id;
+			$validator = Validator::make(Input::all(), $rules);
 
-			foreach($result as $res){
-				if($res->name == Config::get('connect_variable.merchant')){
-					$id = $res->id;
-				}
-			}
-
-			$params = new stdclass();
-			$params->group = new stdclass();
-			$params->group->id = $id;
-
-			$params->username = $_POST['merchant_name'];
-			$params->email = $_POST['merchant_email'];
-			$params->name = $_POST['merchant_name'];
-
-			$userService->run('register',$params,false);
-			echo 'merchant created!';
-		}catch (Cyclos\ServiceException $e){
-			if($e->errorCode == "VALIDATION"){
-				$errors = "";
-				foreach($e->error->validation->propertyErrors as $error){
-					$errors = $errors . $error[0] . "\n";
-				}
-				Session::flash('errors',$errors);
-				var_dump($errors);	
+			if($validator->fails()){
+	            return Redirect::to('admin/manage-user#create-merchant')->withInput()->withErrors($validator);
 			}else{
-				Session::flash('errors',$e->errorCode);
-				var_dump($e->errorCode);
+				$userService = new Cyclos\Service('userService');
+
+				try{
+					$result = $userService->run("getUserRegistrationGroups",array(),false);
+					$id;
+
+					foreach($result as $res){
+						if($res->name == Config::get('connect_variable.merchant')){
+							$id = $res->id;
+						}
+					}
+
+					$params = new stdclass();
+					$params->group = new stdclass();
+					$params->group->id = $id;
+
+					$params->username = $_POST['merchant_name'];
+					$params->email = $_POST['merchant_email'];
+					$params->name = $_POST['merchant_name'];
+
+					$userService->run('register',$params,false);
+					return View::make('admin/create-merchant-success');
+				}catch (Cyclos\ServiceException $e){
+					if($e->errorCode == "VALIDATION"){
+						$errors = "";
+						foreach($e->error->validation->propertyErrors as $error){
+							$errors = $errors . $error[0] . "\n";
+						}
+						Session::flash('errors',$errors);
+						var_dump($errors);	
+					}else{
+						Session::flash('errors',$e->errorCode);
+						var_dump($e->errorCode);
+					}
+				}
 			}
-		}
+
+        }
+
 	}
 
 	public function add_product(){
@@ -397,12 +417,11 @@ class AdminController extends BaseController {
 		$increase_limit->save();
 
 		$email_customer = ConnectHelper::getUserEmail(Input::get('increase_limit_username'));
-		Mail::send('emails.increase_limit_rejected', array('customer_username' => Input::get('increase_limit_username'),
-														   'denial_message' => Input::get('denial_message')), function($message)
-		{
-			$message->from('connect_cs@connect.co.id', 'Connect');
-		    $message->to($email_customer, Input::get('increase_limit_username'))->subject('Request for Increase Limit Rejected');
-		});
+		// Mail::send('emails.increase_limit_rejected', array('customer_username' => Input::get('increase_limit_username'),
+		// 												   'denial_message' => Input::get('denial_message')), function($message)
+		// {
+		//     $message->to($email_customer, Input::get('increase_limit_username'))->subject('Request for Increase Limit Rejected');
+		// });
 
 		return Redirect::to('/admin/notification#');
 	}
@@ -444,12 +463,11 @@ class AdminController extends BaseController {
 		$increase_limit->save();
 
 		$email_customer = ConnectHelper::getUserEmail(Input::get('increase_limit_username'));
-		Mail::send('emails.increase_limit_approved', array('customer_username' => Input::get('increase_limit_username'),
-														   'denial_message' => Input::get('denial_message')), function($message)
-		{
-			$message->from('connect_cs@connect.co.id', 'Connect');
-		    $message->to($email_customer, Input::get('increase_limit_username'))->subject('Request for Increase Limit Approved');
-		});
+		// Mail::send('emails.increase_limit_approved', array('customer_username' => Input::get('increase_limit_username'),
+		// 												   'denial_message' => Input::get('denial_message')), function($message)
+		// {
+		//     $message->to($email_customer, Input::get('increase_limit_username'))->subject('Request for Increase Limit Approved');
+		// });
 
 		return Redirect::to('/admin/notification#');
 	}

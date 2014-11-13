@@ -103,13 +103,11 @@ class CustomersController extends BaseController {
 					'amount'=>$_POST['transfer_amount']
 				));
 
-				$email_customer = ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername());
-				Mail::send('emails.transfer', array('transfer_recipient' => $_POST['transfer_recipient'],
-													'transfer_amount' => $_POST['transfer_amount']), function($message)
-				{
-					$message->from('connect_cs@connect.co.id', 'Connect');
-				    $message->to('danny.pranoto@veritrans.co.id', ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
-				});
+				// Mail::send('emails.transfer', array('transfer_recipient' => $_POST['transfer_recipient'],
+				// 									'transfer_amount' => $_POST['transfer_amount']), function($message)
+				// {
+				//     $message->to(ConnectHelper::getCurrentUserEmail(), ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
+				// });
 
 				return View::make('customers/transfer-success')
 					->with('transfer_amount', $_POST['transfer_amount'])
@@ -378,7 +376,7 @@ class CustomersController extends BaseController {
 			);
 
 			$messages = array(
-				'max' => 'The :attribute must not be greater than your limit balance (Maximum Top-Up allowed : :max)' 
+				'max' => 'The :attribute must not be greater than your limit balance (Maximum Top-Up allowed : Rp '.number_format($max, 2, ',', '.').')'
 			);
 
 			$validator = Validator::make(Input::all(), $rules, $messages);
@@ -401,31 +399,14 @@ class CustomersController extends BaseController {
 				$topup->save();
 
 				// $email_customer = ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername());
-				Mail::send('emails.topup_request', array('permata_va_number' => $response->permata_va_number), function($message)
-				{
-					$message->from('connect_cs@connect.co.id', 'Connect');
-				    $message->to('danny.pranoto@veritrans.co.id', ConnectHelper::getCurrentUserUsername())->subject('Top Up Request');
-				});
+				// Mail::send('emails.topup_request', array('permata_va_number' => $response->permata_va_number), function($message)
+				// {
+				// 	$message->from('connect_cs@connect.co.id', 'Connect');
+				//     $message->to(ConnectHelper::getCurrentUserEmail(), ConnectHelper::getCurrentUserUsername())->subject('Top Up Request');
+				// });
 
 				return View::make('customers/topup-success')->with('va_number',$response->permata_va_number);
 			}	
-		}
-	}
-
-	public function validate_transfer_form(){
-		$rules = array(
-			'transfer_recipient'		=> 'required|email',
-			'transfer_amount'     		=> 'required|numeric'
-		);
-
-		$validator = Validator::make(Input::all(), $rules);
-
-		if ($validator->fails()) {
-			return Redirect::to('/customers/transfer')
-				->withErrors($validator)
-				->withInput(Input::except('transfer_amount'));
-		} else {
-			return Redirect::to('customers/transfer-success');
 		}
 	}
 
@@ -515,7 +496,7 @@ class CustomersController extends BaseController {
 
 	public function validate_user_information_form(){
 		$rules = array(
-			'full_name'	 		=> 'required|alpha',
+			'full_name'	 		=> 'required',
 			'id_type'     		=> 'required',
 			'id_number'	 		=> 'required',
 			'gender'     		=> 'required',
