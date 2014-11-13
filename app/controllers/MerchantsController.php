@@ -110,34 +110,9 @@ class MerchantsController extends BaseController {
 		{
 			$merchant_name = ConnectHelper::getCurrentUserUsername();
 		    $p->where('merchant_name', '=', $merchant_name);
-
 		})->get();
-		// $products = Product::with('purchase')->where('merchant_name', $merchant_name)->get();
-		// dd($products);
-		// foreach ($products->purchase as $purchase) {
-
-		// }
-		
-
-		// foreach ($products as $product){
-		// 	array_push($purchases, $product->transaction);
-		// }
-		// foreach($purchases as $purchase){
-		// 	foreach($purchase->product as $product){
-		// 		$total = $total + ($product->pivot->quantity * $product->price);
-		// 	}
-		
-		// foreach ($products as $product){
-		// 	foreach($product->transaction as $transaction){
-	 //            foreach($transaction->product as $product){
-	 //                $quantity = $product->pivot->quantity;
-	 //                $total = $total + ($quantity * $product->price);
-	 //            }
-	 //        }
-  //       }
 		return View::make('/merchants/transaction')
 			 ->with('purchases', $purchases);
-			 //->with('total', $tota);
 	}
 
 	public function list_products(){
@@ -154,7 +129,7 @@ class MerchantsController extends BaseController {
 		$purchases_data = Purchase::all();
 		$filename = 'Purchase_Data.csv';
 		$fp = fopen($filename, 'w');	
-		$purchase_header= array("purchase_id", "date_time", "total", "username_customer", "status");
+		$purchase_header= array("purchase_id", "date_purchase", "username_customer", "status", "total");
 		fputcsv($fp, $purchase_header);
         foreach( $purchases_data as $purchase ) {
         	$purchase_array = $purchase->toArray();

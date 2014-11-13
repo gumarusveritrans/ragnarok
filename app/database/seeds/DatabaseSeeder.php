@@ -102,7 +102,7 @@ class PurchaseTableSeeder extends Seeder {
         DB::table('purchase')->delete();
         $purchase1 = Purchase::create(array(
                     	'date_purchase' => '2014/10/24 18:10:14',
-                    	'username_customer' => 'gumarus.william',
+                    	'username_customer' => 'test1',
                     	'status' => 'success',
                     ));
         $purchase1->product()->attach(1, array('quantity' => 1));

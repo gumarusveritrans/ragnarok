@@ -29,5 +29,4 @@ class Product extends Eloquent implements UserInterface, RemindableInterface {
     {
         return $this->belongsToMany('Purchase', 'shopping_cart', 'product_id', 'purchase_id')->withPivot('quantity');
     }
-
 }
