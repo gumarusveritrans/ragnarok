@@ -206,7 +206,7 @@ class ConnectPagesController extends BaseController {
 														   'username' => $username), function($message)
 				{
 					$message->from('connect_cs@connect.co.id', 'Connect');
-				    $message->to(Input::get('email'), Session::pull('temp_username'))->subject('Registratio Detail');
+				    $message->to(Input::get('email'), Session::pull('temp_username'))->subject('Registration Detail');
 				});
 
 				return View::make('connect_pages/register-success');
