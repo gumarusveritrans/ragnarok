@@ -146,6 +146,62 @@ class MerchantsController extends BaseController {
 			 //->with('total', $tota);
 	}
 
+	public function reject_purchase(){
+		$transaction_id = Input::get('purchaseId');
+		$purchase = Purchase::where('id','=',$transaction_id)->first();
+
+		$purchase_merchant_username = $purchase->product()->first()->merchant_name;
+
+		//Validate merchant username
+		if($purchase_merchant_username!=ConnectHelper::getCurrentUserUsername()){
+			return Redirect::to('/merchants/transaction');
+		}
+
+		//Validate status
+		if($purchase->status == 'rejected'){
+			return Redirect::to('/merchants/transaction')->with('errors','Transaction already rejected');
+		}		
+
+		//Refunding account
+		DB::beginTransaction();
+
+		$purchase->status = 'rejected';
+		$purchase->save();
+
+		//Refunding cyclos
+		$transactionService = new Cyclos\Service('transactionService');
+		$paymentService = new Cyclos\Service('paymentService');
+
+		$data = $transactionService->run('getPaymentData',array(array("username"=>ConnectHelper::getCurrentUserUsername()),array("username"=> $purchase->username_customer)),true);
+		
+		$params = new stdclass();
+		$params->from = $data->from;
+		$params->to = $data->to;
+		$params->type = $data->paymentTypes[0];
+		$params->amount = $purchase->total();
+		$params->desc = "Cancelling purchase id : " + $purchase->id;
+
+		$paymentResult = $paymentService->run('perform',$params,true);
+
+
+
+		DB::commit();
+
+		$messageData = array (
+			'to' => ConnectHelper::getUserEmail($purchase->username_customer)
+		);
+
+		Mail::send('emails.reject_purchase', array('purchase_id' => $purchase->id,
+													), function($message) use ($messageData)
+		{
+			$message->from('connect_cs@connect.co.id', 'Connect');
+		    $message->to($messageData['to'], ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
+		});
+
+		return Redirect::to('/merchants/transaction');
+
+	}
+
 	public function list_products(){
 		$data = array();
 		$data['username'] = ConnectHelper::getCurrentUserUsername();

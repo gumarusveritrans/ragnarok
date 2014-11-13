@@ -51,6 +51,7 @@ Route::post('/merchants/logout','MerchantsController@logout');
 Route::get('/merchants/transaction', 'MerchantsController@transaction');
 Route::get('/merchants/download-csv', 'MerchantsController@download_csv');
 Route::get('/merchants/list-products', 'MerchantsController@list_products');
+Route::post('merchants/reject-purchase',['before'=>'csrf','uses'=>'MerchantsController@reject_purchase']);
 
 //Route for Validation Form
 Route::post('login-form', 'CustomersController@validate_login_form');
