@@ -41,7 +41,6 @@ class ConnectHelper{
 		$userService = new Cyclos\Service('userService');
 		$result = $userService->run('getViewProfileData',$params,false);
 
-		dd($result->email);
 		return $result->email;
 	}
 }

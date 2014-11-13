@@ -3,15 +3,21 @@
 class MerchantsController extends BaseController {
 
 	public function __construct(){
-		if (Request::path() != 'merchants/login'){
-			$this->beforeFilter(function(){
-				$role = ConnectHelper::getCurrentUserRole();
-				if ($role != Config::get('connect_variable.merchant')){
+		$this->beforeFilter(function(){
+			$role = ConnectHelper::getCurrentUserRole();
+			if ($role == Config::get('connect_variable.unverified_user') || $role == Config::get('connect_variable.verified_user')){
+				return Redirect::to('customers/dashboard');
+			}
+			elseif ($role == Config::get('connect_variable.admin')){
+				return Redirect::to('admin/dashboard');
+			}
+			elseif ($role != Config::get('connect_variable.merchant')){
+				if (Request::path() != 'merchants/login'){
 					Session::flash('errors', 'Please login first with your account');
 					return Redirect::to('merchants/login');
 				}
-			});	
-		}
+			}
+		});	
 	}
 
 	public function login(){
@@ -23,7 +29,7 @@ class MerchantsController extends BaseController {
 		if(Request::getMethod()=='GET'){
 			return View::make('/merchants/login');	
 		}
-		else if(Request::getMethod()=='POST'){
+		elseif(Request::getMethod()=='POST'){
 			$loginService = new Cyclos\Service('loginService');
 
 			// Set the parameters

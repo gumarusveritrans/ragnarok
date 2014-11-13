@@ -3,15 +3,21 @@
 class AdminController extends BaseController {
 
 	public function __construct(){
-		if (Request::path() != 'admin/login'){
-			$this->beforeFilter(function(){
-				$role = ConnectHelper::getCurrentUserRole();
-				if ($role != Config::get('connect_variable.admin')){
+		$this->beforeFilter(function(){
+			$role = ConnectHelper::getCurrentUserRole();
+			if ($role == Config::get('connect_variable.merchant')){
+				return Redirect::to('merchants/transaction');
+			}
+			elseif ($role == Config::get('connect_variable.unverified_user') || $role == Config::get('connect_variable.verified_user')){
+				return Redirect::to('customers/dashboard');
+			}
+			elseif ($role != Config::get('connect_variable.admin')){
+				if (Request::path() != 'admin/login'){
 					Session::flash('errors', 'Please login first with your account');
 					return Redirect::to('admin/login');
 				}
-			});	
-		}
+			}
+		});	
 	}
 
 	public function login(){
@@ -23,7 +29,7 @@ class AdminController extends BaseController {
 		if(Request::getMethod() == 'GET'){
 			return View::make('/admin/login');	
 		}
-		else if(Request::getMethod() == 'POST'){
+		elseif(Request::getMethod() == 'POST'){
 			$loginService = new Cyclos\Service('loginService');
 
 			// Set the parameters
@@ -125,7 +131,7 @@ class AdminController extends BaseController {
 	        	$topup_array = $topup->toArray();
 	            fputcsv($fp, $topup_array);
         	}
-		} else if ($transaction_type == 'transfer'){
+		} elseif ($transaction_type == 'transfer'){
 			$transfers_data = Transfer::all();
 			$filename = 'Transfer_Data.csv';
 			$fp = fopen($filename, 'w');
@@ -135,7 +141,7 @@ class AdminController extends BaseController {
 	        	$transfer_array = $transfer->toArray();
 	            fputcsv($fp, $transfer_array);
 	        }
-		} else if ($transaction_type == 'purchase'){
+		} elseif ($transaction_type == 'purchase'){
 			$purchases_data = Purchase::all();
 			$filename = 'Purchase_Data.csv';
 			$fp = fopen($filename, 'w');	
@@ -191,7 +197,11 @@ class AdminController extends BaseController {
 		$params->pageSize = PHP_INT_MAX;
 		$usersResult = $userService->run('search',$params,false);
 
-		$users = $usersResult->pageItems;
+		if(isset($usersResult->pageItems)){
+			$users = $usersResult->pageItems;
+		}else{
+			$users = array();
+		}	
 
 		// Getting merchant
 		$params = new stdclass();
@@ -199,8 +209,11 @@ class AdminController extends BaseController {
 		$params->groups->id = $roleId[Config::get('connect_variable.merchant')];
 		$params->pageSize = PHP_INT_MAX;
 		$merchantsResult = $userService->run('search',$params,false);
-
-		$merchants = $merchantsResult->pageItems;
+		if(isset($merchantsResult->pageItems)){	
+			$merchants = $merchantsResult->pageItems;
+		}else{
+			$merchants = array();
+		}
 
 		$profiles = array();
 		// Getting user attribute
