@@ -384,7 +384,6 @@ label-password {
   padding-left: 1px;
 }
 
-/* Set Width for Customer Pop Up */  
 #pop-up-shopping-cart.pop-up.customer {
   width: 650px;
 }
@@ -407,29 +406,4 @@ label-password {
   white-space: nowrap;  
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-#pop-up-shopping-cart.pop-up th:nth-child(1),
-#pop-up-shopping-cart.pop-up td:nth-child(1){
-  width: 95px;
-}
-#pop-up-shopping-cart.pop-up th:nth-child(2),
-#pop-up-shopping-cart.pop-up td:nth-child(2){
-  width: 215px;
-}
-#pop-up-shopping-cart.pop-up th:nth-child(3),
-#pop-up-shopping-cart.pop-up td:nth-child(3){
-  width: 125px;
-}
-#pop-up-shopping-cart.pop-up th:nth-child(4),
-#pop-up-shopping-cart.pop-up td:nth-child(4){
-  width:80px;
-}
-#pop-up-shopping-cart.pop-up th:nth-child(5),
-#pop-up-shopping-cart.pop-up td:nth-child(5){
-  width: 125px;
-}
-
-#pop-up-shopping-cart.pop-up tr:last-child td{
-  border-bottom: none;
 }

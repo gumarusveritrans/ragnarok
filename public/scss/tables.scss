@@ -231,6 +231,32 @@ $dark-red:     #BE1E2D;
   border-bottom: 1px solid $light-brown;
 }
 
+/* Set Width for Customer Pop Up */  
+#pop-up-shopping-cart.pop-up th:nth-child(1),
+#pop-up-shopping-cart.pop-up td:nth-child(1){
+  width: 250px;
+}
+
+#pop-up-shopping-cart.pop-up th:nth-child(2),
+#pop-up-shopping-cart.pop-up td:nth-child(2){
+  width: 150px;
+}
+
+#pop-up-shopping-cart.pop-up th:nth-child(3),
+#pop-up-shopping-cart.pop-up td:nth-child(3){
+  width: 100px;
+}
+
+#pop-up-shopping-cart.pop-up th:nth-child(4),
+#pop-up-shopping-cart.pop-up td:nth-child(4){
+  width: 150px;
+}
+
+#pop-up-shopping-cart.pop-up tr:last-child td{
+  border-bottom: none;
+}
+
+
 /* Set Width Purchase Admin Table */
 #admin-purchase-transaction-table th:nth-child(1),
 #admin-purchase-transaction-table td:nth-child(1){

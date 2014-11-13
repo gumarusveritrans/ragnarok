@@ -204,8 +204,8 @@
 		            hiddenField.setAttribute("value", "{{{csrf_token()}}}");
 
 		            form.appendChild(hiddenField);
-		            
-		            var hiddenField = document.createElement("input");
+
+		            hiddenField = document.createElement("input");
 		            
 		            hiddenField.setAttribute("type", "hidden");
 		            hiddenField.setAttribute("name", "full_name");

@@ -96,7 +96,7 @@
                         {{{ $transfer->date_transfer }}}
                     </td>
                     <td>
-                        {{{ $transfer->amount }}}
+                        Rp {{{ number_format($transfer->amount, 2, ',', '.') }}}
                     </td>
                     <td>
                         {{{ $transfer->to_username }}}

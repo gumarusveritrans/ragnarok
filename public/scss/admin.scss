@@ -48,3 +48,43 @@ $dark-red:     #BE1E2D;
   padding-bottom: 10px;
   vertical-align: top;
 }
+
+/* Notification Style */
+#notification.container.admin {
+  width: 550px;
+  height: auto;
+  padding: 25px;
+  margin: 50px auto;
+}
+
+#notification.admin .wrapper {
+  background: $light-blue;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  font-size: 16px;
+}
+
+#notification.admin h1 {
+  font-size: 36px;
+  color: $dark-blue;
+  font-weight: normal;
+  text-align: left;
+}
+
+#notification.admin h2 {
+  font-size: 22px;
+  color: $dark-blue;
+  font-weight: normal;
+}
+
+#notification.admin p {
+  color: $dark-blue;
+  text-align: justify;
+  margin: 0;
+  padding: 0;
+}
+
+#notification.admin a {
+  color: $dark-blue;
+}
