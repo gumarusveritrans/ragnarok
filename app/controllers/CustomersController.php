@@ -5,7 +5,13 @@ class CustomersController extends BaseController {
 	public function __construct(){
 		$this->beforeFilter(function(){
 			$role = ConnectHelper::getCurrentUserRole();
-			if ($role != Config::get('connect_variable.unverified_user') && $role != Config::get('connect_variable.verified_user')){
+			if ($role == Config::get('connect_variable.merchant')){
+				return Redirect::to('merchants/transaction');
+			}
+			elseif ($role == Config::get('connect_variable.admin')) {
+				return Redirect::to('admin/dashboard');
+			}
+			elseif ($role != Config::get('connect_variable.unverified_user') && $role != Config::get('connect_variable.verified_user')){
 				Session::flash('errors', 'Please login first with your account');
 				return Redirect::to('/login');
 			}
@@ -206,7 +212,7 @@ class CustomersController extends BaseController {
 				return View::make('/customers/increase-limit-done');
 			}
 		}
-		else if (Request::isMethod('POST')){
+		elseif (Request::isMethod('POST')){
 			if (Input::get('current_address') == ""){
 				$current_address = Input::get('id_address');
 			}else{
@@ -284,7 +290,7 @@ class CustomersController extends BaseController {
 	        	$topup_array = $topup->toArray();
 	            fputcsv($fp, $topup_array);
         	}
-		} else if ($transaction_type == 'transfer'){
+		} elseif ($transaction_type == 'transfer'){
 			$transfers_data = Transfer::where('from_username', '=', ConnectHelper::getCurrentUserUsername())->get();
 			$filename = 'Transfer_Data_'.$data['username'].'.csv';
 			$fp = fopen($filename, 'w');
@@ -294,7 +300,7 @@ class CustomersController extends BaseController {
 	        	$transfer_array = $transfer->toArray();
 	            fputcsv($fp, $transfer_array);
 	        }
-		} else if ($transaction_type == 'purchase'){
+		} elseif ($transaction_type == 'purchase'){
 			$purchases_data = Purchase::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
 			$filename = 'Purchase_Data_'.$data['username'].'.csv';
 			$fp = fopen($filename, 'w');	
@@ -500,7 +506,7 @@ class CustomersController extends BaseController {
 				if(isset($e->error->validation->propertyErrors->oldPassword)){
 					Session::flash('error_password_current','current password is empty');
 				}
-			}else if($e->error->errorCode == 'INVALID_PASSWORD'){
+			}elseif($e->error->errorCode == 'INVALID_PASSWORD'){
 				Session::flash('error_current_password','Invalid Password');
 			}
 			return Redirect::to('/customers/profile#change-password');
