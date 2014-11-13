@@ -14,7 +14,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Transaction ID
+                            Purchase ID
                         </th>
                         <th>
                             Date & Time

@@ -78,7 +78,7 @@
                             {{{$increase_limit->username_customer}}}
                         </td>
                         <td>
-                            <a href="#confirm-request"><button id="{{{$increase_limit->id}}}" class="button-table darkblue dashboard confirm-request-button">Confirm Request</button></a>
+                            <a href="#increase-limit#confirm-request"><button id="{{{$increase_limit->id}}}" class="button-table darkblue dashboard confirm-request-button">Confirm Request</button></a>
                         </td>
                     </tr>
                 @endforeach
@@ -129,7 +129,7 @@
         </div>
 
         <div id="confirm-request-box" class="centered admin-side-box" style="display: none">
-            <span id="close-confirm-request" class="button-close admin">&#10006;</span>
+            <a href="#increase-limit" id="close-confirm-request" class="button-close admin" style="text-decoration:none">&#10006;</a>
             <h2>Customer Details</h2>
             <br/>
             <h1 id="increase-limit-name"></h1>
@@ -195,7 +195,7 @@
             </table>
             <br/>
             <button id="accept-increase-limit-button" class="button darkblue admin-notification">ACCEPT</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="#deny"><button id="denial-button" class="button cyan admin-notification">DENY</button></a>
+            <a href="#increase-limit#confirm-request#deny"><button id="denial-button" class="button cyan admin-notification">DENY</button></a>
             <br/><br/>
             <div id="denial-messages-box" style="display: none">
                 {{ Form::open((array('url' => 'admin/reject_increase_limit', 'method' => 'post'))) }}
@@ -428,5 +428,24 @@
             $("#pop-up-confirm-request").fadeOut("fast");
         });
 
+        $(document).ready(function(){
+            var close_account_increase_limit_path = location.href.split("#")[1];
+            var confirm_request_path = location.href.split("#")[2];
+            var deny_path = location.href.split("#")[3];
+            if(close_account_increase_limit_path == "close-account") {
+                $( "#admin-close-account-button" ).trigger("click");
+            }
+            else if (close_account_increase_limit_path == "increase-limit") {
+                $( "#admin-increase-limit-button" ).trigger("click");
+                if(confirm_request_path == "confirm-request") {
+                    setTimeout(function () {
+                       jQuery('.confirm-request-button').trigger('click');
+                    }, 150);
+                    if(deny_path == "deny") {
+                        $( "#denial-button" ).trigger("click");
+                    }
+                }
+            }
+        });
     </script>
 @stop

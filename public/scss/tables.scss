@@ -325,22 +325,27 @@ $dark-red:     #BE1E2D;
 
 #admin-top-up-transaction-table th:nth-child(2),
 #admin-top-up-transaction-table td:nth-child(2){
-  width: 19%;
+  width: 18%;
 }
 
 #admin-top-up-transaction-table th:nth-child(3),
 #admin-top-up-transaction-table td:nth-child(3){
-  width: 33%;
+  width: 22%;
 }
 
 #admin-top-up-transaction-table th:nth-child(4),
 #admin-top-up-transaction-table td:nth-child(4){
-  width: 18%;
+  width: 21%;
 }
 
 #admin-top-up-transaction-table th:nth-child(5),
 #admin-top-up-transaction-table td:nth-child(5){
-  width: 16%;
+  width: 14%;
+}
+
+#admin-top-up-transaction-table th:nth-child(6),
+#admin-top-up-transaction-table td:nth-child(6){
+  width: 11%;
 }
 
 #admin-top-up-transaction-table tr:last-child td {
@@ -435,12 +440,12 @@ $dark-red:     #BE1E2D;
 
 #admin-manage-user-merchant-table th:nth-child(2),
 #admin-manage-user-merchant-table td:nth-child(2){
-  width: 30%;
+  width: 25%;
 }
 
 #admin-manage-user-merchant-table th:nth-child(3),
 #admin-manage-user-merchant-table td:nth-child(3){
-  width: 15%;
+  width: 20%;
 }
 
 #admin-manage-user-merchant-table th:nth-child(4),

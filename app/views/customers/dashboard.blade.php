@@ -186,5 +186,18 @@
           $(this).addClass('orange');
         });
 
+        $(document).ready(function(){
+            var purchase_transfer_topup_path = location.href.split("#")[1];
+            if(purchase_transfer_topup_path == "purchase") {
+                $( "#purchase-dashboard-button" ).trigger("click");
+            }
+            else if(purchase_transfer_topup_path == "transfer") {
+                $( "#topup-dashboard-button" ).trigger("click");
+            }
+            else if(purchase_transfer_topup_path == "top-up") {
+                $( "#transfer-dashboard-button" ).trigger("click");
+            }
+        });
+
     </script>
 @stop

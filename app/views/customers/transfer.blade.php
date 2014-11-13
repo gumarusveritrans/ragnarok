@@ -31,7 +31,7 @@
           <div>
             {{ Form::label('transfer_amount', 'Transfer Amount') }}
             {{ Form::text('transfer_amount', '', array('class' => 'form-control')) }}
-             @if(Session::has('errors'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif 
+            @if(Session::has('errors'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif 
           </div>
           <br/>
           <div class="block">

@@ -162,7 +162,7 @@ class ConnectPagesController extends BaseController {
 
 	public function reset_password(){
 		if(Request::getMethod()=='GET'){
-			return View::make('/connect_pages/reset_password');	
+			return View::make('/connect_pages/reset-password');	
 		}elseif(Request::getMethod()=='POST'){
 			//GETTING USER EMAIL
 			$userService = new Cyclos\Service('userService');

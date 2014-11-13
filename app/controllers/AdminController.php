@@ -328,47 +328,30 @@ class AdminController extends BaseController {
 			$validator = Validator::make(Input::all(), $rules);
 
 			if($validator->fails()){
-	            return Redirect::to('admin/manage-user#create-merchant')->withInput()->withErrors($validator);
+	            return Redirect::to('admin/manage-user#manage-merchant#create-merchant')->withInput()->withErrors($validator);
 			}else{
 				$userService = new Cyclos\Service('userService');
+				$result = $userService->run("getUserRegistrationGroups",array(),false);
+				$id;
 
-				try{
-					$result = $userService->run("getUserRegistrationGroups",array(),false);
-					$id;
-
-					foreach($result as $res){
-						if($res->name == Config::get('connect_variable.merchant')){
-							$id = $res->id;
-						}
-					}
-
-					$params = new stdclass();
-					$params->group = new stdclass();
-					$params->group->id = $id;
-
-					$params->username = $_POST['merchant_name'];
-					$params->email = $_POST['merchant_email'];
-					$params->name = $_POST['merchant_name'];
-
-					$userService->run('register',$params,false);
-					return View::make('admin/create-merchant-success');
-				}catch (Cyclos\ServiceException $e){
-					if($e->errorCode == "VALIDATION"){
-						$errors = "";
-						foreach($e->error->validation->propertyErrors as $error){
-							$errors = $errors . $error[0] . "\n";
-						}
-						Session::flash('errors',$errors);
-						var_dump($errors);	
-					}else{
-						Session::flash('errors',$e->errorCode);
-						var_dump($e->errorCode);
+				foreach($result as $res){
+					if($res->name == Config::get('connect_variable.merchant')){
+						$id = $res->id;
 					}
 				}
+
+				$params = new stdclass();
+				$params->group = new stdclass();
+				$params->group->id = $id;
+
+				$params->username = $_POST['merchant_name'];
+				$params->email = $_POST['merchant_email'];
+				$params->name = $_POST['merchant_name'];
+
+				$userService->run('register',$params,false);
+				return View::make('admin/create-merchant-success');
 			}
-
         }
-
 	}
 
 	public function add_product(){

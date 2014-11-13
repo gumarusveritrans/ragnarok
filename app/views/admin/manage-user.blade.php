@@ -49,7 +49,7 @@
                         </td>
                         <td>
                             @if ($profiles[$user->username])
-                                <a href="#profile"><button class="profile-button button-table darkblue dashboard" value="{{{$user->username}}}">Profile</button></a>                            
+                                <a href="#manage-customer#profile"><button class="profile-button button-table darkblue dashboard" value="{{{$user->username}}}">Profile</button></a>                            
                             @endif
                         </td>
                     </tr>
@@ -60,7 +60,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Merchant Name
+                            Merchant Username
                         </th>
                         <th>
                             Email
@@ -88,17 +88,17 @@
                             Rp {{{number_format($merchant->balance,2,',','.')}}}
                         </td>
                         <td>
-                            <a href="#delete"><button  class="delete-id-button button-table darkblue dashboard" value="{{{$merchant->username}}}">Delete ID</button></a>
+                            <a href="#manage-merchant#delete"><button class="delete-id-button button-table darkblue dashboard" value="{{{$merchant->username}}}">Delete ID</button></a>
                         </td>
                         <td>
-                            <a href="#add-product"><button id="add-product" class="add-product-button button-table darkblue dashboard" value={{{$merchant->username}}}>Add Product</button></a>
+                            <a href="#manage-merchant#add-product"><button id="add-product" class="add-product-button button-table darkblue dashboard" value={{{$merchant->username}}}>Add Product</button></a>
                         </td>
                     </tr>
                 @endforeach
             </table>
         </div>
         <div id="profile-box" class="centered admin-side-box" style="display: none">
-            <span id="close-profile" class="button-close admin">&#10006;</span>
+            <a href="#manage-customer" id="close-profile" class="button-close admin" style="text-decoration: none">&#10006;</a>
             <h2>Customer Details</h2>
             <br/>
             <h1 id="profile_box_username"></h1>
@@ -155,7 +155,7 @@
             </table>
         </div>
         <div id="add-product-box" class="centered admin-side-box" style="display: none">
-            <span id="close-add-product" class="button-close admin">&#10006;</span>
+            <a href="#manage-merchant" id="close-add-product" class="button-close admin" style="text-decoration:none">&#10006;</a>
             <h1>Add Product</h1>
             {{ Form::open(array('route' => 'add-product', 'method' => 'post', 'id' => 'add-product-form')) }}
                 {{ Form::label('product_name', 'Product Name') }}
@@ -178,31 +178,31 @@
             {{ Form::close() }}
         </div>
         <div id="create-merchant-box" class="centered admin-side-box" style="display: none">
-            <span id="close-create-merchant" class="button-close admin">&#10006;</span>
+            <a href="#manage-merchant" id="close-create-merchant" class="button-close admin" style="text-decoration: none">&#10006;</a>
             <h1>Create Merchant</h1>
             {{ Form::open(array('url' =>'/admin/create_merchant ')) }}
                 {{ Form::label('merchant', 'Merchant Name') }}
                 {{ Form::text('merchant_name', '', array('class' => 'form-control')) }}
-                {{ $errors->first('merchant_name', '<span>:message</span>') }}<br/>
+                @if ($errors->has('merchant_name')) <p class="error-message">{{ $errors->first('merchant_name') }}</p> @endif
 
                 {{ Form::label('merchant_email', 'Merchant Email') }}
                 {{ Form::text('merchant_email', '', array('class' => 'form-control')) }}
-                {{ $errors->first('merchant_email', '<span>:message</span>') }}<br/>
+                @if ($errors->has('merchant_email')) <p class="error-message">{{ $errors->first('merchant_email') }}</p> @endif
 
                 {{ Form::submit('ADD', array('class' => 'button darkblue admin-notification')) }}
             {{ Form::close() }}
         </div>
-        <a href="#create-merchant"><button id="create-merchant-button" class="button darkblue dashboard" style="display: none; float: right; margin-right: 80px; margin-top: 10px">Create Merchant</button></a>
+        <a href="#manage-merchant#create-merchant"><button id="create-merchant-button" class="button darkblue dashboard" style="display: none; float: right; margin-right: 80px; margin-top: 10px">Create Merchant</button></a>
         <div id="pop-up-delete-id" class="admin pop-up" style="display: none">
             <h1>DELETE ID</h1>
             <h2>Are you sure want to delete merchant's account?</h2>
             <button id="yes-delete-id" class="button darkblue admin-notification">YES</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button id="no-delete-id" class="button cyan admin-notification">NO</button>
+            <a href="#manage-merchant"><button id="no-delete-id" class="button cyan admin-notification">NO</button></a>
         </div>
         <div id="pop-up-add-product" class="admin pop-up" style="display: none">
             <h1>PRODUCT ADDED</h1>
             <h2>The product has been added!</h2>
-            <a href=""><button id="ok-add-product" class="button darkblue admin-notification">OK</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="#manage-merchant"><button id="ok-add-product" class="button darkblue admin-notification">OK</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
     </div>
 
@@ -211,47 +211,46 @@
 
         $(function(){
 
-        //For getting the merchant intended to delete
-        var deleted_merchant = "";
+            //For getting the merchant intended to delete
+            var deleted_merchant = "";
 
-        var profile_box_username = [];
-        var profile_box_id_type = [];
-        var profile_box_id_number = [];
-        var profile_box_full_name = [];
-        var profile_box_address = [];
-        var profile_box_birth_place = [];
-        var profile_box_birth_date = [];
-        var profile_box_sex = [];
+            var profile_box_username = [];
+            var profile_box_id_type = [];
+            var profile_box_id_number = [];
+            var profile_box_full_name = [];
+            var profile_box_address = [];
+            var profile_box_birth_place = [];
+            var profile_box_birth_date = [];
+            var profile_box_sex = [];
 
-        function postDeleteMerchant(){
-            method = "post"; // Set method to post by default if not specified.
+            function postDeleteMerchant(){
+                method = "post"; // Set method to post by default if not specified.
 
-            // The rest of this code assumes you are not using a library.
-            // It can be made less wordy if you use one.
-            var form = document.createElement("form");
-            form.setAttribute("method", method);
-            form.setAttribute("action", '/admin/delete_merchant');
+                // The rest of this code assumes you are not using a library.
+                // It can be made less wordy if you use one.
+                var form = document.createElement("form");
+                form.setAttribute("method", method);
+                form.setAttribute("action", '/admin/delete_merchant');
 
-            var hiddenField = document.createElement("input");
-            
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", "merchant_id");
-            hiddenField.setAttribute("value", deleted_merchant);
+                var hiddenField = document.createElement("input");
+                
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", "merchant_id");
+                hiddenField.setAttribute("value", deleted_merchant);
 
-            form.appendChild(hiddenField);
+                form.appendChild(hiddenField);
 
-            hiddenField = document.createElement("input");
-            
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", "_token");
-            hiddenField.setAttribute("value", "{{{csrf_token()}}}");
+                hiddenField = document.createElement("input");
+                
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", "_token");
+                hiddenField.setAttribute("value", "{{{csrf_token()}}}");
 
-            form.appendChild(hiddenField);
+                form.appendChild(hiddenField);
 
-            document.body.appendChild(form);
-            form.submit();
-        }
-
+                document.body.appendChild(form);
+                form.submit();
+            }
 
             @foreach($profiles as $profile)
                 @if (isset($profile->username_customer))
@@ -424,6 +423,27 @@
                 event.preventDefault();
             });
 
+        });
+
+        $(document).ready(function(){
+            var manage_customer_merchant_path = location.href.split("#")[1];
+            var create_add_merchant_path = location.href.split("#")[2];
+            if(manage_customer_merchant_path == "manage-merchant") {
+                $( "#admin-manage-user-merchant-button" ).trigger("click");
+                if(create_add_merchant_path == "create-merchant") {
+                    setTimeout(function () {
+                       jQuery('#create-merchant-button').trigger('click');
+                    }, 150);
+                }
+                else if(create_add_merchant_path == "add-product") {
+                    setTimeout(function () {
+                       jQuery('.add-product-button').trigger('click');
+                    }, 150); 
+                }
+            }
+            else if (manage_customer_merchant_path == "manage-customer"){
+                $( "#admin-manage-user-customer-button" ).trigger("click");
+            }
         });
 
     </script>
