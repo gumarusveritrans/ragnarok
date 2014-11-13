@@ -97,9 +97,9 @@
 			    		@if(Session::has('error'))
 			    		<p class="errors">{{ Session::get('error') }}</p>
 			    		@endif
-			    		<input id="finish-form" name="finish-form" type="hidden" value="">
+			    		<input id="finish-form" name="finish-form" type="hidden" value="false">
 				    </div>
-				    <div id="validation-errors"></div>
+				    <div id="validation-errors" style="color:red"></div>
 				    <div class="next-button">
 				    	<button class='button darkbrown' id='finish-button'>
 				    	FINISH
@@ -155,6 +155,14 @@
 		      $( "#user-information" ).fadeIn();
 		    });
 
+		    $("#finish-button" ).click(function(event) {
+		    	event.preventDefault();
+		    	if ($("#finish-form").val() == "false"){
+		    		$("#validation-errors").append('<div class="alert alert-error"><strong>Please upload image first</strong><div>');
+		    		$("#validation-errors").show();
+		    	}
+		    });
+
 			$("#birth_date").datepicker({
 				maxDate: 0,
 				changeMonth: true,
@@ -180,8 +188,9 @@
 		        dataType: 'json' 
 		        }; 
 
-		     $('body').delegate('#image-upload','change', function(){
-		         $('#upload-form').ajaxForm(options).submit();          
+		     $('body').delegate('#image-upload','change', function(event){
+		         $('#upload-form').ajaxForm(options).submit();
+		         event.preventDefault();          
 		     }); 
 
 		   	function postUserInformation(){

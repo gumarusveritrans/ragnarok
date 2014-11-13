@@ -181,7 +181,14 @@
         return;
     }
 
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-Token': '{{{csrf_token()}}}'
+      }
+    });
+
     function postPurchaseProduct(){
+
         $.ajax({
             url:"/customers/purchase_products",
             type:"POST",

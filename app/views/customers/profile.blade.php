@@ -100,13 +100,13 @@
 
             <div>
               {{ Form::label('password', 'Password') }}<br />
-              {{ Form::password('password', array('id' => 'password-id', 'class' => 'form-control')) }}
+              {{ Form::password('password', array('maxlength' => 32, 'id' => 'password-id', 'class' => 'form-control')) }}
               <p class="error-message">{{ Session::pull('error_password_new')}}</p>
             </div>
 
             <div>
               {{ Form::label('password_confirmation', 'Password Confirmation') }}<br />
-              {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
+              {{ Form::password('password_confirmation', array('maxlength' => 32, 'class' => 'form-control')) }}
               <p class="error-message">{{ Session::pull('error_password_confirmation')}}</p>
             </div>
 

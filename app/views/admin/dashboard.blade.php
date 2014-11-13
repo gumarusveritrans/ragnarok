@@ -15,7 +15,6 @@
         </div>
 
         <div  id="admin-purchase-transaction-table" class="all-table admin" style="display: none">
-            <div class="centered">
             <table align="center">
                 <thead>
                     <tr>
@@ -36,30 +35,31 @@
                         </th>
                     </tr>
                 </thead>
+                @foreach ($purchases as $purchase)
                 <tr>
                     <td >
-                        
+                        {{{ "PID".$purchase->id }}}
                     </td>
                     <td>
-                        
+                        {{{ $purchase->date_purchase }}}
                     </td>
                     <td>
-                        
+                        {{{ $purchase->username_customer }}}
                     </td>
                     <td>
-                        
+                        Rp {{{ number_format($purchase->total(),2,',','.') }}}
                     </td>
                     <td>
-                        
+                        {{{ $purchase->product->first()->merchant_name or 'error' }}}
                     </td>
                 </tr>
+                @endforeach
             </table>
 
             <span class="link-download-admin">{{ link_to ("/admin/download-csv?transaction_type=purchase", 'Download as CSV') }}</span>
-            </div>
         </div>
+
         <div id="admin-transfer-transaction-table" class="all-table admin" style="display: none">
-            <div class="centered">
             <table align="center">
                 <thead>
                     <tr>
@@ -101,10 +101,8 @@
                 @endforeach
             </table>
             <span class="link-download-admin" style="clear:both; float:right">{{ link_to ("/admin/download-csv?transaction_type=transfer", 'Download as CSV') }}</span>
-            </div>
         </div>
         <div id="admin-top-up-transaction-table" class="all-table admin" style="display: none">
-            <div class="centered">
             <table  align="center">
                 <thead>
                     <tr>
@@ -152,7 +150,6 @@
                 @endforeach
             </table>
             <span class="link-download-admin" style="clear:both; float:right">{{ link_to ("/admin/download-csv?transaction_type=topup", 'Download as CSV') }}</span>
-            </div>
         </div>
         
     </div>

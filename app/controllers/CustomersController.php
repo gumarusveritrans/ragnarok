@@ -79,74 +79,89 @@ class CustomersController extends BaseController {
 		if(Request::getMethod()=='GET'){
 			return View::make('/customers/transfer')->with('data',$data);
 		}else{
-			$transactionService = new Cyclos\Service('transactionService');
-			$paymentService = new Cyclos\Service('paymentService');
+			$rules = array(
+				'transfer_amount' => 'required|numeric|integer|min:1'
+			);
 
-			if (Session::get('cyclos_username') == $_POST['transfer_recipient']){
-				Session::flash('errors', 'Couldn\'t transfer to your own account');
-				return View::make('customers/transfer')->with('data',$data);			
-			}
-			try{
-				$data = $transactionService->run('getPaymentData',array(array("username"=>Session::get('cyclos_username')),array("username"=> $_POST['transfer_recipient'])),true);
-				
-				$params = new stdclass();
-				$params->from = $data->from;
-				$params->to = $data->to;
-				$params->type = $data->paymentTypes[0];
-				$params->amount = $_POST['transfer_amount'];
-				$params->desc = "Transfer from ". $data->from->name. " to ". $data->to->name;
+			$messages = array(
+				'integer' => ':attribute must be numeric', 
+			);
 
-				$paymentResult = $paymentService->run('perform',$params,true);
+			$validator = Validator::make(Input::all(), $rules, $messages);
 
-				$transfer = Transfer::create(array(
-					'date_transfer'=>new DateTime, 
-					'from_username'=>ConnectHelper::getCurrentUserUsername(),
-					'to_username'=>$_POST['transfer_recipient'],
-					'amount'=>$_POST['transfer_amount']
-				));
+			if ($validator->fails()){
+				return View::make('customers/transfer')->withErrors($validator)->with('data',$data);;
+			}else{
+				$transactionService = new Cyclos\Service('transactionService');
+				$paymentService = new Cyclos\Service('paymentService');
 
-				// Mail::send('emails.transfer', array('transfer_recipient' => $_POST['transfer_recipient'],
-				// 									'transfer_amount' => $_POST['transfer_amount']), function($message)
-				// {
-				//     $message->to(ConnectHelper::getCurrentUserEmail(), ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
-				// });
+				if (Session::get('cyclos_username') == $_POST['transfer_recipient']){
+					Session::flash('errors', 'Couldn\'t transfer to your own account');
+					return View::make('customers/transfer')->with('data',$data);			
+				}
+				try{
+					$data = $transactionService->run('getPaymentData',array(array("username"=>Session::get('cyclos_username')),array("username"=> $_POST['transfer_recipient'])),true);
+					
+					$params = new stdclass();
+					$params->from = $data->from;
+					$params->to = $data->to;
+					$params->type = $data->paymentTypes[0];
+					$params->amount = $_POST['transfer_amount'];
+					$params->desc = "Transfer from ". $data->from->name. " to ". $data->to->name;
 
-				Session::put('_token', sha1(microtime()));
+					$paymentResult = $paymentService->run('perform',$params,true);
 
-				return View::make('customers/transfer-success')
-					->with('transfer_amount', $_POST['transfer_amount'])
-					->with('transfer_recipient', $_POST['transfer_recipient']);
-			}catch (Cyclos\ServiceException $e){
-				$data = array();
-				$data['username'] = ConnectHelper::getCurrentUserUsername();
-				$data['balance'] = ConnectHelper::getCurrentUserBalance();
-				$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-				switch ($e->errorCode) {
-					case 'VALIDATION':
-						Session::flash('errors', 'Please input the correct recipient and amount');
-						return View::make('customers/transfer')->with('data',$data);
-						break;
-					case 'ENTITY_NOT_FOUND':
-						Session::flash('errors', 'Invalid User Recipient');
-						return View::make('customers/transfer')->with('data',$data);
-						break;
-					case 'INSUFFICIENT_BALANCE':
-						Session::flash('errors', 'Insufficient Balance');
-						return View::make('customers/transfer')->with('data',$data);
-						break;
-					case 'DATA_ACCESS':
-						Session::flash('errors', 'Transfer Overload');
-						return View::make('customers/transfer')->with('data',$data);
-						break;
-					case 'INVALID_PARAMETER':
-						Session::flash('errors', 'Invalid Transfer Amount');
-						return View::make('customers/transfer')->with('data',$data);
-						break;
-					default:
-						var_dump($e->errorCode);
-						break;
+					$transfer = Transfer::create(array(
+						'date_transfer'=>new DateTime, 
+						'from_username'=>ConnectHelper::getCurrentUserUsername(),
+						'to_username'=>$_POST['transfer_recipient'],
+						'amount'=>$_POST['transfer_amount']
+					));
+
+					// Mail::send('emails.transfer', array('transfer_recipient' => $_POST['transfer_recipient'],
+					// 									'transfer_amount' => $_POST['transfer_amount']), function($message)
+					// {
+					//     $message->to(ConnectHelper::getCurrentUserEmail(), ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
+					// });
+
+					Session::put('_token', sha1(microtime()));
+
+					return View::make('customers/transfer-success')
+						->with('transfer_amount', $_POST['transfer_amount'])
+						->with('transfer_recipient', $_POST['transfer_recipient']);
+				}catch (Cyclos\ServiceException $e){
+					$data = array();
+					$data['username'] = ConnectHelper::getCurrentUserUsername();
+					$data['balance'] = ConnectHelper::getCurrentUserBalance();
+					$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+					switch ($e->errorCode) {
+						case 'VALIDATION':
+							Session::flash('errors', 'Please input the correct recipient and amount');
+							return View::make('customers/transfer')->with('data',$data);
+							break;
+						case 'ENTITY_NOT_FOUND':
+							Session::flash('errors', 'Invalid User Recipient');
+							return View::make('customers/transfer')->with('data',$data);
+							break;
+						case 'INSUFFICIENT_BALANCE':
+							Session::flash('errors', 'Insufficient Balance');
+							return View::make('customers/transfer')->with('data',$data);
+							break;
+						case 'DATA_ACCESS':
+							Session::flash('errors', 'Transfer Overload');
+							return View::make('customers/transfer')->with('data',$data);
+							break;
+						case 'INVALID_PARAMETER':
+							Session::flash('errors', 'Invalid Transfer Amount');
+							return View::make('customers/transfer')->with('data',$data);
+							break;
+						default:
+							var_dump($e->errorCode);
+							break;
+					}
 				}
 			}
+
 		}
 	}
 
@@ -221,24 +236,41 @@ class CustomersController extends BaseController {
 				$current_address = Input::get('current_address');
 			}
 
-			IncreaseLimit::create(array(
-				'date_increase_limit' => new DateTime,
-				'full_name' => Input::get('full_name'),
-				'id_type' => Input::get('id_type'),
-				'id_number' => Input::get('id_number'),
-				'gender' => Input::get('gender'),
-				'birth_place' => Input::get('birth_place'),
-				'birth_date' => Input::get('birth_date'),
-				'id_address'=> Input::get('id_address'),
-				'current_address' => $current_address,
-				'username_customer' => ConnectHelper::getCurrentUserUsername(),
-				'status' => 'in process'
-			));
-			Session::put('_token', sha1(microtime()));
-			return View::make('customers/increase-limit-success');
+			$increaseLimit = IncreaseLimit::where('username_customer','=',ConnectHelper::getCurrentUserUsername())->first();
+			//If exist validate accepted and update if not accepted. If not exist, create
+			if($increaseLimit != null){
+				if($increaseLimit->status == 'denied'){
+					$increaseLimit->date_increase_limit = new DateTime;
+					$increaseLimit->full_name = Input::get('full_name');
+					$increaseLimit->id_type = Input::get('id_type');
+					$increaseLimit->id_number = Input::get('id_number');
+					$increaseLimit->gender  = Input::get('gender');
+					$increaseLimit->birth_place = Input::get('birth_place');
+					$increaseLimit->birth_date = Input::get('birth_date');
+					$increaseLimit->id_address = Input::get('id_address');
+					$increaseLimit->current_address = $current_address;
+					$increaseLimit->username_customer = ConnectHelper::getCurrentUserUsername();
+					$increaseLimit->status = 'in process';
+				}else{
+					return Redirect::to('/customers/dashboard');
+				}
+			}else{
+				IncreaseLimit::create(array(
+					'date_increase_limit' => new DateTime,
+					'full_name' => Input::get('full_name'),
+					'id_type' => Input::get('id_type'),
+					'id_number' => Input::get('id_number'),
+					'gender' => Input::get('gender'),
+					'birth_place' => Input::get('birth_place'),
+					'birth_date' => Input::get('birth_date'),
+					'id_address'=> Input::get('id_address'),
+					'current_address' => $current_address,
+					'username_customer' => ConnectHelper::getCurrentUserUsername(),
+					'status' => 'in process'
+				));
+				Session::put('_token', sha1(microtime()));
+			}
 		}
-
-		
 	}
 
 	public function getUploadForm() {
@@ -378,7 +410,7 @@ class CustomersController extends BaseController {
 			$max = $data['limitBalance'] - $data['balance'];
 
 			$rules = array(
-				'topup_amount'     	=> 'required|numeric|max:'.$max
+				'topup_amount'     	=> 'required|numeric|min:1|max:'.$max
 			);
 
 			$messages = array(
@@ -420,9 +452,9 @@ class CustomersController extends BaseController {
 
 	public function validate_close_account_form(){
 		$rules = array(
-			'account_bank'		 => 'required',
+			'account_bank'		 => 'required|alpha_spaces',
 			'account_number'     => 'required|numeric',
-			'account_name'     	 => 'required'	
+			'account_name'     	 => 'required|alpha_spaces'	
 		);
 
 		$validator = Validator::make(Input::all(), $rules);
@@ -462,6 +494,9 @@ class CustomersController extends BaseController {
 
 				$result = $userGroupService->run('changeGroup',$params,false);
 				Session::flush();
+
+				Session::put('_token', sha1(microtime()));
+				
 				return View::make('customers/close-account-success');
 
 			}catch(Exception $e){
@@ -483,6 +518,7 @@ class CustomersController extends BaseController {
 
 		try{
 			$passwordService->run('change',$changePasswordDTO,true);
+			Session::put('_token', sha1(microtime()));
 			return View::make('customers/change-password-success');
 		}catch(Cyclos\ServiceException $e){
 			if($e->error->errorCode == 'VALIDATION'){
@@ -504,11 +540,11 @@ class CustomersController extends BaseController {
 
 	public function validate_user_information_form(){
 		$rules = array(
-			'full_name'	 		=> 'required',
+			'full_name'	 		=> 'required|alpha_spaces',
 			'id_type'     		=> 'required',
 			'id_number'	 		=> 'required',
 			'gender'     		=> 'required',
-			'birth_place'		=> 'required',
+			'birth_place'		=> 'required|alpha_spaces',
 			'birth_date'		=> 'required',
 			'id_address'		=> 'required'
 		);
@@ -532,8 +568,8 @@ class CustomersController extends BaseController {
 		$products_purchased = Input::json()->get('shoppingCart');
 		
 		//Validate shopping cart
-		if(count($products_purchased) == 0){
-			return Response::json(array('status' => 'failed' ,'message' => 'Shopping cart is empty'));
+		if(count($products_purchased) == 0 || count($products_purchased) > 5){
+			return Response::json(array('status' => 'failed' ,'message' => 'Invalid quantity'));
 		}
 
 		//Quantity validator
@@ -581,6 +617,7 @@ class CustomersController extends BaseController {
 
 			DB::commit();
 			$status = 'success';
+			Session::put('_token', sha1(microtime()));
 
 			//Sending notification
 

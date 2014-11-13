@@ -2,9 +2,9 @@
 
 @section('content-admin')
 <div id="notification" class="container admin">
-	<h1>Create Success</h1>
+	<h1>Increase Limit Rejected</h1>
 	<div class="wrapper">
-		<p>Merchant has been added successfully</p>
+		<p>Customer's request for increasing account limit has been rejected</p>
 		<br/>
 		<div style="text-align:left">
 			{{ link_to ("/admin/dashboard", 'Back to Dashboard') }}

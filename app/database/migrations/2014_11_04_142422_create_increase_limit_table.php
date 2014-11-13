@@ -25,7 +25,7 @@ class CreateIncreaseLimitTable extends Migration {
 			$table->string('id_address');
 			$table->string('current_address');
 			$table->string('message')->nullable();
-			$table->string('username_customer');
+			$table->string('username_customer')->unique();
 			$table->string('status');
 		});
 	}

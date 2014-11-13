@@ -141,7 +141,7 @@
                         Place, Date of Birth
                     </td>
                     <td>
-                        <span id="profile_box_birth_place"></span>, <span id="profile_box_birth_date"></span>
+                        <span id="profile_box_birth_place"></span>, d<span id="profile_box_birth_date"></span>
                     </td>
                 </tr>
                 <tr>
@@ -181,8 +181,9 @@
             <a href="#manage-merchant" id="close-create-merchant" class="button-close admin" style="text-decoration: none">&#10006;</a>
             <h1>Create Merchant</h1>
             {{ Form::open(array('url' =>'/admin/create_merchant ')) }}
+            
                 {{ Form::label('merchant', 'Merchant Name') }}
-                {{ Form::text('merchant_name', '', array('class' => 'form-control')) }}
+                {{ Form::text('merchant_name', '', array('maxlength' => 20, 'class' => 'form-control')) }}
                 @if ($errors->has('merchant_name')) <p class="error-message">{{ $errors->first('merchant_name') }}</p> @endif
 
                 {{ Form::label('merchant_email', 'Merchant Email') }}
