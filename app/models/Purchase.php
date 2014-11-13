@@ -33,11 +33,9 @@ class Purchase extends Eloquent implements UserInterface, RemindableInterface {
     public function total(){
     	$sum = 0;
     	$products = $this->product()->get();
-
     	foreach($products as $product){
     		$sum += $product->pivot->quantity * $product->price;
     	}
-
     	return $sum;
     }
 

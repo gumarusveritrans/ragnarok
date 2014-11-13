@@ -65,10 +65,10 @@ class ConnectUpdateTopup extends Command {
 
 					DB::commit();
 					
-					// Mail::send('emails.topup', array('transfer_amount' => $response->gross_amount), function($message)
-					// {
-					//     $message->to('danny.pranoto@veritrans.co.id', $pending_topup->username_customer)->subject('Top-Up Success');
-					// });
+					Mail::send('emails.topup', array('transfer_amount' => $response->gross_amount), function($message)
+					{
+					    $message->to(ConnectHelper::getUserEmail($pending_topup->username_customer), $pending_topup->username_customer)->subject('Top-Up Success');
+					});
 				}
 
 

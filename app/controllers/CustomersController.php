@@ -23,11 +23,13 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$topups = Topup::where('username_customer', '=', $data['username'])->get();
-		$transfers = Transfer::where('from_username', '=', $data['username'])->get();
+		$topups = Topup::where('username_customer', $data['username'])->get();
+		$transfers = Transfer::where('from_username', $data['username'])->get();
+		$purchases = Purchase::where('username_customer', $data['username'])->get();
 		return View::make('/customers/dashboard')->with('data',$data)
 												 ->with('topups', $topups)
-												 ->with('transfers', $transfers);
+												 ->with('transfers', $transfers)
+												 ->with('purchases', $purchases);
 	}
 
 	public function reset_password() {
@@ -108,6 +110,8 @@ class CustomersController extends BaseController {
 				// {
 				//     $message->to(ConnectHelper::getCurrentUserEmail(), ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
 				// });
+
+				Session::put('_token', sha1(microtime()));
 
 				return View::make('customers/transfer-success')
 					->with('transfer_amount', $_POST['transfer_amount'])
@@ -230,6 +234,7 @@ class CustomersController extends BaseController {
 				'username_customer' => ConnectHelper::getCurrentUserUsername(),
 				'status' => 'in process'
 			));
+			Session::put('_token', sha1(microtime()));
 			return View::make('customers/increase-limit-success');
 		}
 
@@ -302,10 +307,11 @@ class CustomersController extends BaseController {
 			$purchases_data = Purchase::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
 			$filename = 'Purchase_Data_'.$data['username'].'.csv';
 			$fp = fopen($filename, 'w');	
-			$purchase_header= array("purchase_id", "date_time", "status", "amount", "username_customer");
+			$purchase_header= array("purchase_id", "date_purchase", "username_customer", "status", "total");
 			fputcsv($fp, $purchase_header);
 	        foreach( $purchases_data as $purchase ) {
 	        	$purchase_array = $purchase->toArray();
+	        	array_push($purchase_array, $purchase->total());
 	            fputcsv($fp, $purchase_array);
 	        }
 		}
@@ -454,7 +460,7 @@ class CustomersController extends BaseController {
 
 				$result = $userGroupService->run('changeGroup',$params,false);
 				Session::flush();
-				return Redirect::to('customers/close-account-success');
+				return View::make('customers/close-account-success');
 
 			}catch(Exception $e){
 				Session::flash('errors_cyclos','There are some trouble, please try again later');

@@ -127,20 +127,22 @@
                         </th>
                     </tr>
                 </thead>
+                @foreach ($purchases as $purchase) 
                 <tr>
                     <td>
-                        
+                        {{{ "PID".$purchase->id }}}
                     </td>
                     <td>
-                        
+                        {{{ $purchase->date_purchase }}}
                     </td>
                     <td>
-                       
+                       Rp {{{ number_format($purchase->total(),2,',','.') }}}
                     </td>
                     <td>
-                        
+                        {{{ $purchase->product->first()->merchant_name or 'error' }}}
                     </td>
                 </tr>
+                @endforeach
             </table>
             <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=purchase", 'Download as CSV') }}</span>
             </div>
@@ -183,7 +185,6 @@
           $("#transfer-dashboard-button").addClass('lightbrown');
           $(this).addClass('orange');
         });
-
 
     </script>
 @stop
