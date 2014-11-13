@@ -308,6 +308,9 @@ class AdminController extends BaseController {
 
 			$redeem->redeemed = true;
 			$redeem->save();
+
+			Session::put('_token', sha1(microtime()));
+
 			echo 'success!';
 		}catch(Exception $e){
 			echo 'There are some trouble, please try again later.';
@@ -469,6 +472,8 @@ class AdminController extends BaseController {
 					'merchant_name' => Input::get('merchant_name')
 				));
 
+				Session::put('_token', sha1(microtime()));
+
 				return Response::json(['success' => true], 200);
 			}
 
@@ -487,6 +492,8 @@ class AdminController extends BaseController {
 			$message->from('connect_cs@connect.co.id', 'Connect');
 		    $message->to(ConnectHelper::getUserEmail(Input::get('increase_limit_username')), Input::get('increase_limit_username'))->subject('Request for Increase Limit Rejected');
 		});
+
+		Session::put('_token', sha1(microtime()));
 
 		return Redirect::to('/admin/notification#');
 	}
@@ -533,6 +540,8 @@ class AdminController extends BaseController {
 		// {
 		//     $message->to($email_customer, Input::get('increase_limit_username'))->subject('Request for Increase Limit Approved');
 		// });
+
+		Session::put('_token', sha1(microtime()));
 
 		return Redirect::to('/admin/notification#');
 	}

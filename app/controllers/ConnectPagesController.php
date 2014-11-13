@@ -209,6 +209,8 @@ class ConnectPagesController extends BaseController {
 				    $message->to(Input::get('email'), Session::pull('temp_username'))->subject('Registration Detail');
 				});
 
+				Session::put('_token', sha1(microtime()));
+
 				return View::make('connect_pages/register-success');
 			}catch (Cyclos\ServiceException $e){
 				if($e->errorCode == "VALIDATION"){
@@ -297,6 +299,8 @@ class ConnectPagesController extends BaseController {
 					$message->from('connect_cs@connect.co.id', 'Connect');
 				    $message->to(Input::get('email'), Session::pull('temp_username'))->subject('Reset Password');
 				});
+
+				Session::put('_token', sha1(microtime()));
 
 			}catch(Cyclos\ServiceException $e){
 				//NO EXCEPTION HANDLING NEEDED

@@ -477,6 +477,9 @@ class CustomersController extends BaseController {
 
 				$result = $userGroupService->run('changeGroup',$params,false);
 				Session::flush();
+
+				Session::put('_token', sha1(microtime()));
+				
 				return View::make('customers/close-account-success');
 
 			}catch(Exception $e){
@@ -498,6 +501,7 @@ class CustomersController extends BaseController {
 
 		try{
 			$passwordService->run('change',$changePasswordDTO,true);
+			Session::put('_token', sha1(microtime()));
 			return View::make('customers/change-password-success');
 		}catch(Cyclos\ServiceException $e){
 			if($e->error->errorCode == 'VALIDATION'){
@@ -547,8 +551,8 @@ class CustomersController extends BaseController {
 		$products_purchased = Input::json()->get('shoppingCart');
 		
 		//Validate shopping cart
-		if(count($products_purchased) == 0){
-			return Response::json(array('status' => 'failed' ,'message' => 'Shopping cart is empty'));
+		if(count($products_purchased) == 0 || count($products_purchased) > 5){
+			return Response::json(array('status' => 'failed' ,'message' => 'Invalid quantity'));
 		}
 
 		//Quantity validator
@@ -596,6 +600,7 @@ class CustomersController extends BaseController {
 
 			DB::commit();
 			$status = 'success';
+			Session::put('_token', sha1(microtime()));
 
 			//Sending notification
 
