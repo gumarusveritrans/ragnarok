@@ -142,6 +142,7 @@ class ConnectPagesController extends BaseController {
 						}
 					}
 
+
 					$params = new stdclass();
 					$params->group = new stdclass();
 					$params->group->id = $id;
@@ -150,8 +151,76 @@ class ConnectPagesController extends BaseController {
 					$params->email = $_POST['email'];
 					$params->name = $_POST['username'];
 
-
 					$userService->run('register',$params,false);
+
+					//Change to random password and send password
+					$alpha = "abcdefghijklmnopqrstuvwxyz";
+					$alpha_upper = strtoupper($alpha);
+					$numeric = "0123456789";
+					$special = ".-+=_,!@$#*%<>[]{}";
+					$chars = "";
+					 
+				    // default [a-zA-Z0-9]{9}
+				    $chars = $alpha . $alpha_upper . $numeric;
+				    $length = 9;
+					 
+					$len = strlen($chars);
+					$pw = '';
+
+					//ensuring password policy
+					$pw .= substr($alpha, rand(0, strlen($alpha)-1), 1);
+				 	$pw .= substr($alpha_upper, rand(0, strlen($alpha_upper)-1), 1);
+				 	$pw .= substr($numeric, rand(0, strlen($numeric)-1), 1);
+
+					for ($i=0;$i<$length;$i++)
+			        	$pw .= substr($chars, rand(0, $len-1), 1);
+					 
+					// the finished password
+					$pw = str_shuffle($pw);
+
+					//Sending new password
+					//getting user id
+
+					$userService = new Cyclos\Service('userService');
+					$params = new stdclass();
+					$params->email = Input::get('email');
+
+					$result = $userService->run('getViewProfileData',$params,false);
+
+					$user_id = $result->user->id;
+					$username = $result->user->username;
+					Session::put('temp_username',$username);
+
+					//getting login password data
+					$passwordTypeService = new Cyclos\Service('passwordTypeService');
+					$result = $passwordTypeService->run('list',array(),false);				
+
+					foreach($result as $type){
+						if($type->name == Config::get('connect_variable.cyclos_login_password')){
+							$login_password_type = $type;
+						}
+					}
+
+					//changin the password in cyclos
+					$passwordService = new Cyclos\Service('passwordService');
+					
+					$changePasswordDTO = new stdclass();
+					$changePasswordDTO->type = $login_password_type;
+					$changePasswordDTO->user = new stdclass();
+					$changePasswordDTO->user->id = $user_id;
+					$changePasswordDTO->newPassword = $pw;
+					$changePasswordDTO->confirmNewPassword = $pw;
+
+					$passwordService->run('change',$changePasswordDTO,false);
+					Mail::send('emails.register', array('password' => $pw,
+															   'username' => $username), function($message)
+					{
+						$message->from('connect_cs@connect.co.id', 'Connect');
+					    $message->to(Input::get('email'), Session::pull('temp_username'))->subject('Registration Detail');
+					});
+
+					Session::put('_token', sha1(microtime()));
+
 					return View::make('connect_pages/register-success');
 				}catch (Cyclos\ServiceException $e){
 					if($e->errorCode == "VALIDATION"){
@@ -159,12 +228,6 @@ class ConnectPagesController extends BaseController {
 						foreach($e->error->validation->propertyErrors as $error){
 							$errors = $errors . $error[0] . "\n";
 						}
-						Session::flash('errors',$errors);
-						return View::make('/connect_pages/register');	
-						
-					}else{
-						Session::flash('errors',$e->errorCode);
-						return View::make('/connect_pages/register');
 					}
 				}
 			}
@@ -242,6 +305,8 @@ class ConnectPagesController extends BaseController {
 				    $message->to(Input::get('email'), Session::pull('temp_username'))->subject('Reset Password');
 				});
 				return View::make('connect_pages/reset-password-success');
+
+				Session::put('_token', sha1(microtime()));
 
 			}catch(Cyclos\ServiceException $e){
 				//NO EXCEPTION HANDLING NEEDED

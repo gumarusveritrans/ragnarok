@@ -236,24 +236,41 @@ class CustomersController extends BaseController {
 				$current_address = Input::get('current_address');
 			}
 
-			IncreaseLimit::create(array(
-				'date_increase_limit' => new DateTime,
-				'full_name' => Input::get('full_name'),
-				'id_type' => Input::get('id_type'),
-				'id_number' => Input::get('id_number'),
-				'gender' => Input::get('gender'),
-				'birth_place' => Input::get('birth_place'),
-				'birth_date' => Input::get('birth_date'),
-				'id_address'=> Input::get('id_address'),
-				'current_address' => $current_address,
-				'username_customer' => ConnectHelper::getCurrentUserUsername(),
-				'status' => 'in process'
-			));
-			Session::put('_token', sha1(microtime()));
-			return View::make('customers/increase-limit-success');
+			$increaseLimit = IncreaseLimit::where('username_customer','=',ConnectHelper::getCurrentUserUsername())->first();
+			//If exist validate accepted and update if not accepted. If not exist, create
+			if($increaseLimit != null){
+				if($increaseLimit->status == 'denied'){
+					$increaseLimit->date_increase_limit = new DateTime;
+					$increaseLimit->full_name = Input::get('full_name');
+					$increaseLimit->id_type = Input::get('id_type');
+					$increaseLimit->id_number = Input::get('id_number');
+					$increaseLimit->gender  = Input::get('gender');
+					$increaseLimit->birth_place = Input::get('birth_place');
+					$increaseLimit->birth_date = Input::get('birth_date');
+					$increaseLimit->id_address = Input::get('id_address');
+					$increaseLimit->current_address = $current_address;
+					$increaseLimit->username_customer = ConnectHelper::getCurrentUserUsername();
+					$increaseLimit->status = 'in process';
+				}else{
+					return Redirect::to('/customers/dashboard');
+				}
+			}else{
+				IncreaseLimit::create(array(
+					'date_increase_limit' => new DateTime,
+					'full_name' => Input::get('full_name'),
+					'id_type' => Input::get('id_type'),
+					'id_number' => Input::get('id_number'),
+					'gender' => Input::get('gender'),
+					'birth_place' => Input::get('birth_place'),
+					'birth_date' => Input::get('birth_date'),
+					'id_address'=> Input::get('id_address'),
+					'current_address' => $current_address,
+					'username_customer' => ConnectHelper::getCurrentUserUsername(),
+					'status' => 'in process'
+				));
+				Session::put('_token', sha1(microtime()));
+			}
 		}
-
-		
 	}
 
 	public function getUploadForm() {
@@ -475,6 +492,9 @@ class CustomersController extends BaseController {
 
 				$result = $userGroupService->run('changeGroup',$params,false);
 				Session::flush();
+
+				Session::put('_token', sha1(microtime()));
+				
 				return View::make('customers/close-account-success');
 
 			}catch(Exception $e){
@@ -496,6 +516,7 @@ class CustomersController extends BaseController {
 
 		try{
 			$passwordService->run('change',$changePasswordDTO,true);
+			Session::put('_token', sha1(microtime()));
 			return View::make('customers/change-password-success');
 		}catch(Cyclos\ServiceException $e){
 			if($e->error->errorCode == 'VALIDATION'){
@@ -545,8 +566,8 @@ class CustomersController extends BaseController {
 		$products_purchased = Input::json()->get('shoppingCart');
 		
 		//Validate shopping cart
-		if(count($products_purchased) == 0){
-			return Response::json(array('status' => 'failed' ,'message' => 'Shopping cart is empty'));
+		if(count($products_purchased) == 0 || count($products_purchased) > 5){
+			return Response::json(array('status' => 'failed' ,'message' => 'Invalid quantity'));
 		}
 
 		//Quantity validator
@@ -594,6 +615,7 @@ class CustomersController extends BaseController {
 
 			DB::commit();
 			$status = 'success';
+			Session::put('_token', sha1(microtime()));
 
 			//Sending notification
 

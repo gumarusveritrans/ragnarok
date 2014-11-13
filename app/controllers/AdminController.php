@@ -311,6 +311,10 @@ class AdminController extends BaseController {
 
 			$redeem->redeemed = true;
 			$redeem->save();
+			
+
+			Session::put('_token', sha1(microtime()));
+
 			return View::make('admin/close-account-success');
 		}catch(Exception $e){
 			echo 'There are some trouble, please try again later.';
@@ -354,6 +358,73 @@ class AdminController extends BaseController {
 					$params->name = $_POST['merchant_name'];
 
 					$userService->run('register',$params,false);
+
+					//Change to random password and send password
+					$alpha = "abcdefghijklmnopqrstuvwxyz";
+					$alpha_upper = strtoupper($alpha);
+					$numeric = "0123456789";
+					$special = ".-+=_,!@$#*%<>[]{}";
+					$chars = "";
+					 
+				    // default [a-zA-Z0-9]{9}
+				    $chars = $alpha . $alpha_upper . $numeric;
+				    $length = 9;
+					 
+					$len = strlen($chars);
+					$pw = '';
+
+					//ensuring password policy
+					$pw .= substr($alpha, rand(0, strlen($alpha)-1), 1);
+				 	$pw .= substr($alpha_upper, rand(0, strlen($alpha_upper)-1), 1);
+				 	$pw .= substr($numeric, rand(0, strlen($numeric)-1), 1);
+
+					for ($i=0;$i<$length;$i++)
+			        	$pw .= substr($chars, rand(0, $len-1), 1);
+					 
+					// the finished password
+					$pw = str_shuffle($pw);
+
+					//Sending new password
+					//getting user id
+
+					$userService = new Cyclos\Service('userService');
+					$params = new stdclass();
+					$params->email = Input::get('merchant_email');
+
+					$result = $userService->run('getViewProfileData',$params,false);
+
+					$user_id = $result->user->id;
+					$username = $result->user->username;
+					Session::put('temp_username',$username);
+
+					//getting login password data
+					$passwordTypeService = new Cyclos\Service('passwordTypeService');
+					$result = $passwordTypeService->run('list',array(),false);				
+
+					foreach($result as $type){
+						if($type->name == Config::get('connect_variable.cyclos_login_password')){
+							$login_password_type = $type;
+						}
+					}
+
+					//changin the password in cyclos
+					$passwordService = new Cyclos\Service('passwordService');
+					
+					$changePasswordDTO = new stdclass();
+					$changePasswordDTO->type = $login_password_type;
+					$changePasswordDTO->user = new stdclass();
+					$changePasswordDTO->user->id = $user_id;
+					$changePasswordDTO->newPassword = $pw;
+					$changePasswordDTO->confirmNewPassword = $pw;
+
+					$passwordService->run('change',$changePasswordDTO,false);
+					Mail::send('emails.register', array('password' => $pw,
+															   'username' => $username), function($message)
+					{
+						$message->from('connect_cs@connect.co.id', 'Connect');
+					    $message->to(Input::get('merchant_email'), Session::pull('temp_username'))->subject('Registration Detail');
+					});
+
 					return View::make('admin/create-merchant-success');
 				}catch (Cyclos\ServiceException $e){
 					if($e->errorCode == "VALIDATION"){
@@ -405,6 +476,8 @@ class AdminController extends BaseController {
 					'merchant_name' => Input::get('merchant_name')
 				));
 
+				Session::put('_token', sha1(microtime()));
+
 				return Response::json(['success' => true], 200);
 			}
 
@@ -413,12 +486,12 @@ class AdminController extends BaseController {
 
 	public function reject_increase_limit(){
 		$rules = array(
-			'denial_message'	=> 'required'
+			'denial_messages'	=> 'required'
 		);
 
 		$validator = Validator::make(Input::all(), $rules);
 		if ($validator->fails()){
-			return View::make('admin/notification#')->withErrors($validator);
+			return Redirect::to('admin/notification#')->withErrors($validator);
 		}else{		
 			$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));//->update(array('status' => ($response->transaction_status)));
 			$increase_limit->message = Input::get('denial_message');
@@ -432,7 +505,8 @@ class AdminController extends BaseController {
 			    $message->to(ConnectHelper::getUserEmail(Input::get('increase_limit_username')), Input::get('increase_limit_username'))->subject('Request for Increase Limit Rejected');
 			});
 
-			return Redirect::to('/admin/notification#');
+			Session::put('_token', sha1(microtime()));
+			return View::make('admin/increase-limit-rejected');
 		}
 	}
 
@@ -479,7 +553,9 @@ class AdminController extends BaseController {
 		//     $message->to($email_customer, Input::get('increase_limit_username'))->subject('Request for Increase Limit Approved');
 		// });
 
-		return Redirect::to('/admin/notification#');
+		Session::put('_token', sha1(microtime()));
+
+		return View::make('admin/increase-limit-success');
 	}
 
 	public function delete_merchant(){
