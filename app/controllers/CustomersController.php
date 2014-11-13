@@ -23,11 +23,13 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$topups = Topup::where('username_customer', '=', $data['username'])->get();
-		$transfers = Transfer::where('from_username', '=', $data['username'])->get();
+		$topups = Topup::where('username_customer', $data['username'])->get();
+		$transfers = Transfer::where('from_username', $data['username'])->get();
+		$purchases = Purchase::where('username_customer', $data['username'])->get();
 		return View::make('/customers/dashboard')->with('data',$data)
 												 ->with('topups', $topups)
-												 ->with('transfers', $transfers);
+												 ->with('transfers', $transfers)
+												 ->with('purchases', $purchases);
 	}
 
 	public function reset_password() {
@@ -304,10 +306,11 @@ class CustomersController extends BaseController {
 			$purchases_data = Purchase::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
 			$filename = 'Purchase_Data_'.$data['username'].'.csv';
 			$fp = fopen($filename, 'w');	
-			$purchase_header= array("purchase_id", "date_time", "status", "amount", "username_customer");
+			$purchase_header= array("purchase_id", "date_purchase", "username_customer", "status", "total");
 			fputcsv($fp, $purchase_header);
 	        foreach( $purchases_data as $purchase ) {
 	        	$purchase_array = $purchase->toArray();
+	        	array_push($purchase_array, $purchase->total());
 	            fputcsv($fp, $purchase_array);
 	        }
 		}
