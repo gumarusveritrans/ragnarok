@@ -203,6 +203,7 @@
                     {{ Form::textarea('denial_messages', '', array('class' => 'form-control text-area')) }}
                     {{ Form::hidden('increase_limit_id','',array('id'=>'increase_limit_id')) }}
                     {{ Form::hidden('increase_limit_username','',array('id'=>'increase_limit_username')) }}
+                    @if ($errors->has('denial_messages')) <p class="error-message">{{ $errors->first('denial_messages') }}</p> @endif
                     {{ Form::submit('SEND', array('class' => 'button darkblue admin-notification')) }}
                 {{ Form::close() }}
             </div>
