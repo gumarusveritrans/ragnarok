@@ -502,7 +502,7 @@ class AdminController extends BaseController {
 
 		$validator = Validator::make(Input::all(), $rules);
 		if ($validator->fails()){
-			return Redirect::to('admin/notification#')->withErrors($validator);
+			return Redirect::to('admin/notification#increase-limit#confirm-request#deny')->withErrors($validator);
 		}else{		
 			$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));//->update(array('status' => ($response->transaction_status)));
 			$increase_limit->message = Input::get('denial_message');

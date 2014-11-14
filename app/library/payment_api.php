@@ -6,7 +6,7 @@ class PaymentAPI {
 	public static function charge_topup($topup_id, $topup_amount){
 
 		$transaction_details = array(
-			'order_id' => 'TUID1'.$topup_id,
+			'order_id' => 'TUID2'.$topup_id,
 			'gross_amount' => $topup_amount
 		);
 
