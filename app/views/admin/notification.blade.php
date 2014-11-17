@@ -283,7 +283,7 @@
             
             hiddenField.setAttribute("type", "hidden");
             hiddenField.setAttribute("name", "_token");
-            hiddenField.setAttribute("value", {{{csrf_token()}}});
+            hiddenField.setAttribute("value", "{{{csrf_token()}}}");
 
             form.appendChild(hiddenField);
 
@@ -372,7 +372,7 @@
             customer_name = close_account_name[$(this).attr('id')];
 
             $("#close-account-name").html(close_account_name[$(this).attr('id')]);
-            $("#close-account-amount").html(close_account_amount[$(this).attr('id')]);
+            $("#close-account-amount").html('Rp '+new Intl.NumberFormat(['ban', 'id']).format(close_account_amount[$(this).attr('id')])+',00');
             $("#close-account-bank-name").html(close_account_bank[$(this).attr('id')]);
             $("#close-account-account-name").html(close_account_account_name[$(this).attr('id')]);
             $("#close-account-account-number").html(close_account_number[$(this).attr('id')]);

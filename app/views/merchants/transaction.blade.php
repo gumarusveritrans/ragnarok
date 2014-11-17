@@ -3,6 +3,12 @@
 @section('content-merchant')
     <div id="subheader-wrapper">
         <span class="subtitle merchant">TRANSACTION</span>
+        <div class="balance">
+          Balance Amount<br/>
+            <span class="currency">
+                Rp {{{ number_format($data['balance'], 2, ',', '.') }}}
+            </span>
+        </div>
     </div>
 
     <hr id="merchant-horizontal-line"/>
@@ -53,7 +59,7 @@
                         </td>
                         <td>
                             @if($purchase->status == "success")
-                                <a href="#reject-transaction"><button id="{{{$purchase->id}}}" class="reject-button button-table darkred merchant">Reject</button></a>
+                                <a href="#reject-transaction"><button id="{{{$purchase->id}}}" class="reject-button button-table darkred merchant">Cancel</button></a>
                             @endif
                         </td>
                     </tr>

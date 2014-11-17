@@ -159,22 +159,27 @@ $dark-red:     #BE1E2D;
 /* Set Transfer Dashboard Table */
 #transfer-dashboard-table th:nth-child(1),
 #transfer-dashboard-table td:nth-child(1){
-  width: 24%;
+  width: 15%;
 }
 
 #transfer-dashboard-table th:nth-child(2),
 #transfer-dashboard-table td:nth-child(2){
-  width: 28%;
+  width: 21%;
 }
 
 #transfer-dashboard-table th:nth-child(3),
 #transfer-dashboard-table td:nth-child(3){
-  width: 24%;
+  width: 20%;
 }
 
 #transfer-dashboard-table th:nth-child(4),
 #transfer-dashboard-table td:nth-child(4){
-  width: 24%;
+  width: 22%;
+}
+
+#transfer-dashboard-table th:nth-child(5),
+#transfer-dashboard-table td:nth-child(5){
+  width: 22%;
 }
 
 #transfer-dashboard-table tr:last-child td {
@@ -184,22 +189,27 @@ $dark-red:     #BE1E2D;
 /* Set Purchase Dashboard Table */
 #purchase-dashboard-table th:nth-child(1),
 #purchase-dashboard-table td:nth-child(1){
-  width: 24%;
+  width: 15%;
 }
 
 #purchase-dashboard-table th:nth-child(2),
 #purchase-dashboard-table td:nth-child(2){
-  width: 28%;
+  width: 21%;
 }
 
 #purchase-dashboard-table th:nth-child(3),
 #purchase-dashboard-table td:nth-child(3){
-  width: 24%;
+  width: 20%;
 }
 
 #purchase-dashboard-table th:nth-child(4),
 #purchase-dashboard-table td:nth-child(4){
-  width: 24%;
+  width: 22%;
+}
+
+#purchase-dashboard-table th:nth-child(5),
+#purchase-dashboard-table td:nth-child(5){
+  width: 22%;
 }
 
 #purchase-dashboard-table tr:last-child td {

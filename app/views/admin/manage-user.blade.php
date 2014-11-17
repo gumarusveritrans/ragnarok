@@ -141,7 +141,7 @@
                         Place, Date of Birth
                     </td>
                     <td>
-                        <span id="profile_box_birth_place"></span>, d<span id="profile_box_birth_date"></span>
+                        <span id="profile_box_birth_place"></span>, <span id="profile_box_birth_date"></span>
                     </td>
                 </tr>
                 <tr>
