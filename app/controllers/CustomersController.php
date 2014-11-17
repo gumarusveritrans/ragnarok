@@ -251,6 +251,9 @@ class CustomersController extends BaseController {
 					$increaseLimit->current_address = $current_address;
 					$increaseLimit->username_customer = ConnectHelper::getCurrentUserUsername();
 					$increaseLimit->status = 'in process';
+					$increaseLimit->save();
+					Session::put('_token', sha1(microtime()));
+					return View::make('/customers/increase-limit-done');
 				}else{
 					return Redirect::to('/customers/dashboard');
 				}
@@ -269,6 +272,7 @@ class CustomersController extends BaseController {
 					'status' => 'in process'
 				));
 				Session::put('_token', sha1(microtime()));
+				return View::make('/customers/increase-limit-done');
 			}
 		}
 	}
