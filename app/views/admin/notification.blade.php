@@ -279,13 +279,13 @@
 
             var hiddenField = document.createElement("input");
             
-            hiddenField = document.createElement("input");
-            
             hiddenField.setAttribute("type", "hidden");
             hiddenField.setAttribute("name", "_token");
             hiddenField.setAttribute("value", {{{csrf_token()}}});
 
             form.appendChild(hiddenField);
+
+            hiddenField = document.createElement("input");
 
             hiddenField.setAttribute("type", "hidden");
             hiddenField.setAttribute("name", "redeem_id");

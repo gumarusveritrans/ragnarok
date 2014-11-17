@@ -52,7 +52,7 @@
                             {{{$purchase->status}}}
                         </td>
                         <td>
-                            @if($purchase->status == "success")
+                            @if($purchase->status == "success" AND !$purchase->closed)
                                 <a href="#reject-transaction"><button id="{{{$purchase->id}}}" class="reject-button button-table darkred merchant">Reject</button></a>
                             @endif
                         </td>
