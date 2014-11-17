@@ -487,8 +487,6 @@ class AdminController extends BaseController {
 					'merchant_name' => Input::get('merchant_name')
 				));
 
-				Session::put('_token', sha1(microtime()));
-
 				return Response::json(['success' => true], 200);
 			}
 

@@ -43,4 +43,14 @@ class ConnectHelper{
 
 		return $result->email;
 	}
+
+	public static function getUserRole($username){
+		$params = new stdclass();
+		$params->username = $username;
+
+		$userService = new Cyclos\Service('userService');
+		$result = $userService->run('getViewProfileData',$params,false);
+
+		return $result->group->name;
+	}
 }

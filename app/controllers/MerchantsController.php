@@ -117,6 +117,14 @@ class MerchantsController extends BaseController {
 			$merchant_name = ConnectHelper::getCurrentUserUsername();
 		    $p->where('merchant_name', '=', $merchant_name);
 		})->get();
+
+		//Checking if customers already closed
+		foreach($purchases as $purchase){
+			if(ConnectHelper::getUserRole($purchase->username_customer) == Config::get('connect_variable.request_close_account_user') || ConnectHelper::getUserRole($purchase->username_customer) == Config::get('connect_variable.closed_user_account')){
+				$purchase->closed = true;
+			}
+		}
+
 		return View::make('/merchants/transaction')
 			 ->with('purchases', $purchases)
 			 ->with('data', $data);

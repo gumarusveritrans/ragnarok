@@ -48,7 +48,7 @@
                             Rp {{{number_format($user->limitBalance,2,',','.')}}}
                         </td>
                         <td>
-                            @if ($profiles[$user->username])
+                            @if ($profiles[$user->username] AND $profiles[$user->username]->status == 'accepted')
                                 <a href="#manage-customer#profile"><button class="profile-button button-table darkblue dashboard" value="{{{$user->username}}}">Profile</button></a>                            
                             @endif
                         </td>
