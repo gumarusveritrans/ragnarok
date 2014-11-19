@@ -546,12 +546,11 @@ class AdminController extends BaseController {
 		$increase_limit->status = 'accepted';
 		$increase_limit->save();
 
-		$email_customer = ConnectHelper::getUserEmail(Input::get('increase_limit_username'));
-		// Mail::send('emails.increase_limit_approved', array('customer_username' => Input::get('increase_limit_username'),
-		// 												   'denial_message' => Input::get('denial_message')), function($message)
-		// {
-		//     $message->to($email_customer, Input::get('increase_limit_username'))->subject('Request for Increase Limit Approved');
-		// });
+		Mail::send('emails.increase_limit_approved', array('customer_username' => Input::get('increase_limit_username'),
+														   'denial_message' => Input::get('denial_message')), function($message)
+		{
+		    $message->to(ConnectHelper::getUserEmail(Input::get('increase_limit_username')), Input::get('increase_limit_username'))->subject('Request for Increase Limit Approved');
+		});
 
 		Session::put('_token', sha1(microtime()));
 

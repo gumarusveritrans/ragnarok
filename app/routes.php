@@ -63,3 +63,4 @@ Route::post('user-information-form', 'CustomersController@validate_user_informat
 Route::post('upload-id-card', 'CustomersController@upload');
 Route::get('/upload', 'CustomersController@getUploadForm');
 // Route::post('admin-login-form', 'AdminController@validate_login_form');
+Route::post('/notification-handling', 'NotificationController@getMessage');

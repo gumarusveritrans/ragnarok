@@ -13,8 +13,8 @@ $cyan:         #3ABEEF;
 $red:          #ff0000;
 $light-gray:   #F8F8FF;
 $dark-orange:  #F7931D;
-$light-red:    #E0A2A8;
-$dark-red:     #BE1E2D;
+$light-white:  #F6ECC5;
+$dark-white:   #B58755;
 
 /* Button Style */
 .button {
@@ -101,18 +101,18 @@ $dark-red:     #BE1E2D;
     }
   }
   &.darkred {
-    background: $dark-red;
-    color: $light-red;
+    background: $dark-white;
+    color: $light-white;
     &:hover {
-      background: $light-red;
+      background: $light-white;
       color: $white;
     }
   }
   &.lightred {
-    background: $light-red;
-    color: $dark-red;
+    background: $light-white;
+    color: $dark-white;
     &:hover {
-      background: $dark-red;
+      background: $dark-white;
       color: $white;
     }
   }
@@ -151,18 +151,18 @@ $dark-red:     #BE1E2D;
     }
   }
   &.darkred {
-    background: $dark-red;
-    color: $light-red;
+    background: $dark-white;
+    color: $light-white;
     &:hover {
-      background: $light-red;
+      background: $light-white;
       color: $white;
     }
   }
   &.lightred {
-    background: $light-red;
-    color: $dark-red;
+    background: $light-white;
+    color: $dark-white;
     &:hover {
-      background: $dark-red;
+      background: $dark-white;
       color: $white;
     }
   }

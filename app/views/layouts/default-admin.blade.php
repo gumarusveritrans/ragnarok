@@ -18,7 +18,7 @@
       <header class="header-admin">
       @if (!Session::get('cyclos_session_token'))
           <div id="logo-admin-merchant-home" class="block">
-            {{ HTML::image('images/logo_admin.png', 'Connect Logo', array('class' => 'centered')) }}
+            {{ HTML::image('images/logo_admin_home.png', 'Connect Logo', array('class' => 'centered')) }}
 
           </div>
         @else

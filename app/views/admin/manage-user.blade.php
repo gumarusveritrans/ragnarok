@@ -159,15 +159,15 @@
             <h1>Add Product</h1>
             {{ Form::open(array('route' => 'add-product', 'method' => 'post', 'id' => 'add-product-form')) }}
                 {{ Form::label('product_name', 'Product Name') }}
-                {{ Form::text('product_name', '', array('id' => 'product-name', 'required' => true, 'class' => 'form-control')) }}
+                {{ Form::text('product_name', '', array('id' => 'product-name', 'required' => true, 'class' => 'form-control admin')) }}
                 {{ $errors->first('product_name', '<span>:message</span>') }}<br/>
 
                 {{ Form::label('price', 'Price') }}
-                {{ Form::text('price', '', array('id' => 'price', 'required' => true, 'class' => 'form-control')) }}
+                {{ Form::text('price', '', array('id' => 'price', 'required' => true, 'class' => 'form-control admin')) }}
                 {{ $errors->first('price', '<span>:message</span>') }}<br/>
 
                 {{ Form::label('description', 'Description') }}
-                {{ Form::textarea('description', '', array('id' => 'description', 'required' => true, 'class' => 'form-control text-area')) }}
+                {{ Form::textarea('description', '', array('id' => 'description', 'required' => true, 'class' => 'form-control admin text-area')) }}
                 {{ $errors->first('description', '<span>:message</span>') }}<br/>
 
                 {{ Form::hidden('merchant_name', '', array('id'=>'merchant-name')) }}
@@ -182,11 +182,11 @@
             <h1>Create Merchant</h1>
             {{ Form::open(array('url' =>'/admin/create_merchant ')) }}
                 {{ Form::label('merchant', 'Merchant Name') }}
-                {{ Form::text('merchant_name', '', array('maxlength' => 20, 'class' => 'form-control')) }}
+                {{ Form::text('merchant_name', '', array('maxlength' => 20, 'class' => 'form-control admin')) }}
                 {{ $errors->first('merchant_name', '<span>:message</span>') }}<br/>
 
                 {{ Form::label('merchant_email', 'Merchant Email') }}
-                {{ Form::text('merchant_email', '', array('class' => 'form-control')) }}
+                {{ Form::text('merchant_email', '', array('class' => 'form-control admin')) }}
                 {{ $errors->first('merchant_email', '<span>:message</span>') }}<br/>
 
                 {{ Form::submit('ADD', array('class' => 'button darkblue admin-notification')) }}

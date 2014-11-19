@@ -17,7 +17,7 @@
       <header class="header-merchant">
         @if (!Session::get('cyclos_session_token'))
           <div id="logo-admin-merchant-home" class="block">
-            {{ HTML::image('images/logo_merchant.png', 'Connect Logo', array('class' => 'centered')) }}
+            {{ HTML::image('images/logo_merchant_home.png', 'Connect Logo', array('class' => 'centered')) }}
           </div>
         @else
           <div id="logo-wrapper" class="block">
@@ -31,7 +31,7 @@
             </ul>
           </div>
           <div id="welcome-wrapper" class="merchant block">
-            <font color="#E0A2A8">Welcome,</font> {{Session::get('cyclos_username')}}
+            <font color="#FFFFFF">Welcome,</font> {{Session::get('cyclos_username')}}
           </div>
         @endif
       </header>

@@ -13,8 +13,11 @@ $cyan:         #3ABEEF;
 $red:          #ff0000;
 $light-gray:   #F8F8FF;
 $dark-orange:  #F7931D;
-$light-red:    #E0A2A8;
-$dark-red:     #BE1E2D;
+$light-red:    #F6ECC5;
+$dark-red:     #B58755;
+$red-orange:   #D24927;
+$light-white:  #F6ECC5;
+$dark-white:   #E2C778;
 
 .all-table {
   margin:20px 0;
@@ -100,8 +103,8 @@ $dark-red:     #BE1E2D;
 }
 
 .all-table.merchant thead th{
-  background-color:$dark-red;
-  color:$light-red;
+  background-color:$dark-white;
+  color:$white;
 }
 
 /* Link Download */
