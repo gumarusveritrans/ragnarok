@@ -83,6 +83,9 @@
                             Amount
                         </th>
                         <th>
+                            Sender Account
+                        </th>
+                        <th>
                             Destination Account
                         </th>
                     </tr>
@@ -97,6 +100,9 @@
                     </td>
                     <td>
                         Rp {{{ number_format($transfer->amount, 2, ',', '.') }}}
+                    </td>
+                    <td>
+                        {{{ $transfer->from_username }}}
                     </td>
                     <td>
                         {{{ $transfer->to_username }}}
@@ -125,6 +131,9 @@
                         <th>
                             Merchant Name
                         </th>
+                        <th>
+                            Status
+                        </th>
                     </tr>
                 </thead>
                 @foreach ($purchases as $purchase) 
@@ -140,6 +149,9 @@
                     </td>
                     <td>
                         {{{ $purchase->product->first()->merchant_name or 'error' }}}
+                    </td>
+                    <td>
+                        {{{ $purchase->status }}}
                     </td>
                 </tr>
                 @endforeach
@@ -184,6 +196,19 @@
           $("#topup-dashboard-button").addClass('lightbrown');
           $("#transfer-dashboard-button").addClass('lightbrown');
           $(this).addClass('orange');
+        });
+
+        $(document).ready(function(){
+            var purchase_transfer_topup_path = location.href.split("#")[1];
+            if(purchase_transfer_topup_path == "purchase") {
+                $( "#purchase-dashboard-button" ).trigger("click");
+            }
+            else if(purchase_transfer_topup_path == "transfer") {
+                $( "#topup-dashboard-button" ).trigger("click");
+            }
+            else if(purchase_transfer_topup_path == "top-up") {
+                $( "#transfer-dashboard-button" ).trigger("click");
+            }
         });
 
     </script>

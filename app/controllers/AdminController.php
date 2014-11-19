@@ -335,9 +335,11 @@ class AdminController extends BaseController {
 			$validator = Validator::make(Input::all(), $rules);
 
 			if($validator->fails()){
-	            return Redirect::to('admin/manage-user#create-merchant')->withInput()->withErrors($validator);
+	            return Redirect::to('admin/manage-user#manage-merchant#create-merchant')->withInput()->withErrors($validator);
 			}else{
 				$userService = new Cyclos\Service('userService');
+				$result = $userService->run("getUserRegistrationGroups",array(),false);
+				$id;
 
 				try{
 					$result = $userService->run("getUserRegistrationGroups",array(),false);
@@ -439,10 +441,19 @@ class AdminController extends BaseController {
 						var_dump($e->errorCode);
 					}
 				}
+
+				$params = new stdclass();
+				$params->group = new stdclass();
+				$params->group->id = $id;
+
+				$params->username = $_POST['merchant_name'];
+				$params->email = $_POST['merchant_email'];
+				$params->name = $_POST['merchant_name'];
+
+				$userService->run('register',$params,false);
+				return View::make('admin/create-merchant-success');
 			}
-
         }
-
 	}
 
 	public function add_product(){
@@ -476,8 +487,6 @@ class AdminController extends BaseController {
 					'merchant_name' => Input::get('merchant_name')
 				));
 
-				Session::put('_token', sha1(microtime()));
-
 				return Response::json(['success' => true], 200);
 			}
 
@@ -491,7 +500,7 @@ class AdminController extends BaseController {
 
 		$validator = Validator::make(Input::all(), $rules);
 		if ($validator->fails()){
-			return Redirect::to('admin/notification#')->withErrors($validator);
+			return Redirect::to('admin/notification#increase-limit#confirm-request#deny')->withErrors($validator);
 		}else{		
 			$increase_limit = IncreaseLimit::find(Input::get("increase_limit_id"));//->update(array('status' => ($response->transaction_status)));
 			$increase_limit->message = Input::get('denial_message');

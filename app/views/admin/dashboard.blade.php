@@ -10,7 +10,7 @@
     <div id="subcontent-wrapper">
         <div id="subbuttons-wrapper">
             <a href="#purchase"><button id="admin-purchase-transaction-button" class="button lightblue dashboard">Purchase Transaction</button></a>
-            <a href="#transer"><button id="admin-transfer-transaction-button" class="button lightblue dashboard">Transfer Transaction</button></a>
+            <a href="#transfer"><button id="admin-transfer-transaction-button" class="button lightblue dashboard">Transfer Transaction</button></a>
             <a href="#top-up"><button id="admin-top-up-transaction-button" class="button lightblue dashboard">Top-Up Transaction</button></a>
         </div>
 
@@ -92,7 +92,7 @@
                         {{{ $transfer->from_username }}}
                     </td>
                     <td>
-                        Rp {{{ number_format($transfer->amount,2,',','.') }}}
+                        Rp {{{ number_format($transfer->amount, 2, ',', '.') }}}
                     </td>
                     <td>
                         {{{ $transfer->to_username }}}
@@ -116,6 +116,9 @@
                             Customer Name
                         </th>
                         <th>
+                            Permata VA Number
+                        </th>
+                        <th>
                             Amount
                         </th>
                         <th>
@@ -135,7 +138,10 @@
                         {{{ $topup->username_customer }}}
                     </td>
                     <td>
-                        Rp {{{ number_format($topup->amount,2,',','.') }}}
+                        {{{ $topup->permata_va_number }}}
+                    </td>
+                    <td>
+                        Rp {{{ number_format($topup->amount, 2, ',', '.') }}}
                     </td>
                     <td>
                         {{{ $topup->status }}}
@@ -172,6 +178,19 @@
           $( "#admin-top-up-transaction-table" ).fadeIn("fast");
           $('.cyan').removeClass('cyan');
           $(this).addClass('cyan');
+        });
+
+        $(document).ready(function(){
+            var purchase_transfer_topup_path = location.href.split("#")[1];
+            if(purchase_transfer_topup_path == "purchase") {
+                $( "#admin-purchase-transaction-button" ).trigger("click");
+            }
+            else if(purchase_transfer_topup_path == "transfer") {
+                $( "#admin-transfer-transaction-button" ).trigger("click");
+            }
+            else if(purchase_transfer_topup_path == "top-up") {
+                $( "#admin-top-up-transaction-button" ).trigger("click");
+            }
         });
 
     </script>

@@ -251,6 +251,9 @@ class CustomersController extends BaseController {
 					$increaseLimit->current_address = $current_address;
 					$increaseLimit->username_customer = ConnectHelper::getCurrentUserUsername();
 					$increaseLimit->status = 'in process';
+					$increaseLimit->save();
+					Session::put('_token', sha1(microtime()));
+					return View::make('/customers/increase-limit-done');
 				}else{
 					return Redirect::to('/customers/dashboard');
 				}
@@ -269,6 +272,7 @@ class CustomersController extends BaseController {
 					'status' => 'in process'
 				));
 				Session::put('_token', sha1(microtime()));
+				return View::make('/customers/increase-limit-done');
 			}
 		}
 	}
@@ -278,11 +282,11 @@ class CustomersController extends BaseController {
     }
 
 	public function upload() {
-		$rules = array('image' => 'image|required|max:1600');
+		$rules = array('image' => 'image|required|max:1000');
 		
 		$messages = array(
 			'image' 	=> 'The image must in jpeg, png, bmp, gif, or jpg format.',
-			'required' => 'Please upload file with maximum size 1500kb'
+			'required' => 'Please upload file with maximum size 1000kilobytes'
 		);
 
 		// doing the validation, passing post data, rules and the messages
@@ -423,6 +427,7 @@ class CustomersController extends BaseController {
 				return Redirect::to('/customers/topup')
 					->withErrors($validator);
 			} else {
+				DB::beginTransaction();
 				$topup = Topup::create(array(
 					'date_topup'=>new DateTime, 
 					'status'=>'',
@@ -435,6 +440,7 @@ class CustomersController extends BaseController {
 				$topup->status = $response->transaction_status;
 				$topup->permata_va_number = $response->permata_va_number;
 				$topup->save();
+				DB::commit();
 
 				// $email_customer = ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername());
 				// Mail::send('emails.topup_request', array('permata_va_number' => $response->permata_va_number), function($message)
