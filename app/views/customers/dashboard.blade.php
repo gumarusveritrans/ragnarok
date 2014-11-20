@@ -22,6 +22,11 @@
         </div>
 
         <div id="topup-dashboard-table" class="all-table customer" style="display:none">
+            @if ($topups->count() == 0)
+            <div>
+                You do not have any top-up transaction records yet.
+            </div>
+            @elseif ($topups->count() > 0)
             <div class="centered">
             <table align="center">
                 <thead>
@@ -66,9 +71,16 @@
 
             <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=topup", 'Download as CSV') }}</span>
             </div>
+            @endif
         </div>
 
+
         <div id="transfer-dashboard-table" class="all-table customer" style="display:none">
+            @if ($transfers->count() == 0)
+            <div>
+                You do not have any transfer transaction records yet.
+            </div>
+            @elseif ($transfers->count() > 0)
             <div class="centered">
             <table align="center">
                 <thead>
@@ -112,9 +124,15 @@
             </table>
             <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=transfer", 'Download as CSV') }}</span>
             </div>
+            @endif
         </div>
 
         <div id="purchase-dashboard-table" class="all-table customer" style="display:none">
+            @if ($purchases->count() == 0)
+            <div>
+                You do not have any purchase transaction records yet.
+            </div>
+            @elseif ($purchases->count() > 0)
             <div class="centered">
             <table align="center">
                 <thead>
@@ -158,6 +176,7 @@
             </table>
             <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=purchase", 'Download as CSV') }}</span>
             </div>
+            @endif
         </div>
 
     </div>

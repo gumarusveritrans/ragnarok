@@ -7,7 +7,7 @@
 		<h2>Topup Confirmed</h2>
 
 		<div>
-			<p>You have successfully top-up with amount of {{{ $transfer_amount }}}.</p>
+			<p>Your account has been successfully top-up with amount of Rp {{{ number_format($topup_amount, 2, ',', '.') }}}.</p>
 		</div>
 	</body>
 </html>

@@ -23,17 +23,13 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$topups = Topup::where('username_customer', $data['username'])->get();
-		$transfers = Transfer::where('from_username', $data['username'])->get();
-		$purchases = Purchase::where('username_customer', $data['username'])->get();
+		$topups = Topup::where('username_customer', $data['username'])->orderBy('date_topup', 'DESC')->get();
+		$transfers = Transfer::where('from_username', $data['username'])->orWhere('to_username', $data['username'])->orderBy('date_transfer', 'DESC')->get();
+		$purchases = Purchase::where('username_customer', $data['username'])->orderBy('date_purchase', 'DESC')->get();
 		return View::make('/customers/dashboard')->with('data',$data)
 												 ->with('topups', $topups)
 												 ->with('transfers', $transfers)
 												 ->with('purchases', $purchases);
-	}
-
-	public function reset_password() {
-		return View::make('connect_pages/reset-password');
 	}
 
 	public function profile(){	
@@ -68,7 +64,58 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		return View::make('/customers/topup')->with('data',$data);
+		if (Request::getMethod() == 'GET'){
+			return View::make('/customers/topup')->with('data',$data);
+		}
+		elseif (Request::getMethod() == 'POST'){
+			$pending_topups = Topup::where('status', '=', 'pending')->where('username_customer', '=', $data['username'])->get()->toArray();
+
+			if ($pending_topups != null){
+				return Redirect::to('/customers/topup')
+					->withErrors(array('topup_amount' => 'You have pending Top Up status, please confirm the payment first.'));
+			}else{
+				$max = $data['limitBalance'] - $data['balance'];
+
+				$rules = array(
+					'topup_amount'     	=> 'required|numeric|min:10000|max:'.$max
+				);
+
+				$messages = array(
+					'min' => 'Top-Up amount must be at least Rp 10.000,00',
+					'max' => ':attribute must not be greater than your limit balance (Maximum Top-Up allowed : Rp '.number_format($max, 2, ',', '.').')'
+				);
+
+				$validator = Validator::make(Input::all(), $rules, $messages);
+
+				if ($validator->fails()) {
+					return Redirect::to('/customers/topup')
+						->withErrors($validator);
+				} else {
+					DB::beginTransaction();
+					$topup = Topup::create(array(
+						'date_topup'=>new DateTime, 
+						'status'=>'',
+						'amount'=>Input::get('topup_amount'),
+						'permata_va_number'=>'',
+						'username_customer'=>ConnectHelper::getCurrentUserUsername()
+					));
+					$response = PaymentAPI::charge_topup($topup->id, Input::get('topup_amount'));
+					$topup->date_topup = new DateTime;
+					$topup->status = $response->transaction_status;
+					$topup->permata_va_number = $response->permata_va_number;
+					$topup->save();
+					DB::commit();
+
+					Mail::send('emails.topup_request', array('permata_va_number' => $response->permata_va_number), function($message)
+					{
+						$message->from('connect_cs@connect.co.id', 'Connect');
+					    $message->to(ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername()), ConnectHelper::getCurrentUserUsername())->subject('Top Up Request');
+					});
+
+					return View::make('customers/topup-success')->with('va_number',$response->permata_va_number);
+				}	
+			}
+		}
 	}
 
 	public function transfer(){	
@@ -76,15 +123,17 @@ class CustomersController extends BaseController {
 		$data['username'] = ConnectHelper::getCurrentUserUsername();
 		$data['balance'] = ConnectHelper::getCurrentUserBalance();
 		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		if(Request::getMethod()=='GET'){
+		if(Request::getMethod() == 'GET'){
 			return View::make('/customers/transfer')->with('data',$data);
-		}else{
+		}
+		elseif(Request::getMethod() == 'POST'){
 			$rules = array(
-				'transfer_amount' => 'required|numeric|integer|min:1'
+				'transfer_amount' => 'required|numeric|integer|min:5000'
 			);
 
 			$messages = array(
-				'integer' => ':attribute must be numeric', 
+				'min' => ':attribute must be at least Rp 5.000,00',
+				'integer' => ':attribute must be numeric'
 			);
 
 			$validator = Validator::make(Input::all(), $rules, $messages);
@@ -118,11 +167,11 @@ class CustomersController extends BaseController {
 						'amount'=>$_POST['transfer_amount']
 					));
 
-					// Mail::send('emails.transfer', array('transfer_recipient' => $_POST['transfer_recipient'],
-					// 									'transfer_amount' => $_POST['transfer_amount']), function($message)
-					// {
-					//     $message->to(ConnectHelper::getCurrentUserEmail(), ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
-					// });
+					Mail::send('emails.transfer', array('transfer_recipient' => $_POST['transfer_recipient'],
+														'transfer_amount' => $_POST['transfer_amount']), function($message)
+					{
+					    $message->to(ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername()), ConnectHelper::getCurrentUserUsername())->subject('Transfer Success');
+					});
 
 					Session::put('_token', sha1(microtime()));
 
@@ -323,31 +372,35 @@ class CustomersController extends BaseController {
 			$topups_data = Topup::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
 			$filename = 'Topup_Data_'.$data['username'].'.csv';
 			$fp = fopen($filename, 'w');
-			$topup_header= array("topup_id", "date_time", "status", "amount", "permata_va_number", "username_customer");
+			$topup_header= array("Date & Time", "Status", "Amount", "Permata VA Number");
 			fputcsv($fp, $topup_header);
 	        foreach( $topups_data as $topup ) {
 	        	$topup_array = $topup->toArray();
+	        	unset($topup_array['id'], $topup_array['username_customer']);
 	            fputcsv($fp, $topup_array);
         	}
 		} elseif ($transaction_type == 'transfer'){
 			$transfers_data = Transfer::where('from_username', '=', ConnectHelper::getCurrentUserUsername())->get();
 			$filename = 'Transfer_Data_'.$data['username'].'.csv';
 			$fp = fopen($filename, 'w');
-			$transfer_header= array("transfer_id", "date_time", "from_username", "to_username", "amount");
+			$transfer_header= array("Date & Time", "Sender's Account", "Destination Account", "Amount");
 			fputcsv($fp, $transfer_header);
 	        foreach( $transfers_data as $transfer ) {
 	        	$transfer_array = $transfer->toArray();
+	        	unset($transfer_array['id']);
 	            fputcsv($fp, $transfer_array);
 	        }
 		} elseif ($transaction_type == 'purchase'){
 			$purchases_data = Purchase::where('username_customer', '=', ConnectHelper::getCurrentUserUsername())->get();
 			$filename = 'Purchase_Data_'.$data['username'].'.csv';
 			$fp = fopen($filename, 'w');	
-			$purchase_header= array("purchase_id", "date_purchase", "username_customer", "status", "total");
+			$purchase_header= array("Date & Time", "Status", "Amount", "Merchant Name");
 			fputcsv($fp, $purchase_header);
 	        foreach( $purchases_data as $purchase ) {
 	        	$purchase_array = $purchase->toArray();
+	        	array_push($purchase_array, $purchase->product->first()->merchant_name);
 	        	array_push($purchase_array, $purchase->total());
+	        	unset($purchase_array['id'], $purchase_array['username_customer']);
 	            fputcsv($fp, $purchase_array);
 	        }
 		}
@@ -359,99 +412,6 @@ class CustomersController extends BaseController {
 	    });
 
         return Response::download($filename);
-	}
-
-	public function validate_registration_form(){
-		$rules = array(
-			'username'             	=> 'required',
-			'email'            		=> 'required|email',
-			'password'         		=> 'required',
-			'password_confirmation' => 'required|same:password'
-		);
-
-		$messages = array(
-			'same' 	=> 'The :others must matched.'
-		);
-
-		$validator = Validator::make(Input::all(), $rules, $messages);
-
-		if ($validator->fails()) {
-			return View::make('customers/register')
-				->withErrors($validator)
-				->withInput(Input::except('password', 'password_confirmation'));
-		} else {
-			return $this->register();
-		}
-
-	}
-
-	public function validate_login_form(){
-		$rules = array(
-			'email'            		=> 'required|email',
-			'password'         		=> 'required'
-		);
-
-		$validator = Validator::make(Input::all(), $rules);
-
-		if ($validator->fails()) {
-			return Redirect::to('/login')
-				->withErrors($validator);
-		} else {
-			return Redirect::to('customers/dashboard');
-		}
-	}
-
-	public function validate_topup_form(){
-		$data['username'] = ConnectHelper::getCurrentUserUsername();
-		$data['balance'] = ConnectHelper::getCurrentUserBalance();
-		$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
-		$pending_topups = Topup::where('status', '=', 'pending')->where('username_customer', '=', $data['username'])->get()->toArray();
-
-		if ($pending_topups != null){
-			return Redirect::to('/customers/topup')
-				->withErrors(array('topup_amount' => 'You have pending Top Up status, please confirm the payment first.'));
-		}else{
-			$max = $data['limitBalance'] - $data['balance'];
-
-			$rules = array(
-				'topup_amount'     	=> 'required|numeric|min:1|max:'.$max
-			);
-
-			$messages = array(
-				'max' => 'The :attribute must not be greater than your limit balance (Maximum Top-Up allowed : Rp '.number_format($max, 2, ',', '.').')'
-			);
-
-			$validator = Validator::make(Input::all(), $rules, $messages);
-
-			if ($validator->fails()) {
-				return Redirect::to('/customers/topup')
-					->withErrors($validator);
-			} else {
-				DB::beginTransaction();
-				$topup = Topup::create(array(
-					'date_topup'=>new DateTime, 
-					'status'=>'',
-					'amount'=>Input::get('topup_amount'),
-					'permata_va_number'=>'',
-					'username_customer'=>ConnectHelper::getCurrentUserUsername()
-				));
-				$response = PaymentAPI::charge_topup($topup->id, Input::get('topup_amount'));
-				$topup->date_topup = new DateTime;
-				$topup->status = $response->transaction_status;
-				$topup->permata_va_number = $response->permata_va_number;
-				$topup->save();
-				DB::commit();
-
-				// $email_customer = ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername());
-				// Mail::send('emails.topup_request', array('permata_va_number' => $response->permata_va_number), function($message)
-				// {
-				// 	$message->from('connect_cs@connect.co.id', 'Connect');
-				//     $message->to(ConnectHelper::getCurrentUserEmail(), ConnectHelper::getCurrentUserUsername())->subject('Top Up Request');
-				// });
-
-				return View::make('customers/topup-success')->with('va_number',$response->permata_va_number);
-			}	
-		}
 	}
 
 	public function validate_close_account_form(){
@@ -624,6 +584,11 @@ class CustomersController extends BaseController {
 			Session::put('_token', sha1(microtime()));
 
 			//Sending notification
+			Mail::send('emails.purchase', array('purchase_amount' => $sum), function($message)
+			{
+				$message->from('connect_cs@connect.co.id', 'Connect');
+			    $message->to(ConnectHelper::getUserEmail(ConnectHelper::getCurrentUserUsername()), ConnectHelper::getCurrentUserUsername())->subject('Top Up Request');
+			});
 
 
 		 	$message = View::make('/customers/purchase-success')->render();

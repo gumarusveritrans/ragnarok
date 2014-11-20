@@ -1,5 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-	<h1> Here's HOME Page </h1>
+	<div id="home-page">
+
+	</div>
 @stop

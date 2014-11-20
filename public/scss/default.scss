@@ -18,6 +18,7 @@ $dark-red:     #C22627;
 $red-orange:   #D24927;
 $light-white:  #F6ECC5;
 $dark-white:   #B58755;
+$gray:         #DBD4D1;
 
 @font-face{
   font-family: "Century Gothic";
@@ -416,4 +417,10 @@ position: relative;
   margin: 0px;
   padding-top: 10px;
   padding-bottom: 25px;
+}
+
+#home-page {
+  background: $gray;
+  width: 100%;
+  height: 100px;
 }

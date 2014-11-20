@@ -25,71 +25,69 @@ class AdminController extends BaseController {
 		if(Session::get('cyclos_group') == Config::get("connect_variable.admin")){
 			return Redirect::to('/admin/dashboard');
 		}
+		else{
+			if(Request::getMethod() == 'GET'){
+				return View::make('/admin/login');	
+			}
+			elseif(Request::getMethod() == 'POST'){
+				$loginService = new Cyclos\Service('loginService');
 
-		if(Request::getMethod() == 'GET'){
-			return View::make('/admin/login');	
-		}
-		elseif(Request::getMethod() == 'POST'){
-			$loginService = new Cyclos\Service('loginService');
-
-			// Set the parameters
-			$params = new stdclass();
-			$params->user = array('username' => $_POST['username']);
-			$params->password = $_POST['password'];
-			$params->remoteAddress = $_SERVER['REMOTE_ADDR'];
-
-			// Perform the login
-			try {
-				$result = $loginService->run('loginUser',$params,false);
-
-				//print_r($result);
-				Session::put('cyclos_session_token',$result->sessionToken);
-				Session::put('cyclos_username',$params->user['username']);
-				Session::put('cyclos_remote_address',$params->remoteAddress);
-					
-				// Getting the group name
+				// Set the parameters
 				$params = new stdclass();
-				$params->id = $result->user->id;
+				$params->user = array('username' => $_POST['username']);
+				$params->password = $_POST['password'];
+				$params->remoteAddress = $_SERVER['REMOTE_ADDR'];
 
-				$userService = new Cyclos\Service('userService');
-				$result = $userService->run('getViewProfileData',$params,false);
+				// Perform the login
+				try {
+					$result = $loginService->run('loginUser',$params,false);
 
-				if($result->group->name != Config::get('connect_variable.admin')){
-					Session::flush();
-					Session::flash('errors', 'Invalid username/password');
-					return View::make('/admin/login');
-				}
+					//print_r($result);
+					Session::put('cyclos_session_token',$result->sessionToken);
+					Session::put('cyclos_username',$params->user['username']);
+					Session::put('cyclos_remote_address',$params->remoteAddress);
+						
+					// Getting the group name
+					$params = new stdclass();
+					$params->id = $result->user->id;
 
-				Session::put('cyclos_group',$result->group->name);
-				Session::put('cyclos_email',$result->email);
-				return Redirect::to('/admin/dashboard');
-			} catch (Cyclos\ConnectionException $e) {
-				echo("Cyclos server couldn't be contacted");
-				die();
-			} catch (Cyclos\ServiceException $e) {
-				switch ($e->errorCode) {
-					case 'VALIDATION':
-						Session::flash('errors', 'Missing username/password');
-						return View::make('/admin/login');
-						break;
-					case 'LOGIN':
-						//return View::make('customers/login')->with('errors', 'Invalid Username/Password');
+					$userService = new Cyclos\Service('userService');
+					$result = $userService->run('getViewProfileData',$params,false);
+
+					if($result->group->name != Config::get('connect_variable.admin')){
+						Session::flush();
 						Session::flash('errors', 'Invalid username/password');
 						return View::make('/admin/login');
-						break;
-					case 'REMOTE_ADDRESS_BLOCKED':
-						//return View::make('customers/login')->with('errors', 'Your access is blocked by exceeding invalid login attempts');
-						Session::flash('errors', 'Your access is blocked by exceeding invalid login attempts');
-						return View::make('/admin/login');
-						break;
-					default:
-						//return View::make('customers/login')->with('errors', 'Error while performing login: {$e->errorCode}');
-						Session::flash('errors', 'Error while performing login: {$e->errorCode}');
-						return View::make('/admin/login');
-						break;
+					}
+
+					Session::put('cyclos_group',$result->group->name);
+					Session::put('cyclos_email',$result->email);
+					return Redirect::to('/admin/dashboard');
+				} catch (Cyclos\ConnectionException $e) {
+					echo("Cyclos server couldn't be contacted");
+					die();
+				} catch (Cyclos\ServiceException $e) {
+					switch ($e->errorCode) {
+						case 'VALIDATION':
+							Session::flash('errors', 'Missing username/password');
+							return View::make('/admin/login');
+							break;
+						case 'LOGIN':
+							Session::flash('errors', 'Invalid username/password');
+							return View::make('/admin/login');
+							break;
+						case 'REMOTE_ADDRESS_BLOCKED':
+							Session::flash('errors', 'Your access is blocked by exceeding invalid login attempts');
+							return View::make('/admin/login');
+							break;
+						default:
+							Session::flash('errors', 'Error while performing login: {$e->errorCode}');
+							return View::make('/admin/login');
+							break;
+					}
+					Session::flush();
+					die();
 				}
-				Session::flush();
-				die();
 			}
 		}
 	}
@@ -237,7 +235,6 @@ class AdminController extends BaseController {
 			$profile = IncreaseLimit::where('username_customer',$user->username)->first();
 			$profiles[$user->username] = $profile;
 		}
-		//dd($users);
 
 		// Getting merchant attributes
 		foreach($merchants as $merchant){
@@ -253,24 +250,6 @@ class AdminController extends BaseController {
 			$merchant->balance = intval($result[0]->balance->amount);
 		}
 		return View::make('/admin/manage-user')->with('merchants',$merchants)->with('users',$users)->with('profiles',$profiles);
-	}
-
-	public function validate_login_form(){
-		$rules = array(
-			'username'            		=> 'required',
-			'password'         		=> 'required'
-		);
-
-		$validator = Validator::make(Input::all(), $rules);
-
-		if ($validator->fails()) {	
-			$messages = $validator->messages();
-			return Redirect::to('/admin/login')
-				->withErrors($validator);
-		} else {
-			return Redirect::to('/admin/dashboard');
-		}
-
 	}
 
 	public function redeem_user(){
