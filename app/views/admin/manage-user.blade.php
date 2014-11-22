@@ -194,7 +194,7 @@
                 {{ Form::submit('ADD', array('class' => 'button darkblue admin-notification')) }}
             {{ Form::close() }}
         </div>
-        <a href="#manage-merchant#create-merchant"><button id="create-merchant-button" class="button darkblue dashboard" style="display: none; float: right; margin-right: 80px; margin-top: 10px">Create Merchant</button></a>
+        <a href="#manage-merchant#create-merchant"><button id="create-merchant-button" class="button darkblue dashboard" style="display: none; float: right; margin-right: 5%; margin-top: 1%">Create Merchant</button></a>
         <div id="pop-up-delete-id" class="admin pop-up" style="display: none">
             <h1>DELETE ID</h1>
             <h2>Are you sure want to delete merchant's account?</h2>
@@ -271,8 +271,8 @@
               $("#admin-manage-user-merchant-table").hide();
               $("#admin-manage-user-customer-table").fadeIn("fast");
               $("#admin-manage-user-merchant-button").removeClass('cyan');
-              $("#admin-manage-user-customer-table").css("width","1230px");
-              $("#admin-manage-user-merchant-table").css("width","1230px");
+              $("#admin-manage-user-customer-table").css("width","90%");
+              $("#admin-manage-user-merchant-table").css("width","90%");
               $("#admin-manage-user-customer-table th:nth-child(5)").animate({'width':'15%'});
               $("#admin-manage-user-customer-table td:nth-child(5)").animate({'width':'15%'});
               $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'15%'});
@@ -289,8 +289,8 @@
               $("#admin-manage-user-customer-table").hide();
               $("#admin-manage-user-merchant-table").fadeIn("fast");
               $("#admin-manage-user-customer-button").removeClass('cyan');
-              $("#admin-manage-user-merchant-table").css("width","1230px");
-              $("#admin-manage-user-customer-table").css("width","1230px");
+              $("#admin-manage-user-merchant-table").css("width","90%");
+              $("#admin-manage-user-customer-table").css("width","90%");
               $("#admin-manage-user-customer-table th:nth-child(5)").animate({'width':'15%'});
               $("#admin-manage-user-customer-table td:nth-child(5)").animate({'width':'15%'});
               $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'15%'});
@@ -312,29 +312,19 @@
                 $("#profile_box_birth_place").html(profile_box_birth_place[$(this).val()]);
                 $("#profile_box_birth_date").html(profile_box_birth_date[$(this).val()]);
                 $("#profile_box_sex").html(profile_box_sex[$(this).val()]);
-                
                 $("#profile-box").delay(300).fadeIn("fast");
-                $("#admin-manage-user-customer-table").animate({width:'820px'});
-                $("#admin-manage-user-customer-table th:nth-child(5)").animate({'width':'0%'});
-                $("#admin-manage-user-customer-table td:nth-child(5)").animate({'width':'0%'});
-                $("#admin-manage-user-customer-table td:nth-child(5)").css("padding","0px");
-                $("#admin-manage-user-customer-table th:nth-child(5)").css("padding","0px");
+                $("#admin-manage-user-customer-table").animate({width:'60%'});
+
             });
 
             $( "#close-profile" ).click(function() {
                 $("#profile-box").fadeOut("fast");
-                $("#admin-manage-user-customer-table").delay(300).animate({width:'1230px'});
-                $("#admin-manage-user-customer-table th:nth-child(5)").delay(300).animate({'width':'15%'});
-                $("#admin-manage-user-customer-table td:nth-child(5)").delay(300).animate({'width':'15%'});
+                $("#admin-manage-user-customer-table").delay(300).animate({width:'90%'});
             });
 
             $( ".add-product-button" ).click(function() {
                 $("#add-product-box").delay(300).fadeIn("fast");
-                $("#admin-manage-user-merchant-table").animate({width:'820px'});
-                $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'0%'});
-                $("#admin-manage-user-merchant-table td:nth-child(5)").animate({'width':'0%'});
-                $("#admin-manage-user-merchant-table td:nth-child(5)").css("padding","0px");
-                $("#admin-manage-user-merchant-table th:nth-child(5)").css("padding","0px");
+                $("#admin-manage-user-merchant-table").animate({width:'60%'});
                 $("#create-merchant-button").hide();
                 $("#create-merchant-box").hide();
                 $("#pop-up-delete-id").hide();
@@ -343,9 +333,7 @@
 
             $( "#close-add-product" ).click(function() {
                 $("#add-product-box").fadeOut("fast");
-                $("#admin-manage-user-merchant-table").delay(300).animate({width:'1230px'});
-                $("#admin-manage-user-merchant-table th:nth-child(5)").delay(300).animate({'width':'15%'});
-                $("#admin-manage-user-merchant-table td:nth-child(5)").delay(300).animate({'width':'15%'});
+                $("#admin-manage-user-merchant-table").delay(300).animate({width:'90%'});
                 $("#create-merchant-button").delay(700).show(10);
                 $("#pop-up-delete-id").hide();
             });
@@ -366,11 +354,7 @@
 
             $("#create-merchant-button").click(function() {
                 $("#create-merchant-box").delay(300).fadeIn("fast");
-                $("#admin-manage-user-merchant-table").animate({width:'820px'});
-                $("#admin-manage-user-merchant-table th:nth-child(5)").animate({'width':'0%'});
-                $("#admin-manage-user-merchant-table td:nth-child(5)").animate({'width':'0%'});
-                $("#admin-manage-user-merchant-table td:nth-child(5)").css("padding","0px");
-                $("#admin-manage-user-merchant-table th:nth-child(5)").css("padding","0px");
+                $("#admin-manage-user-merchant-table").animate({width:'60%'});
                 $("#create-merchant-button").hide();
                 $("#add-product-box").hide();
                 $("#pop-up-delete-id").hide();
@@ -378,9 +362,7 @@
 
             $( "#close-create-merchant" ).click(function() {
                 $("#create-merchant-box").fadeOut("fast");
-                $("#admin-manage-user-merchant-table").delay(300).animate({width:'1230px'});
-                $("#admin-manage-user-merchant-table th:nth-child(5)").delay(300).animate({'width':'15%'});
-                $("#admin-manage-user-merchant-table td:nth-child(5)").delay(300).animate({'width':'15%'});
+                $("#admin-manage-user-merchant-table").delay(300).animate({width:'90%'});
                 $("#create-merchant-button").delay(700).show(10);
                 $("#pop-up-delete-id").hide();
             });

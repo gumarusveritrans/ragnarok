@@ -85,7 +85,7 @@
             </table>
         </div>
 
-        <div id="customer-detail-box" class="centered admin-side-box" style="display: none">
+        <div id="customer-detail-box" class="admin-side-box" style="display: none">
             <span id="close-customer-detail" class="button-close admin">&#10006;</span>
             <h2>Customer Details</h2>
             <br/>
@@ -134,7 +134,7 @@
             <br/>
             <h1 id="increase-limit-name"></h1>
             <br/>
-            <img id="increase-limit-image" src="" width="100%" height="200px"></img>
+            <img id="increase-limit-image" src="" width="100%" height="40%"></img>
             <table id="admin-side-table">
                 <tr>
                     <td>
@@ -346,8 +346,8 @@
           $( "#admin-increase-limit-table" ).hide();
           $( "#admin-close-account-table" ).fadeIn("fast");
           $("#admin-increase-limit-button").removeClass('cyan');
-          $("#admin-close-account-table").css("width","1230px");
-          $("#admin-increase-limit-table").css("width","1230px");
+          $("#admin-close-account-table").css("width","90%");
+          $("#admin-increase-limit-table").css("width","90%");
           $("#customer-detail-box").hide();
           $("#confirm-request-box").hide();
           $("#pop-up-close-account").hide();
@@ -358,8 +358,8 @@
           $( "#admin-close-account-table" ).hide();
           $( "#admin-increase-limit-table" ).fadeIn("fast");
           $("#admin-close-account-button").removeClass('cyan');
-          $("#admin-close-account-table").css("width","1230px");
-          $("#admin-increase-limit-table").css("width","1230px");
+          $("#admin-close-account-table").css("width","90%");
+          $("#admin-increase-limit-table").css("width","90%");
           $("#customer-detail-box").hide();
           $("#confirm-request-box").hide();
           $("#pop-up-close-account").hide();
@@ -378,7 +378,7 @@
             $("#close-account-account-number").html(close_account_number[$(this).attr('id')]);
 
             $("#customer-detail-box").delay(300).fadeIn("fast");
-            $("#admin-close-account-table").animate({width:'820px'});
+            $("#admin-close-account-table").animate({width:'60%'});
             $("#pop-up-close-account").hide();
         });
 
@@ -401,7 +401,7 @@
             $("#increase-limit-image").attr('src',increase_limit_image_url[$(this).attr('id')]);
 
             $("#confirm-request-box").delay(300).fadeIn("fast");
-            $("#admin-increase-limit-table").animate({width:'820px'});
+            $("#admin-increase-limit-table").animate({width:'60%'});
         });
 
         $( "#denial-button" ).click(function() {
@@ -410,13 +410,13 @@
 
         $( "#close-customer-detail" ).click(function() {
             $("#customer-detail-box").fadeOut("fast");
-            $("#admin-close-account-table").delay(300).animate({width:'1230px'});
+            $("#admin-close-account-table").delay(300).animate({width:'90%'});
             $("#pop-up-close-account").hide();
         });
 
         $( "#close-confirm-request" ).click(function() {
             $("#confirm-request-box").fadeOut("fast");
-            $("#admin-increase-limit-table").delay(300).animate({width:'1230px'});
+            $("#admin-increase-limit-table").delay(300).animate({width:'90%'});
         });
 
         $( "#close-account-button" ).click(function() {
