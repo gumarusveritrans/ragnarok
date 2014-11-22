@@ -24,11 +24,11 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
+$env = $app->detectEnvironment(function(){
 
-	'local' => array('homestead'),
+	return gethostname() == '54.254.1.103' ? 'production' : 'local';
 
-));
+});
 
 /*
 |--------------------------------------------------------------------------

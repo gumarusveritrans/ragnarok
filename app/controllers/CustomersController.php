@@ -151,6 +151,18 @@ class CustomersController extends BaseController {
 				try{
 					$data = $transactionService->run('getPaymentData',array(array("username"=>Session::get('cyclos_username')),array("username"=> $_POST['transfer_recipient'])),true);
 					
+					//Validate not customer
+					$role = ConnectHelper::getUserRole($data->to->username);
+					if($role != Config::get('connect_variable.verified_user') && $role != Config::get('connect_variable.unverified_user')){
+						$data = array();
+						$data['username'] = ConnectHelper::getCurrentUserUsername();
+						$data['balance'] = ConnectHelper::getCurrentUserBalance();
+						$data['limitBalance'] = ConnectHelper::getCurrentUserLimitBalance();
+
+						Session::flash('errors', 'Invalid User Recipient');
+						return View::make('customers/transfer')->with('data',$data);
+					}
+
 					$params = new stdclass();
 					$params->from = $data->from;
 					$params->to = $data->to;
