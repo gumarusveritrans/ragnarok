@@ -3,6 +3,12 @@
 @section('content-merchant')
     <div id="subheader-wrapper">
         <span class="subtitle merchant">LIST PRODUCTS</span>
+        <div class="balance">
+          Balance Amount<br/>
+            <span class="currency">
+                Rp {{{ number_format($data['balance'], 2, ',', '.') }}}
+            </span>
+        </div>
     </div>
 
     <hr id="merchant-horizontal-line"/>
@@ -10,6 +16,11 @@
     <div id="subcontent-wrapper">
 
         <div class="all-table merchant">
+            @if ($products->count() == 0)
+            <div>
+                You do not have any product yet.
+            </div>
+            @elseif ($products->count() > 0)
             <table id="merchant-list-products-table" align="center">
                 <thead>
                     <tr>
@@ -44,6 +55,7 @@
                 </tr>
                 @endforeach
             </table>
+            @endif
         </div>
     </div>
 

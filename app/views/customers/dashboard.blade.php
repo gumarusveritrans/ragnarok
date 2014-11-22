@@ -27,7 +27,6 @@
                 You do not have any top-up transaction records yet.
             </div>
             @elseif ($topups->count() > 0)
-
                 <table align="center">
                     <thead>
                         <tr>
@@ -68,9 +67,7 @@
                     </tr>
                     @endforeach
                 </table>
-
                 <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=topup", 'Download as CSV') }}</span>
-
             @endif
         </div>
 

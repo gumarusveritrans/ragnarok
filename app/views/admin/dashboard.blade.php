@@ -15,6 +15,11 @@
         </div>
 
         <div id="admin-purchase-transaction-table" class="all-table admin" style="display: none">
+            @if ($purchases->count() == 0)
+            <div>
+                You do not have any purchase transaction records yet.
+            </div>
+            @elseif ($purchases->count() > 0)
             <table align="center">
                 <thead>
                     <tr>
@@ -55,11 +60,16 @@
                 </tr>
                 @endforeach
             </table>
-
             <span class="link-download-admin">{{ link_to ("/admin/download-csv?transaction_type=purchase", 'Download as CSV') }}</span>
+            @endif
         </div>
 
         <div id="admin-transfer-transaction-table" class="all-table admin" style="display: none">
+            @if ($transfers->count() == 0)
+            <div>
+                You do not have any transfer transaction records yet.
+            </div>
+            @elseif ($transfers->count() > 0)
             <table align="center">
                 <thead>
                     <tr>
@@ -101,9 +111,15 @@
                 @endforeach
             </table>
             <span class="link-download-admin">{{ link_to ("/admin/download-csv?transaction_type=transfer", 'Download as CSV') }}</span>
+            @endif
         </div>
 
         <div id="admin-top-up-transaction-table" class="all-table admin" style="display: none">
+            @if ($topups->count() == 0)
+            <div>
+                You do not have any top up transaction records yet.
+            </div>
+            @elseif ($topups->count() > 0)
             <table  align="center">
                 <thead>
                     <tr>
@@ -151,6 +167,7 @@
                 @endforeach
             </table>
             <span class="link-download-admin">{{ link_to ("/admin/download-csv?transaction_type=topup", 'Download as CSV') }}</span>
+            @endif
         </div>
         
     </div>

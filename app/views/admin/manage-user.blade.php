@@ -13,8 +13,13 @@
             <a href="#manage-merchant"><button id="admin-manage-user-merchant-button" class="button lightblue dashboard">Merchant</button></a>
         </div>
 
-        <div class="all-table admin">
-            <table id="admin-manage-user-customer-table" align="center" style="display: none">
+        <div id="admin-manage-user-customer-wrapper" class="all-table admin" style="display: none">
+            @if (count($users) == 0)
+            <div>
+                You do not have any customers records yet.
+            </div>
+            @elseif (count($users) > 0)
+            <table id="admin-manage-user-customer-table" align="center">
                 <thead>
                     <tr>
                         <th>
@@ -55,8 +60,16 @@
                     </tr>
                 @endforeach
             </table>
+            @endif
+        </div>
 
-            <table id="admin-manage-user-merchant-table" align="center" style="display: none">
+        <div id="admin-manage-user-merchant-wrapper" class="all-table admin" style="display: none">
+            @if (count($merchants) == 0)
+            <div>
+                You do not have any merchants records yet.
+            </div>
+            @elseif (count($merchants) > 0)
+            <table id="admin-manage-user-merchant-table" align="center">
                 <thead>
                     <tr>
                         <th>
@@ -96,7 +109,9 @@
                     </tr>
                 @endforeach
             </table>
+            @endif
         </div>
+
         <div id="profile-box" class="centered admin-side-box" style="display: none">
             <a href="#manage-customer" id="close-profile" class="button-close admin" style="text-decoration: none">&#10006;</a>
             <h2>Customer Details</h2>
@@ -268,8 +283,8 @@
             @endforeach
 
             $("#admin-manage-user-customer-button").click(function() {
-              $("#admin-manage-user-merchant-table").hide();
-              $("#admin-manage-user-customer-table").fadeIn("fast");
+              $("#admin-manage-user-merchant-wrapper").hide();
+              $("#admin-manage-user-customer-wrapper").fadeIn("fast");
               $("#admin-manage-user-merchant-button").removeClass('cyan');
               $("#admin-manage-user-customer-table").css("width","90%");
               $("#admin-manage-user-merchant-table").css("width","90%");
@@ -286,8 +301,8 @@
             });
 
             $( "#admin-manage-user-merchant-button" ).click(function() {
-              $("#admin-manage-user-customer-table").hide();
-              $("#admin-manage-user-merchant-table").fadeIn("fast");
+              $("#admin-manage-user-customer-wrapper").hide();
+              $("#admin-manage-user-merchant-wrapper").fadeIn("fast");
               $("#admin-manage-user-customer-button").removeClass('cyan');
               $("#admin-manage-user-merchant-table").css("width","90%");
               $("#admin-manage-user-customer-table").css("width","90%");

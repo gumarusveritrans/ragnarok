@@ -13,8 +13,13 @@
             <a href="#increase-limit"><button id="admin-increase-limit-button" class="button lightblue dashboard">Increase Limit</button></a>
         </div>
 
-        <div class="all-table admin">
-            <table id="admin-close-account-table" align="center" style="display: none">
+        <div id="admin-close-account-wrapper" class="all-table admin" style="display: none">
+            @if ($redeems->count() == 0)
+            <div>
+                You do not have any redeems records yet.
+            </div>
+            @elseif ($redeems->count() > 0)
+            <table id="admin-close-account-table" align="center">
                 <thead>
                     <tr>
                         <th>
@@ -48,8 +53,16 @@
                     </tr>
                 @endforeach
             </table>
+            @endif
+        </div>
 
-            <table id="admin-increase-limit-table" align="center" style="display: none">
+        <div id="admin-increase-limit-wrapper" class="all-table admin" style="display: none">
+            @if ($increase_limits->count() == 0)
+            <div>
+                You do not have any increase limits records yet.
+            </div>
+            @elseif ($increase_limits->count() > 0)
+            <table id="admin-increase-limit-table" align="center">
                 <thead>
                     <tr>
                         <th>
@@ -83,6 +96,7 @@
                     </tr>
                 @endforeach
             </table>
+            @endif
         </div>
 
         <div id="customer-detail-box" class="admin-side-box" style="display: none">
@@ -343,8 +357,8 @@
         }
 
         $( "#admin-close-account-button" ).click(function() {
-          $( "#admin-increase-limit-table" ).hide();
-          $( "#admin-close-account-table" ).fadeIn("fast");
+          $( "#admin-increase-limit-wrapper" ).hide();
+          $( "#admin-close-account-wrapper" ).fadeIn("fast");
           $("#admin-increase-limit-button").removeClass('cyan');
           $("#admin-close-account-table").css("width","90%");
           $("#admin-increase-limit-table").css("width","90%");
@@ -355,8 +369,8 @@
         });
 
         $( "#admin-increase-limit-button" ).click(function() {
-          $( "#admin-close-account-table" ).hide();
-          $( "#admin-increase-limit-table" ).fadeIn("fast");
+          $( "#admin-close-account-wrapper" ).hide();
+          $( "#admin-increase-limit-wrapper" ).fadeIn("fast");
           $("#admin-close-account-button").removeClass('cyan');
           $("#admin-close-account-table").css("width","90%");
           $("#admin-increase-limit-table").css("width","90%");

@@ -17,6 +17,11 @@
 
         <p class="error-message">{{{Session::pull('errors')}}}</p>
         <div class="all-table merchant">
+            @if ($purchases->count() == 0)
+            <div>
+                You do not have any purchase transaction records yet.
+            </div>
+            @elseif ($purchases->count() > 0)
             <table id="merchant-transaction-table" align="center">
                 <thead>
                     <tr>
@@ -65,9 +70,11 @@
                     </tr>
                 @endforeach
             </table>
+            <span class="link-download-merchant" class="link-download">{{ link_to ("/merchants/download-csv", 'Download as CSV') }}</span>
+            @endif
         </div>
         
-        <span class="link-download-merchant" class="link-download">{{ link_to ("/merchants/download-csv", 'Download as CSV') }}</span>
+        
         <div id="pop-up-reject-transaction" class="merchant pop-up" style="display: none">
             <h1>REJECT TRANSACTION</h1>
             <h2>Are you sure want to reject this transaction?</h2>
