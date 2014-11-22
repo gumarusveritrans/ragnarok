@@ -422,5 +422,17 @@ position: relative;
 #home-page {
   background: $gray;
   width: 100%;
-  height: 100px;
+  top:60px;
+  bottom: 40px;
+  position:absolute;
+  float:left;
+}
+
+#home-page h2{
+  color: $dark-brown;
+}
+
+#home-page h3{
+  color: $dark-brown;
+  width: 400px;
 }
