@@ -79,13 +79,15 @@
   text-align: left;
   font-size: 18px;
   color: #534741;
+  margin-left: 10%;
 }
 .transaction-box-info {
   background-color : #c2b59b;
   border : 0px;
   height : auto;
   width : 350px;
-  margin: 30px 60px;
+  margin-top: 30px;
+  margin-right: 10%;
   float: right;
   padding: 30px;
 }
@@ -303,7 +305,7 @@
   padding-left: 1px;
 }
 #pop-up-shopping-cart.pop-up.customer {
-  width: 650px;
+  width: 50%;
 }
 #pop-up-shopping-cart.pop-up.customer table {
   border-spacing: 0;
