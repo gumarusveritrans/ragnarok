@@ -7,7 +7,7 @@ class NotificationController extends BaseController {
 			$response = Input::all();
 			if($response['transaction_status'] == 'settlement'){
 				DB::beginTransaction();
-				$pending_topup = DB::table('topup')->where('id', substr($response['order_id'],4))->get();
+				$pending_topup = DB::table('topup')->where('id', substr($response['order_id'],7))->get();
 				// PAY TO USER
 				//GETTING TRANSFER TYPE
 				$transactionService = new Cyclos\Service('transactionService');
