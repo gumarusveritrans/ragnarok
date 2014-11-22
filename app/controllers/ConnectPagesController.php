@@ -38,9 +38,6 @@ class ConnectPagesController extends BaseController {
 	}
 
 	public function login(){
-		if(Session::get('cyclos_group') == Config::get("connect_variable.unverified_user") || Session::get('cyclos_group') == Config::get("connect_variable.verified_user")){
-			return Redirect::to('/');
-		}
 		if(Request::getMethod()=='GET'){
 			return View::make('/connect_pages/login');	
 		}elseif(Request::getMethod()=='POST'){
@@ -59,8 +56,6 @@ class ConnectPagesController extends BaseController {
 				Session::put('cyclos_username',$params->user['username']);
 				Session::put('cyclos_remote_address',$params->remoteAddress);
 				Session::put('cyclos_id',$result->user->id);
-
-
 
 				// Getting the group name
 				$params = new stdclass();
@@ -141,7 +136,6 @@ class ConnectPagesController extends BaseController {
 							$id = $res->id;
 						}
 					}
-
 
 					$params = new stdclass();
 					$params->group = new stdclass();

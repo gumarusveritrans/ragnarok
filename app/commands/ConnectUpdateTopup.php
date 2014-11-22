@@ -64,11 +64,13 @@ class ConnectUpdateTopup extends Command {
 				    $paymentResult = $paymentService->run('perform',$parameters,false);
 
 					DB::commit();
-					
-					Mail::send('emails.topup', array('transfer_amount' => $response->gross_amount), function($message)
+
+					Mail::send('emails.topup', array('topup_amount' => $pending_topup->amount), function($message) use($pending_topup)
 					{
 					    $message->to(ConnectHelper::getUserEmail($pending_topup->username_customer), $pending_topup->username_customer)->subject('Top-Up Success');
 					});
+					
+
 				}
 
 

@@ -13,8 +13,12 @@ $cyan:         #3ABEEF;
 $red:          #ff0000;
 $light-gray:   #F8F8FF;
 $dark-orange:  #F7931D;
-$light-red:    #E0A2A8;
-$dark-red:     #BE1E2D;
+$light-red:    #F9BDBD;
+$dark-red:     #C22627;
+$red-orange:   #D24927;
+$light-white:  #F6ECC5;
+$dark-white:   #B58755;
+$gray:         #DBD4D1;
 
 @font-face{
   font-family: "Century Gothic";
@@ -128,7 +132,7 @@ hr#merchant-horizontal-line {
 
 .menu-wrapper#merchant a{
   text-decoration: none;
-  color: $light-red;
+  color: $white;
 }
 
 .menu-wrapper#customer ul li ul li a{
@@ -204,7 +208,7 @@ hr#merchant-horizontal-line {
 }
 
 .subtitle.merchant {
-  color: $dark-red;
+  color: $red-orange;
   line-height: 50px;
 }
 
@@ -261,7 +265,7 @@ footer.footer-admin {
 }
 
 footer.footer-merchant {
-  background: $light-red;
+  background: $red-orange;
 }
 
 /* Centered object inside div vertically */
@@ -380,7 +384,7 @@ position: relative;
 }
 
 .pop-up.merchant {
-  background: $light-red;
+  background: $white;
   color: $dark-red;
   border-color: $dark-red;
 }
@@ -413,4 +417,10 @@ position: relative;
   margin: 0px;
   padding-top: 10px;
   padding-bottom: 25px;
+}
+
+#home-page {
+  background: $gray;
+  width: 100%;
+  height: 100px;
 }

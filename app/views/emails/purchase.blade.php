@@ -7,7 +7,7 @@
 		<h2>Purchase Confirmed</h2>
 
 		<div>
-			<p>You have successfully purchase with amount of.</p>
+			<p>You have successfully purchase with amount of Rp {{{ number_format($purchase_amount, 2, ',', '.') }}}.</p>
 		</div>
 	</body>
 </html>

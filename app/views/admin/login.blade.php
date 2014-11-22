@@ -9,10 +9,10 @@
 
 	      <div id="login-register-form" class="form-wrapper">
 	        {{ Form::label('username', 'Username') }}
-	        {{ Form::text('username', '', array('maxlength' => 20, 'class' => 'form-control')) }}
+	        {{ Form::text('username', '', array('maxlength' => 20, 'class' => 'form-control admin')) }}
 
 	        {{ Form::label('password', 'Password') }}
-	        {{ Form::password('password', array('maxlength' => 32, 'class' => 'form-control')) }}
+	        {{ Form::password('password', array('maxlength' => 32, 'class' => 'form-control admin')) }}
 	        @if(Session::has('errors'))<p class="error-message">{{ Session::pull('errors'); }}</p>@endif
 	      </div>
 

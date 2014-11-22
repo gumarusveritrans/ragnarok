@@ -19,7 +19,7 @@
 
     <div id="transaction-box-wrapper">
 
-      {{ Form::open(array('url' => 'topup-form', 'method' => 'post')) }}
+      {{ Form::open() }}
 
         <div id="transaction-form-wrapper">
           <div>

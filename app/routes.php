@@ -23,6 +23,7 @@ Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::get('/customers/increase-limit', 'CustomersController@increase_limit');
 Route::post('/customers/increase-limit', ['before' => 'csrf', 'uses' => 'CustomersController@increase_limit']);
 Route::get('/customers/topup', 'CustomersController@topup');
+Route::post('/customers/topup', ['before' => 'csrf','uses'=>'CustomersController@topup']);
 Route::get('/customers/transfer', 'CustomersController@transfer');
 Route::post('/customers/transfer', ['before' => 'csrf', 'uses' => 'CustomersController@transfer']);
 Route::get('/customers/purchase', 'CustomersController@purchase');
@@ -54,12 +55,9 @@ Route::get('/merchants/list-products', 'MerchantsController@list_products');
 Route::post('merchants/reject-purchase',['before'=>'csrf','uses'=>'MerchantsController@reject_purchase']);
 
 //Route for Validation Form
-// Route::post('login-form', 'CustomersController@validate_login_form');
-Route::post('topup-form', 'CustomersController@validate_topup_form');
-// Route::post('transfer-form', 'CustomersController@validate_transfer_form');
 Route::post('close-account-form', ['before'=>'csrf','uses'=>'CustomersController@validate_close_account_form']);
 Route::post('change-password-form', ['before'=>'csrf','uses'=>'CustomersController@validate_change_password_form']);
 Route::post('user-information-form', 'CustomersController@validate_user_information_form');
 Route::post('upload-id-card', 'CustomersController@upload');
 Route::get('/upload', 'CustomersController@getUploadForm');
-// Route::post('admin-login-form', 'AdminController@validate_login_form');
+Route::post('/notification-handling', 'NotificationController@getMessage');

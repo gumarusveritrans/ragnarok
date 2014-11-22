@@ -200,7 +200,7 @@
             <div id="denial-messages-box" style="display: none">
                 {{ Form::open((array('url' => 'admin/reject_increase_limit', 'method' => 'post'))) }}
                     {{ Form::label('denial_messages', 'Denial Messages') }}
-                    {{ Form::textarea('denial_messages', '', array('class' => 'form-control text-area')) }}
+                    {{ Form::textarea('denial_messages', '', array('class' => 'form-control admin text-area')) }}
                     {{ Form::hidden('increase_limit_id','',array('id'=>'increase_limit_id')) }}
                     {{ Form::hidden('increase_limit_username','',array('id'=>'increase_limit_username')) }}
                     @if ($errors->has('denial_messages')) <p class="error-message">{{ $errors->first('denial_messages') }}</p> @endif

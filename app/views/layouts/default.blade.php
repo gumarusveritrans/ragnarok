@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Ragnarok</title>
+    <title>Connect</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
     {{ HTML::style('css/default.css') }}
     {{ HTML::style('css/forms.css') }}

@@ -35,7 +35,6 @@ class PaymentAPI {
 	public static function update_status($topup_id){
 		Veritrans_Config::$serverKey = '6d7ccd71-ea52-43cc-ac42-5402077bd6c6';
 		Veritrans_Config::$isProduction = false;
-		
 		return Veritrans_Transaction::status($topup_id);
 	}
 
