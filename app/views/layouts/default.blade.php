@@ -4,17 +4,8 @@
     <meta charset="utf-8">
     <title>Connect</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
-    {{ HTML::style('css/default.css') }}
-    {{ HTML::style('css/forms.css') }}
-    {{ HTML::style('css/tables.css') }}
-    {{ HTML::style('css/buttons.css') }}
-    {{ HTML::style('css/customers.css') }}
-    {{ HTML::style('css/jquery-ui.min.css') }}
-    {{ HTML::style('css/strength-meter.css') }}
-    {{ HTML::script('js/jquery-1.11.1.min.js') }}
-    {{ HTML::script('js/jquery.form.min.js') }}
-    {{ HTML::script('js/jquery-ui.min.js') }}
-    {{ HTML::script('js/strength-meter.js') }}
+    <?= stylesheet_link_tag() ?>
+    <?= javascript_include_tag() ?>
   </head>
   <body>
     <div id="body-wrapper">

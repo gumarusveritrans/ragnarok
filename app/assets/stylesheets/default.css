@@ -1,0 +1,338 @@
+@font-face {
+  font-family: "Century Gothic";
+}
+/* Html and Body Style */html, body {
+  margin: 0;
+  padding: 0;
+  min-width: 1300px;
+  height: 100%;
+  font-family: "Century Gothic";
+}
+#body-wrapper {
+  min-height: 100%;
+  position: relative;
+}
+/* Header Style */header {
+  height: 60px;
+}
+header.header-customer {
+  background: #534741;
+}
+header.header-admin {
+  background: #262261;
+}
+header.header-merchant {
+  background: #be1e2d;
+}
+#welcome-wrapper {
+  font-size: 18px;
+  height: 60px;
+  width: 23%;
+  float: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#welcome-wrapper.customer {
+  color: #fbaf41;
+}
+#welcome-wrapper.admin {
+  color: #3abeef;
+}
+#welcome-wrapper.merchant {
+  color: #f7931d;
+}
+/* Horizontal Line Style */hr {
+  width: 95%;
+  height: 1px;
+  border-width: 0;
+}
+hr#customer-horizontal-line {
+  background-color: #534741;
+}
+hr#admin-horizontal-line {
+  margin-top: -10px;
+  background-color: #262261;
+}
+hr#merchant-horizontal-line {
+  margin-top: -10px;
+  background-color: #be1e2d;
+}
+/* Wrapper Logo Style */#logo-wrapper {
+  height: 100%;
+  width: 21%;
+  float: left;
+}
+#logo-admin-merchant-home {
+  height: 100%;
+  width: 100%;
+  float: center;
+}
+/* Wrapper Menu Style */.menu-wrapper {
+  height: 100%;
+  float: left;
+  width: 56%;
+}
+.menu-wrapper#home a, .menu-wrapper#customer a {
+  text-decoration: none;
+  color: #c2b59b;
+}
+.menu-wrapper#admin a {
+  text-decoration: none;
+  color: #bdcad2;
+}
+.menu-wrapper#merchant a {
+  text-decoration: none;
+  color: #e0a2a8;
+}
+.menu-wrapper#customer ul li ul li a {
+  text-decoration: none;
+  color: #534741;
+}
+.menu-wrapper#home a:hover, .menu-wrapper#customer a:hover {
+  color: #fbaf41;
+  transition: all 0.3s;
+}
+.menu-wrapper#admin a:hover {
+  color: #3abeef;
+  transition: all 0.3s;
+}
+.menu-wrapper#merchant a:hover {
+  color: #f7931d;
+  transition: all 0.3s;
+}
+.menu-wrapper ul {
+  list-style: none;
+  font-size: 18px;
+  padding-left: 0px;
+}
+.menu-wrapper li {
+  display: inline;
+  padding: 0 12px;
+}
+.menu-wrapper#customer a.active, .menu-wrapper#home a.active {
+  color: #fbaf41;
+}
+.menu-wrapper#admin a.active {
+  color: #3abeef;
+}
+.menu-wrapper#merchant a.active {
+  color: #f7931d;
+}
+/* Content Style */#content {
+  width: 100%;
+  padding-bottom: 40px;
+}
+#subheader-wrapper {
+  margin: 0;
+  height: 80px;
+  padding: 0 50px;
+}
+.subtitle {
+  font-size: 40px;
+  text-align: left !important;
+  float: left;
+  width: 50%;
+}
+.subtitle.customer {
+  color: #534741;
+  line-height: 80px;
+}
+.subtitle.admin {
+  color: #262261;
+  line-height: 50px;
+}
+.subtitle.merchant {
+  color: #be1e2d;
+  line-height: 50px;
+}
+#subcontent-wrapper {
+  margin: 0;
+  padding-bottom: 15px;
+  display: inline-block;
+  width: 100%;
+}
+#horizontal-line {
+  float: left;
+  margin-left: 30px;
+}
+#subbuttons-wrapper {
+  clear: both;
+  width: auto;
+  min-height: 30px;
+  padding: 0 50px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.balance {
+  font-size: 15px;
+  color: #534741;
+  float: left;
+  text-align: right;
+  height: 85%;
+  width: 50%;
+}
+.currency {
+  font-size: 30px;
+  color: #fbaf41;
+}
+/* Footer Style */footer {
+  width: 100%;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+footer.footer-customer {
+  background: #fbaf41;
+}
+footer.footer-admin {
+  background: #3abeef;
+}
+footer.footer-merchant {
+  background: #e0a2a8;
+}
+/* Centered object inside div vertically */.block {
+  text-align: center;
+}
+.block:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em;
+}
+.centered {
+  margin: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+.centered-header {
+  margin: auto;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 60px;
+}
+.centered-header li {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  padding: 0 12px;
+}
+.log-out-style {
+  border: none;
+  background: none;
+  margin: auto;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 60px;
+  position: relative;
+  cursor: pointer;
+  padding: 0 12px;
+}
+.centered-header li a {
+  display: block;
+}
+.centered-header li:hover ul {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.6s ease 0s;
+}
+.centered-header li ul {
+  position: absolute;
+  top: 60px;
+  width: 125px;
+  display: none;
+  opacity: 0;
+  padding: 0;
+  z-index: 3;
+  list-style: none;
+}
+.centered-header li ul li {
+  display: inline;
+  padding: 0px;
+  line-height: 40px;
+  vertical-align: middle;
+}
+.centered-header li ul li a {
+  display: block;
+  background: #534741;
+  color: #c2b59b !important;
+  border: 2px solid #534741;
+}
+.centered-header li ul li a:hover {
+  background: #c2b59b;
+  color: #fbaf41 !important;
+  border: 2px solid #534741;
+}
+.right {
+  text-align: right;
+}
+.vertical-align {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+/* Pop-Up Style */.pop-up {
+  height: auto;
+  width: 450px;
+  text-align: center;
+  padding: 25px;
+  border: 1px solid;
+  position: absolute;
+  top: 30%;
+  left: 32%;
+}
+.pop-up.admin {
+  background: #bdcad2;
+  color: #262261;
+  border-color: #262261;
+}
+.pop-up.merchant {
+  background: #e0a2a8;
+  color: #be1e2d;
+  border-color: #be1e2d;
+}
+.pop-up.admin h1 {
+  font-size: 30px;
+  font-weight: normal;
+  margin: 0px;
+  padding: 0px 10px 10px 10px;
+}
+.pop-up.admin h2 {
+  font-size: 20px;
+  font-weight: normal;
+  margin: 0px;
+  padding-top: 10px;
+  padding-bottom: 25px;
+}
+.pop-up.merchant h1 {
+  font-size: 30px;
+  font-weight: normal;
+  margin: 0px;
+  padding: 0px 10px 10px 10px;
+}
+.pop-up.merchant h2 {
+  font-size: 18x;
+  font-weight: normal;
+  margin: 0px;
+  padding-top: 10px;
+  padding-bottom: 25px;
+}
+#home-page {
+  background: #dbd4d1;
+  width: 100%;
+  top: 60px;
+  bottom: 40px;
+  position: absolute;
+  float: left;
+}
+#home-page h2 {
+  color: #534741;
+}
+#home-page h3 {
+  color: #534741;
+  width: 400px;
+}
+

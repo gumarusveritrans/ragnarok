@@ -1,6 +1,6 @@
 <?php
 
-class MerchantsController extends BaseController {
+class NotificationController extends BaseController {
 
 	public function getMessage(){
 		if (Request::getClientIp() == ''){
