@@ -320,3 +320,19 @@ footer.footer-merchant {
   padding-top: 10px;
   padding-bottom: 25px;
 }
+#home-page {
+  background: #dbd4d1;
+  width: 100%;
+  top: 60px;
+  bottom: 40px;
+  position: absolute;
+  float: left;
+}
+#home-page h2 {
+  color: #534741;
+}
+#home-page h3 {
+  color: #534741;
+  width: 400px;
+}
+

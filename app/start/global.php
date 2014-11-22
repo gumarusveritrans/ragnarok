@@ -49,17 +49,34 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 App::error(function(Exception $exception, $code)
 {
 	if(get_class($exception) == "Cyclos\ServiceException" && $exception->errorCode == "LOGGED_OUT"){
+		
+		$role = ConnectHelper::getCurrentUserRole();
+
 		Session::flush();
 		Session::flash('errors', 'You session has expired.');
-		if(Session::get('cyclos_role') == Config::get('connect_variable.merchant')){
+		if($role == Config::get('connect_variable.merchant')){
 			return Redirect::to('/merchants/login');
-		}else if(Session::get('cyclos_role') == Config::get('connect_variable.merchant')){
+		}else if($role == Config::get('connect_variable.admin')){
 			return Redirect::to('/admin/login');
 		}else{
 			return Redirect::to('/login');
 		}
 	}
 	Log::error($exception);
+	switch ($code)
+    {
+        case 403:
+            return Response::view('errors.403', array(), 403);
+
+        case 404:
+            return Response::view('errors.404', array(), 404);
+
+        case 500:
+            return Response::view('errors.500', array(), 500);
+
+        default:
+            return Response::view('errors.default', array(), $code);
+    }
 });
 
 /*
