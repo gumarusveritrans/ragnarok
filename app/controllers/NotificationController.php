@@ -3,7 +3,7 @@
 class NotificationController extends BaseController {
 
 	public function getMessage(){
-		if (Request::getClientIp() == ''){
+		// if (Request::getClientIp() == ''){
 			$response = Input::all();
 			if($response['transaction_status'] == 'settlement'){
 				DB::beginTransaction();
@@ -35,10 +35,10 @@ class NotificationController extends BaseController {
 				    $message->to(ConnectHelper::getUserEmail($pending_topup->username_customer), $pending_topup->username_customer)->subject('Top-Up Success');
 				});
 			}
-		}
-		else{
+		// }
+		// else{
 
-		}
+		// }
 	}
 
 }
