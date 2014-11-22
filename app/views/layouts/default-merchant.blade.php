@@ -4,12 +4,8 @@
     <meta charset="utf-8">
     <title>Connect -- Merchant</title>
     <link rel="shortcut icon" href="{{ asset('images/favicon_merchant.ico') }}">
-    {{ HTML::style('css/default.css') }}
-    {{ HTML::style('css/forms.css') }}
-    {{ HTML::style('css/tables.css') }}
-    {{ HTML::style('css/buttons.css') }}
-    {{ HTML::script('js/jquery-1.11.1.min.js') }}
-    {{ HTML::script('js/jquery-ui.min.js') }}
+    <?= stylesheet_link_tag() ?>
+    <?= javascript_include_tag() ?>
   </head>
   <body>
     <div id="body-wrapper">

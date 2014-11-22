@@ -1,0 +1,186 @@
+/* Button Style */.button {
+  font-family: "Century Gothic";
+  border: 0 none;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 20px;
+  text-transform: none;
+  margin-left: 5px;
+  margin-right: 5px;
+  text-align: center;
+  width: 115px;
+  height: 35px;
+  transition: all 0.3s ease 0s;
+}
+.button.dashboard {
+  width: 200px;
+  margin: 0 90px;
+}
+.button.profile {
+  width: 170px;
+}
+.button.admin-notification {
+  width: 125px;
+  height: 40px;
+}
+.button.merchant {
+  width: 125px;
+  height: 40px;
+}
+.button.orange {
+  background: #fbaf41;
+  color: #534741;
+}
+.button.orange:hover {
+  background: #46b98a;
+  color: #fff;
+}
+.button.darkbrown {
+  background: #534741;
+  color: #c2b59b;
+}
+.button.darkbrown:hover {
+  background: #2db6cf;
+  color: #fff;
+}
+.button.darkbrown.close-account {
+  width: 165px;
+  margin-top: 10px;
+}
+.button.lightbrown {
+  background: #c2b59b;
+  color: #534741;
+}
+.button.lightbrown:hover {
+  background: #2db6cf;
+  color: #fff;
+}
+.button.darkblue {
+  background: #262261;
+  color: #bdcad2;
+}
+.button.darkblue:hover {
+  background: #3abeef;
+  color: #fff;
+}
+.button.lightblue {
+  background: #bdcad2;
+  color: #262261;
+}
+.button.lightblue:hover {
+  background: #3abeef;
+  color: #fff;
+}
+.button.cyan {
+  background: #3abeef;
+  color: #262261;
+}
+.button.cyan:hover {
+  background: #46b98a;
+  color: #fff;
+}
+.button.darkred {
+  background: #be1e2d;
+  color: #e0a2a8;
+}
+.button.darkred:hover {
+  background: #e0a2a8;
+  color: #fff;
+}
+.button.lightred {
+  background: #e0a2a8;
+  color: #be1e2d;
+}
+.button.lightred:hover {
+  background: #be1e2d;
+  color: #fff;
+}
+/* Button Inside Table */.button-table {
+  border: 0 none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 18px;
+  text-transform: none;
+  text-align: center;
+  height: 20px;
+  width: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: all 0.3s ease 0s;
+}
+.button-table.darkblue {
+  background: #262261;
+  color: #bdcad2;
+}
+.button-table.darkblue:hover {
+  background: #3abeef;
+  color: #fff;
+}
+.button-table.darkbrown {
+  background: #534741;
+  color: #c2b59b;
+}
+.button-table.darkbrown:hover {
+  background: #2db6cf;
+  color: #fff;
+}
+.button-table.darkred {
+  background: #be1e2d;
+  color: #e0a2a8;
+}
+.button-table.darkred:hover {
+  background: #e0a2a8;
+  color: #fff;
+}
+.button-table.lightred {
+  background: #e0a2a8;
+  color: #be1e2d;
+}
+.button-table.lightred:hover {
+  background: #be1e2d;
+  color: #fff;
+}
+.button-close {
+  width: 20px;
+  line-height: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-block;
+  float: right;
+}
+.button-close.customer {
+  background: #534741;
+  color: #c2b59b;
+}
+.button-close.admin {
+  background: #262261;
+  color: #bdcad2;
+}
+.button-close:hover.customer {
+  background: #262261;
+  color: #fff;
+  transition: all 0.3s ease 0s;
+}
+.button-close:hover.admin {
+  background: #2db6cf;
+  color: #fff;
+  transition: all 0.3s ease 0s;
+}
+.button[disabled=disabled], .button:disabled {
+  background: #f8f8ff;
+  color: #444;
+}
+.pop-up .button {
+  font-size: 25px;
+  height: 45px;
+}
+.linked-button a {
+  text-decoration: none;
+  display: inline-block;
+}

@@ -1,0 +1,61 @@
+/* Admin Side Box */.admin-side-box {
+  height: auto;
+  width: 350px;
+  text-align: center;
+  padding: 25px;
+  background: #bdcad2;
+  color: #262261;
+}
+.admin-side-box h1 {
+  font-size: 35px;
+  font-weight: normal;
+  margin: 0px;
+  padding: 10px;
+}
+.admin-side-box h2 {
+  font-size: 25px;
+  font-weight: normal;
+  margin: 0px;
+}
+#admin-side-table {
+  text-align: left;
+  font-size: 20px;
+  width: 100%;
+}
+#admin-side-table td {
+  padding-bottom: 10px;
+  vertical-align: top;
+}
+/* Notification Style */#notification.container.admin {
+  width: 550px;
+  height: auto;
+  padding: 25px;
+  margin: 50px auto;
+}
+#notification.admin .wrapper {
+  background: #bdcad2;
+  width: 500px;
+  height: auto;
+  padding: 20px;
+  font-size: 16px;
+}
+#notification.admin h1 {
+  font-size: 36px;
+  color: #262261;
+  font-weight: normal;
+  text-align: left;
+}
+#notification.admin h2 {
+  font-size: 22px;
+  color: #262261;
+  font-weight: normal;
+}
+#notification.admin p {
+  color: #262261;
+  text-align: justify;
+  margin: 0;
+  padding: 0;
+}
+#notification.admin a {
+  color: #262261;
+}
