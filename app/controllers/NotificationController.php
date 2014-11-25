@@ -5,13 +5,13 @@ class NotificationController extends BaseController {
 	public function getMessage(){
 		$response = Input::all();
 		if($response['transaction_status'] == 'settlement'){
-			DB::beginTransaction();
-			$pending_topup = DB::table('topup')->where('id', substr($response['order_id'],7))->get();
-			$pending_topup = $pending_topup[0];
-			// PAY TO USER
-			//GETTING TRANSFER TYPE
 			$signature_key = PaymentAPI::get_signature_key($response['order_id'], $response['status_code'], $response['gross_amount']);
 			if ($response['signature_key'] === $signature_key){
+				DB::beginTransaction();
+				$pending_topup = DB::table('topup')->where('id', substr($response['order_id'],7))->get();
+				$pending_topup = $pending_topup[0];
+				// PAY TO USER
+				//GETTING TRANSFER TYPE
 				$transactionService = new Cyclos\Service('transactionService');
 				$to = new stdclass();
 				$to->username = $pending_topup->username_customer;
