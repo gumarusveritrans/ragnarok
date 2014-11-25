@@ -1,10 +1,11 @@
 /* Admin Side Box */.admin-side-box {
   height: auto;
-  width: 350px;
+  width: 25%;
   text-align: center;
   padding: 25px;
   background: #bdcad2;
   color: #262261;
+  margin-left: 3%;
 }
 .admin-side-box h1 {
   font-size: 35px;

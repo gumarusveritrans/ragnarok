@@ -4,13 +4,11 @@
 }
 .all-table table {
   border-spacing: 0;
-  width: 1230px;
+  width: 90%;
   height: 100%;
-  float: center;
-  table-layout: fixed;
 }
 .all-table.admin table {
-  margin-right: 75px;
+  margin-right: 5%;
   float: right;
 }
 .all-table.customer tr:nth-child(even) {
@@ -72,19 +70,19 @@
 /* Link Download */.link-download-customer a {
   color : #534741;
   float: right;
-  margin-right: 80px;
+  margin-right: 6%;
   margin-top: 10px;
 }
 .link-download-admin a {
   color : #262261;
   float: right;
-  margin-right: 80px;
+  margin-right: 6%;
   margin-top: 10px;
 }
 .link-download-merchant a {
   color : #be1e2d;
   float: right;
-  margin-right: 80px;
+  margin-right: 6%;
   margin-top: 10px;
 }
 /* Set Top-Up Dashboard Table */#topup-dashboard-table th:nth-child(1), #topup-dashboard-table td:nth-child(1) {
@@ -157,16 +155,16 @@
   border-bottom: 1px solid #c2b59b;
 }
 /* Set Width for Customer Pop Up */#pop-up-shopping-cart.pop-up th:nth-child(1), #pop-up-shopping-cart.pop-up td:nth-child(1) {
-  width: 250px;
+  width: 39%;
 }
 #pop-up-shopping-cart.pop-up th:nth-child(2), #pop-up-shopping-cart.pop-up td:nth-child(2) {
-  width: 150px;
+  width: 23%;
 }
 #pop-up-shopping-cart.pop-up th:nth-child(3), #pop-up-shopping-cart.pop-up td:nth-child(3) {
-  width: 100px;
+  width: 15%;
 }
 #pop-up-shopping-cart.pop-up th:nth-child(4), #pop-up-shopping-cart.pop-up td:nth-child(4) {
-  width: 150px;
+  width: 23%;
 }
 #pop-up-shopping-cart.pop-up tr:last-child td {
   border-bottom: none;
@@ -257,6 +255,12 @@
 }
 #admin-increase-limit-table tr:last-child td {
   border-bottom: 1px solid #bdcad2;
+}
+/* Set Width Admin Side Table */#admin-side-table td:nth-child(1) {
+  width: 55%;
+}
+#admin-side-table td:nth-child(2) {
+  width: 45%;
 }
 /* Set Width Manage Customer Table */#admin-manage-user-customer-table th:nth-child(1), #admin-manage-user-customer-table td:nth-child(1) {
   width: 25%;

@@ -27,50 +27,47 @@
                 You do not have any top-up transaction records yet.
             </div>
             @elseif ($topups->count() > 0)
-            <div class="centered">
-            <table align="center">
-                <thead>
+                <table align="center">
+                    <thead>
+                        <tr>
+                            <th>
+                                Top Up ID
+                            </th>
+                            <th>
+                                Date & Time
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Permata VA Number
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    @foreach ($topups as $topup) 
                     <tr>
-                        <th>
-                            Top Up ID
-                        </th>
-                        <th>
-                            Date & Time
-                        </th>
-                        <th>
-                            Amount
-                        </th>
-                        <th>
-                            Permata VA Number
-                        </th>
-                        <th>
-                            Status
-                        </th>
+                        <td>
+                            {{{ "TUID".$topup->id }}}
+                        </td>
+                        <td>
+                            {{{ $topup->date_topup }}}
+                        </td>
+                        <td>
+                            Rp {{{ number_format($topup->amount, 2, ',', '.') }}}
+                        </td>
+                        <td>
+                            {{{ $topup->permata_va_number }}}
+                        </td>
+                        <td>
+                            {{{ $topup->status }}}
+                        </td>
                     </tr>
-                </thead>
-                @foreach ($topups as $topup) 
-                <tr>
-                    <td>
-                        {{{ "TUID".$topup->id }}}
-                    </td>
-                    <td>
-                        {{{ $topup->date_topup }}}
-                    </td>
-                    <td>
-                        Rp {{{ number_format($topup->amount, 2, ',', '.') }}}
-                    </td>
-                    <td>
-                        {{{ $topup->permata_va_number }}}
-                    </td>
-                    <td>
-                        {{{ $topup->status }}}
-                    </td>
-                </tr>
-                @endforeach
-            </table>
-
-            <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=topup", 'Download as CSV') }}</span>
-            </div>
+                    @endforeach
+                </table>
+                <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=topup", 'Download as CSV') }}</span>
             @endif
         </div>
 
@@ -81,7 +78,6 @@
                 You do not have any transfer transaction records yet.
             </div>
             @elseif ($transfers->count() > 0)
-            <div class="centered">
             <table align="center">
                 <thead>
                     <tr>
@@ -123,7 +119,6 @@
                 @endforeach
             </table>
             <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=transfer", 'Download as CSV') }}</span>
-            </div>
             @endif
         </div>
 
@@ -133,7 +128,6 @@
                 You do not have any purchase transaction records yet.
             </div>
             @elseif ($purchases->count() > 0)
-            <div class="centered">
             <table align="center">
                 <thead>
                     <tr>
@@ -175,7 +169,6 @@
                 @endforeach
             </table>
             <span class="link-download-customer">{{ link_to ("/customers/download-csv?transaction_type=purchase", 'Download as CSV') }}</span>
-            </div>
             @endif
         </div>
 
