@@ -38,6 +38,10 @@ class PaymentAPI {
 		return Veritrans_Transaction::status($topup_id);
 	}
 
+	public static function get_signature_key($order_id, $status_code, $gross_amount){
+		return (hash('sha512', $order_id+$status_code+$gross_amount+'6d7ccd71-ea52-43cc-ac42-5402077bd6c6'));
+	}
+
 }	
 
 ?>

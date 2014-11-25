@@ -3,14 +3,16 @@
 class NotificationController extends BaseController {
 
 	public function getMessage(){
-		// if (Request::getClientIp() == ''){
-			$response = Input::all();
-			if($response['transaction_status'] == 'settlement'){
-				DB::beginTransaction();
-				$pending_topup = DB::table('topup')->where('id', substr($response['order_id'],7))->get();
-				$pending_topup = $pending_topup[0];
-				// PAY TO USER
-				//GETTING TRANSFER TYPE
+		$response = Input::all();
+		if($response['transaction_status'] == 'settlement'){
+			DB::beginTransaction();
+			$pending_topup = DB::table('topup')->where('id', substr($response['order_id'],7))->get();
+			$pending_topup = $pending_topup[0];
+			// PAY TO USER
+			//GETTING TRANSFER TYPE
+			$signature_key = PaymentAPI::get_signature_key($response['order_id'], $response['status_code'], $response['gross_amount']);
+			dd($response, $signature_key);
+			if ($response['signature_key'] == $signature_key){
 				$transactionService = new Cyclos\Service('transactionService');
 				$to = new stdclass();
 				$to->username = $pending_topup->username_customer;
@@ -35,12 +37,13 @@ class NotificationController extends BaseController {
 				{
 				    $message->to(ConnectHelper::getUserEmail($pending_topup->username_customer), $pending_topup->username_customer)->subject('Top-Up Success');
 				});
+				return Response::make("Message Received", 200);
 			}
-			return Response::make("Message Received", 200);
-		// }
-		// else{
-
-		// }
+			else{
+				return Response::make("Invalid Request", 201);
+			}		
+		}
+		
 	}
 
 }
