@@ -11,8 +11,7 @@ class NotificationController extends BaseController {
 			// PAY TO USER
 			//GETTING TRANSFER TYPE
 			$signature_key = PaymentAPI::get_signature_key($response['order_id'], $response['status_code'], $response['gross_amount']);
-			dd($response, $signature_key);
-			if ($response['signature_key'] == $signature_key){
+			if ($response['signature_key'] === $signature_key){
 				$transactionService = new Cyclos\Service('transactionService');
 				$to = new stdclass();
 				$to->username = $pending_topup->username_customer;
@@ -40,7 +39,7 @@ class NotificationController extends BaseController {
 				return Response::make("Message Received", 200);
 			}
 			else{
-				return Response::make("Invalid Request", 201);
+				return Response::make("Invalid Request", 400);
 			}		
 		}
 		
